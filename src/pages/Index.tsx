@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { Helmet } from "react-helmet-async";
 import { Link, useNavigate } from "react-router-dom";
 import {
@@ -38,6 +38,8 @@ const Index = () => {
   const [query, setQuery] = useState("");
   const [suggestions, setSuggestions] = useState<Suggestion[]>([]);
   const [showSuggestions, setShowSuggestions] = useState(false);
+  const [searchError, setSearchError] = useState<string | null>(null);
+  const searchInputRef = useRef<HTMLInputElement | null>(null);
 
   useEffect(() => {
     const q = query.trim();
@@ -56,15 +58,21 @@ const Index = () => {
     return () => clearTimeout(handle);
   }, [query]);
 
-  const submit = (role: string, source: "search_box" | "example_chip" | "suggestion") => {
-    const trimmed = role.trim();
-    if (!trimmed) return;
-    trackEvent("search_submitted", { role: trimmed, source });
-    if (source === "suggestion") {
-      navigate(`/role/${slugifyRole(trimmed)}`);
-    } else {
-      navigate(`/search?q=${encodeURIComponent(trimmed)}`);
+  const goToRole = (roleSlug: string, roleName: string, source: string) => {
+    trackEvent("search_submitted", { role: roleName, source });
+    navigate(`/role/${roleSlug}`);
+  };
+
+  const submitSearch = (source: "search_box" | "example_chip") => {
+    const trimmed = query.trim();
+    if (!trimmed) {
+      setSearchError("Enter a career to check");
+      searchInputRef.current?.focus();
+      return;
     }
+    setSearchError(null);
+    trackEvent("search_submitted", { role: trimmed, source });
+    navigate(`/search?q=${encodeURIComponent(trimmed)}`);
   };
 
   return (
@@ -81,7 +89,7 @@ const Index = () => {
 
       <main className="flex-1">
         {/* ─── Hero ───────────────────────────────────────────────────── */}
-        <section className="container mx-auto px-4 pt-16 md:pt-24 pb-12 md:pb-16">
+        <section className="container mx-auto px-4 pt-14 md:pt-20 pb-10 md:pb-12">
           <div className="max-w-3xl mx-auto text-center">
             <p className="inline-flex items-center gap-2 text-xs font-semibold uppercase tracking-wider text-primary mb-5">
               <Sparkles className="h-3.5 w-3.5" /> Career route reality-check
@@ -98,16 +106,20 @@ const Index = () => {
             <form
               onSubmit={(e) => {
                 e.preventDefault();
-                submit(query, "search_box");
+                submitSearch("search_box");
               }}
               className="mt-8 relative max-w-xl mx-auto"
             >
               <div className="relative">
                 <Search className="absolute left-4 top-1/2 -translate-y-1/2 h-5 w-5 text-muted-foreground pointer-events-none" />
                 <Input
+                  ref={searchInputRef}
                   type="text"
                   value={query}
-                  onChange={(e) => setQuery(e.target.value)}
+                  onChange={(e) => {
+                    setQuery(e.target.value);
+                    if (searchError) setSearchError(null);
+                  }}
                   onFocus={() => setShowSuggestions(true)}
                   onBlur={() => setTimeout(() => setShowSuggestions(false), 150)}
                   placeholder="Search a career, e.g. nurse, data analyst, electrician"
@@ -118,20 +130,42 @@ const Index = () => {
                 </Button>
               </div>
 
-              {showSuggestions && suggestions.length > 0 && (
+              {/* Suggestions dropdown */}
+              {showSuggestions && query.trim().length >= 2 && (
                 <div className="absolute z-20 left-0 right-0 mt-2 bg-card border border-border rounded-xl shadow-lg overflow-hidden text-left">
-                  {suggestions.map((s) => (
-                    <button
-                      key={s.role_slug}
-                      type="button"
-                      onMouseDown={(e) => e.preventDefault()}
-                      onClick={() => submit(s.role_name, "suggestion")}
-                      className="block w-full px-4 py-3 text-sm hover:bg-muted text-foreground"
-                    >
-                      {s.role_name}
-                    </button>
-                  ))}
+                  {suggestions.length > 0 ? (
+                    suggestions.map((s) => (
+                      <button
+                        key={s.role_slug}
+                        type="button"
+                        onMouseDown={(e) => e.preventDefault()}
+                        onClick={() =>
+                          goToRole(s.role_slug, s.role_name, "suggestion")
+                        }
+                        className="block w-full px-4 py-3 text-sm hover:bg-muted text-foreground text-left"
+                      >
+                        {s.role_name}
+                      </button>
+                    ))
+                  ) : (
+                    <div className="px-4 py-3 text-sm text-muted-foreground">
+                      No roles found.{" "}
+                      <Link
+                        to="/search"
+                        className="text-primary hover:underline"
+                        onMouseDown={(e) => e.preventDefault()}
+                      >
+                        Browse all roles
+                      </Link>
+                    </div>
+                  )}
                 </div>
+              )}
+
+              {searchError && (
+                <p className="mt-2 text-sm text-rose-600 text-left">
+                  {searchError}
+                </p>
               )}
             </form>
 
@@ -139,7 +173,7 @@ const Index = () => {
               {exampleRoles.map((r) => (
                 <button
                   key={r.slug}
-                  onClick={() => submit(r.name, "example_chip")}
+                  onClick={() => goToRole(r.slug, r.name, "example_chip")}
                   className="px-3.5 py-1.5 rounded-full border border-border bg-card hover:bg-muted text-foreground text-sm transition-colors"
                 >
                   {r.name}
@@ -156,8 +190,8 @@ const Index = () => {
 
         {/* ─── How it works ───────────────────────────────────────────── */}
         <section className="border-t border-border bg-muted/30">
-          <div className="container mx-auto px-4 py-14 md:py-20 max-w-5xl">
-            <div className="text-center mb-10">
+          <div className="container mx-auto px-4 py-10 md:py-14 max-w-5xl">
+            <div className="text-center mb-8">
               <p className="text-xs font-semibold uppercase tracking-wider text-muted-foreground mb-2">
                 How it works
               </p>
@@ -188,8 +222,8 @@ const Index = () => {
 
         {/* ─── What you get ───────────────────────────────────────────── */}
         <section className="border-t border-border">
-          <div className="container mx-auto px-4 py-14 md:py-20 max-w-6xl">
-            <div className="text-center mb-10">
+          <div className="container mx-auto px-4 py-10 md:py-14 max-w-6xl">
+            <div className="text-center mb-8">
               <p className="text-xs font-semibold uppercase tracking-wider text-muted-foreground mb-2">
                 What you get
               </p>
@@ -241,7 +275,7 @@ const Index = () => {
 
         {/* ─── Why Clear Routes ───────────────────────────────────────── */}
         <section className="border-t border-border bg-muted/30">
-          <div className="container mx-auto px-4 py-14 md:py-20 max-w-4xl">
+          <div className="container mx-auto px-4 py-10 md:py-14 max-w-4xl">
             <div className="text-center mb-8">
               <p className="text-xs font-semibold uppercase tracking-wider text-muted-foreground mb-2">
                 Why Clear Routes
@@ -271,7 +305,7 @@ const Index = () => {
 
         {/* ─── Example result preview ─────────────────────────────────── */}
         <section className="border-t border-border">
-          <div className="container mx-auto px-4 py-14 md:py-20 max-w-3xl">
+          <div className="container mx-auto px-4 py-10 md:py-14 max-w-3xl">
             <div className="text-center mb-8">
               <p className="text-xs font-semibold uppercase tracking-wider text-muted-foreground mb-2">
                 Example result
@@ -334,7 +368,7 @@ const Index = () => {
 
         {/* ─── Decision workspace ─────────────────────────────────────── */}
         <section className="border-t border-border bg-muted/30">
-          <div className="container mx-auto px-4 py-14 md:py-20 max-w-3xl text-center">
+          <div className="container mx-auto px-4 py-10 md:py-14 max-w-3xl text-center">
             <div className="inline-flex items-center justify-center w-10 h-10 rounded-full bg-primary/10 text-primary mb-4">
               <ListChecks className="h-5 w-5" />
             </div>
@@ -346,9 +380,17 @@ const Index = () => {
               of the careers you're considering, your best route, and the next move.
             </p>
             <div className="mt-6">
-              <Button asChild variant="outline">
+              <Button
+                asChild
+                variant="outline"
+                onClick={() =>
+                  trackEvent("save_decisions_cta_clicked", {
+                    logged_in: !!user,
+                  })
+                }
+              >
                 <Link to={user ? "/my-decisions" : "/signup?redirect=/my-decisions"}>
-                  {user ? "View My Career Decisions" : "Create a free account"}
+                  {user ? "View My Career Decisions" : "Save decisions after your first check"}
                   <ArrowRight className="h-4 w-4 ml-1.5" />
                 </Link>
               </Button>
@@ -358,7 +400,7 @@ const Index = () => {
 
         {/* ─── Final CTA ──────────────────────────────────────────────── */}
         <section className="border-t border-border">
-          <div className="container mx-auto px-4 py-16 md:py-24 max-w-3xl text-center">
+          <div className="container mx-auto px-4 py-12 md:py-16 max-w-3xl text-center">
             <h2 className="font-display text-3xl md:text-4xl font-medium text-foreground tracking-tight">
               Check the route before you commit.
             </h2>
@@ -369,7 +411,7 @@ const Index = () => {
               <Button
                 size="lg"
                 onClick={() => {
-                  document.querySelector<HTMLInputElement>('input[type="text"]')?.focus();
+                  searchInputRef.current?.focus();
                   window.scrollTo({ top: 0, behavior: "smooth" });
                 }}
               >
