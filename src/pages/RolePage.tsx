@@ -11,6 +11,7 @@ import { deslugifyRole } from "@/lib/role";
 import { usePersonalisation, recommendedPathway, personalisationBanner } from "@/hooks/usePersonalisation";
 import { useAuth } from "@/hooks/useAuth";
 import { ratingPillClass } from "@/lib/ratingTone";
+import { RealityCheckRoute } from "@/components/role/RealityCheckRoute";
 
 // ── TYPES ─────────────────────────────────────────────────────────────────────
 
@@ -384,6 +385,9 @@ const RolePage = () => {
             </span>
           )}
         </div>
+
+        {/* Reality-check this route — interactive AI module (remix experiment) */}
+        <RealityCheckRoute role={role} />
 
         {/* Personalisation banner */}
         {isPersonalised && personalisationBanner(profile, role.role_name) && (

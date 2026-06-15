@@ -1,1 +1,4 @@
 project_id = "ejrgxgpiodwfqmvblfpv"
+
+[functions.reality-check]
+verify_jwt = false
