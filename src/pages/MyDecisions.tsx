@@ -50,6 +50,7 @@ interface DecisionProfileRow {
   weekly_hours: string | null;
   budget_band: string | null;
   commute_flexibility: string | null;
+  support_circumstances: SupportCircumstanceKey[];
 }
 
 const emptyProfile: DecisionProfileRow = {
@@ -60,6 +61,7 @@ const emptyProfile: DecisionProfileRow = {
   weekly_hours: "",
   budget_band: "",
   commute_flexibility: "",
+  support_circumstances: [],
 };
 
 const PROFILE_FIELDS: (keyof DecisionProfileRow)[] = [
