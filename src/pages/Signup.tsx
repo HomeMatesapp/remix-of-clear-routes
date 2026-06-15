@@ -61,10 +61,16 @@ const Signup = () => {
       }
 
       trackEvent("signup_completed", { has_redirect: !!redirectPath });
-      toast({
-        title: "Check your email",
-        description: "We've sent you a confirmation link to verify your account.",
-      });
+
+      if (data.session) {
+        // Auto-confirm is on — log straight in and continue
+        navigate(buildRedirect());
+      } else {
+        toast({
+          title: "Check your email",
+          description: "We've sent you a confirmation link. Once you confirm, log in to finish saving.",
+        });
+      }
     } catch (err: any) {
       toast({ title: err.message || "Signup failed", variant: "destructive" });
     } finally {
