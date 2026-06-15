@@ -861,7 +861,7 @@ const RolePage = () => {
           )}
         </Accordion>
 
-        {role.next_step && (
+        {!hasRealityCheckResult && role.next_step && (
           <div className="bg-gray-900 rounded-xl p-5">
             <p className="text-xs font-medium uppercase tracking-wider text-gray-400 mb-2">
               Your next step
