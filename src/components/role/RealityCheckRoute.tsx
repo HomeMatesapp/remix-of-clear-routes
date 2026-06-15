@@ -160,6 +160,7 @@ export const RealityCheckRoute = ({
     setLoading(true);
     setError(null);
     setResult(null);
+    onResult?.(false);
     trackEvent("reality_check_submitted", {
       role: role.role_name,
       starting_point: answers.startingPoint,
@@ -176,6 +177,7 @@ export const RealityCheckRoute = ({
       if ((data as { error?: string })?.error) throw new Error((data as { error: string }).error);
       const r = (data as { result: RealityCheckResult }).result;
       setResult(r);
+      onResult?.(true);
       trackEvent("reality_check_result", { role: role.role_name, verdict: r?.overallVerdict });
     } catch (e) {
       setError((e as Error).message || "Something went wrong. Try again.");
@@ -187,6 +189,7 @@ export const RealityCheckRoute = ({
   const reset = () => {
     setResult(null);
     setError(null);
+    onResult?.(false);
   };
 
   return (
