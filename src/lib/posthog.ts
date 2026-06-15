@@ -21,7 +21,7 @@ export const initPostHog = () => {
   initialized = true;
 };
 
-export const identifyUser = (userId: string, properties?: Record<string, any>) => {
+export const identifyUser = (userId: string, properties?: Record<string, unknown>) => {
   posthog.identify(userId, properties);
 };
 
@@ -29,7 +29,7 @@ export const resetUser = () => {
   posthog.reset();
 };
 
-export const trackEvent = (event: string, properties?: Record<string, any>) => {
+export const trackEvent = (event: string, properties?: Record<string, unknown>) => {
   posthog.capture(event, properties);
 };
 
