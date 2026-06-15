@@ -47,13 +47,18 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
 
   useEffect(() => {
     const { data: { subscription } } = supabase.auth.onAuthStateChange(
-      (_event, session) => {
+      (event, session) => {
         setSession(session);
         setUser(session?.user ?? null);
         setLoading(false);
         if (session?.user) {
           identifyUser(session.user.id, { email: session.user.email });
           ensureProfile(session.user.id);
+          // Flush any decision the user stashed before signing in,
+          // regardless of which page they land on.
+          if (event === "SIGNED_IN" || event === "INITIAL_SESSION") {
+            flushPendingDecision(session.user.id).catch(() => {});
+          }
         } else {
           resetUser();
           setFirstName(null);
