@@ -6,7 +6,7 @@ import { trackEvent, enableSessionRecording, disableSessionRecording } from "@/l
  */
 export const usePageView = (
   eventName: string,
-  properties?: Record<string, any>,
+  properties?: Record<string, unknown>,
   options?: { enableRecording?: boolean }
 ) => {
   useEffect(() => {

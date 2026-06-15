@@ -41,7 +41,7 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
       );
       setFirstName(null);
     } else {
-      setFirstName((data as any)?.first_name ?? null);
+      setFirstName(data?.first_name ?? null);
     }
   };
 
