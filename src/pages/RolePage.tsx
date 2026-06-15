@@ -387,7 +387,7 @@ const RolePage = () => {
         </div>
 
         {/* Reality-check this route — interactive AI module (remix experiment) */}
-        <RealityCheckRoute role={role} />
+        <RealityCheckRoute role={{ ...role, id: role.id, role_slug: role.role_slug }} />
 
         {/* Personalisation banner */}
         {isPersonalised && personalisationBanner(profile, role.role_name) && (
