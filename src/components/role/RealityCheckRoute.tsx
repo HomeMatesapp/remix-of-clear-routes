@@ -107,7 +107,6 @@ export const RealityCheckRoute = ({ role }: { role: RoleContext }) => {
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
   const [result, setResult] = useState<RealityCheckResult | null>(null);
-  const [notesOpen, setNotesOpen] = useState(false);
   const [initialProfile, setInitialProfile] = useState<DecisionProfileFields | null>(null);
   const [prefilled, setPrefilled] = useState(false);
 
@@ -187,7 +186,7 @@ export const RealityCheckRoute = ({ role }: { role: RoleContext }) => {
   return (
     <section
       aria-label="Reality-check this route"
-      className="relative rounded-2xl border border-gray-900 bg-gradient-to-br from-gray-900 to-gray-800 p-4 sm:p-5 mb-6 text-white shadow-md"
+      className="relative rounded-xl border border-gray-800 bg-gradient-to-br from-gray-900 to-gray-800 p-3 sm:p-4 mb-6 text-white shadow-sm"
     >
       <div className="flex items-center gap-2 mb-1">
         <Sparkles className="h-3.5 w-3.5 text-amber-300" />
@@ -195,21 +194,21 @@ export const RealityCheckRoute = ({ role }: { role: RoleContext }) => {
           Reality-check this route
         </p>
       </div>
-      <h2 className="text-base sm:text-lg font-medium mb-1">
+      <h2 className="text-base font-medium mb-0.5">
         Is {role.role_name} realistic for you?
       </h2>
-      <p className="text-xs text-gray-300 mb-3">
-        Answer a few quick questions. We'll show the route with the best odds — plus a backup, and one to avoid.
+      <p className="text-[11px] text-gray-400 mb-2.5 leading-snug">
+        Four quick facts about your situation. We'll show the route with the best odds — plus a backup, and one to avoid.
       </p>
 
       {!result && prefilled && (
-        <div className="mb-3 flex items-center justify-between gap-3 rounded-lg border border-amber-300/30 bg-amber-300/5 px-3 py-2">
-          <p className="text-xs text-amber-100">
+        <div className="mb-2.5 flex items-center justify-between gap-3 rounded-lg border border-amber-300/20 bg-amber-300/5 px-2.5 py-1.5">
+          <p className="text-[11px] text-amber-100">
             Using your saved Decision Profile.
           </p>
           <Link
             to="/my-decisions#decision-profile"
-            className="text-xs text-amber-200 underline underline-offset-2 hover:text-white inline-flex items-center gap-1"
+            className="text-[11px] text-amber-200 underline underline-offset-2 hover:text-white inline-flex items-center gap-1"
           >
             <UserCog className="h-3 w-3" /> Edit
           </Link>
@@ -218,8 +217,10 @@ export const RealityCheckRoute = ({ role }: { role: RoleContext }) => {
 
       {!result && (
         <>
-          <div className="grid grid-cols-1 sm:grid-cols-2 gap-x-5 gap-y-2.5">
-            <Field label="1. Starting point">
+          {/* Primary: Your situation */}
+          <p className="text-[10px] font-semibold uppercase tracking-wider text-gray-500 mb-1.5">Your situation</p>
+          <div className="grid grid-cols-1 sm:grid-cols-2 gap-x-4 gap-y-2">
+            <Field label="Starting point">
               <ChipGroup
                 options={STARTING_POINTS}
                 value={answers.startingPoint}
@@ -228,7 +229,7 @@ export const RealityCheckRoute = ({ role }: { role: RoleContext }) => {
               />
             </Field>
 
-            <Field label="2. Need to earn while training?">
+            <Field label="Need to earn while training?">
               <ChipGroup
                 options={INCOME_NEEDS}
                 value={answers.incomeNeed}
@@ -237,7 +238,7 @@ export const RealityCheckRoute = ({ role }: { role: RoleContext }) => {
               />
             </Field>
 
-            <Field label="3. Budget">
+            <Field label="Budget">
               <ChipGroup
                 options={BUDGETS}
                 value={answers.budget}
@@ -246,80 +247,72 @@ export const RealityCheckRoute = ({ role }: { role: RoleContext }) => {
               />
             </Field>
 
-            <Field label="4. Area (town, city, or outward postcode)">
+            <Field label="Area (town or postcode)">
               <input
                 type="text"
                 value={answers.area}
                 onChange={(e) => setAnswers((a) => ({ ...a, area: e.target.value }))}
-                placeholder="e.g. Leeds, SE15, M14"
+                placeholder="e.g. Leeds, SE15"
                 disabled={loading}
-                className="w-full rounded-lg bg-gray-700/60 border border-gray-600 px-3 py-1.5 text-sm text-white placeholder:text-gray-400 focus:outline-none focus:ring-2 focus:ring-amber-300/60"
+                className="w-full rounded-lg bg-gray-700/60 border border-gray-600 px-2.5 py-1 text-sm text-white placeholder:text-gray-400 focus:outline-none focus:ring-1 focus:ring-amber-300/60"
               />
             </Field>
           </div>
 
-          <div className="mt-3">
-            {!notesOpen ? (
-              <button
-                type="button"
-                onClick={() => setNotesOpen(true)}
-                className="text-xs text-gray-400 hover:text-gray-200 underline underline-offset-2"
-              >
-                + Refine further (time, commute, notes)
-              </button>
-            ) : (
-              <div className="space-y-2.5 rounded-lg border border-gray-700 bg-gray-800/40 p-3">
-                <div className="grid grid-cols-1 sm:grid-cols-2 gap-x-5 gap-y-2.5">
-                  <Field label="Weekly time available">
-                    <ChipGroup
-                      options={WEEKLY_HOURS}
-                      value={answers.weeklyHours}
-                      onChange={(v) => setAnswers((a) => ({ ...a, weeklyHours: v }))}
-                      disabled={loading}
-                    />
-                  </Field>
-                  <Field label="Commute / relocation flexibility">
-                    <ChipGroup
-                      options={COMMUTE_FLEX}
-                      value={answers.commuteFlex}
-                      onChange={(v) => setAnswers((a) => ({ ...a, commuteFlex: v }))}
-                      disabled={loading}
-                    />
-                  </Field>
-                </div>
-                <Field label="Anything else we should know? (optional)">
-                  <textarea
-                    value={answers.notes}
-                    onChange={(e) => setAnswers((a) => ({ ...a, notes: e.target.value }))}
-                    placeholder="Caring responsibilities, health, prior attempts, specific employers in mind…"
-                    disabled={loading}
-                    rows={2}
-                    className="w-full rounded-lg bg-gray-700/60 border border-gray-600 px-3 py-2 text-sm text-white placeholder:text-gray-400 focus:outline-none focus:ring-2 focus:ring-amber-300/60 resize-none"
-                  />
-                </Field>
-              </div>
-            )}
-          </div>
-
-
-          {error && <p className="mt-3 text-xs text-rose-300">{error}</p>}
-
-          <div className="mt-4 flex flex-wrap items-center gap-3">
+          {/* CTA sits close to primary fields */}
+          <div className="mt-2.5 flex flex-wrap items-center gap-2.5">
             <button
               type="button"
               onClick={submit}
               disabled={!canSubmit || loading}
-              className="inline-flex items-center gap-2 text-sm font-medium bg-amber-300 text-gray-900 px-4 py-2 rounded-lg disabled:opacity-40 disabled:cursor-not-allowed hover:bg-amber-200 transition-colors"
+              className="inline-flex items-center gap-1.5 text-sm font-medium bg-amber-300 text-gray-900 px-3.5 py-1.5 rounded-lg disabled:opacity-40 disabled:cursor-not-allowed hover:bg-amber-200 transition-colors"
             >
               {loading ? <Loader2 className="h-4 w-4 animate-spin" /> : <Sparkles className="h-4 w-4" />}
-              {loading ? "Finding your realistic route…" : "Show my realistic route"}
+              {loading ? "Finding your route…" : "Show my realistic route"}
             </button>
-            <p className="text-xs text-gray-400">
+            <p className="text-[11px] text-gray-500">
               {canSubmit
                 ? "Takes ~10s. No sign-up."
-                : "Required: starting point, earning need, budget, and area."}
+                : "Fill all 4 fields above."}
             </p>
           </div>
+
+          {/* Secondary: Your flexibility */}
+          <div className="mt-3 rounded-lg border border-gray-700/40 bg-gray-800/30 p-2.5">
+            <p className="text-[10px] font-semibold uppercase tracking-wider text-gray-500 mb-2">Your flexibility <span className="text-gray-600 font-normal normal-case">— optional</span></p>
+            <div className="grid grid-cols-1 sm:grid-cols-2 gap-x-4 gap-y-2">
+              <Field label="Weekly time available">
+                <ChipGroup
+                  options={WEEKLY_HOURS}
+                  value={answers.weeklyHours}
+                  onChange={(v) => setAnswers((a) => ({ ...a, weeklyHours: v }))}
+                  disabled={loading}
+                />
+              </Field>
+              <Field label="Commute / relocation">
+                <ChipGroup
+                  options={COMMUTE_FLEX}
+                  value={answers.commuteFlex}
+                  onChange={(v) => setAnswers((a) => ({ ...a, commuteFlex: v }))}
+                  disabled={loading}
+                />
+              </Field>
+            </div>
+            <div className="mt-2">
+              <Field label="Anything else? (optional)">
+                <textarea
+                  value={answers.notes}
+                  onChange={(e) => setAnswers((a) => ({ ...a, notes: e.target.value }))}
+                  placeholder="Caring responsibilities, health, prior attempts…"
+                  disabled={loading}
+                  rows={2}
+                  className="w-full rounded-lg bg-gray-700/40 border border-gray-600/60 px-2.5 py-1.5 text-xs text-white placeholder:text-gray-500 focus:outline-none focus:ring-1 focus:ring-amber-300/40 resize-none"
+                />
+              </Field>
+            </div>
+          </div>
+
+          {error && <p className="mt-2.5 text-xs text-rose-300">{error}</p>}
         </>
       )}
 

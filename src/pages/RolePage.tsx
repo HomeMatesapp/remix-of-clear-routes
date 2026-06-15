@@ -405,29 +405,33 @@ const RolePage = () => {
           </div>
         )}
 
-        {/* Before you commit — compact decision card */}
+        {/* Before you commit — compact 3-bullet warning card */}
         {(role.reality_check || role.uncomfortable_truth || successRoutes.length > 0) && (
-          <div className="rounded-xl border border-gray-200 bg-white p-4 mb-6">
-            <p className="text-xs font-medium uppercase tracking-wider text-gray-500 mb-3">
+          <div className="rounded-lg border border-gray-200 bg-white p-3 mb-6">
+            <p className="text-[10px] font-semibold uppercase tracking-wider text-gray-400 mb-2">
               Before you commit
             </p>
-            <ul className="space-y-2 text-sm text-gray-700">
+            <ul className="space-y-1.5 text-sm text-gray-700">
               {role.reality_check && (
-                <li className="flex gap-2">
-                  <span className="text-gray-400 flex-shrink-0">·</span>
+                <li className="flex gap-2 items-start leading-snug">
+                  <span className="text-gray-400 flex-shrink-0 mt-0.5">·</span>
                   <span><span className="font-medium text-gray-900">Reality:</span> {role.reality_check.split(/(?<=[.!?])\s/)[0]}</span>
                 </li>
               )}
               {(role.uncomfortable_truth || role.career_regret_risk) && (
-                <li className="flex gap-2">
-                  <span className="text-gray-400 flex-shrink-0">·</span>
+                <li className="flex gap-2 items-start leading-snug">
+                  <span className="text-gray-400 flex-shrink-0 mt-0.5">·</span>
                   <span><span className="font-medium text-gray-900">Biggest risk:</span> {(role.uncomfortable_truth || role.career_regret_risk)!.split(/(?<=[.!?])\s/)[0]}</span>
                 </li>
               )}
               {successRoutes.length > 0 && (
-                <li className="flex gap-2">
-                  <span className="text-gray-400 flex-shrink-0">·</span>
-                  <span><span className="font-medium text-gray-900">What usually works:</span> {successRoutes[0].split(/(?<=[.!?])\s/)[0]}</span>
+                <li className="flex gap-2 items-start leading-snug">
+                  <span className="text-gray-400 flex-shrink-0 mt-0.5">·</span>
+                  <span><span className="font-medium text-gray-900">Usually works:</span> {(() => {
+                    const first = successRoutes[0].replace(/^\s*[-•]\s*/, "").trim();
+                    const short = first.split(/(?<=[.!?])\s/)[0];
+                    return short.length > 90 ? short.slice(0, 90).replace(/\s+\S*$/, "") + "…" : short;
+                  })()}</span>
                 </li>
               )}
             </ul>
