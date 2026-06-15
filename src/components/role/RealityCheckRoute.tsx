@@ -379,14 +379,16 @@ export const RealityCheckRoute = ({
       )}
 
       {result && (
-        <ResultView
-          result={result}
-          answers={answers}
-          role={role}
-          onReset={reset}
-          initialProfile={initialProfile}
-          onProfileSaved={(p) => setInitialProfile(p)}
-        />
+        <div ref={resultRef}>
+          <ResultView
+            result={result}
+            answers={answers}
+            role={role}
+            onReset={reset}
+            initialProfile={initialProfile}
+            onProfileSaved={(p) => setInitialProfile(p)}
+          />
+        </div>
       )}
     </section>
   );
