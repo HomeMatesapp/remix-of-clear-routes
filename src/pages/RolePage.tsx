@@ -343,6 +343,34 @@ const RolePage = () => {
         .filter(Boolean)
     : [];
 
+  // Derive grounded "What people like" bullets from existing role data.
+  // No invented claims — each bullet maps to a real field.
+  const positives: { label: string; text: string }[] = [];
+  if (role.short_description) {
+    const firstSentence = role.short_description.split(/(?<=[.!?])\s/)[0];
+    const short = firstSentence.length > 110 ? firstSentence.slice(0, 110).replace(/\s+\S*$/, "") + "…" : firstSentence;
+    positives.push({ label: "The work", text: short });
+  }
+  if (role.demand && /high|strong|growing|good/i.test(role.demand)) {
+    const employers = role.key_employers?.slice(0, 2).join(" and ");
+    positives.push({
+      label: "Stability",
+      text: employers
+        ? `Demand is ${role.demand.toLowerCase()} — employers like ${employers} hire consistently.`
+        : `Demand is ${role.demand.toLowerCase()}, so hiring is consistent.`,
+    });
+  }
+  if (role.salary_entry && (role.salary_senior || role.salary_experienced)) {
+    const top = role.salary_senior ?? role.salary_experienced!;
+    if (top > role.salary_entry) {
+      positives.push({
+        label: "Progression",
+        text: `Pay typically grows from ${fmtK(role.salary_entry)} to ${fmtK(top)}${role.salary_senior ? "+" : ""} with experience.`,
+      });
+    }
+  }
+  const positivesShown = positives.slice(0, 3);
+
 
 
   return (
@@ -405,36 +433,55 @@ const RolePage = () => {
           </div>
         )}
 
-        {/* Before you commit — compact 3-bullet warning card */}
-        {(role.reality_check || role.uncomfortable_truth || successRoutes.length > 0) && (
-          <div className="rounded-lg border border-gray-200 bg-white p-3 mb-6">
-            <p className="text-[10px] font-semibold uppercase tracking-wider text-gray-400 mb-2">
-              Before you commit
-            </p>
-            <ul className="space-y-1.5 text-sm text-gray-700">
-              {role.reality_check && (
-                <li className="flex gap-2 items-start leading-snug">
-                  <span className="text-gray-400 flex-shrink-0 mt-0.5">·</span>
-                  <span><span className="font-medium text-gray-900">Reality:</span> {role.reality_check.split(/(?<=[.!?])\s/)[0]}</span>
-                </li>
-              )}
-              {(role.uncomfortable_truth || role.career_regret_risk) && (
-                <li className="flex gap-2 items-start leading-snug">
-                  <span className="text-gray-400 flex-shrink-0 mt-0.5">·</span>
-                  <span><span className="font-medium text-gray-900">Biggest risk:</span> {(role.uncomfortable_truth || role.career_regret_risk)!.split(/(?<=[.!?])\s/)[0]}</span>
-                </li>
-              )}
-              {successRoutes.length > 0 && (
-                <li className="flex gap-2 items-start leading-snug">
-                  <span className="text-gray-400 flex-shrink-0 mt-0.5">·</span>
-                  <span><span className="font-medium text-gray-900">Usually works:</span> {(() => {
-                    const first = successRoutes[0].replace(/^\s*[-•]\s*/, "").trim();
-                    const short = first.split(/(?<=[.!?])\s/)[0];
-                    return short.length > 90 ? short.slice(0, 90).replace(/\s+\S*$/, "") + "…" : short;
-                  })()}</span>
-                </li>
-              )}
-            </ul>
+        {/* Balance pair: honest warnings + grounded positives */}
+        {((role.reality_check || role.uncomfortable_truth || successRoutes.length > 0) || positivesShown.length > 0) && (
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-3 mb-6">
+            {(role.reality_check || role.uncomfortable_truth || successRoutes.length > 0) && (
+              <div className="rounded-lg border border-gray-200 bg-white p-3">
+                <p className="text-[10px] font-semibold uppercase tracking-wider text-gray-400 mb-2">
+                  Before you commit
+                </p>
+                <ul className="space-y-1.5 text-sm text-gray-700">
+                  {role.reality_check && (
+                    <li className="flex gap-2 items-start leading-snug">
+                      <span className="text-gray-400 flex-shrink-0 mt-0.5">·</span>
+                      <span><span className="font-medium text-gray-900">Reality:</span> {role.reality_check.split(/(?<=[.!?])\s/)[0]}</span>
+                    </li>
+                  )}
+                  {(role.uncomfortable_truth || role.career_regret_risk) && (
+                    <li className="flex gap-2 items-start leading-snug">
+                      <span className="text-gray-400 flex-shrink-0 mt-0.5">·</span>
+                      <span><span className="font-medium text-gray-900">Biggest risk:</span> {(role.uncomfortable_truth || role.career_regret_risk)!.split(/(?<=[.!?])\s/)[0]}</span>
+                    </li>
+                  )}
+                  {successRoutes.length > 0 && (
+                    <li className="flex gap-2 items-start leading-snug">
+                      <span className="text-gray-400 flex-shrink-0 mt-0.5">·</span>
+                      <span><span className="font-medium text-gray-900">Usually works:</span> {(() => {
+                        const first = successRoutes[0].replace(/^\s*[-•]\s*/, "").trim();
+                        const short = first.split(/(?<=[.!?])\s/)[0];
+                        return short.length > 90 ? short.slice(0, 90).replace(/\s+\S*$/, "") + "…" : short;
+                      })()}</span>
+                    </li>
+                  )}
+                </ul>
+              </div>
+            )}
+            {positivesShown.length > 0 && (
+              <div className="rounded-lg border border-gray-200 bg-white p-3">
+                <p className="text-[10px] font-semibold uppercase tracking-wider text-gray-400 mb-2">
+                  What people like about this job
+                </p>
+                <ul className="space-y-1.5 text-sm text-gray-700">
+                  {positivesShown.map((p) => (
+                    <li key={p.label} className="flex gap-2 items-start leading-snug">
+                      <span className="text-gray-400 flex-shrink-0 mt-0.5">·</span>
+                      <span><span className="font-medium text-gray-900">{p.label}:</span> {p.text}</span>
+                    </li>
+                  ))}
+                </ul>
+              </div>
+            )}
           </div>
         )}
 
@@ -549,7 +596,7 @@ const RolePage = () => {
             </AccordionItem>
           )}
 
-          {(role.uncomfortable_truth || role.opportunity_cost || role.who_not_for || role.career_regret_risk) && (
+          {(role.uncomfortable_truth || role.opportunity_cost) && (
             <AccordionItem value="truth">
               <AccordionTrigger className="text-sm font-medium text-gray-900">
                 The uncomfortable truth
@@ -569,6 +616,31 @@ const RolePage = () => {
                       <p className="text-sm text-gray-600 leading-relaxed whitespace-pre-line m-0">
                         {role.opportunity_cost}
                       </p>
+                    </div>
+                  )}
+                </div>
+              </AccordionContent>
+            </AccordionItem>
+          )}
+
+          {(positivesShown.length > 0 || role.who_not_for || role.career_regret_risk) && (
+            <AccordionItem value="like-dislike">
+              <AccordionTrigger className="text-sm font-medium text-gray-900">
+                What people like / dislike
+              </AccordionTrigger>
+              <AccordionContent>
+                <div className="space-y-4">
+                  {positivesShown.length > 0 && (
+                    <div>
+                      <p className="text-xs font-medium text-gray-500 mb-2">What people tend to like</p>
+                      <ul className="space-y-1.5 text-sm text-gray-700">
+                        {positivesShown.map((p) => (
+                          <li key={p.label} className="flex gap-2 items-start leading-snug">
+                            <span className="text-gray-400 flex-shrink-0 mt-0.5">·</span>
+                            <span><span className="font-medium text-gray-900">{p.label}:</span> {p.text}</span>
+                          </li>
+                        ))}
+                      </ul>
                     </div>
                   )}
                   {role.who_not_for && (
@@ -591,6 +663,8 @@ const RolePage = () => {
               </AccordionContent>
             </AccordionItem>
           )}
+
+
 
           {Object.keys(grouped).length > 0 && (
             <AccordionItem value="providers">
