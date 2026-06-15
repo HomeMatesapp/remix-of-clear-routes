@@ -128,7 +128,11 @@ export const RealityCheckRoute = ({ role }: { role: RoleContext }) => {
       if (cancelled) return;
       if (data && hasAnyProfileField(data as DecisionProfileFields)) {
         const p = data as DecisionProfileFields;
-        setInitialProfile(p);
+        // Normalise: store the profile as it looks after round-tripping through
+        // the answer enums, so diff comparisons aren't tripped by free-text
+        // labels (e.g. DB "Graduate" vs enum code "graduate").
+        const normalisedAnswers = profileToAnswers(p, emptyAnswers);
+        setInitialProfile(answersToProfile(normalisedAnswers));
         setAnswers((a) => profileToAnswers(p, a));
         setPrefilled(true);
       }
