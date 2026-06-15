@@ -216,18 +216,19 @@ Output STRICT JSON matching this exact shape — no markdown, no commentary:
       .filter(Boolean)
       .join("\n");
 
+    const labels = answersToLabels(answers);
     const userMsg = `Career being considered: ${role.role_name}
 
 What we know about this role:
 ${roleFacts}
 
 What this person told us about themselves:
-- Starting point: ${answers.startingPoint ?? "(not given)"}
-- Need to earn while training: ${answers.incomeNeed ?? "(not given)"}
-- Weekly time available: ${answers.weeklyHours ?? "(not given)"}
-- Budget: ${answers.budget ?? "(not given)"}
+- Starting point: ${labels.startingPoint}
+- Need to earn while training: ${labels.incomeNeed}
+- Weekly time available: ${labels.weeklyHours}
+- Budget: ${labels.budget}
 - Area (UK): ${answers.area || "(not given)"}
-- Commute / relocation: ${answers.commuteFlex ?? "(not given)"}
+- Commute / relocation: ${labels.commuteFlex}
 - Other notes: ${answers.notes || "(none)"}
 
 Judge the most realistic route for THIS person. Be specific to their constraints. Remember: routeToAvoid is mandatory and must be concrete.`;
