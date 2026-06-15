@@ -357,24 +357,24 @@ const Personalise = () => {
               <Check className="h-7 w-7" />
             </div>
             <h1 className="font-display text-3xl sm:text-4xl font-medium text-foreground">
-              Your profile is ready.
+              Your Decision Profile is saved.
             </h1>
             <p className="mt-4 text-muted-foreground text-lg max-w-lg mx-auto">
-              We'll now personalise routes, timelines, support organisations and provider recommendations
-              where relevant.
+              Future Reality-checks will reuse this, and we'll surface support and funding that may be relevant where it
+              fits the role.
             </p>
             <div className="mt-10 flex flex-col sm:flex-row gap-3 justify-center">
               {from ? (
                 <Button asChild size="lg">
-                  <Link to={`/role/${from}`}>View personalised role page</Link>
+                  <Link to={`/role/${from}`}>Reality-check this role</Link>
                 </Button>
               ) : (
                 <Button asChild size="lg">
-                  <Link to="/">View personalised role pages</Link>
+                  <Link to="/">Reality-check a career</Link>
                 </Button>
               )}
               <Button asChild variant="outline" size="lg">
-                <Link to="/">Continue browsing</Link>
+                <Link to="/my-decisions">View saved decisions</Link>
               </Button>
             </div>
           </div>
