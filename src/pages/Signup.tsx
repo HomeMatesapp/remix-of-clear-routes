@@ -94,8 +94,8 @@ const Signup = () => {
           <CardTitle className="text-2xl">Create your account</CardTitle>
           <p className="text-sm text-muted-foreground mt-1">
             {reason === "plan"
-              ? "Create a free account to get your personalised roadmap"
-              : "Save your pathways and track your progress"}
+              ? "Create a free account to save your route check"
+              : "Save your career decisions and revisit them anytime"}
           </p>
         </CardHeader>
         <CardContent>
