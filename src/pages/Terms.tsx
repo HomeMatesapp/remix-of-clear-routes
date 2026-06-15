@@ -101,11 +101,17 @@ const Terms = () => {
             </section>
 
             <section>
-              <h2 className="font-display text-xl font-bold text-foreground mb-3">6. No AI-generated pathways</h2>
+              <h2 className="font-display text-xl font-bold text-foreground mb-3">6. How we use AI</h2>
               <p>
-                All pathway content on Clear Routes is hand-written from a single source spreadsheet and reviewed before publication. We do
-                not use large language models to generate pathway recommendations, provider lists, salary figures or competition signals.
-                Where AI is used internally (e.g. for editorial drafting support) the output is reviewed by a human before publication.
+                Role page content — pathways, salary ranges, competition signals, provider lists and AI-impact ratings —
+                is hand-curated and reviewed before publication. We do not use large language models to invent providers,
+                salaries, eligibility or competition data.
+              </p>
+              <p>
+                The Reality-check feature is AI-assisted. It combines the answers you give about your situation with our
+                editorial data on the role to produce a route judgement (best route in, backup route, route to avoid,
+                local realism, first move). The judgement is generated for you and is not a guaranteed outcome. Treat it
+                as a structured second opinion, not as regulated advice.
               </p>
             </section>
 
