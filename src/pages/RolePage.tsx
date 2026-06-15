@@ -11,6 +11,7 @@ import { deslugifyRole } from "@/lib/role";
 import { usePersonalisation, recommendedPathway, personalisationBanner } from "@/hooks/usePersonalisation";
 import { useAuth } from "@/hooks/useAuth";
 import { ratingPillClass } from "@/lib/ratingTone";
+import { RealityCheckRoute } from "@/components/role/RealityCheckRoute";
 
 // ── TYPES ─────────────────────────────────────────────────────────────────────
 
