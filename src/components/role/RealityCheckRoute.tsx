@@ -505,18 +505,40 @@ function ResultView({
   initialProfile: DecisionProfileFields | null;
   onProfileSaved: (p: DecisionProfileFields) => void;
 }) {
+  const firstMove = result.firstMoves?.[0];
   return (
     <div className="space-y-4">
-      {/* Verdict */}
-      <div>
-        <span
-          className={`inline-flex items-center rounded-full border px-3 py-1 text-xs font-semibold ${verdictTone(
-            result.overallVerdict
-          )}`}
-        >
-          {result.overallVerdict}
-        </span>
+      {/* Decision summary — scannable verdict at the top */}
+      <div className="rounded-xl border border-amber-300/40 bg-gradient-to-br from-gray-800 to-gray-900 p-4">
+        <div className="flex items-center gap-2 mb-2 text-amber-300">
+          <Gavel className="h-4 w-4" />
+          <p className="text-[11px] font-semibold uppercase tracking-wider">Your route judgement</p>
+        </div>
+        <div className="mb-3">
+          <span
+            className={`inline-flex items-center rounded-full border px-3 py-1 text-xs font-semibold ${verdictTone(
+              result.overallVerdict
+            )}`}
+          >
+            {result.overallVerdict}
+          </span>
+        </div>
+        <dl className="grid grid-cols-1 sm:grid-cols-2 gap-x-4 gap-y-2 text-sm">
+          <SummaryRow label="Best route" value={result.bestRoute.title} tone="emerald" />
+          <SummaryRow label="Be careful with" value={result.routeToAvoid.title} tone="rose" />
+          <SummaryRow
+            label="Local realism"
+            value={
+              <span className={`capitalize font-medium ${localToneText(result.localRealism.rating)}`}>
+                {result.localRealism.rating}
+              </span>
+            }
+            tone="amber"
+          />
+          {firstMove && <SummaryRow label="First move" value={firstMove} tone="sky" />}
+        </dl>
       </div>
+
 
       {/* Best route */}
       <Card icon={<Compass className="h-4 w-4" />} eyebrow="Best route for you" tone="emerald">
