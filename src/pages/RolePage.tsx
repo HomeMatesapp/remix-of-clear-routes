@@ -644,10 +644,13 @@ const RolePage = () => {
           {availablePathways.length > 0 && (
             <AccordionItem value="routes">
               <AccordionTrigger className="text-sm font-medium text-gray-900">
-                Routes by starting point
+                Common routes people take
               </AccordionTrigger>
               <AccordionContent>
-                <div className="grid grid-cols-2 gap-2 mb-4 sm:grid-cols-4">
+                <p className="text-xs text-gray-400 mb-3">
+                  These are the routes most people use. Your Reality-check result above already picks the best one for your situation.
+                </p>
+                <div className="flex flex-wrap gap-1.5 mb-4">
                   {pathwayMeta.map((p) => {
                     const has = !!pathwayContent[p.key];
                     const isActive = activePathway === p.key;
@@ -660,40 +663,35 @@ const RolePage = () => {
                           trackEvent("pathway_card_clicked", { role: role.role_name, pathway: p.key });
                         }}
                         disabled={!has}
-                        className={`text-left p-3 rounded-xl border transition-all ${
+                        className={`text-xs px-2.5 py-1 rounded-full border transition-colors ${
                           isActive
-                            ? "border-primary border-2 bg-primary/5"
-                            : "border-gray-200 bg-white hover:bg-gray-50"
+                            ? "border-primary bg-primary/5 text-primary font-medium"
+                            : "border-gray-200 bg-white text-gray-600 hover:bg-gray-50"
                         } ${!has ? "opacity-40 cursor-not-allowed" : ""}`}
                       >
-                        <span className="text-lg block mb-1">{p.emoji}</span>
-                        <span className={`text-xs font-medium leading-tight block ${
-                          isActive ? "text-primary" : "text-gray-700"
-                        }`}>
-                          {p.label}
-                        </span>
+                        {p.label}
                       </button>
                     );
                   })}
                 </div>
                 {activeMeta && activeText && (
-                  <div className="border border-gray-200 rounded-xl p-4 bg-white">
-                    <h3 className="text-sm font-medium text-gray-900 mb-2">{activeMeta.label}</h3>
+                  <div className="border border-gray-100 rounded-lg p-3 bg-gray-50/50">
+                    <h3 className="text-sm font-medium text-gray-900 mb-1.5">{activeMeta.label}</h3>
                     <div className="text-sm text-gray-600 leading-relaxed whitespace-pre-line">
                       {activeText}
                     </div>
                   </div>
                 )}
                 {successRoutes.length > 0 && (
-                  <div className="mt-4 border border-gray-200 rounded-xl p-4">
+                  <div className="mt-3 border border-gray-100 rounded-lg p-3 bg-gray-50/50">
                     <p className="text-xs font-medium text-gray-500 mb-2">What successful people actually did</p>
-                    <div className="space-y-2">
+                    <div className="space-y-1.5">
                       {successRoutes.map((r, i) => (
-                        <div key={i} className="flex gap-3 items-start">
-                          <span className="flex-shrink-0 text-xs font-medium text-gray-400 mt-0.5">
-                            Route {i + 1}
+                        <div key={i} className="flex gap-2 items-start">
+                          <span className="flex-shrink-0 text-[10px] font-medium text-gray-400 mt-0.5">
+                            {i + 1}.
                           </span>
-                          <p className="text-sm text-gray-700 font-medium m-0">{r}</p>
+                          <p className="text-sm text-gray-700 m-0">{r}</p>
                         </div>
                       ))}
                     </div>
