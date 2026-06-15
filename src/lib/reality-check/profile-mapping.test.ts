@@ -78,6 +78,11 @@ describe("profile-mapping: answersToProfile", () => {
       area: "  Bristol  ",
       commuteFlex: "30_min",
       notes: "",
+      relevantBackground: "",
+      englishMaths: null,
+      scienceSubjects: null,
+      qualificationLevel: null,
+      englishComfort: null,
     };
     expect(answersToProfile(a)).toEqual({
       area: "Bristol",
