@@ -317,7 +317,14 @@ export const RealityCheckRoute = ({ role }: { role: RoleContext }) => {
       )}
 
       {result && (
-        <ResultView result={result} answers={answers} role={role} onReset={reset} />
+        <ResultView
+          result={result}
+          answers={answers}
+          role={role}
+          onReset={reset}
+          initialProfile={initialProfile}
+          onProfileSaved={(p) => setInitialProfile(p)}
+        />
       )}
     </section>
   );
