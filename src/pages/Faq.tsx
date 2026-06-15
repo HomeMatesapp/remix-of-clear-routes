@@ -9,19 +9,44 @@ const faqSections = [
     questions: [
       {
         q: "What is Clear Routes?",
-        a: "Clear Routes is a free UK career library. Search any of 1,000 roles and you get an honest picture of what the job actually involves, who tends to do well in it, the realistic ways in (school leaver, graduate, adjacent career, or no background), salary ranges across the country, how competitive it is, the impact AI is having on it, and the UK training providers and apprenticeships that lead into it. No quizzes, no paywalls, no AI-generated pathways.",
+        a: "Clear Routes helps you reality-check a career route before you commit time or money to it. You pick a role from a library of 1,000 UK careers, tell us a bit about your situation, and get a route judgement: the best route in for you, a backup route, a route to avoid, what's realistic locally, and a first move to make this week. You can save any check as a career decision and revisit it later.",
       },
       {
         q: "Is Clear Routes free?",
-        a: "Yes — completely free. There is no signup wall, no £49 unlock, and no subscription. We may add optional personalisation in future (where you tell us about yourself to filter providers), but the core role pages will always be free and open.",
+        a: "Yes — the core product is free. Reality-checks, saved career decisions, the Decision Profile, role pages and support matching are all free to use. There is no subscription and no unlock.",
       },
       {
         q: "How is Clear Routes different from the National Careers Service?",
-        a: "The National Careers Service gives you broad, generic guidance and a long list of jobs. Clear Routes is opinionated. For every role we tell you the honest truth — the parts of the job people don't talk about, how saturated the market is, where AI is reshaping the work, what the realistic salary actually looks like, and which training routes are worth your time. We name providers and apprenticeships directly, with sources.",
+        a: "The National Careers Service gives broad, generic guidance. Clear Routes is decision-first. Instead of just describing a job, it judges a route in for someone in your situation — what's worth trying, what to avoid, and what's realistic given pay, competition, training options and where you live.",
       },
       {
         q: "Is Clear Routes only for the UK?",
-        a: "Yes. Every salary range, training provider, apprenticeship, and support organisation on the site is UK-specific. If you are based outside the UK the content will not apply to your situation.",
+        a: "Yes. Salary ranges, training providers, apprenticeships and support organisations are UK-specific. If you're outside the UK the route judgements will not apply to your situation.",
+      },
+    ],
+  },
+  {
+    heading: "Reality-check, decisions and your profile",
+    questions: [
+      {
+        q: "What is a Reality-check?",
+        a: "A Reality-check is a short set of questions about your situation — time, money, qualifications, location, constraints — applied to a specific role. It returns a route judgement with a best route in, a backup, a route to avoid, a read on local realism, and a first move you can make this week. It is AI-assisted guidance, not a guarantee of outcome.",
+      },
+      {
+        q: "What is My Career Decisions?",
+        a: "My Career Decisions is your workspace for saved route checks. When a Reality-check gives you a judgement you'd like to keep, save it. You can come back, compare it against other roles you've checked, and update it as your situation changes.",
+      },
+      {
+        q: "What is the Decision Profile?",
+        a: "The Decision Profile is the set of constraints you've told us about — for example available hours, budget for training, whether you can relocate, and qualifications. Once it's filled in, future Reality-checks reuse it so you don't have to re-enter the same information for every role.",
+      },
+      {
+        q: "How does support and funding matching work?",
+        a: "If you've shared relevant details in your Decision Profile — for example being a care leaver, a veteran, disabled, a refugee, or under 25 — we surface UK funded support programmes that may be relevant to your situation. We say 'may be relevant', not 'you qualify'. Eligibility is always decided by the named programme, not by us, so always verify directly before relying on it.",
+      },
+      {
+        q: "How accurate is the route judgement?",
+        a: "It's a considered judgement based on your answers and our editorial data on the role. It is not a prediction, not regulated careers advice, and not a guarantee of any outcome. Use it as a structured second opinion alongside your own research and, where the decision is significant, a qualified careers adviser.",
       },
     ],
   },
@@ -30,23 +55,19 @@ const faqSections = [
     questions: [
       {
         q: "Where do the roles come from?",
-        a: "We curate a library of 1,000 UK roles — from the very common (Software Engineer, Primary Teacher, Nurse) to the niche (Wind Turbine Technician, Forensic Accountant, Patent Attorney). The list is built from ONS occupation data, UCAS subject areas, government apprenticeship standards, and direct provider listings.",
+        a: "We curate a library of 1,000 UK roles, from the very common (Software Engineer, Primary Teacher, Nurse) to the niche (Wind Turbine Technician, Forensic Accountant, Patent Attorney). The list is built from ONS occupation data, UCAS subject areas, government apprenticeship standards, and direct provider listings.",
       },
       {
         q: "How are the four pathways chosen?",
-        a: "Every role shows up to four realistic ways in: school leaver, graduate, adjacent career, and no background. The pathway content is hand-written per role from a single source spreadsheet (the 'Why' field), then mapped into the four routes. If a route genuinely does not exist for a role we say so rather than invent one.",
+        a: "Each role shows up to four realistic ways in: school leaver, graduate, adjacent career, and no background. These are hand-written per role from a single source spreadsheet. If a route genuinely does not exist for a role, we say so rather than invent one.",
       },
       {
         q: "How accurate are the salary figures?",
-        a: "Salary ranges are based on ONS Annual Survey of Hours and Earnings, current UK job postings, and sector reports. We show ranges by experience level (entry, mid, senior) rather than single numbers, and flag where London skews the figure. Every role page lists when the data was last reviewed.",
+        a: "Salary ranges are based on ONS Annual Survey of Hours and Earnings, current UK job postings, and sector reports. We show ranges by experience level (entry, mid, senior) rather than single numbers, and flag where London skews the figure. Each role page shows when the data was last reviewed.",
       },
       {
         q: "What does the AI impact badge mean?",
-        a: "Each role is labelled low, medium, or high AI exposure based on published research (notably the OECD and ONS automation studies, plus more recent generative-AI exposure indices). Low means the day-to-day work is largely safe from automation in the next 5–10 years. High means substantial parts of the role are already being automated. We explain the reasoning on each page.",
-      },
-      {
-        q: "Why do you show competition and a 'reality check'?",
-        a: "Because most career sites only show you the upside. Some roles look attractive but have hundreds of applicants per junior post, or pay poorly relative to the qualifications required, or have a working culture few people will tolerate long-term. We tell you these things up front so you can decide with eyes open.",
+        a: "Each role is labelled low, medium, or high AI exposure based on published research (notably OECD and ONS automation studies, plus more recent generative-AI exposure indices). Low means the day-to-day work is largely safe from automation in the next 5–10 years. High means substantial parts of the role are already being automated.",
       },
     ],
   },
@@ -55,19 +76,19 @@ const faqSections = [
     questions: [
       {
         q: "How do you choose which training providers to list?",
-        a: "Providers are curated from Ofsted-rated training organisations, recognised UK universities, registered Skills Bootcamp providers on the DfE list, and established professional bodies. We do not accept payment from providers to appear. Where a provider has a poor track record or unclear outcomes we leave them off.",
+        a: "Providers are curated from Ofsted-rated training organisations, recognised UK universities, registered Skills Bootcamp providers on the DfE list, and established professional bodies. We do not accept payment from providers to appear.",
       },
       {
         q: "What is a Skills Bootcamp?",
-        a: "Skills Bootcamps are free or heavily subsidised UK training programmes funded by the Department for Education, typically 12–16 weeks long, in sectors like tech, data, digital marketing, construction and green skills. Availability depends on your region and the Combined Authority you live under. Where a role page lists a bootcamp provider, we link to the official course page so you can check current eligibility.",
+        a: "Skills Bootcamps are free or heavily subsidised UK training programmes funded by the Department for Education, typically 12–16 weeks long. Availability depends on your region and the Combined Authority you live under. Where a role page lists a bootcamp provider, we link to the official course page so you can check current eligibility.",
       },
       {
         q: "What is a degree apprenticeship?",
-        a: "A degree apprenticeship lets you earn a full UK degree while working and being paid, with your tuition fees covered by your employer. They typically take 3–4 years. We surface degree apprenticeships on the relevant role pages and list the universities offering them.",
+        a: "A degree apprenticeship lets you earn a full UK degree while working and being paid, with your tuition fees covered by your employer. They typically take 3–4 years.",
       },
       {
         q: "What's on the Support page?",
-        a: "The /support page lists funded UK programmes and organisations that change what's available to you — government schemes, grants, and access programmes for groups including under-25s, care leavers, people with disabilities, women and non-binary people, veterans, people with criminal records, refugees, and career changers. Most people who qualify for these don't know they exist.",
+        a: "The /support page lists UK funded programmes and organisations that may be relevant to specific groups — under-25s, care leavers, disabled people, women and non-binary people, veterans, people with criminal records, refugees, and career changers. Eligibility is always decided by the named programme.",
       },
     ],
   },
@@ -76,11 +97,15 @@ const faqSections = [
     questions: [
       {
         q: "Where is your data sourced?",
-        a: "Salary data: ONS ASHE, plus current UK job board postings. Apprenticeship data: the official Institute for Apprenticeships standards and gov.uk Find an Apprenticeship. Providers: Ofsted, the DfE Skills Bootcamps register, UCAS, and direct provider listings. Funding and support: gov.uk, Combined Authority websites, and the named organisations themselves. The /sources page lists everything in one place.",
+        a: "Salary data: ONS ASHE and current UK job board postings. Apprenticeships: the Institute for Apprenticeships standards and gov.uk Find an Apprenticeship. Providers: Ofsted, the DfE Skills Bootcamps register, UCAS, and direct listings. Funding and support: gov.uk, Combined Authorities, and the named organisations. The /sources page lists everything in one place.",
       },
       {
         q: "How often is the data refreshed?",
-        a: "Salaries and competition signals are reviewed quarterly. Apprenticeships, bootcamp availability, and funded support programmes are reviewed at least twice a year and after every government spending announcement. Each role page shows a 'last reviewed' date.",
+        a: "Salaries and competition signals are reviewed quarterly. Apprenticeships, bootcamp availability, and funded support are reviewed at least twice a year and after every government spending announcement. Each role page shows a 'last reviewed' date.",
+      },
+      {
+        q: "How is AI used in the product?",
+        a: "Role page content — pathways, salaries, competition signals, provider lists — is hand-curated, not AI-generated. The Reality-check route judgement is AI-assisted: it combines your answers with our editorial data on the role to form a judgement. We show you the judgement, not raw model output, and we don't use it to invent providers, salaries or eligibility.",
       },
       {
         q: "How do I report something that is wrong?",
