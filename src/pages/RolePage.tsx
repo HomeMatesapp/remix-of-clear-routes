@@ -596,7 +596,7 @@ const RolePage = () => {
             </AccordionItem>
           )}
 
-          {(role.uncomfortable_truth || role.opportunity_cost || role.who_not_for || role.career_regret_risk) && (
+          {(role.uncomfortable_truth || role.opportunity_cost) && (
             <AccordionItem value="truth">
               <AccordionTrigger className="text-sm font-medium text-gray-900">
                 The uncomfortable truth
@@ -616,6 +616,31 @@ const RolePage = () => {
                       <p className="text-sm text-gray-600 leading-relaxed whitespace-pre-line m-0">
                         {role.opportunity_cost}
                       </p>
+                    </div>
+                  )}
+                </div>
+              </AccordionContent>
+            </AccordionItem>
+          )}
+
+          {(positivesShown.length > 0 || role.who_not_for || role.career_regret_risk) && (
+            <AccordionItem value="like-dislike">
+              <AccordionTrigger className="text-sm font-medium text-gray-900">
+                What people like / dislike
+              </AccordionTrigger>
+              <AccordionContent>
+                <div className="space-y-4">
+                  {positivesShown.length > 0 && (
+                    <div>
+                      <p className="text-xs font-medium text-gray-500 mb-2">What people tend to like</p>
+                      <ul className="space-y-1.5 text-sm text-gray-700">
+                        {positivesShown.map((p) => (
+                          <li key={p.label} className="flex gap-2 items-start leading-snug">
+                            <span className="text-gray-400 flex-shrink-0 mt-0.5">·</span>
+                            <span><span className="font-medium text-gray-900">{p.label}:</span> {p.text}</span>
+                          </li>
+                        ))}
+                      </ul>
                     </div>
                   )}
                   {role.who_not_for && (
@@ -638,6 +663,8 @@ const RolePage = () => {
               </AccordionContent>
             </AccordionItem>
           )}
+
+
 
           {Object.keys(grouped).length > 0 && (
             <AccordionItem value="providers">
