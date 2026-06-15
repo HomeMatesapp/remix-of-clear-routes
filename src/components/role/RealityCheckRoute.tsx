@@ -101,7 +101,13 @@ function Field({ label, children }: { label: string; children: React.ReactNode }
   );
 }
 
-export const RealityCheckRoute = ({ role }: { role: RoleContext }) => {
+export const RealityCheckRoute = ({
+  role,
+  onResult,
+}: {
+  role: RoleContext;
+  onResult?: (hasResult: boolean) => void;
+}) => {
   const { user } = useAuth();
   const [answers, setAnswers] = useState<RealityCheckAnswers>(emptyAnswers);
   const [loading, setLoading] = useState(false);
