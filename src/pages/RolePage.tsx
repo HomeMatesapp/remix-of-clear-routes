@@ -347,32 +347,127 @@ const RolePage = () => {
     : [];
 
   // Derive grounded "What people like" bullets from existing role data.
-  // No invented claims — each bullet maps to a real field.
+  // Each bullet is conditional on real fields — no invented claims, no fluff.
+  // Labels and family-specific bullets vary so the card doesn't feel templated.
   const positives: { label: string; text: string }[] = [];
-  if (role.short_description) {
-    const firstSentence = role.short_description.split(/(?<=[.!?])\s/)[0];
-    const short = firstSentence.length > 110 ? firstSentence.slice(0, 110).replace(/\s+\S*$/, "") + "…" : firstSentence;
-    positives.push({ label: "The work", text: short });
-  }
-  if (role.demand && /high|strong|growing|good/i.test(role.demand)) {
-    const employers = role.key_employers?.slice(0, 2).join(" and ");
-    positives.push({
-      label: "Stability",
-      text: employers
-        ? `Demand is ${role.demand.toLowerCase()} — employers like ${employers} hire consistently.`
-        : `Demand is ${role.demand.toLowerCase()}, so hiring is consistent.`,
-    });
-  }
-  if (role.salary_entry && (role.salary_senior || role.salary_experienced)) {
-    const top = role.salary_senior ?? role.salary_experienced!;
-    if (top > role.salary_entry) {
+  {
+    const name = role.role_name.toLowerCase();
+    const employersArr = (role.key_employers || []).map((e) => e.trim()).filter(Boolean);
+    const employersBlob = employersArr.join(" | ").toLowerCase();
+    const route = (role.most_common_route || "").toLowerCase();
+
+    type Family = "clinical" | "trade" | "tech" | "management" | "public_service" | "default";
+    const family: Family = (() => {
+      if (/\b(nurse|midwife|midwifery|doctor|gp|paramedic|therapist|radiograph|pharmacist|dentist|psycholog|social worker|carer|care worker)\b/.test(name)) return "clinical";
+      if (/\b(electrician|plumber|carpenter|joiner|bricklayer|mechanic|welder|roofer|plasterer|gas engineer|hgv driver|technician|builder|tiler|painter and decorator)\b/.test(name)) return "trade";
+      if (/\b(manager|director|head of|programme lead|project lead)\b/.test(name)) return "management";
+      if (/\b(engineer|developer|analyst|scientist|programmer|architect|designer|devops|data|machine learning|ml)\b/.test(name)) return "tech";
+      if (route.includes("apprenticeship") && (role.degree_required === "No" || !role.degree_required)) return "trade";
+      if (/\bnhs|local authorit|council|government|civil service\b/.test(employersBlob)) return "public_service";
+      return "default";
+    })();
+
+    // Bullet 1 — role-specific framing of the work itself, label varies by family.
+    const firstLabel: Record<Family, string> = {
+      clinical: "Responsibility",
+      trade: "Craft",
+      tech: "The problems",
+      management: "Variety",
+      public_service: "Public service",
+      default: "The work",
+    };
+    if (role.short_description) {
+      const s = role.short_description.split(/(?<=[.!?])\s/)[0];
+      const text = s.length > 130 ? s.slice(0, 130).replace(/\s+\S*$/, "") + "…" : s;
+      positives.push({ label: firstLabel[family], text });
+    }
+
+    // Bullet 2 — stability or breadth, grounded in demand + key_employers.
+    const strongDemand = !!role.demand && /high|strong|growing/i.test(role.demand);
+    const breadthSignal =
+      employersArr.some((e) => /every sector|every industry|all sectors|all industries/i.test(e)) ||
+      employersArr.length >= 5;
+    const topEmployers = employersArr
+      .flatMap((e) => e.split(/[,;]| — /))
+      .map((e) => e.trim())
+      .filter((e) => e && !/every sector|every industry|all sectors|all industries|data analysis is/i.test(e))
+      .slice(0, 2);
+
+    if (strongDemand && topEmployers.length) {
+      const stabilityLabel =
+        family === "trade" ? "Steady work" :
+        family === "clinical" || family === "public_service" ? "Stability" :
+        "Demand";
+      positives.push({
+        label: stabilityLabel,
+        text: `${role.demand} demand — employers include ${topEmployers.join(" and ")}.`,
+      });
+    } else if (breadthSignal && topEmployers.length) {
+      positives.push({
+        label: "Cross-sector",
+        text: `Hires across sectors — ${topEmployers.join(", ")}${employersArr.length > 2 ? " and more" : ""}.`,
+      });
+    } else if (strongDemand) {
+      positives.push({ label: "Demand", text: `${role.demand} demand across the UK.` });
+    }
+
+    // Bullet 3 — family-specific signal, only if data supports it.
+    const top = role.salary_senior ?? role.salary_experienced ?? null;
+    const hasPayProgression = !!role.salary_entry && !!top && top > role.salary_entry;
+
+    if (family === "trade") {
+      if (/self[-\s]?employ/i.test(employersBlob)) {
+        positives.push({
+          label: "Self-employment",
+          text: "Once qualified, going independent is a realistic route.",
+        });
+      } else if (route.includes("apprenticeship") && hasPayProgression) {
+        positives.push({
+          label: "Paid training",
+          text: `Apprenticeship route — earn while you train, with pay reaching ${fmtK(top!)}${role.salary_senior ? "+" : ""}.`,
+        });
+      } else if (hasPayProgression) {
+        positives.push({
+          label: "Pay progression",
+          text: `From ${fmtK(role.salary_entry!)} to ${fmtK(top!)}${role.salary_senior ? "+" : ""} with experience.`,
+        });
+      }
+    } else if (family === "tech") {
+      if (role.remote_friendly === "Yes" && hasPayProgression) {
+        positives.push({
+          label: "Pay and flexibility",
+          text: `${fmtK(role.salary_entry!)} → ${fmtK(top!)}${role.salary_senior ? "+" : ""}, and remote-friendly at most employers.`,
+        });
+      } else if (hasPayProgression) {
+        positives.push({
+          label: "Pay progression",
+          text: `From ${fmtK(role.salary_entry!)} to ${fmtK(top!)}${role.salary_senior ? "+" : ""} as you specialise.`,
+        });
+      }
+    } else if (family === "clinical" || family === "public_service") {
+      if (hasPayProgression) {
+        positives.push({
+          label: "Structured progression",
+          text: `Pay bands move from ${fmtK(role.salary_entry!)} to ${fmtK(top!)}${role.salary_senior ? "+" : ""} as you progress.`,
+        });
+      }
+    } else if (family === "management") {
+      if (hasPayProgression) {
+        positives.push({
+          label: "Pay progression",
+          text: `From ${fmtK(role.salary_entry!)} to ${fmtK(top!)}${role.salary_senior ? "+" : ""} at senior level.`,
+        });
+      }
+    } else if (hasPayProgression) {
       positives.push({
         label: "Progression",
-        text: `Pay typically grows from ${fmtK(role.salary_entry)} to ${fmtK(top)}${role.salary_senior ? "+" : ""} with experience.`,
+        text: `Pay typically grows from ${fmtK(role.salary_entry!)} to ${fmtK(top!)}${role.salary_senior ? "+" : ""}.`,
       });
     }
   }
   const positivesShown = positives.slice(0, 3);
+
+
 
 
 
