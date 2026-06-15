@@ -29,6 +29,9 @@ const Navbar = () => {
           {user ? (
             <>
               <Button variant="ghost" size="sm" asChild>
+                <Link to="/my-decisions">My Decisions</Link>
+              </Button>
+              <Button variant="ghost" size="sm" asChild>
                 <Link to="/profile">
                   {firstName ? `Hi ${firstName}` : "Profile"}
                 </Link>
