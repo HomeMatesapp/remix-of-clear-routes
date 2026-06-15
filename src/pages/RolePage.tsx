@@ -524,8 +524,11 @@ const RolePage = () => {
           onResult={setHasRealityCheckResult}
         />
 
-        {/* Optional: grants / bursaries / access schemes that may apply */}
-        <SupportMatches roleSlug={role.role_slug} roleName={role.role_name} />
+        {/* Optional: grants / bursaries / access schemes that may apply.
+            Hidden once Reality-check has a result — it surfaces matches inside the result card. */}
+        {!hasRealityCheckResult && (
+          <SupportMatches roleSlug={role.role_slug} roleName={role.role_name} />
+        )}
 
 
         {/* Personalisation banner */}

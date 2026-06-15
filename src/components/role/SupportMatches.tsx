@@ -1,4 +1,5 @@
 import { useEffect, useState } from "react";
+import { Link } from "react-router-dom";
 import { ExternalLink, LifeBuoy } from "lucide-react";
 import { supabase } from "@/integrations/supabase/client";
 import { useAuth } from "@/hooks/useAuth";
@@ -61,6 +62,8 @@ interface SupportMatchesProps {
   /** Pre-supplied circumstances (e.g. from Reality-check input). Otherwise pulled from profile. */
   circumstances?: SupportCircumstanceKey[];
   max?: number;
+  /** "light" = standalone card on page. "dark" = nested inside Reality-check result. */
+  variant?: "light" | "dark";
 }
 
 const formatDate = (iso: string | null): string | null => {
@@ -77,6 +80,7 @@ export const SupportMatches = ({
   roleName,
   circumstances,
   max = 3,
+  variant = "light",
 }: SupportMatchesProps) => {
   const { user } = useAuth();
   const [opps, setOpps] = useState<Opportunity[]>([]);
@@ -173,16 +177,59 @@ export const SupportMatches = ({
 
   const anyConfident = scored.some((s) => s.confident);
 
+  const isDark = variant === "dark";
+  const t = isDark
+    ? {
+        section: "rounded-xl bg-gray-700/40 border border-sky-400/30 p-4",
+        eyebrow: "text-[11px] font-semibold uppercase tracking-wider text-sky-300",
+        title: "text-sm font-semibold text-white",
+        intro: "text-[11px] text-gray-300 mb-3 leading-snug",
+        name: "font-medium text-white leading-snug text-sm",
+        typePill: "ml-2 text-[10px] font-medium uppercase tracking-wider text-sky-300/80",
+        org: "text-xs text-gray-400",
+        amount:
+          "flex-shrink-0 text-[11px] text-gray-200 bg-gray-800/70 border border-gray-600 rounded px-2 py-0.5",
+        who: "text-xs text-gray-200 mt-1 leading-snug",
+        elig: "text-xs text-gray-300 mt-1 leading-snug",
+        eligLabel: "font-medium text-gray-100",
+        link: "inline-flex items-center gap-1 text-sky-300 hover:text-white hover:underline",
+        meta: "text-gray-500",
+        footer: "text-[10px] text-gray-400 mt-3 flex items-center justify-between gap-3",
+        moreLink: "text-sky-300 hover:text-white underline underline-offset-2",
+      }
+    : {
+        section: "rounded-lg border border-gray-200 bg-white p-4 mb-6",
+        eyebrow: "",
+        title: "text-sm font-semibold text-gray-900 m-0",
+        intro: "text-xs text-gray-500 mb-3 leading-snug",
+        name: "font-medium text-gray-900 leading-snug",
+        typePill: "ml-2 text-[10px] font-medium uppercase tracking-wider text-gray-400",
+        org: "text-xs text-gray-500",
+        amount:
+          "flex-shrink-0 text-xs text-gray-600 bg-gray-50 border border-gray-200 rounded px-2 py-0.5",
+        who: "text-xs text-gray-600 mt-1 leading-snug",
+        elig: "text-xs text-gray-500 mt-1 leading-snug",
+        eligLabel: "font-medium text-gray-600",
+        link: "inline-flex items-center gap-1 text-primary hover:underline",
+        meta: "text-gray-400",
+        footer: "text-[10px] text-gray-400 mt-3 flex items-center justify-between gap-3",
+        moreLink: "text-primary hover:underline",
+      };
+
   return (
     <section
       aria-label={`Support that may help if you're considering ${roleName}`}
-      className="rounded-lg border border-gray-200 bg-white p-4 mb-6"
+      className={t.section}
     >
       <div className="flex items-center gap-2 mb-1">
-        <LifeBuoy className="h-4 w-4 text-primary" aria-hidden />
-        <h2 className="text-sm font-semibold text-gray-900 m-0">Support that may help</h2>
+        <LifeBuoy className={`h-4 w-4 ${isDark ? "text-sky-300" : "text-primary"}`} aria-hidden />
+        {isDark ? (
+          <p className={t.eyebrow}>Support that may help</p>
+        ) : (
+          <h2 className={t.title}>Support that may help</h2>
+        )}
       </div>
-      <p className="text-xs text-gray-500 mb-3 leading-snug">
+      <p className={t.intro}>
         {anyConfident
           ? "Based on your Decision Profile. Check current criteria before applying — eligibility changes."
           : "These may be worth checking, but eligibility depends on current criteria."}
@@ -195,28 +242,22 @@ export const SupportMatches = ({
             <li key={opp.id} className="text-sm">
               <div className="flex items-start justify-between gap-3">
                 <div className="min-w-0">
-                  <p className="font-medium text-gray-900 leading-snug">
+                  <p className={t.name}>
                     {opp.name}
-                    <span className="ml-2 text-[10px] font-medium uppercase tracking-wider text-gray-400">
-                      {opp.type}
-                    </span>
+                    <span className={t.typePill}>{opp.type}</span>
                   </p>
                   {opp.organisation_name && (
-                    <p className="text-xs text-gray-500">{opp.organisation_name}</p>
+                    <p className={t.org}>{opp.organisation_name}</p>
                   )}
                 </div>
                 {opp.amount_or_value && (
-                  <span className="flex-shrink-0 text-xs text-gray-600 bg-gray-50 border border-gray-200 rounded px-2 py-0.5">
-                    {opp.amount_or_value}
-                  </span>
+                  <span className={t.amount}>{opp.amount_or_value}</span>
                 )}
               </div>
-              {opp.who_it_helps && (
-                <p className="text-xs text-gray-600 mt-1 leading-snug">{opp.who_it_helps}</p>
-              )}
+              {opp.who_it_helps && <p className={t.who}>{opp.who_it_helps}</p>}
               {opp.eligibility_summary && (
-                <p className="text-xs text-gray-500 mt-1 leading-snug">
-                  <span className="font-medium text-gray-600">Worth checking if:</span>{" "}
+                <p className={t.elig}>
+                  <span className={t.eligLabel}>Worth checking if:</span>{" "}
                   {opp.eligibility_summary}
                 </p>
               )}
@@ -226,23 +267,24 @@ export const SupportMatches = ({
                     href={opp.source_url}
                     target="_blank"
                     rel="noopener noreferrer"
-                    className="inline-flex items-center gap-1 text-primary hover:underline"
+                    className={t.link}
                   >
                     Source <ExternalLink className="h-3 w-3" />
                   </a>
                 )}
-                {opp.location_scope && (
-                  <span className="text-gray-400">{opp.location_scope}</span>
-                )}
-                {checked && <span className="text-gray-400">Last checked {checked}</span>}
+                {opp.location_scope && <span className={t.meta}>{opp.location_scope}</span>}
+                {checked && <span className={t.meta}>Last checked {checked}</span>}
               </div>
             </li>
           );
         })}
       </ul>
-      <p className="text-[10px] text-gray-400 mt-3">
-        Clear Routes surfaces these as a prompt — we don't confirm eligibility.
-      </p>
+      <div className={t.footer}>
+        <span>Clear Routes surfaces these as a prompt — we don't confirm eligibility.</span>
+        <Link to="/support" className={t.moreLink}>
+          View more support &amp; funding →
+        </Link>
+      </div>
     </section>
   );
 };

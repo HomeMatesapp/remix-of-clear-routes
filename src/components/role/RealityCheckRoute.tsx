@@ -6,6 +6,7 @@ import { useAuth } from "@/hooks/useAuth";
 import { useToast } from "@/hooks/use-toast";
 import { saveDecision, stashPendingDecision } from "@/lib/saved-decisions";
 import { Loader2, Sparkles, AlertOctagon, MapPin, Compass, LifeBuoy, ListChecks, BookmarkPlus, Check, UserCog } from "lucide-react";
+import { SupportMatches } from "@/components/role/SupportMatches";
 import {
   BUDGETS,
   COMMUTE_FLEX,
@@ -566,6 +567,15 @@ function ResultView({
             ))}
           </ol>
         </Card>
+      )}
+
+      {role.role_slug && (
+        <SupportMatches
+          roleSlug={role.role_slug}
+          roleName={role.role_name}
+          variant="dark"
+          max={3}
+        />
       )}
 
       <SavePrompt role={role} answers={answers} result={result} />
