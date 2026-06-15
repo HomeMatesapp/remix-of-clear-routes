@@ -405,269 +405,278 @@ const RolePage = () => {
           </div>
         )}
 
-        {/* Description */}
-        {role.short_description && (
-          <>
-            <SectionLabel>What this job involves</SectionLabel>
-            <p className="text-sm text-gray-600 leading-relaxed mb-6 whitespace-pre-line">
-              {role.short_description}
+        {/* Before you commit — compact decision card */}
+        {(role.reality_check || role.uncomfortable_truth || successRoutes.length > 0) && (
+          <div className="rounded-xl border border-gray-200 bg-white p-4 mb-6">
+            <p className="text-xs font-medium uppercase tracking-wider text-gray-500 mb-3">
+              Before you commit
             </p>
-          </>
+            <ul className="space-y-2 text-sm text-gray-700">
+              {role.reality_check && (
+                <li className="flex gap-2">
+                  <span className="text-gray-400 flex-shrink-0">·</span>
+                  <span><span className="font-medium text-gray-900">Reality:</span> {role.reality_check.split(/(?<=[.!?])\s/)[0]}</span>
+                </li>
+              )}
+              {(role.uncomfortable_truth || role.career_regret_risk) && (
+                <li className="flex gap-2">
+                  <span className="text-gray-400 flex-shrink-0">·</span>
+                  <span><span className="font-medium text-gray-900">Biggest risk:</span> {(role.uncomfortable_truth || role.career_regret_risk)!.split(/(?<=[.!?])\s/)[0]}</span>
+                </li>
+              )}
+              {successRoutes.length > 0 && (
+                <li className="flex gap-2">
+                  <span className="text-gray-400 flex-shrink-0">·</span>
+                  <span><span className="font-medium text-gray-900">What usually works:</span> {successRoutes[0]}</span>
+                </li>
+              )}
+            </ul>
+          </div>
         )}
 
-        {availablePathways.length > 0 && (
-          <>
-            <Divider />
-
-            {/* Pathway cards */}
-            <SectionLabel>Routes by starting point</SectionLabel>
-            <div className="grid grid-cols-2 gap-2 mb-4 sm:grid-cols-4">
-              {pathwayMeta.map((p) => {
-                const has = !!pathwayContent[p.key];
-                const isActive = activePathway === p.key;
-                return (
-                  <button
-                    key={p.key}
-                    onClick={() => {
-                      if (!has) return;
-                      setActivePathway(p.key);
-                      trackEvent("pathway_card_clicked", { role: role.role_name, pathway: p.key });
-                    }}
-                    disabled={!has}
-                    className={`text-left p-3 rounded-xl border transition-all ${
-                      isActive
-                        ? "border-primary border-2 bg-primary/5"
-                        : "border-gray-200 bg-white hover:bg-gray-50"
-                    } ${!has ? "opacity-40 cursor-not-allowed" : ""}`}
-                  >
-                    <span className="text-lg block mb-1">{p.emoji}</span>
-                    <span className={`text-xs font-medium leading-tight block ${
-                      isActive ? "text-primary" : "text-gray-700"
-                    }`}>
-                      {p.label}
-                    </span>
-                  </button>
-                );
-              })}
-            </div>
-
-            {/* Active pathway content */}
-            {activeMeta && activeText && (
-              <div className="border border-gray-200 rounded-xl p-5 bg-white mb-6">
-                <h2 className="text-base font-medium text-gray-900 mb-3">
-                  {activeMeta.label}
-                </h2>
-                <div className="text-sm text-gray-600 leading-relaxed whitespace-pre-line">
-                  {activeText}
-                </div>
-              </div>
-            )}
-
-            {/* Before you commit */}
-            {role.reality_check && (
-              <div className="bg-amber-50 rounded-xl p-4 mb-6">
-                <p className="text-xs font-medium uppercase tracking-wider text-amber-700 mb-2">
-                  Before you commit
+        {/* Detailed sections — collapsed by default */}
+        <Accordion type="multiple" className="mb-6">
+          {role.short_description && (
+            <AccordionItem value="about">
+              <AccordionTrigger className="text-sm font-medium text-gray-900">
+                What this job is really like
+              </AccordionTrigger>
+              <AccordionContent>
+                <p className="text-sm text-gray-600 leading-relaxed whitespace-pre-line">
+                  {role.short_description}
                 </p>
-                <p className="text-sm text-amber-900 leading-relaxed m-0 whitespace-pre-line">
-                  {role.reality_check}
-                </p>
-              </div>
-            )}
-          </>
-        )}
+              </AccordionContent>
+            </AccordionItem>
+          )}
 
-        {hasSalary && (
-          <>
-            <Divider />
-
-            {/* Salary */}
-            <SectionLabel>Salary</SectionLabel>
-            <div className="grid grid-cols-3 gap-2 mb-2">
-              <div className="bg-gray-50 rounded-lg p-3">
-                <p className="text-xs text-gray-400 mb-1">Entry</p>
-                <p className="text-base font-medium text-gray-900">{fmtSalary(role.salary_entry)}</p>
-              </div>
-              <div className="bg-gray-50 rounded-lg p-3">
-                <p className="text-xs text-gray-400 mb-1">Experienced</p>
-                <p className="text-base font-medium text-gray-900">{fmtSalary(role.salary_experienced)}</p>
-              </div>
-              <div className="bg-gray-50 rounded-lg p-3">
-                <p className="text-xs text-gray-400 mb-1">Senior / Lead</p>
-                <p className="text-base font-medium text-gray-900">
-                  {role.salary_senior ? `${fmtK(role.salary_senior)}+` : "—"}
-                </p>
-              </div>
-            </div>
-            {(role.salary_source || role.demand_source) && (
-              <p className="text-xs text-gray-400 mb-6">
-                {role.salary_source && <>Source: {role.salary_source}</>}
-                {role.salary_source && role.demand_source && " · "}
-                {role.demand_source && <>Demand: {role.demand_source}</>}
-              </p>
-            )}
-          </>
-        )}
-
-        {role.opportunity_cost && (
-          <>
-            <SectionLabel>Opportunity cost</SectionLabel>
-            <div className="border border-gray-200 rounded-xl p-4 mb-6">
-              <p className="text-sm text-gray-600 leading-relaxed m-0 whitespace-pre-line">
-                {role.opportunity_cost}
-              </p>
-            </div>
-          </>
-        )}
-
-        {successRoutes.length > 0 && (
-          <>
-            <SectionLabel>What successful people actually did</SectionLabel>
-            <div className="border border-gray-200 rounded-xl p-4 mb-6">
-              <div className="space-y-2">
-                {successRoutes.map((r, i) => (
-                  <div key={i} className="flex gap-3 items-start">
-                    <span className="flex-shrink-0 text-xs font-medium text-gray-400 mt-0.5">
-                      Route {i + 1}
-                    </span>
-                    <p className="text-sm text-gray-700 font-medium m-0">{r}</p>
+          {hasSalary && (
+            <AccordionItem value="salary">
+              <AccordionTrigger className="text-sm font-medium text-gray-900">
+                Salary and progression
+                {salaryChip && <span className="ml-2 text-xs text-gray-500 font-normal">{salaryChip}</span>}
+              </AccordionTrigger>
+              <AccordionContent>
+                <div className="grid grid-cols-3 gap-2 mb-2">
+                  <div className="bg-gray-50 rounded-lg p-3">
+                    <p className="text-xs text-gray-400 mb-1">Entry</p>
+                    <p className="text-base font-medium text-gray-900">{fmtSalary(role.salary_entry)}</p>
                   </div>
-                ))}
-              </div>
-            </div>
-          </>
-        )}
+                  <div className="bg-gray-50 rounded-lg p-3">
+                    <p className="text-xs text-gray-400 mb-1">Experienced</p>
+                    <p className="text-base font-medium text-gray-900">{fmtSalary(role.salary_experienced)}</p>
+                  </div>
+                  <div className="bg-gray-50 rounded-lg p-3">
+                    <p className="text-xs text-gray-400 mb-1">Senior / Lead</p>
+                    <p className="text-base font-medium text-gray-900">
+                      {role.salary_senior ? `${fmtK(role.salary_senior)}+` : "—"}
+                    </p>
+                  </div>
+                </div>
+                {(role.salary_source || role.demand_source) && (
+                  <p className="text-xs text-gray-400">
+                    {role.salary_source && <>Source: {role.salary_source}</>}
+                    {role.salary_source && role.demand_source && " · "}
+                    {role.demand_source && <>Demand: {role.demand_source}</>}
+                  </p>
+                )}
+              </AccordionContent>
+            </AccordionItem>
+          )}
 
-        {/* Old personalisation CTA removed — Reality-check module is now the primary personalisation funnel. */}
-
-        {Object.keys(grouped).length > 0 && (
-          <>
-            <SectionLabel>Relevant providers</SectionLabel>
-            <p className="text-xs text-gray-400 mb-4">Organised by route type — not ranked, not by payment.</p>
-            <div className="mb-6 space-y-4">
-              {Object.entries(grouped).map(([type, items]) => (
-                <div key={type}>
-                  <p className="text-xs font-medium text-gray-500 mb-2">{groupLabels[type] || type}</p>
-                  <div className="space-y-2">
-                    {items.map((p) => {
-                      const href = p.apply_url || p.website;
-                      const outcome = p.publishes_outcomes && p.publishes_note
-                        ? `Publishes: ${p.publishes_note}`
-                        : "Outcomes not published — ask before enrolling.";
-                      return (
-                        <div key={p.id} className="border border-gray-200 rounded-lg p-3 bg-white">
-                          <div className="flex items-start justify-between gap-3">
-                            <div>
-                              <p className="text-sm font-medium text-gray-800">{p.name}</p>
-                              {p.who_its_for && <p className="text-xs text-gray-500">{p.who_its_for}</p>}
-                              <p className="text-xs text-gray-400 mt-0.5">{outcome}</p>
-                            </div>
-                            {href && (
-                              <a
-                                href={href}
-                                target="_blank"
-                                rel="noreferrer"
-                                onClick={() => trackEvent("provider_link_clicked", { role: role.role_name, provider: p.name })}
-                                className="text-xs text-primary whitespace-nowrap flex-shrink-0 mt-1"
-                              >
-                                Visit website →
-                              </a>
-                            )}
-                          </div>
-                          {p.lead_capture_enabled && (
-                            <button
-                              type="button"
-                              className="mt-3 text-xs font-medium px-3 py-1.5 rounded-md border border-gray-300 bg-white text-gray-700 hover:bg-gray-50"
-                            >
-                              Request Information
-                            </button>
-                          )}
+          {availablePathways.length > 0 && (
+            <AccordionItem value="routes">
+              <AccordionTrigger className="text-sm font-medium text-gray-900">
+                Routes by starting point
+              </AccordionTrigger>
+              <AccordionContent>
+                <div className="grid grid-cols-2 gap-2 mb-4 sm:grid-cols-4">
+                  {pathwayMeta.map((p) => {
+                    const has = !!pathwayContent[p.key];
+                    const isActive = activePathway === p.key;
+                    return (
+                      <button
+                        key={p.key}
+                        onClick={() => {
+                          if (!has) return;
+                          setActivePathway(p.key);
+                          trackEvent("pathway_card_clicked", { role: role.role_name, pathway: p.key });
+                        }}
+                        disabled={!has}
+                        className={`text-left p-3 rounded-xl border transition-all ${
+                          isActive
+                            ? "border-primary border-2 bg-primary/5"
+                            : "border-gray-200 bg-white hover:bg-gray-50"
+                        } ${!has ? "opacity-40 cursor-not-allowed" : ""}`}
+                      >
+                        <span className="text-lg block mb-1">{p.emoji}</span>
+                        <span className={`text-xs font-medium leading-tight block ${
+                          isActive ? "text-primary" : "text-gray-700"
+                        }`}>
+                          {p.label}
+                        </span>
+                      </button>
+                    );
+                  })}
+                </div>
+                {activeMeta && activeText && (
+                  <div className="border border-gray-200 rounded-xl p-4 bg-white">
+                    <h3 className="text-sm font-medium text-gray-900 mb-2">{activeMeta.label}</h3>
+                    <div className="text-sm text-gray-600 leading-relaxed whitespace-pre-line">
+                      {activeText}
+                    </div>
+                  </div>
+                )}
+                {successRoutes.length > 0 && (
+                  <div className="mt-4 border border-gray-200 rounded-xl p-4">
+                    <p className="text-xs font-medium text-gray-500 mb-2">What successful people actually did</p>
+                    <div className="space-y-2">
+                      {successRoutes.map((r, i) => (
+                        <div key={i} className="flex gap-3 items-start">
+                          <span className="flex-shrink-0 text-xs font-medium text-gray-400 mt-0.5">
+                            Route {i + 1}
+                          </span>
+                          <p className="text-sm text-gray-700 font-medium m-0">{r}</p>
                         </div>
-                      );
-                    })}
+                      ))}
+                    </div>
                   </div>
-                </div>
-              ))}
-            </div>
-          </>
-        )}
+                )}
+              </AccordionContent>
+            </AccordionItem>
+          )}
 
-        {role.uncomfortable_truth && (
-          <>
-            <Divider />
-            <div className="border-l-[3px] border-[#b91c1c] bg-[#fbf3f3] rounded-r-lg px-5 py-4 mb-6">
-              <p className="text-[11px] font-semibold uppercase tracking-wider text-[#b91c1c] mb-2">
+          {(role.uncomfortable_truth || role.opportunity_cost || role.who_not_for || role.career_regret_risk) && (
+            <AccordionItem value="truth">
+              <AccordionTrigger className="text-sm font-medium text-gray-900">
                 The uncomfortable truth
-              </p>
-              <p className="text-sm text-gray-800 leading-relaxed m-0 whitespace-pre-line">
-                {role.uncomfortable_truth}
-              </p>
-            </div>
-          </>
-        )}
+              </AccordionTrigger>
+              <AccordionContent>
+                <div className="space-y-4">
+                  {role.uncomfortable_truth && (
+                    <div className="border-l-[3px] border-[#b91c1c] bg-[#fbf3f3] rounded-r-lg px-4 py-3">
+                      <p className="text-sm text-gray-800 leading-relaxed m-0 whitespace-pre-line">
+                        {role.uncomfortable_truth}
+                      </p>
+                    </div>
+                  )}
+                  {role.opportunity_cost && (
+                    <div>
+                      <p className="text-xs font-medium text-gray-500 mb-1">Opportunity cost</p>
+                      <p className="text-sm text-gray-600 leading-relaxed whitespace-pre-line m-0">
+                        {role.opportunity_cost}
+                      </p>
+                    </div>
+                  )}
+                  {role.who_not_for && (
+                    <div>
+                      <p className="text-xs font-medium text-gray-500 mb-1">Probably not a good fit if</p>
+                      <p className="text-sm text-gray-600 leading-relaxed whitespace-pre-line m-0">
+                        {role.who_not_for}
+                      </p>
+                    </div>
+                  )}
+                  {role.career_regret_risk && (
+                    <div>
+                      <p className="text-xs font-medium text-gray-500 mb-1">Why people leave</p>
+                      <p className="text-sm text-gray-600 leading-relaxed whitespace-pre-line m-0">
+                        {role.career_regret_risk}
+                      </p>
+                    </div>
+                  )}
+                </div>
+              </AccordionContent>
+            </AccordionItem>
+          )}
 
-        {(role.who_not_for || role.career_regret_risk) && (
-          <>
-            <SectionLabel>Is this right for you?</SectionLabel>
-            <div className="border border-gray-200 rounded-xl p-4 mb-6">
-              {role.who_not_for && (
-                <>
-                  <p className="text-xs font-medium text-gray-400 mb-2">Probably not a good fit if</p>
-                  <p className="text-sm text-gray-600 leading-relaxed mb-0 whitespace-pre-line">
-                    {role.who_not_for}
-                  </p>
-                </>
-              )}
-              {role.who_not_for && role.career_regret_risk && (
-                <hr className="border-gray-100 my-3" />
-              )}
-              {role.career_regret_risk && (
-                <>
-                  <p className="text-xs font-medium text-gray-400 mb-2">Why people leave</p>
-                  <p className="text-sm text-gray-600 leading-relaxed m-0 whitespace-pre-line">
-                    {role.career_regret_risk}
-                  </p>
-                </>
-              )}
-            </div>
-          </>
-        )}
+          {Object.keys(grouped).length > 0 && (
+            <AccordionItem value="providers">
+              <AccordionTrigger className="text-sm font-medium text-gray-900">
+                Training and providers
+              </AccordionTrigger>
+              <AccordionContent>
+                <p className="text-xs text-gray-400 mb-3">Organised by route type — not ranked, not by payment.</p>
+                <div className="space-y-4">
+                  {Object.entries(grouped).map(([type, items]) => (
+                    <div key={type}>
+                      <p className="text-xs font-medium text-gray-500 mb-2">{groupLabels[type] || type}</p>
+                      <div className="space-y-2">
+                        {items.map((p) => {
+                          const href = p.apply_url || p.website;
+                          const outcome = p.publishes_outcomes && p.publishes_note
+                            ? `Publishes: ${p.publishes_note}`
+                            : "Outcomes not published — ask before enrolling.";
+                          return (
+                            <div key={p.id} className="border border-gray-200 rounded-lg p-3 bg-white">
+                              <div className="flex items-start justify-between gap-3">
+                                <div>
+                                  <p className="text-sm font-medium text-gray-800">{p.name}</p>
+                                  {p.who_its_for && <p className="text-xs text-gray-500">{p.who_its_for}</p>}
+                                  <p className="text-xs text-gray-400 mt-0.5">{outcome}</p>
+                                </div>
+                                {href && (
+                                  <a
+                                    href={href}
+                                    target="_blank"
+                                    rel="noreferrer"
+                                    onClick={() => trackEvent("provider_link_clicked", { role: role.role_name, provider: p.name })}
+                                    className="text-xs text-primary whitespace-nowrap flex-shrink-0 mt-1"
+                                  >
+                                    Visit website →
+                                  </a>
+                                )}
+                              </div>
+                            </div>
+                          );
+                        })}
+                      </div>
+                    </div>
+                  ))}
+                </div>
+              </AccordionContent>
+            </AccordionItem>
+          )}
 
-        {altCareers.length > 0 && (
-          <>
-            <SectionLabel>If this isn't right for you</SectionLabel>
-            <div className="border border-gray-200 rounded-xl p-4 mb-6">
-              <p className="text-sm text-gray-500 mb-3">You may also want to explore:</p>
-              <div className="flex flex-wrap gap-2">
-                {altCareers.map((c) => (
-                  <Link
-                    key={c.slug}
-                    to={`/role/${c.slug}`}
-                    className="text-sm px-3 py-1.5 bg-white border border-gray-200 rounded-full text-gray-700 hover:border-primary/30 hover:text-primary transition-colors"
-                  >
-                    {c.name} →
-                  </Link>
-                ))}
-              </div>
-            </div>
-          </>
-        )}
-
-        {hasEmployers && (
-          <>
-            <SectionLabel>Key employers</SectionLabel>
-            <div className="flex flex-wrap gap-2 mb-6">
-              {role.key_employers!.map((e) => (
-                <span
-                  key={e}
-                  className="text-xs px-3 py-1 bg-gray-100 text-gray-600 rounded-full border border-gray-200"
-                >
-                  {e}
-                </span>
-              ))}
-            </div>
-          </>
-        )}
+          {(altCareers.length > 0 || hasEmployers) && (
+            <AccordionItem value="similar">
+              <AccordionTrigger className="text-sm font-medium text-gray-900">
+                Similar roles and employers
+              </AccordionTrigger>
+              <AccordionContent>
+                {altCareers.length > 0 && (
+                  <div className="mb-4">
+                    <p className="text-xs font-medium text-gray-500 mb-2">You may also want to explore</p>
+                    <div className="flex flex-wrap gap-2">
+                      {altCareers.map((c) => (
+                        <Link
+                          key={c.slug}
+                          to={`/role/${c.slug}`}
+                          className="text-sm px-3 py-1.5 bg-white border border-gray-200 rounded-full text-gray-700 hover:border-primary/30 hover:text-primary transition-colors"
+                        >
+                          {c.name} →
+                        </Link>
+                      ))}
+                    </div>
+                  </div>
+                )}
+                {hasEmployers && (
+                  <div>
+                    <p className="text-xs font-medium text-gray-500 mb-2">Key employers</p>
+                    <div className="flex flex-wrap gap-2">
+                      {role.key_employers!.map((e) => (
+                        <span
+                          key={e}
+                          className="text-xs px-3 py-1 bg-gray-100 text-gray-600 rounded-full border border-gray-200"
+                        >
+                          {e}
+                        </span>
+                      ))}
+                    </div>
+                  </div>
+                )}
+              </AccordionContent>
+            </AccordionItem>
+          )}
+        </Accordion>
 
         {role.next_step && (
           <div className="bg-gray-900 rounded-xl p-5">
@@ -690,6 +699,7 @@ const RolePage = () => {
           </div>
         )}
       </main>
+
 
       <Footer />
     </div>
