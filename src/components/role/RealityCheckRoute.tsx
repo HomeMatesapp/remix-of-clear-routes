@@ -69,7 +69,7 @@ function ChipGroup<T extends string>({
   disabled?: boolean;
 }) {
   return (
-    <div className="flex flex-wrap gap-1.5">
+    <div className="flex flex-wrap gap-1">
       {options.map((o) => {
         const active = o.value === value;
         return (
@@ -78,7 +78,7 @@ function ChipGroup<T extends string>({
             type="button"
             disabled={disabled}
             onClick={() => onChange(o.value)}
-            className={`text-xs px-3 py-1.5 rounded-full border transition-colors ${
+            className={`text-xs px-2.5 py-1 rounded-full border transition-colors ${
               active
                 ? "border-amber-300 bg-amber-300 text-gray-900"
                 : "border-gray-600 bg-gray-700/50 text-gray-200 hover:bg-gray-700"
@@ -187,19 +187,19 @@ export const RealityCheckRoute = ({ role }: { role: RoleContext }) => {
   return (
     <section
       aria-label="Reality-check this route"
-      className="relative rounded-2xl border-2 border-gray-900 bg-gradient-to-br from-gray-900 to-gray-800 p-5 sm:p-6 mb-8 text-white shadow-lg"
+      className="relative rounded-2xl border border-gray-900 bg-gradient-to-br from-gray-900 to-gray-800 p-4 sm:p-5 mb-6 text-white shadow-md"
     >
       <div className="flex items-center gap-2 mb-1">
-        <Sparkles className="h-4 w-4 text-amber-300" />
+        <Sparkles className="h-3.5 w-3.5 text-amber-300" />
         <p className="text-[11px] font-semibold uppercase tracking-wider text-amber-300">
           Reality-check this route
         </p>
       </div>
-      <h2 className="text-lg sm:text-xl font-medium mb-1">
-        What's the most realistic route into {role.role_name} for you?
+      <h2 className="text-base sm:text-lg font-medium mb-1">
+        Is {role.role_name} realistic for you?
       </h2>
-      <p className="text-sm text-gray-300 mb-4">
-        Answer a few quick questions. We'll show the route with the best odds, a backup, and the option to be careful with.
+      <p className="text-xs text-gray-300 mb-3">
+        Answer a few quick questions. We'll show the route with the best odds — plus a backup, and one to avoid.
       </p>
 
       {!result && prefilled && (
@@ -218,7 +218,7 @@ export const RealityCheckRoute = ({ role }: { role: RoleContext }) => {
 
       {!result && (
         <>
-          <div className="grid grid-cols-1 sm:grid-cols-2 gap-x-5 gap-y-3">
+          <div className="grid grid-cols-1 sm:grid-cols-2 gap-x-5 gap-y-2.5">
             <Field label="1. Starting point">
               <ChipGroup
                 options={STARTING_POINTS}
