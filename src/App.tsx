@@ -11,6 +11,7 @@ import SearchResults from "./pages/SearchResults";
 import ProviderPage from "./pages/ProviderPage";
 import Personalise from "./pages/Personalise";
 import Profile from "./pages/Profile";
+import MyDecisions from "./pages/MyDecisions";
 import HowItWorks from "./pages/HowItWorks";
 import Support from "./pages/Support";
 import Sources from "./pages/Sources";
