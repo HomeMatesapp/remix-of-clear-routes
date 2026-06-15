@@ -102,11 +102,41 @@ function Field({ label, children }: { label: string; children: React.ReactNode }
 }
 
 export const RealityCheckRoute = ({ role }: { role: RoleContext }) => {
+  const { user } = useAuth();
   const [answers, setAnswers] = useState<RealityCheckAnswers>(emptyAnswers);
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
   const [result, setResult] = useState<RealityCheckResult | null>(null);
   const [notesOpen, setNotesOpen] = useState(false);
+  const [initialProfile, setInitialProfile] = useState<DecisionProfileFields | null>(null);
+  const [prefilled, setPrefilled] = useState(false);
+
+  // Prefill from the user's saved Decision Profile when logged in.
+  useEffect(() => {
+    if (!user) {
+      setInitialProfile(null);
+      setPrefilled(false);
+      return;
+    }
+    let cancelled = false;
+    (async () => {
+      const { data } = await supabase
+        .from("decision_profiles")
+        .select("area, starting_point, need_to_earn, weekly_hours, budget_band, commute_flexibility")
+        .eq("user_id", user.id)
+        .maybeSingle();
+      if (cancelled) return;
+      if (data && hasAnyProfileField(data as DecisionProfileFields)) {
+        const p = data as DecisionProfileFields;
+        setInitialProfile(p);
+        setAnswers((a) => profileToAnswers(p, a));
+        setPrefilled(true);
+      }
+    })();
+    return () => {
+      cancelled = true;
+    };
+  }, [user?.id]);
 
   // Required fields: starting point, income need, budget, area.
   const missing: string[] = [];
