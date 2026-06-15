@@ -247,14 +247,15 @@ const Personalise = () => {
         {step.kind === "intro" && (
           <div className="text-center py-8">
             <h1 className="font-display text-3xl sm:text-4xl font-medium text-foreground">
-              Get advice based on your situation.
+              Build your Decision Profile.
             </h1>
             <p className="mt-4 text-muted-foreground text-lg max-w-lg mx-auto">
-              We'll show routes, funding and support that may be relevant to where you're starting from.
+              A few short questions so every Reality-check reuses your situation — your hours, qualifications, and any
+              support you might be relevant for.
             </p>
             <div className="mt-10 flex flex-col gap-3 max-w-sm mx-auto">
               <Button size="lg" onClick={advance}>
-                Start personalising
+                Start
               </Button>
               <Button variant="ghost" onClick={skipAll}>
                 Skip for now
