@@ -17,6 +17,13 @@ type Answers = {
   area: string;
   commuteFlex: string | null;
   notes: string;
+  // Optional qualifications & study readiness layer (may be absent on
+  // older saved decisions; treat missing as "(not given)").
+  relevantBackground?: string;
+  englishMaths?: string | null;
+  scienceSubjects?: string | null;
+  qualificationLevel?: string | null;
+  englishComfort?: string | null;
 };
 
 type RoleCtx = {
@@ -83,16 +90,52 @@ const COMMUTE_FLEX_LABELS: Record<string, string> = {
   can_relocate: "can relocate",
   remote_only:  "remote or online only",
 };
+const ENGLISH_MATHS_LABELS: Record<string, string> = {
+  both:          "has GCSE English and maths (or equivalent)",
+  english_only:  "has GCSE English only",
+  maths_only:    "has GCSE maths only",
+  no:            "does not have GCSE English or maths",
+  not_sure:      "not sure about GCSE English and maths",
+  international: "has an international equivalent for English and maths",
+};
+const SCIENCE_SUBJECTS_LABELS: Record<string, string> = {
+  yes:           "has science or role-related subjects",
+  some:          "has some related subjects",
+  no:            "does not have science or role-related subjects",
+  not_sure:      "not sure about science or role-related subjects",
+  international: "has an international equivalent for science/related subjects",
+};
+const QUALIFICATION_LEVEL_LABELS: Record<string, string> = {
+  level_2:       "GCSE / Level 2",
+  level_3:       "A-level / BTEC / T Level / Level 3",
+  access:        "Access course",
+  undergrad:     "undergraduate degree",
+  postgrad:      "postgraduate degree",
+  professional:  "professional qualification",
+  international: "international qualification",
+  none:          "no formal qualifications",
+  not_sure:      "not sure of highest qualification level",
+};
+const ENGLISH_COMFORT_LABELS: Record<string, string> = {
+  yes:              "comfortable studying and working in English",
+  mostly:           "mostly comfortable in English but may need some support",
+  not_sure:         "not sure how comfortable they are studying and working in English",
+  may_need_support: "may need English-language support",
+};
 
-const labelFor = (map: Record<string, string>, v: string | null): string =>
+const labelFor = (map: Record<string, string>, v: string | null | undefined): string =>
   v ? (map[v] ?? "(not given)") : "(not given)";
 
 export const answersToLabels = (a: Answers) => ({
-  startingPoint: labelFor(STARTING_POINT_LABELS, a.startingPoint),
-  incomeNeed:    labelFor(INCOME_NEED_LABELS,    a.incomeNeed),
-  weeklyHours:   labelFor(WEEKLY_HOURS_LABELS,   a.weeklyHours),
-  budget:        labelFor(BUDGET_LABELS,         a.budget),
-  commuteFlex:   labelFor(COMMUTE_FLEX_LABELS,   a.commuteFlex),
+  startingPoint:      labelFor(STARTING_POINT_LABELS,     a.startingPoint),
+  incomeNeed:         labelFor(INCOME_NEED_LABELS,        a.incomeNeed),
+  weeklyHours:        labelFor(WEEKLY_HOURS_LABELS,       a.weeklyHours),
+  budget:             labelFor(BUDGET_LABELS,             a.budget),
+  commuteFlex:        labelFor(COMMUTE_FLEX_LABELS,       a.commuteFlex),
+  englishMaths:       labelFor(ENGLISH_MATHS_LABELS,      a.englishMaths ?? null),
+  scienceSubjects:    labelFor(SCIENCE_SUBJECTS_LABELS,   a.scienceSubjects ?? null),
+  qualificationLevel: labelFor(QUALIFICATION_LEVEL_LABELS, a.qualificationLevel ?? null),
+  englishComfort:     labelFor(ENGLISH_COMFORT_LABELS,    a.englishComfort ?? null),
 });
 
 const fallbackResult = {
@@ -165,7 +208,15 @@ Each must be something the person could do this week. No "research the role", no
 
 NO FLUFF: no "embarking on a journey", no "exciting career", no "passion", no "you've got this". Plain English only.
 
-NEVER echo raw enum values, internal codes, or snake_case identifiers (e.g. "full_time_study", "career_changer", "500_2000", "20_plus") in any user-facing string. The user input is provided to you as human-readable labels — use those labels (or natural English paraphrases of them) in your prose. If you find yourself writing an underscore inside a quoted constraint, rewrite it.
+ENTRY REQUIREMENTS & BRIDGING — use the qualifications/background fields when judging routes:
+- Check whether the user appears to meet likely basic entry requirements before recommending a route.
+- Do NOT treat "Graduate" as enough information on its own. Degree subject and relevant background matter — a psychology graduate with healthcare experience is a different case from a graduate in an unrelated subject with no exposure.
+- If basic qualifications are missing or uncertain (no GCSE English/maths, no science where the role typically needs it, no relevant background), include a bridging step such as checking entry requirements, GCSE/equivalent options, Access courses, functional skills, or English-language support — either in firstMoves or in bestRoute.whyThisFits / mainDifficulty.
+- Do NOT say the user is eligible unless the role data clearly supports it. Use cautious wording: "you may need to check", "this could be a barrier", "a bridging step may be needed".
+- If the user may need English-language support, frame it as a practical requirement to plan around — never as a failure or disqualification.
+- If a relevant-background field is "(not given)" for a graduate or career changer, treat eligibility as uncertain and recommend confirming entry requirements as one of the first moves.
+
+NEVER echo raw enum values, internal codes, or snake_case identifiers (e.g. "full_time_study", "career_changer", "500_2000", "20_plus", "may_need_support") in any user-facing string. The user input is provided to you as human-readable labels — use those labels (or natural English paraphrases of them) in your prose. If you find yourself writing an underscore inside a quoted constraint, rewrite it.
 
 Output STRICT JSON matching this exact shape — no markdown, no commentary:
 {
@@ -224,6 +275,11 @@ ${roleFacts}
 
 What this person told us about themselves:
 - Starting point: ${labels.startingPoint}
+- Relevant background (what they studied or worked in): ${answers.relevantBackground?.trim() || "(not given)"}
+- Highest qualification level: ${labels.qualificationLevel}
+- English & maths basics: ${labels.englishMaths}
+- Science / role-related subjects: ${labels.scienceSubjects}
+- Comfort studying/working in English: ${labels.englishComfort}
 - Need to earn while training: ${labels.incomeNeed}
 - Weekly time available: ${labels.weeklyHours}
 - Budget: ${labels.budget}

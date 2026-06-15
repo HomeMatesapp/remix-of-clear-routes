@@ -17,8 +17,50 @@ export type Budget = "zero" | "under_500" | "500_2000" | "2000_plus";
 
 export type CommuteFlex = "30_min" | "60_min" | "can_relocate" | "remote_only";
 
+// Qualifications & study readiness — added so Reality-check can judge whether
+// a user appears to meet likely basic entry requirements before recommending
+// a route (e.g. GCSE English/maths for healthcare; subject background for STEM).
+export type EnglishMaths =
+  | "both"
+  | "english_only"
+  | "maths_only"
+  | "no"
+  | "not_sure"
+  | "international";
+
+export type ScienceSubjects =
+  | "yes"
+  | "some"
+  | "no"
+  | "not_sure"
+  | "international";
+
+export type QualificationLevel =
+  | "level_2"
+  | "level_3"
+  | "access"
+  | "undergrad"
+  | "postgrad"
+  | "professional"
+  | "international"
+  | "none"
+  | "not_sure";
+
+export type EnglishComfort =
+  | "yes"
+  | "mostly"
+  | "not_sure"
+  | "may_need_support";
+
 export interface RealityCheckAnswers {
   startingPoint: StartingPoint | null;
+  // Qualifications & background
+  relevantBackground: string;
+  englishMaths: EnglishMaths | null;
+  scienceSubjects: ScienceSubjects | null;
+  qualificationLevel: QualificationLevel | null;
+  englishComfort: EnglishComfort | null;
+  // Situation
   incomeNeed: IncomeNeed | null;
   weeklyHours: WeeklyHours | null;
   budget: Budget | null;
@@ -60,6 +102,42 @@ export const COMMUTE_FLEX: { value: CommuteFlex; label: string }[] = [
   { value: "60_min",       label: "60 minutes" },
   { value: "can_relocate", label: "Can relocate" },
   { value: "remote_only",  label: "Remote / online only" },
+];
+
+export const ENGLISH_MATHS: { value: EnglishMaths; label: string }[] = [
+  { value: "both",          label: "Yes — English and maths" },
+  { value: "english_only",  label: "English only" },
+  { value: "maths_only",    label: "Maths only" },
+  { value: "no",            label: "No" },
+  { value: "not_sure",      label: "Not sure" },
+  { value: "international", label: "International equivalent" },
+];
+
+export const SCIENCE_SUBJECTS: { value: ScienceSubjects; label: string }[] = [
+  { value: "yes",           label: "Yes — science / related subjects" },
+  { value: "some",          label: "Some related subjects" },
+  { value: "no",            label: "No" },
+  { value: "not_sure",      label: "Not sure" },
+  { value: "international", label: "International equivalent" },
+];
+
+export const QUALIFICATION_LEVELS: { value: QualificationLevel; label: string }[] = [
+  { value: "level_2",       label: "GCSE / Level 2" },
+  { value: "level_3",       label: "A-level / BTEC / T Level / Level 3" },
+  { value: "access",        label: "Access course" },
+  { value: "undergrad",     label: "Undergraduate degree" },
+  { value: "postgrad",      label: "Postgraduate degree" },
+  { value: "professional",  label: "Professional qualification" },
+  { value: "international", label: "International qualification" },
+  { value: "none",          label: "No formal qualifications" },
+  { value: "not_sure",      label: "Not sure" },
+];
+
+export const ENGLISH_COMFORT: { value: EnglishComfort; label: string }[] = [
+  { value: "yes",              label: "Yes" },
+  { value: "mostly",           label: "Mostly, but I may need support" },
+  { value: "not_sure",         label: "Not sure" },
+  { value: "may_need_support", label: "I may need English-language support" },
 ];
 
 export type OverallVerdict =

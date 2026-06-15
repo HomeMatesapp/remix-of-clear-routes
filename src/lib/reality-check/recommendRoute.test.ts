@@ -10,6 +10,11 @@ const base: RealityCheckAnswers = {
   area: "",
   commuteFlex: null,
   notes: "",
+  relevantBackground: "",
+  englishMaths: null,
+  scienceSubjects: null,
+  qualificationLevel: null,
+  englishComfort: null,
 };
 
 describe("preferredPathway", () => {

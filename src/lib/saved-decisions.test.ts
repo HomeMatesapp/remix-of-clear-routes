@@ -40,6 +40,11 @@ const answers: RealityCheckAnswers = {
   area: "Manchester",
   commuteFlex: "60_min",
   notes: "",
+  relevantBackground: "psychology degree, healthcare assistant",
+  englishMaths: "both",
+  scienceSubjects: "yes",
+  qualificationLevel: "undergrad",
+  englishComfort: "yes",
 };
 
 const result = {
@@ -58,11 +63,16 @@ beforeEach(() => {
 });
 
 describe("pending decision: stash / read / clear", () => {
-  it("stashes and reads back", () => {
+  it("stashes and reads back, preserving qualifications and background", () => {
     stashPendingDecision(role, answers, result);
     const p = readPendingDecision();
     expect(p?.role.role_slug).toBe("registered-nurse");
     expect(p?.answers.area).toBe("Manchester");
+    expect(p?.answers.relevantBackground).toBe("psychology degree, healthcare assistant");
+    expect(p?.answers.englishMaths).toBe("both");
+    expect(p?.answers.scienceSubjects).toBe("yes");
+    expect(p?.answers.qualificationLevel).toBe("undergrad");
+    expect(p?.answers.englishComfort).toBe("yes");
   });
 
   it("clears pending decision", () => {

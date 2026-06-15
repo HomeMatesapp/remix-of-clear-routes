@@ -10,7 +10,11 @@ import { SupportMatches } from "@/components/role/SupportMatches";
 import {
   BUDGETS,
   COMMUTE_FLEX,
+  ENGLISH_COMFORT,
+  ENGLISH_MATHS,
   INCOME_NEEDS,
+  QUALIFICATION_LEVELS,
+  SCIENCE_SUBJECTS,
   STARTING_POINTS,
   WEEKLY_HOURS,
   type RealityCheckAnswers,
@@ -27,6 +31,11 @@ const answerChips = (a: RealityCheckAnswers): string[] => {
   const chips: string[] = [];
   const sp = labelFor(STARTING_POINTS, a.startingPoint);
   if (sp) chips.push(sp);
+  if (a.relevantBackground.trim()) chips.push(a.relevantBackground.trim());
+  const ql = labelFor(QUALIFICATION_LEVELS, a.qualificationLevel);
+  if (ql) chips.push(ql);
+  const em = labelFor(ENGLISH_MATHS, a.englishMaths);
+  if (em) chips.push(`English/maths: ${em}`);
   const inc = labelFor(INCOME_NEEDS, a.incomeNeed);
   if (inc) chips.push(inc);
   const b = labelFor(BUDGETS, a.budget);
@@ -76,7 +85,19 @@ const emptyAnswers: RealityCheckAnswers = {
   area: "",
   commuteFlex: null,
   notes: "",
+  relevantBackground: "",
+  englishMaths: null,
+  scienceSubjects: null,
+  qualificationLevel: null,
+  englishComfort: null,
 };
+
+// Starting points where Relevant background is required (vs optional).
+const BACKGROUND_REQUIRED_FOR: Array<RealityCheckAnswers["startingPoint"]> = [
+  "graduate",
+  "career_changer",
+  "adjacent",
+];
 
 // Small reusable chip selector (kept inline — it's only used here)
 function ChipGroup<T extends string>({
@@ -114,11 +135,23 @@ function ChipGroup<T extends string>({
   );
 }
 
-function Field({ label, children }: { label: string; children: React.ReactNode }) {
+function Field({
+  label,
+  helper,
+  error,
+  children,
+}: {
+  label: string;
+  helper?: string;
+  error?: string | null;
+  children: React.ReactNode;
+}) {
   return (
     <div>
-      <label className="block text-xs font-medium text-gray-300 mb-1.5">{label}</label>
+      <label className="block text-xs font-medium text-gray-300 mb-1">{label}</label>
+      {helper && <p className="text-[10px] text-gray-500 mb-1.5 leading-snug">{helper}</p>}
       {children}
+      {error && <p className="text-[10px] text-rose-300 mt-1">{error}</p>}
     </div>
   );
 }
@@ -177,13 +210,18 @@ export const RealityCheckRoute = ({
     }
   }, [result]);
 
-  // Required fields: starting point, income need, budget, area.
+  // Required fields. Relevant background is required when the starting point
+  // implies the user has prior study or work to describe.
+  const backgroundRequired = !!answers.startingPoint && BACKGROUND_REQUIRED_FOR.includes(answers.startingPoint);
+  const backgroundMissing = backgroundRequired && answers.relevantBackground.trim().length < 3;
   const missing: string[] = [];
   if (!answers.startingPoint) missing.push("starting point");
+  if (backgroundMissing)      missing.push("relevant background");
   if (!answers.incomeNeed)    missing.push("earning need");
   if (!answers.budget)        missing.push("budget");
   if (!answers.area.trim())   missing.push("area");
   const canSubmit = missing.length === 0;
+
 
   const submit = async () => {
     if (!canSubmit || loading) return;
@@ -321,6 +359,79 @@ export const RealityCheckRoute = ({
             </Field>
           </div>
 
+          {/* Qualifications and background */}
+          <div className="mt-3 rounded-lg border border-gray-700/40 bg-gray-800/30 p-2.5">
+            <p className="text-[10px] font-semibold uppercase tracking-wider text-gray-500 mb-1">
+              Qualifications and background
+            </p>
+            <p className="text-[10px] text-gray-500 mb-2 leading-snug">
+              Routes can depend on your subjects, qualifications, and English/study readiness.
+            </p>
+
+            <Field
+              label={`Relevant background${backgroundRequired ? "" : " (optional)"}`}
+              helper="What have you studied or worked in?"
+              error={backgroundMissing ? "Add a little more detail about what you studied or worked in." : null}
+            >
+              <input
+                type="text"
+                value={answers.relevantBackground}
+                onChange={(e) => setAnswers((a) => ({ ...a, relevantBackground: e.target.value }))}
+                placeholder="e.g. psychology degree, retail manager, healthcare assistant, biology A-level, no healthcare experience"
+                disabled={loading}
+                className="w-full rounded-lg bg-gray-700/60 border border-gray-600 px-2.5 py-1 text-sm text-white placeholder:text-gray-400 focus:outline-none focus:ring-1 focus:ring-amber-300/60"
+              />
+            </Field>
+
+            <div className="grid grid-cols-1 sm:grid-cols-2 gap-x-4 gap-y-2 mt-2">
+              <Field
+                label="Do you have GCSE English and maths, or equivalent?"
+                helper="Many routes ask for English and maths or an equivalent qualification."
+              >
+                <ChipGroup
+                  options={ENGLISH_MATHS}
+                  value={answers.englishMaths}
+                  onChange={(v) => setAnswers((a) => ({ ...a, englishMaths: v }))}
+                  disabled={loading}
+                />
+              </Field>
+
+              <Field
+                label="Do you have science or role-related subjects?"
+                helper="For some routes, subjects like science, health, maths, or technology can affect your options."
+              >
+                <ChipGroup
+                  options={SCIENCE_SUBJECTS}
+                  value={answers.scienceSubjects}
+                  onChange={(v) => setAnswers((a) => ({ ...a, scienceSubjects: v }))}
+                  disabled={loading}
+                />
+              </Field>
+
+              <Field label="Highest qualification level">
+                <ChipGroup
+                  options={QUALIFICATION_LEVELS}
+                  value={answers.qualificationLevel}
+                  onChange={(v) => setAnswers((a) => ({ ...a, qualificationLevel: v }))}
+                  disabled={loading}
+                />
+              </Field>
+
+              <Field
+                label="Are you comfortable studying and working in English?"
+                helper="Some routes involve written assignments, interviews, placements, or professional communication."
+              >
+                <ChipGroup
+                  options={ENGLISH_COMFORT}
+                  value={answers.englishComfort}
+                  onChange={(v) => setAnswers((a) => ({ ...a, englishComfort: v }))}
+                  disabled={loading}
+                />
+              </Field>
+            </div>
+          </div>
+
+
           {/* CTA sits close to primary fields */}
           <div className="mt-2.5 flex flex-wrap items-center gap-2.5">
             <button
@@ -335,7 +446,7 @@ export const RealityCheckRoute = ({
             <p className="text-[11px] text-gray-500">
               {canSubmit
                 ? "Takes ~10s. No sign-up."
-                : "Fill all 4 fields above."}
+                : `Add: ${missing.join(", ")}.`}
             </p>
           </div>
 
