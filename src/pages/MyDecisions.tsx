@@ -1,7 +1,19 @@
-import { useEffect, useState } from "react";
+import { useEffect, useMemo, useState } from "react";
 import { Helmet } from "react-helmet-async";
 import { Link, useNavigate } from "react-router-dom";
-import { ArrowRight, BookmarkPlus, Compass, AlertOctagon, MapPin, ListChecks, Trash2, Loader2 } from "lucide-react";
+import {
+  ArrowRight,
+  BookmarkPlus,
+  Compass,
+  AlertOctagon,
+  MapPin,
+  ListChecks,
+  Trash2,
+  Loader2,
+  RefreshCcw,
+  Target,
+  CheckCircle2,
+} from "lucide-react";
 import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
 import { Button } from "@/components/ui/button";
@@ -44,8 +56,34 @@ const emptyProfile: DecisionProfileRow = {
   commute_flexibility: "",
 };
 
+const PROFILE_FIELDS: (keyof DecisionProfileRow)[] = [
+  "area",
+  "starting_point",
+  "highest_qualification",
+  "need_to_earn",
+  "weekly_hours",
+  "budget_band",
+  "commute_flexibility",
+];
+
 const formatDate = (iso: string) =>
   new Date(iso).toLocaleDateString(undefined, { day: "numeric", month: "short", year: "numeric" });
+
+const verdictTone = (v: string | null): string => {
+  if (!v) return "border-border bg-muted text-foreground";
+  const s = v.toLowerCase();
+  if (s.includes("not for you")) return "border-rose-200 bg-rose-50 text-rose-800";
+  if (s.includes("long shot")) return "border-amber-200 bg-amber-50 text-amber-800";
+  if (s.includes("hard")) return "border-amber-200 bg-amber-50 text-amber-800";
+  if (s.includes("realistic")) return "border-emerald-200 bg-emerald-50 text-emerald-800";
+  return "border-border bg-muted text-foreground";
+};
+
+const isRealistic = (v: string | null): boolean => {
+  if (!v) return false;
+  const s = v.toLowerCase();
+  return s.includes("realistic");
+};
 
 const MyDecisions = () => {
   const navigate = useNavigate();
@@ -65,7 +103,6 @@ const MyDecisions = () => {
 
     (async () => {
       setLoading(true);
-      // Flush any pending decision the user stashed before signing up
       const flushed = await flushPendingDecision(user.id);
       if (flushed) {
         toast({
@@ -77,20 +114,22 @@ const MyDecisions = () => {
       const [{ data: dRows }, { data: pRow }] = await Promise.all([
         supabase
           .from("saved_decisions")
-          .select("id, role_id, role_slug, role_name, overall_verdict, best_route_title, backup_route_title, route_to_avoid_title, local_realism_rating, first_move, created_at")
+          .select(
+            "id, role_id, role_slug, role_name, overall_verdict, best_route_title, backup_route_title, route_to_avoid_title, local_realism_rating, first_move, created_at",
+          )
           .eq("user_id", user.id)
           .order("created_at", { ascending: false }),
         supabase
           .from("decision_profiles")
-          .select("area, starting_point, highest_qualification, need_to_earn, weekly_hours, budget_band, commute_flexibility")
+          .select(
+            "area, starting_point, highest_qualification, need_to_earn, weekly_hours, budget_band, commute_flexibility",
+          )
           .eq("user_id", user.id)
           .maybeSingle(),
       ]);
 
       setDecisions((dRows as SavedDecisionRow[] | null) ?? []);
-      if (pRow) {
-        setProfile({ ...emptyProfile, ...(pRow as DecisionProfileRow) });
-      }
+      if (pRow) setProfile({ ...emptyProfile, ...(pRow as DecisionProfileRow) });
       setLoading(false);
     })();
   }, [user, authLoading, navigate, toast]);
@@ -113,16 +152,23 @@ const MyDecisions = () => {
     if (error) {
       toast({ title: "Couldn't save profile", description: error.message, variant: "destructive" });
     } else {
-      toast({ title: "Decision profile saved" });
+      toast({ title: "Decision Profile saved" });
     }
   };
 
-  // Routes I'm considering = unique role_slug from saved decisions (latest first)
-  const consideringMap = new Map<string, SavedDecisionRow>();
-  for (const d of decisions) {
-    if (d.role_slug && !consideringMap.has(d.role_slug)) consideringMap.set(d.role_slug, d);
-  }
-  const considering = Array.from(consideringMap.values());
+  // Summary metrics
+  const summary = useMemo(() => {
+    const realistic = decisions.find((d) => isRealistic(d.overall_verdict));
+    const latest = decisions[0]; // already ordered desc by created_at
+    return {
+      count: decisions.length,
+      mostRealistic: realistic ?? null,
+      nextMove: latest?.first_move ?? null,
+    };
+  }, [decisions]);
+
+  const profileFilledCount = PROFILE_FIELDS.filter((k) => (profile[k] ?? "").trim()).length;
+  const profileIncomplete = profileFilledCount < PROFILE_FIELDS.length;
 
   return (
     <div className="min-h-screen flex flex-col bg-background">
@@ -131,11 +177,11 @@ const MyDecisions = () => {
         <meta name="robots" content="noindex" />
       </Helmet>
       <Navbar />
-      <main className="flex-1 container mx-auto px-4 py-10 max-w-4xl">
+      <main className="flex-1 container mx-auto px-4 py-10 max-w-5xl">
         <header className="mb-8">
           <h1 className="font-display text-3xl font-medium text-foreground">My Career Decisions</h1>
-          <p className="text-muted-foreground mt-1 text-sm">
-            Saved route checks, the careers you're considering, and your decision profile.
+          <p className="text-muted-foreground mt-2 text-sm max-w-2xl">
+            Track the routes you're considering, the advice you've saved, and the next move Clear Routes would make first.
           </p>
         </header>
 
@@ -145,15 +191,47 @@ const MyDecisions = () => {
           </p>
         ) : (
           <>
-            {/* Section 1: Active decisions */}
+            {/* Top summary */}
+            <section className="mb-10 grid grid-cols-1 md:grid-cols-3 gap-3">
+              <SummaryCard
+                icon={<BookmarkPlus className="h-4 w-4" />}
+                eyebrow="Decisions saved"
+                primary={summary.count.toString()}
+                secondary={summary.count === 1 ? "career decision" : "career decisions"}
+              />
+              <SummaryCard
+                icon={<CheckCircle2 className="h-4 w-4" />}
+                eyebrow="Most realistic route"
+                primary={
+                  summary.mostRealistic
+                    ? `${summary.mostRealistic.role_name}`
+                    : "Not enough saved decisions yet."
+                }
+                secondary={summary.mostRealistic?.best_route_title ?? undefined}
+                href={summary.mostRealistic ? `/role/${summary.mostRealistic.role_slug}` : undefined}
+              />
+              <SummaryCard
+                icon={<Target className="h-4 w-4" />}
+                eyebrow="Next move"
+                primary={summary.nextMove ?? "Run a Reality-check to get your first move."}
+                secondary={
+                  summary.nextMove && decisions[0]
+                    ? `From your ${decisions[0].role_name} check`
+                    : undefined
+                }
+              />
+            </section>
+
+            {/* Active decisions */}
             <section className="mb-12">
               <h2 className="font-display text-xl font-medium text-foreground mb-4">Active decisions</h2>
 
               {decisions.length === 0 ? (
                 <div className="rounded-2xl border border-border bg-muted/40 p-8 text-center">
                   <BookmarkPlus className="h-6 w-6 text-muted-foreground mx-auto mb-3" />
-                  <p className="text-sm text-muted-foreground mb-4">
-                    You haven't saved any career decisions yet.
+                  <h3 className="font-display text-lg text-foreground mb-1">No career decisions saved yet</h3>
+                  <p className="text-sm text-muted-foreground mb-4 max-w-md mx-auto">
+                    Reality-check a role first. Once you have a result, save it here so you can compare your options and come back later.
                   </p>
                   <Button asChild>
                     <Link to="/">Explore roles</Link>
@@ -184,7 +262,11 @@ const MyDecisions = () => {
                       </div>
 
                       {d.overall_verdict && (
-                        <span className="self-start inline-flex items-center rounded-full border border-border bg-muted px-2.5 py-0.5 text-xs font-medium text-foreground mb-3">
+                        <span
+                          className={`self-start inline-flex items-center rounded-full border px-2.5 py-0.5 text-xs font-semibold mb-3 ${verdictTone(
+                            d.overall_verdict,
+                          )}`}
+                        >
                           {d.overall_verdict}
                         </span>
                       )}
@@ -194,53 +276,60 @@ const MyDecisions = () => {
                           <Row icon={<Compass className="h-3.5 w-3.5 text-emerald-600" />} label="Best route" value={d.best_route_title} />
                         )}
                         {d.route_to_avoid_title && (
-                          <Row icon={<AlertOctagon className="h-3.5 w-3.5 text-rose-600" />} label="Route to avoid" value={d.route_to_avoid_title} />
+                          <Row
+                            icon={<AlertOctagon className="h-3.5 w-3.5 text-rose-600" />}
+                            label="Route to be careful with"
+                            value={d.route_to_avoid_title}
+                          />
                         )}
                         {d.local_realism_rating && (
-                          <Row icon={<MapPin className="h-3.5 w-3.5 text-amber-600" />} label="Local realism" value={d.local_realism_rating} />
+                          <Row
+                            icon={<MapPin className="h-3.5 w-3.5 text-amber-600" />}
+                            label="Local realism"
+                            value={d.local_realism_rating}
+                          />
                         )}
                         {d.first_move && (
-                          <Row icon={<ListChecks className="h-3.5 w-3.5 text-foreground" />} label="First move" value={d.first_move} />
+                          <Row
+                            icon={<ListChecks className="h-3.5 w-3.5 text-foreground" />}
+                            label="First move"
+                            value={d.first_move}
+                          />
                         )}
                       </dl>
 
-                      <Link
-                        to={`/role/${d.role_slug}`}
-                        className="inline-flex items-center gap-1 text-sm text-primary hover:underline mt-4"
-                      >
-                        Back to the role <ArrowRight className="h-3.5 w-3.5" />
-                      </Link>
+                      <div className="mt-4 flex items-center gap-4 text-sm">
+                        <Link
+                          to={`/role/${d.role_slug}`}
+                          className="inline-flex items-center gap-1 text-primary hover:underline"
+                        >
+                          Back to role <ArrowRight className="h-3.5 w-3.5" />
+                        </Link>
+                        <Link
+                          to={`/role/${d.role_slug}#reality-check`}
+                          className="inline-flex items-center gap-1 text-muted-foreground hover:text-foreground"
+                        >
+                          <RefreshCcw className="h-3.5 w-3.5" /> Run again with updated answers
+                        </Link>
+                      </div>
                     </li>
                   ))}
                 </ul>
               )}
             </section>
 
-            {/* Section 2: Routes I'm considering */}
-            {considering.length > 0 && (
-              <section className="mb-12">
-                <h2 className="font-display text-xl font-medium text-foreground mb-4">Routes I'm considering</h2>
-                <ul className="flex flex-wrap gap-2">
-                  {considering.map((c) => (
-                    <li key={c.role_slug}>
-                      <Link
-                        to={`/role/${c.role_slug}`}
-                        className="inline-flex items-center rounded-full border border-border bg-card px-3 py-1.5 text-sm text-foreground hover:bg-muted transition-colors"
-                      >
-                        {c.role_name}
-                      </Link>
-                    </li>
-                  ))}
-                </ul>
-              </section>
-            )}
-
-            {/* Section 3: Decision profile */}
+            {/* Decision profile */}
             <section id="decision-profile" className="mb-12 scroll-mt-24">
-              <h2 className="font-display text-xl font-medium text-foreground mb-2">Decision profile</h2>
-              <p className="text-sm text-muted-foreground mb-4">
-                Set your constraints once so you don't have to re-enter them every time.
+              <h2 className="font-display text-xl font-medium text-foreground mb-2">Your Decision Profile</h2>
+              <p className="text-sm text-muted-foreground mb-4 max-w-2xl">
+                These are the constraints Clear Routes uses when judging future routes. Keep them honest — they change which route makes sense.
               </p>
+
+              {profileIncomplete && (
+                <p className="text-xs text-amber-700 bg-amber-50 border border-amber-200 rounded-md px-3 py-2 mb-4 inline-block">
+                  Complete your Decision Profile to make future route checks faster.
+                </p>
+              )}
 
               <div className="rounded-2xl border border-border bg-card p-6 grid grid-cols-1 sm:grid-cols-2 gap-4">
                 <ProfileField label="Area / town / outward postcode" value={profile.area ?? ""}
@@ -272,6 +361,38 @@ const MyDecisions = () => {
     </div>
   );
 };
+
+function SummaryCard({
+  icon,
+  eyebrow,
+  primary,
+  secondary,
+  href,
+}: {
+  icon: React.ReactNode;
+  eyebrow: string;
+  primary: string;
+  secondary?: string;
+  href?: string;
+}) {
+  const body = (
+    <div className="rounded-2xl border border-border bg-card p-4 h-full flex flex-col">
+      <div className="flex items-center gap-2 text-muted-foreground mb-2">
+        {icon}
+        <p className="text-[11px] font-semibold uppercase tracking-wider">{eyebrow}</p>
+      </div>
+      <p className="text-sm font-medium text-foreground leading-snug">{primary}</p>
+      {secondary && <p className="text-xs text-muted-foreground mt-1 leading-snug">{secondary}</p>}
+    </div>
+  );
+  return href ? (
+    <Link to={href} className="block hover:opacity-90 transition-opacity">
+      {body}
+    </Link>
+  ) : (
+    body
+  );
+}
 
 function Row({ icon, label, value }: { icon: React.ReactNode; label: string; value: string }) {
   return (
