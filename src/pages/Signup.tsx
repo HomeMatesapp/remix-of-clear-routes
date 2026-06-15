@@ -61,7 +61,7 @@ const Signup = () => {
         await supabase.from("user_profiles").insert({
           user_id: data.user.id,
           first_name: firstName.trim() || null,
-        } as any);
+        } as never);
       }
 
       trackEvent("signup_completed", { has_redirect: !!redirectPath });
@@ -75,8 +75,9 @@ const Signup = () => {
           description: "We've sent you a confirmation link. Open it and you'll be returned here to finish saving.",
         });
       }
-    } catch (err: any) {
-      toast({ title: err.message || "Signup failed", variant: "destructive" });
+    } catch (err: unknown) {
+      const message = err instanceof Error ? err.message : "Signup failed";
+      toast({ title: message, variant: "destructive" });
     } finally {
       setLoading(false);
     }
