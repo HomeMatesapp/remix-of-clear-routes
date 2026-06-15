@@ -13,6 +13,7 @@ import { useAuth } from "@/hooks/useAuth";
 import { ratingPillClass } from "@/lib/ratingTone";
 import { RealityCheckRoute } from "@/components/role/RealityCheckRoute";
 import { Accordion, AccordionItem, AccordionTrigger, AccordionContent } from "@/components/ui/accordion";
+import { SupportMatches } from "@/components/role/SupportMatches";
 
 // ── TYPES ─────────────────────────────────────────────────────────────────────
 
@@ -518,6 +519,10 @@ const RolePage = () => {
 
         {/* Reality-check this route — interactive AI module (remix experiment) */}
         <RealityCheckRoute role={{ ...role, id: role.id, role_slug: role.role_slug }} />
+
+        {/* Optional: grants / bursaries / access schemes that may apply */}
+        <SupportMatches roleSlug={role.role_slug} roleName={role.role_name} />
+
 
         {/* Personalisation banner */}
         {isPersonalised && personalisationBanner(profile, role.role_name) && (
