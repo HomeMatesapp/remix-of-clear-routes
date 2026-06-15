@@ -207,10 +207,10 @@ const Personalise = () => {
   return (
     <div className="min-h-screen flex flex-col bg-background">
       <Helmet>
-        <title>Personalise your route | Clear Routes</title>
+        <title>Your Decision Profile | Clear Routes</title>
         <meta
           name="description"
-          content="Optional questions to personalise routes, funding and support based on your situation."
+          content="Save the constraints used by your Reality-checks — so future route checks reuse your situation, funding and support context."
         />
       </Helmet>
       <Navbar />
