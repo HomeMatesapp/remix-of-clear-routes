@@ -122,6 +122,48 @@ export type Database = {
         }
         Relationships: []
       }
+      decision_profiles: {
+        Row: {
+          area: string | null
+          budget_band: string | null
+          commute_flexibility: string | null
+          created_at: string
+          highest_qualification: string | null
+          id: string
+          need_to_earn: string | null
+          starting_point: string | null
+          updated_at: string
+          user_id: string
+          weekly_hours: string | null
+        }
+        Insert: {
+          area?: string | null
+          budget_band?: string | null
+          commute_flexibility?: string | null
+          created_at?: string
+          highest_qualification?: string | null
+          id?: string
+          need_to_earn?: string | null
+          starting_point?: string | null
+          updated_at?: string
+          user_id: string
+          weekly_hours?: string | null
+        }
+        Update: {
+          area?: string | null
+          budget_band?: string | null
+          commute_flexibility?: string | null
+          created_at?: string
+          highest_qualification?: string | null
+          id?: string
+          need_to_earn?: string | null
+          starting_point?: string | null
+          updated_at?: string
+          user_id?: string
+          weekly_hours?: string | null
+        }
+        Relationships: []
+      }
       pathway_families: {
         Row: {
           description: string | null
@@ -490,6 +532,68 @@ export type Database = {
             columns: ["pathway_family"]
             isOneToOne: false
             referencedRelation: "pathway_families"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      saved_decisions: {
+        Row: {
+          backup_route_title: string | null
+          best_route_title: string | null
+          created_at: string
+          first_move: string | null
+          id: string
+          input_snapshot: Json | null
+          local_realism_rating: string | null
+          overall_verdict: string | null
+          result_snapshot: Json | null
+          role_id: string | null
+          role_name: string
+          role_slug: string
+          route_to_avoid_title: string | null
+          updated_at: string
+          user_id: string
+        }
+        Insert: {
+          backup_route_title?: string | null
+          best_route_title?: string | null
+          created_at?: string
+          first_move?: string | null
+          id?: string
+          input_snapshot?: Json | null
+          local_realism_rating?: string | null
+          overall_verdict?: string | null
+          result_snapshot?: Json | null
+          role_id?: string | null
+          role_name: string
+          role_slug: string
+          route_to_avoid_title?: string | null
+          updated_at?: string
+          user_id: string
+        }
+        Update: {
+          backup_route_title?: string | null
+          best_route_title?: string | null
+          created_at?: string
+          first_move?: string | null
+          id?: string
+          input_snapshot?: Json | null
+          local_realism_rating?: string | null
+          overall_verdict?: string | null
+          result_snapshot?: Json | null
+          role_id?: string | null
+          role_name?: string
+          role_slug?: string
+          route_to_avoid_title?: string | null
+          updated_at?: string
+          user_id?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "saved_decisions_role_id_fkey"
+            columns: ["role_id"]
+            isOneToOne: false
+            referencedRelation: "roles"
             referencedColumns: ["id"]
           },
         ]
