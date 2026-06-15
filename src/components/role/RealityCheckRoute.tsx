@@ -69,7 +69,7 @@ function ChipGroup<T extends string>({
   disabled?: boolean;
 }) {
   return (
-    <div className="flex flex-wrap gap-1.5">
+    <div className="flex flex-wrap gap-1">
       {options.map((o) => {
         const active = o.value === value;
         return (
@@ -78,7 +78,7 @@ function ChipGroup<T extends string>({
             type="button"
             disabled={disabled}
             onClick={() => onChange(o.value)}
-            className={`text-xs px-3 py-1.5 rounded-full border transition-colors ${
+            className={`text-xs px-2.5 py-1 rounded-full border transition-colors ${
               active
                 ? "border-amber-300 bg-amber-300 text-gray-900"
                 : "border-gray-600 bg-gray-700/50 text-gray-200 hover:bg-gray-700"
