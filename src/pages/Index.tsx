@@ -8,12 +8,13 @@ import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
 import { supabase } from "@/integrations/supabase/client";
 import { trackEvent } from "@/lib/posthog";
+import { matchRoleAliases } from "@/lib/role-aliases";
 
 const exampleRoles = [
   { name: "Nurse", slug: "nurse" },
   { name: "Data Analyst", slug: "data-analyst" },
   { name: "Electrician", slug: "electrician" },
-  { name: "Software Developer", slug: "software-developer" },
+  { name: "Software Developer", slug: "software-engineer" },
   { name: "Teacher", slug: "teacher" },
 ];
 
@@ -34,12 +35,36 @@ const Index = () => {
       return;
     }
     const handle = setTimeout(async () => {
+      const aliasMatches = matchRoleAliases(q);
+      const aliasSlugs = aliasMatches.map((a) => a.slug);
+      const orClauses = [`role_name.ilike.%${q}%`];
+      if (aliasSlugs.length) {
+        orClauses.push(`role_slug.in.(${aliasSlugs.join(",")})`);
+      }
       const { data } = await supabase
         .from("roles")
         .select("role_name, role_slug")
-        .ilike("role_name", `%${q}%`)
+        .or(orClauses.join(","))
+        .not("role_slug", "like", "\\_merged\\_%")
+        .not("role_slug", "like", "\\_pre\\_%")
         .limit(8);
-      setSuggestions(data || []);
+      // De-dupe by slug; alias-matched roles first
+      const seen = new Set<string>();
+      const ordered: Suggestion[] = [];
+      const aliasSet = new Set(aliasSlugs);
+      for (const r of (data || []) as Suggestion[]) {
+        if (aliasSet.has(r.role_slug) && !seen.has(r.role_slug)) {
+          ordered.push(r);
+          seen.add(r.role_slug);
+        }
+      }
+      for (const r of (data || []) as Suggestion[]) {
+        if (!seen.has(r.role_slug)) {
+          ordered.push(r);
+          seen.add(r.role_slug);
+        }
+      }
+      setSuggestions(ordered);
     }, 120);
     return () => clearTimeout(handle);
   }, [query]);
