@@ -7,6 +7,7 @@ import { TooltipProvider } from "@/components/ui/tooltip";
 import { AuthProvider } from "@/hooks/useAuth";
 import Index from "./pages/Index";
 import RolePage from "./pages/RolePage";
+import RealityCheckPage from "./pages/RealityCheckPage";
 import SearchResults from "./pages/SearchResults";
 import ProviderPage from "./pages/ProviderPage";
 import Personalise from "./pages/Personalise";
@@ -39,6 +40,7 @@ const App = () => (
               <Routes>
                 <Route path="/" element={<Index />} />
                 <Route path="/role/:slug" element={<RolePage />} />
+                <Route path="/role/:slug/reality-check" element={<RealityCheckPage />} />
                 <Route path="/search" element={<SearchResults />} />
                 <Route path="/provider/:id" element={<ProviderPage />} />
                 <Route path="/personalise" element={<Personalise />} />

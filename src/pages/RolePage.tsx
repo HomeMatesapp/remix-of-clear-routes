@@ -11,7 +11,7 @@ import { deslugifyRole } from "@/lib/role";
 import { usePersonalisation, recommendedPathway, personalisationBanner } from "@/hooks/usePersonalisation";
 import { useAuth } from "@/hooks/useAuth";
 import { ratingPillClass } from "@/lib/ratingTone";
-import { RealityCheckRoute } from "@/components/role/RealityCheckRoute";
+import { RealityCheckCTA } from "@/components/role/RealityCheckCTA";
 import { Accordion, AccordionItem, AccordionTrigger, AccordionContent } from "@/components/ui/accordion";
 import { SupportMatches } from "@/components/role/SupportMatches";
 
@@ -518,14 +518,14 @@ const RolePage = () => {
           )}
         </div>
 
-        {/* Reality-check this route — interactive AI module (remix experiment) */}
-        <RealityCheckRoute
-          role={{ ...role, id: role.id, role_slug: role.role_slug }}
-          onResult={setHasRealityCheckResult}
-        />
+        {/* Reality-check this route — compact CTA links to the dedicated page.
+            The full form lives at /role/:slug/reality-check. If a result already
+            exists in this session, the CTA shows a compact summary instead. */}
+        <RealityCheckCTA roleSlug={role.role_slug} roleName={role.role_name} />
 
         {/* Optional: grants / bursaries / access schemes that may apply.
-            Hidden once Reality-check has a result — it surfaces matches inside the result card. */}
+            Hidden once Reality-check has a session result (matches surface on the
+            dedicated page). */}
         {!hasRealityCheckResult && (
           <SupportMatches roleSlug={role.role_slug} roleName={role.role_name} />
         )}
