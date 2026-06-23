@@ -167,6 +167,48 @@ export type Database = {
         }
         Relationships: []
       }
+      institution_enquiries: {
+        Row: {
+          contact_consent: boolean
+          created_at: string
+          enquiry_type: string
+          id: string
+          institution: string
+          job_title: string
+          learner_count: string | null
+          message: string
+          name: string
+          status: string
+          work_email: string
+        }
+        Insert: {
+          contact_consent?: boolean
+          created_at?: string
+          enquiry_type?: string
+          id?: string
+          institution: string
+          job_title: string
+          learner_count?: string | null
+          message: string
+          name: string
+          status?: string
+          work_email: string
+        }
+        Update: {
+          contact_consent?: boolean
+          created_at?: string
+          enquiry_type?: string
+          id?: string
+          institution?: string
+          job_title?: string
+          learner_count?: string | null
+          message?: string
+          name?: string
+          status?: string
+          work_email?: string
+        }
+        Relationships: []
+      }
       opportunities: {
         Row: {
           application_url: string | null

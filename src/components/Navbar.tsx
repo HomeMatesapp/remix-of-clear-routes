@@ -26,6 +26,9 @@ const Navbar = () => {
           <Button variant="ghost" size="sm" asChild className="hidden sm:inline-flex">
             <Link to="/support">Support & funding</Link>
           </Button>
+          <Button variant="ghost" size="sm" asChild className="hidden md:inline-flex">
+            <Link to="/for-institutions">For institutions</Link>
+          </Button>
           {user ? (
             <>
               <Button variant="ghost" size="sm" asChild>

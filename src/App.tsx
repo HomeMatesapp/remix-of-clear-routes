@@ -15,6 +15,7 @@ import Profile from "./pages/Profile";
 import MyDecisions from "./pages/MyDecisions";
 import OpportunitiesPage from "./pages/OpportunitiesPage";
 import HowItWorks from "./pages/HowItWorks";
+import ForInstitutions from "./pages/ForInstitutions";
 import Support from "./pages/Support";
 import Sources from "./pages/Sources";
 import Login from "./pages/Login";
@@ -49,6 +50,7 @@ const App = () => (
                 <Route path="/my-decisions" element={<MyDecisions />} />
                 <Route path="/my-decisions/:decisionId/opportunities" element={<OpportunitiesPage />} />
                 <Route path="/how-it-works" element={<HowItWorks />} />
+                <Route path="/for-institutions" element={<ForInstitutions />} />
                 <Route path="/support" element={<Support />} />
                 <Route path="/sources" element={<Sources />} />
                 <Route path="/login" element={<Login />} />
