@@ -448,6 +448,16 @@ export function ResultView({
         </Card>
       )}
 
+      {(() => {
+        const sources = getSourcesForResult(role, answers, result);
+        return (
+          <>
+            <WhyThisResult role={role} answers={answers} result={result} sources={sources} />
+            <SourcesPanel sources={sources} />
+          </>
+        );
+      })()}
+
       {role.role_slug && (
         <SupportMatches
           roleSlug={role.role_slug}
