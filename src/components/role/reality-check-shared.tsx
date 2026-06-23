@@ -22,6 +22,9 @@ import { useToast } from "@/hooks/use-toast";
 import { trackEvent } from "@/lib/posthog";
 import { saveDecision, stashPendingDecision } from "@/lib/saved-decisions";
 import { SupportMatches } from "@/components/role/SupportMatches";
+import { WhyThisResult } from "@/components/reality-check/WhyThisResult";
+import { SourcesPanel } from "@/components/reality-check/SourcesPanel";
+import { getSourcesForResult } from "@/lib/reality-check/sources";
 import {
   BUDGETS,
   COMMUTE_FLEX,
@@ -444,6 +447,16 @@ export function ResultView({
           </ol>
         </Card>
       )}
+
+      {(() => {
+        const sources = getSourcesForResult(role, answers, result);
+        return (
+          <>
+            <WhyThisResult role={role} answers={answers} result={result} sources={sources} />
+            <SourcesPanel sources={sources} />
+          </>
+        );
+      })()}
 
       {role.role_slug && (
         <SupportMatches
