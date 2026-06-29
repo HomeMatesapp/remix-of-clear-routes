@@ -43,6 +43,7 @@ import {
   clearSessionResult,
 } from "@/components/role/reality-check-shared";
 import { isSupportedRegion } from "@/lib/reality-check/regions";
+import { isRealityCheckEnabled as isRealityCheckReady } from "@/lib/reality-check/service-levels";
 
 type Role = RoleContext & {
   id: string;
@@ -286,6 +287,45 @@ const RealityCheckPage = () => {
               <Link to="/">Search again</Link>
             </Button>
           </div>
+        </main>
+        <Footer />
+      </div>
+    );
+  }
+
+  // Gate by service_level — info_only roles do not yet have a reviewed
+  // Reality-check. Show an honest fallback rather than running the engine.
+  if (!isRealityCheckReady(role.service_level)) {
+    return (
+      <div className="min-h-screen flex flex-col bg-background">
+        <Helmet>
+          <title>Reality-check not yet available — {role.role_name} | Clear Routes</title>
+        </Helmet>
+        <Navbar />
+        <main className="flex-1 container mx-auto px-4 py-12 max-w-2xl">
+          <Link
+            to={`/role/${role.role_slug}`}
+            className="inline-flex items-center gap-1.5 text-xs text-muted-foreground hover:text-foreground mb-4"
+          >
+            <ArrowLeft className="h-3.5 w-3.5" />
+            Back to {role.role_name}
+          </Link>
+          <h1 className="font-display text-2xl font-medium text-foreground mb-3">
+            Reality-check isn't reviewed for {role.role_name} yet
+          </h1>
+          <p className="text-sm text-muted-foreground leading-relaxed mb-2">
+            We've intentionally limited the adaptive Reality-check to a small
+            set of pilot roles where we've reviewed entry requirements, pathway
+            logic and the route judgement against current evidence.
+          </p>
+          <p className="text-sm text-muted-foreground leading-relaxed mb-6">
+            Browse the role page for general information, or try a pilot role
+            (e.g. Registered Nurse, Software Engineer, Electrician, Data
+            Analyst, Primary School Teacher).
+          </p>
+          <Button asChild variant="outline">
+            <Link to={`/role/${role.role_slug}`}>Back to role page</Link>
+          </Button>
         </main>
         <Footer />
       </div>
