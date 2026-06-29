@@ -33,6 +33,7 @@ import {
   BACKGROUND_REQUIRED_FOR,
   ChipGroup,
   Field,
+  REGIONS,
   ResultView,
   answerChips,
   emptyAnswers,
@@ -41,6 +42,7 @@ import {
   saveSessionResult,
   clearSessionResult,
 } from "@/components/role/reality-check-shared";
+import { isSupportedRegion } from "@/lib/reality-check/regions";
 
 type Role = RoleContext & {
   id: string;
@@ -181,7 +183,7 @@ const RealityCheckPage = () => {
     !!answers.qualificationLevel && !!answers.englishMaths && !!answers.scienceSubjects;
   const section3Complete = !!answers.englishComfort;
   const section4Complete =
-    !!answers.incomeNeed && !!answers.budget && answers.area.trim().length > 0;
+    !!answers.incomeNeed && !!answers.budget && !!answers.region;
 
   const showSection2 = !!answers.startingPoint;
   const showSection3 = showSection2 && section2Complete;
@@ -207,7 +209,7 @@ const RealityCheckPage = () => {
   if (!answers.englishComfort) missing.push("English/study readiness");
   if (!answers.incomeNeed) missing.push("earning need");
   if (!answers.budget) missing.push("budget");
-  if (!answers.area.trim()) missing.push("area");
+  if (!answers.region) missing.push("region");
   const canSubmit = missing.length === 0;
 
   // ── Submit ───────────────────────────────────────────────────────────────────
@@ -479,7 +481,20 @@ const RealityCheckPage = () => {
                         disabled={submitting}
                       />
                     </Field>
-                    <Field label="Area (town or postcode)">
+                    <Field label="Where you live (UK)" helper="We use this to set realistic expectations for local opportunity coverage.">
+                      <ChipGroup
+                        options={REGIONS}
+                        value={answers.region}
+                        onChange={(v) => setAnswers((a) => ({ ...a, region: v }))}
+                        disabled={submitting}
+                      />
+                      {answers.region && !isSupportedRegion(answers.region) && (
+                        <p className="mt-1.5 text-[10px] text-amber-200/90 leading-snug">
+                          Verified local opportunity coverage isn't available in your area yet — your route judgement will still work.
+                        </p>
+                      )}
+                    </Field>
+                    <Field label="Town or postcode (optional)" helper="Add more detail if you'd like — it's not required.">
                       <input
                         type="text"
                         value={answers.area}
