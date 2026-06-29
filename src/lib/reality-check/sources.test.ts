@@ -18,12 +18,17 @@ const baseAnswers: RealityCheckAnswers = {
   incomeNeed: "need_income",
   weeklyHours: "20_plus",
   budget: "zero",
+  region: "greater_manchester",
   area: "Manchester",
   commuteFlex: "60_min",
   notes: "",
 };
 
 const baseResult: RealityCheckResult = {
+  readiness: "ready_now",
+  readinessReason: "—",
+  biggestBlocker: "—",
+  immediateAction: "—",
   overallVerdict: "Realistic",
   bestRoute: {
     title: "Nursing Degree Apprenticeship",

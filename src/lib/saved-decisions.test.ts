@@ -37,6 +37,7 @@ const answers: RealityCheckAnswers = {
   incomeNeed: "need_income",
   weeklyHours: "10_20",
   budget: "under_500",
+  region: "greater_manchester",
   area: "Manchester",
   commuteFlex: "60_min",
   notes: "",

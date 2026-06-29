@@ -53,6 +53,7 @@ export const emptyAnswers: RealityCheckAnswers = {
   incomeNeed: null,
   weeklyHours: null,
   budget: null,
+  region: null,
   area: "",
   commuteFlex: null,
   notes: "",
