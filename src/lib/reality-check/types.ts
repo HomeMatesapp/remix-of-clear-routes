@@ -52,6 +52,11 @@ export type EnglishComfort =
   | "not_sure"
   | "may_need_support";
 
+// Region lives in its own module (see ./regions.ts) so the closed enum can be
+// reused by opportunity matching and content templates without dragging in the
+// full Reality-check type surface.
+import type { Region } from "./regions";
+
 export interface RealityCheckAnswers {
   startingPoint: StartingPoint | null;
   // Qualifications & background
@@ -64,6 +69,10 @@ export interface RealityCheckAnswers {
   incomeNeed: IncomeNeed | null;
   weeklyHours: WeeklyHours | null;
   budget: Budget | null;
+  // Where the user lives. Closed enum — drives honest local-coverage copy
+  // and (later) opportunity matching. Free-text `area` remains optional so
+  // people can add their town if they want.
+  region: Region | null;
   area: string;
   commuteFlex: CommuteFlex | null;
   notes: string;
@@ -140,11 +149,27 @@ export const ENGLISH_COMFORT: { value: EnglishComfort; label: string }[] = [
   { value: "may_need_support", label: "I may need English-language support" },
 ];
 
+// Legacy verdict — retained on the result for backwards compatibility with
+// saved decisions. New UI surfaces `readiness` (below) as the primary state.
 export type OverallVerdict =
   | "Realistic"
   | "Realistic but hard"
   | "Long shot"
   | "Probably not for you";
+
+// Release 1 four-state readiness. Authoritative, deterministic.
+export type Readiness =
+  | "ready_now"
+  | "nearly_ready"
+  | "needs_bridging"
+  | "high_risk_now";
+
+export const READINESS_LABEL: Record<Readiness, string> = {
+  ready_now:      "Ready now",
+  nearly_ready:   "Nearly ready",
+  needs_bridging: "Needs a bridging step",
+  high_risk_now:  "High-risk route now",
+};
 
 export type Confidence = "high" | "medium" | "low";
 
@@ -170,6 +195,10 @@ export interface RouteToAvoid {
   whenItMightWork: string;
 }
 
+// Kept on the type for backwards compatibility with previously-saved results,
+// but Release 1 stops rendering this card (per amendment 5 in the v3 review:
+// local realism stays deterministic and is communicated through verified
+// opportunities, not interpretive prose).
 export interface LocalRealism {
   rating: "strong" | "mixed" | "weak";
   summary: string;
@@ -177,11 +206,21 @@ export interface LocalRealism {
 }
 
 export interface RealityCheckResult {
+  // Release 1 four-state verdict (deterministic).
+  readiness: Readiness;
+  // Plain-English one-line summary of why the user is at this readiness state.
+  readinessReason: string;
+  // The single biggest thing in the way, in plain English.
+  biggestBlocker: string;
+  // One concrete action this week.
+  immediateAction: string;
+  // Legacy verdict (kept so saved decisions still render).
   overallVerdict: OverallVerdict;
   bestRoute: BestRoute;
   backupRoute: BackupRoute;
   routeToAvoid: RouteToAvoid;
-  localRealism: LocalRealism;
+  // Deprecated — still on type, hidden by Release 1 UI.
+  localRealism?: LocalRealism;
   firstMoves: string[];
 }
 

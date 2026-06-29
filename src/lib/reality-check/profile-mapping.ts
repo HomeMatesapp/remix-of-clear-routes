@@ -59,6 +59,8 @@ export function profileToAnswers(
 
 export function answersToProfile(a: RealityCheckAnswers): DecisionProfileFields {
   return {
+    // Free-text town stored alongside the closed-enum region (region isn't
+    // persisted to decision_profiles yet — added when the column lands).
     area: a.area.trim() || null,
     starting_point: a.startingPoint,
     need_to_earn: a.incomeNeed,

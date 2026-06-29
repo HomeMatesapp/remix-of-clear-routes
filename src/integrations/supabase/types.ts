@@ -617,6 +617,41 @@ export type Database = {
         }
         Relationships: []
       }
+      role_review_requests: {
+        Row: {
+          created_at: string
+          id: string
+          note: string | null
+          requester_user_id: string | null
+          role_id: string | null
+          role_slug: string
+        }
+        Insert: {
+          created_at?: string
+          id?: string
+          note?: string | null
+          requester_user_id?: string | null
+          role_id?: string | null
+          role_slug: string
+        }
+        Update: {
+          created_at?: string
+          id?: string
+          note?: string | null
+          requester_user_id?: string | null
+          role_id?: string | null
+          role_slug?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "role_review_requests_role_id_fkey"
+            columns: ["role_id"]
+            isOneToOne: false
+            referencedRelation: "roles"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
       role_views: {
         Row: {
           id: string
@@ -689,6 +724,7 @@ export type Database = {
           salary_source: string | null
           salary_source_url: string | null
           second_path: string | null
+          service_level: Database["public"]["Enums"]["role_service_level"]
           short_description: string | null
           third_path: string | null
           top_universities: string | null
@@ -745,6 +781,7 @@ export type Database = {
           salary_source?: string | null
           salary_source_url?: string | null
           second_path?: string | null
+          service_level?: Database["public"]["Enums"]["role_service_level"]
           short_description?: string | null
           third_path?: string | null
           top_universities?: string | null
@@ -801,6 +838,7 @@ export type Database = {
           salary_source?: string | null
           salary_source_url?: string | null
           second_path?: string | null
+          service_level?: Database["public"]["Enums"]["role_service_level"]
           short_description?: string | null
           third_path?: string | null
           top_universities?: string | null
@@ -1093,7 +1131,7 @@ export type Database = {
       show_trgm: { Args: { "": string }; Returns: string[] }
     }
     Enums: {
-      [_ in never]: never
+      role_service_level: "info_only" | "reality_check" | "full_support"
     }
     CompositeTypes: {
       [_ in never]: never
@@ -1220,6 +1258,8 @@ export type CompositeTypes<
 
 export const Constants = {
   public: {
-    Enums: {},
+    Enums: {
+      role_service_level: ["info_only", "reality_check", "full_support"],
+    },
   },
 } as const

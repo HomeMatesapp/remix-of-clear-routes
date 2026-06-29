@@ -33,6 +33,7 @@ import {
   BACKGROUND_REQUIRED_FOR,
   ChipGroup,
   Field,
+  REGIONS,
   ResultView,
   answerChips,
   emptyAnswers,
@@ -41,12 +42,15 @@ import {
   saveSessionResult,
   clearSessionResult,
 } from "@/components/role/reality-check-shared";
+import { isSupportedRegion } from "@/lib/reality-check/regions";
+import { isRealityCheckEnabled as isRealityCheckReady } from "@/lib/reality-check/service-levels";
 
 type Role = RoleContext & {
   id: string;
   role_slug: string;
   role_name: string;
   reality_rating?: string | null;
+  service_level?: import("@/lib/reality-check/service-levels").RoleServiceLevel | null;
 };
 
 // ── Progressive disclosure helpers ────────────────────────────────────────────
@@ -109,7 +113,7 @@ const RealityCheckPage = () => {
       setLoading(true);
       const { data } = await supabase
         .from("roles")
-        .select("id, role_slug, role_name, short_description, reality_check, uncomfortable_truth, opportunity_cost, who_not_for, career_regret_risk, competition_level, demand, ai_impact_level, salary_entry, salary_experienced, salary_senior, pathway_school_leaver, pathway_graduate, pathway_adjacent, pathway_no_background, typical_backgrounds, key_employers")
+        .select("id, role_slug, role_name, service_level, short_description, reality_check, uncomfortable_truth, opportunity_cost, who_not_for, career_regret_risk, competition_level, demand, ai_impact_level, salary_entry, salary_experienced, salary_senior, pathway_school_leaver, pathway_graduate, pathway_adjacent, pathway_no_background, typical_backgrounds, key_employers")
         .eq("role_slug", slug)
         .maybeSingle();
       if (cancelled) return;
@@ -181,7 +185,7 @@ const RealityCheckPage = () => {
     !!answers.qualificationLevel && !!answers.englishMaths && !!answers.scienceSubjects;
   const section3Complete = !!answers.englishComfort;
   const section4Complete =
-    !!answers.incomeNeed && !!answers.budget && answers.area.trim().length > 0;
+    !!answers.incomeNeed && !!answers.budget && !!answers.region;
 
   const showSection2 = !!answers.startingPoint;
   const showSection3 = showSection2 && section2Complete;
@@ -207,7 +211,7 @@ const RealityCheckPage = () => {
   if (!answers.englishComfort) missing.push("English/study readiness");
   if (!answers.incomeNeed) missing.push("earning need");
   if (!answers.budget) missing.push("budget");
-  if (!answers.area.trim()) missing.push("area");
+  if (!answers.region) missing.push("region");
   const canSubmit = missing.length === 0;
 
   // ── Submit ───────────────────────────────────────────────────────────────────
@@ -283,6 +287,45 @@ const RealityCheckPage = () => {
               <Link to="/">Search again</Link>
             </Button>
           </div>
+        </main>
+        <Footer />
+      </div>
+    );
+  }
+
+  // Gate by service_level — info_only roles do not yet have a reviewed
+  // Reality-check. Show an honest fallback rather than running the engine.
+  if (!isRealityCheckReady(role.service_level)) {
+    return (
+      <div className="min-h-screen flex flex-col bg-background">
+        <Helmet>
+          <title>Reality-check not yet available — {role.role_name} | Clear Routes</title>
+        </Helmet>
+        <Navbar />
+        <main className="flex-1 container mx-auto px-4 py-12 max-w-2xl">
+          <Link
+            to={`/role/${role.role_slug}`}
+            className="inline-flex items-center gap-1.5 text-xs text-muted-foreground hover:text-foreground mb-4"
+          >
+            <ArrowLeft className="h-3.5 w-3.5" />
+            Back to {role.role_name}
+          </Link>
+          <h1 className="font-display text-2xl font-medium text-foreground mb-3">
+            Reality-check isn't reviewed for {role.role_name} yet
+          </h1>
+          <p className="text-sm text-muted-foreground leading-relaxed mb-2">
+            We've intentionally limited the adaptive Reality-check to a small
+            set of pilot roles where we've reviewed entry requirements, pathway
+            logic and the route judgement against current evidence.
+          </p>
+          <p className="text-sm text-muted-foreground leading-relaxed mb-6">
+            Browse the role page for general information, or try a pilot role
+            (e.g. Registered Nurse, Software Engineer, Electrician, Data
+            Analyst, Primary School Teacher).
+          </p>
+          <Button asChild variant="outline">
+            <Link to={`/role/${role.role_slug}`}>Back to role page</Link>
+          </Button>
         </main>
         <Footer />
       </div>
@@ -479,7 +522,20 @@ const RealityCheckPage = () => {
                         disabled={submitting}
                       />
                     </Field>
-                    <Field label="Area (town or postcode)">
+                    <Field label="Where you live (UK)" helper="We use this to set realistic expectations for local opportunity coverage.">
+                      <ChipGroup
+                        options={REGIONS}
+                        value={answers.region}
+                        onChange={(v) => setAnswers((a) => ({ ...a, region: v }))}
+                        disabled={submitting}
+                      />
+                      {answers.region && !isSupportedRegion(answers.region) && (
+                        <p className="mt-1.5 text-[10px] text-amber-200/90 leading-snug">
+                          Verified local opportunity coverage isn't available in your area yet — your route judgement will still work.
+                        </p>
+                      )}
+                    </Field>
+                    <Field label="Town or postcode (optional)" helper="Add more detail if you'd like — it's not required.">
                       <input
                         type="text"
                         value={answers.area}

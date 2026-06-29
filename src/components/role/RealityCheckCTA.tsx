@@ -1,25 +1,35 @@
 import { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
-import { ArrowRight, Gavel, Sparkles } from "lucide-react";
+import { ArrowRight, Gavel, Info, Sparkles } from "lucide-react";
 import {
   loadSessionResult,
-  verdictTone,
   type SessionRCEntry,
 } from "@/components/role/reality-check-shared";
+import {
+  isRealityCheckEnabled,
+  type RoleServiceLevel,
+} from "@/lib/reality-check/service-levels";
+import { READINESS_LABEL } from "@/lib/reality-check/types";
 
 /**
  * Compact role-page entry point for the Reality-check.
- * - If the user has no in-session result yet → shows a "Start Reality-check" CTA.
- * - If they already have a result for this role → shows a compact summary
- *   (verdict, best route, first move) with a link back to the full check.
- * Never embeds the full form.
+ *
+ * Behaviour by service_level:
+ *   - info_only      → honest "not reviewed yet" card. No Start button.
+ *   - reality_check  → standard CTA (or compact summary if a result exists).
+ *   - full_support   → same as reality_check (no full_support roles in Release 1).
+ *
+ * Result summary surfaces the deterministic four-state `readiness` chip when
+ * present, falling back to the legacy `overallVerdict` for older session entries.
  */
 export const RealityCheckCTA = ({
   roleSlug,
   roleName,
+  serviceLevel,
 }: {
   roleSlug: string;
   roleName: string;
+  serviceLevel: RoleServiceLevel | null | undefined;
 }) => {
   const [cached, setCached] = useState<SessionRCEntry | null>(null);
 
@@ -27,11 +37,36 @@ export const RealityCheckCTA = ({
     setCached(loadSessionResult(roleSlug));
   }, [roleSlug]);
 
+  if (!isRealityCheckEnabled(serviceLevel)) {
+    return (
+      <section
+        aria-label="Reality-check not yet available for this role"
+        className="rounded-xl border border-gray-200 bg-gray-50 p-4 mb-6"
+      >
+        <div className="flex items-start gap-2.5">
+          <Info className="h-4 w-4 text-gray-500 mt-0.5 flex-shrink-0" />
+          <div>
+            <p className="text-sm font-semibold text-gray-900">
+              General role info only
+            </p>
+            <p className="text-xs text-gray-600 mt-1 leading-relaxed">
+              We haven't reviewed the entry-route logic for {roleName} yet, so the
+              adaptive Reality-check isn't available here. The role information
+              below is general — confirm specifics directly with employers or
+              training providers.
+            </p>
+          </div>
+        </div>
+      </section>
+    );
+  }
+
   const target = `/role/${roleSlug}/reality-check`;
 
   if (cached) {
     const r = cached.result;
-    const firstMove = r.firstMoves?.[0];
+    const firstMove = r.immediateAction || r.firstMoves?.[0];
+    const readinessLabel = r.readiness ? READINESS_LABEL[r.readiness] : r.overallVerdict;
     return (
       <section
         aria-label="Your route judgement"
@@ -42,12 +77,8 @@ export const RealityCheckCTA = ({
           <p className="text-[11px] font-semibold uppercase tracking-wider">Your route judgement</p>
         </div>
         <div className="mb-3">
-          <span
-            className={`inline-flex items-center rounded-full border px-3 py-1 text-xs font-semibold ${verdictTone(
-              r.overallVerdict,
-            )}`}
-          >
-            {r.overallVerdict}
+          <span className="inline-flex items-center rounded-full bg-white/10 border border-white/20 px-3 py-1 text-xs font-semibold text-white">
+            {readinessLabel}
           </span>
         </div>
         <dl className="grid grid-cols-1 sm:grid-cols-2 gap-x-4 gap-y-2 text-sm">
@@ -57,7 +88,7 @@ export const RealityCheckCTA = ({
           </div>
           {firstMove && (
             <div>
-              <dt className="text-[10px] font-semibold uppercase tracking-wider text-sky-300">First move</dt>
+              <dt className="text-[10px] font-semibold uppercase tracking-wider text-sky-300">Do this week</dt>
               <dd className="text-sm text-gray-100 leading-snug mt-0.5">{firstMove}</dd>
             </div>
           )}

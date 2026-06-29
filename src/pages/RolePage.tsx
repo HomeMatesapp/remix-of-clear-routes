@@ -15,6 +15,8 @@ import { RealityCheckCTA } from "@/components/role/RealityCheckCTA";
 import { loadSessionResult } from "@/components/role/reality-check-shared";
 import { Accordion, AccordionItem, AccordionTrigger, AccordionContent } from "@/components/ui/accordion";
 import { SupportMatches } from "@/components/role/SupportMatches";
+import { ServiceLevelBadge } from "@/components/ServiceLevelBadge";
+import type { RoleServiceLevel } from "@/lib/reality-check/service-levels";
 
 // ── TYPES ─────────────────────────────────────────────────────────────────────
 
@@ -52,6 +54,7 @@ type Role = {
   remote_friendly: string | null;
   degree_required: string | null;
   most_common_route: string | null;
+  service_level: RoleServiceLevel | null;
 };
 
 type Provider = {
@@ -525,10 +528,21 @@ const RolePage = () => {
           )}
         </div>
 
+        {/* Service-level badge — honest about how much of Clear Routes is
+            reviewed for this role. */}
+        <div className="mb-3">
+          <ServiceLevelBadge level={role.service_level} />
+        </div>
+
         {/* Reality-check this route — compact CTA links to the dedicated page.
             The full form lives at /role/:slug/reality-check. If a result already
-            exists in this session, the CTA shows a compact summary instead. */}
-        <RealityCheckCTA roleSlug={role.role_slug} roleName={role.role_name} />
+            exists in this session, the CTA shows a compact summary instead.
+            Gated by service_level: info_only roles show an honest "not reviewed yet" card. */}
+        <RealityCheckCTA
+          roleSlug={role.role_slug}
+          roleName={role.role_name}
+          serviceLevel={role.service_level}
+        />
 
         {/* Optional: grants / bursaries / access schemes that may apply.
             Hidden once Reality-check has a session result (matches surface on the
