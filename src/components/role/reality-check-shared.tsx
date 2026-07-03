@@ -377,6 +377,9 @@ export function ResultView({
         )}
         <dl className="grid grid-cols-1 sm:grid-cols-2 gap-x-4 gap-y-2 text-sm">
           <SummaryRow label="Best route" value={result.bestRoute.title} tone="emerald" />
+          {result.bestRoute.whyThisFits?.[0] && (
+            <SummaryRow label="Strongest advantage" value={result.bestRoute.whyThisFits[0]} tone="emerald" />
+          )}
           {result.biggestBlocker && (
             <SummaryRow label="Biggest blocker" value={result.biggestBlocker} tone="rose" />
           )}
