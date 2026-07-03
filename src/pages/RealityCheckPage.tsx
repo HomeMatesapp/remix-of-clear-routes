@@ -1,7 +1,7 @@
 import { useEffect, useMemo, useRef, useState } from "react";
 import { Link, useParams } from "react-router-dom";
 import { Helmet } from "react-helmet-async";
-import { ArrowLeft, Loader2, Pencil, Sparkles, UserCog } from "lucide-react";
+import { ArrowLeft, ArrowRight, Loader2, Pencil, Sparkles, UserCog } from "lucide-react";
 import { supabase } from "@/integrations/supabase/client";
 import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
@@ -178,30 +178,8 @@ const RealityCheckPage = () => {
     !!answers.startingPoint && BACKGROUND_REQUIRED_FOR.includes(answers.startingPoint);
   const backgroundMissing = backgroundRequired && answers.relevantBackground.trim().length < 3;
 
-  // Section gating
-  const section1Complete =
-    !!answers.startingPoint && (!backgroundRequired || answers.relevantBackground.trim().length >= 3);
-  const section2Complete =
-    !!answers.qualificationLevel && !!answers.englishMaths && !!answers.scienceSubjects;
-  const section3Complete = !!answers.englishComfort;
-  const section4Complete =
-    !!answers.incomeNeed && !!answers.budget && !!answers.region;
-
-  const showSection2 = !!answers.startingPoint;
-  const showSection3 = showSection2 && section2Complete;
-  const showSection4 = showSection3 && section3Complete;
-  const showSection5 = showSection4 && section4Complete;
-
-  const currentStep: 0 | 1 | 2 | 3 = result
-    ? 3
-    : !showSection2
-    ? 0
-    : !showSection4
-    ? 1
-    : !showSection5
-    ? 2
-    : 2;
-
+  // Validity is now enforced step-by-step in the WizardForm; the aggregate
+  // `canSubmit` gate below still guards the network submit for defence in depth.
   const missing: string[] = [];
   if (!answers.startingPoint) missing.push("starting point");
   if (backgroundMissing) missing.push("relevant background");
@@ -213,6 +191,14 @@ const RealityCheckPage = () => {
   if (!answers.budget) missing.push("budget");
   if (!answers.region) missing.push("region");
   const canSubmit = missing.length === 0;
+
+  const currentStep: 0 | 1 | 2 | 3 = result
+    ? 3
+    : !answers.qualificationLevel
+    ? 0
+    : !answers.incomeNeed
+    ? 1
+    : 2;
 
   // ── Submit ───────────────────────────────────────────────────────────────────
 
@@ -404,207 +390,19 @@ const RealityCheckPage = () => {
           )}
 
           {!result && (
-            <div className="space-y-5">
-              {/* Section 1 — Starting point */}
-              <fieldset className="space-y-3">
-                <legend className="text-[10px] font-semibold uppercase tracking-wider text-gray-500 mb-2">
-                  1. Your starting point
-                </legend>
-                <Field label="Starting point">
-                  <ChipGroup
-                    options={STARTING_POINTS}
-                    value={answers.startingPoint}
-                    onChange={(v) => setAnswers((a) => ({ ...a, startingPoint: v }))}
-                    disabled={submitting}
-                  />
-                </Field>
-
-                {showSection2 && (
-                  <Field
-                    label={`Relevant background${backgroundRequired ? "" : " (optional)"}`}
-                    helper={
-                      backgroundRequired
-                        ? "What have you studied or worked in? This helps us judge whether you'll meet entry requirements."
-                        : "If anything you've done so far feels relevant, tell us briefly. Otherwise skip."
-                    }
-                    error={backgroundMissing ? "Add a little more detail about what you studied or worked in." : null}
-                  >
-                    <input
-                      type="text"
-                      value={answers.relevantBackground}
-                      onChange={(e) => setAnswers((a) => ({ ...a, relevantBackground: e.target.value }))}
-                      placeholder="e.g. psychology degree, retail manager, healthcare assistant, biology A-level"
-                      disabled={submitting}
-                      className="w-full rounded-lg bg-gray-700/60 border border-gray-600 px-2.5 py-1.5 text-sm text-white placeholder:text-gray-400 focus:outline-none focus:ring-1 focus:ring-amber-300/60"
-                    />
-                  </Field>
-                )}
-              </fieldset>
-
-              {/* Section 2 — Qualifications */}
-              {showSection2 && (
-                <fieldset className="space-y-3 border-t border-gray-700/50 pt-4">
-                  <legend className="text-[10px] font-semibold uppercase tracking-wider text-gray-500 mb-2">
-                    2. Qualifications
-                  </legend>
-                  <Field label="Highest qualification level">
-                    <ChipGroup
-                      options={QUALIFICATION_LEVELS}
-                      value={answers.qualificationLevel}
-                      onChange={(v) => setAnswers((a) => ({ ...a, qualificationLevel: v }))}
-                      disabled={submitting}
-                    />
-                  </Field>
-
-                  <Field
-                    label="Do you have GCSE English and maths, or equivalent?"
-                    helper="Many routes ask for English and maths or an equivalent qualification."
-                  >
-                    <ChipGroup
-                      options={ENGLISH_MATHS}
-                      value={answers.englishMaths}
-                      onChange={(v) => setAnswers((a) => ({ ...a, englishMaths: v }))}
-                      disabled={submitting}
-                    />
-                  </Field>
-
-                  <Field label={scienceLabel} helper={scienceHelper}>
-                    <ChipGroup
-                      options={SCIENCE_SUBJECTS}
-                      value={answers.scienceSubjects}
-                      onChange={(v) => setAnswers((a) => ({ ...a, scienceSubjects: v }))}
-                      disabled={submitting}
-                    />
-                  </Field>
-                </fieldset>
-              )}
-
-              {/* Section 3 — English / study readiness */}
-              {showSection3 && (
-                <fieldset className="space-y-3 border-t border-gray-700/50 pt-4">
-                  <legend className="text-[10px] font-semibold uppercase tracking-wider text-gray-500 mb-2">
-                    3. Study and English
-                  </legend>
-                  <Field
-                    label="Are you comfortable studying and working in English?"
-                    helper="Some routes involve written assignments, interviews, placements, or professional communication. We'll never use this to gatekeep — just to suggest realistic support."
-                  >
-                    <ChipGroup
-                      options={ENGLISH_COMFORT}
-                      value={answers.englishComfort}
-                      onChange={(v) => setAnswers((a) => ({ ...a, englishComfort: v }))}
-                      disabled={submitting}
-                    />
-                  </Field>
-                </fieldset>
-              )}
-
-              {/* Section 4 — Practical constraints */}
-              {showSection4 && (
-                <fieldset className="space-y-3 border-t border-gray-700/50 pt-4">
-                  <legend className="text-[10px] font-semibold uppercase tracking-wider text-gray-500 mb-2">
-                    4. Practical constraints
-                  </legend>
-                  <div className="grid grid-cols-1 sm:grid-cols-2 gap-x-4 gap-y-3">
-                    <Field label="Need to earn while training?">
-                      <ChipGroup
-                        options={INCOME_NEEDS}
-                        value={answers.incomeNeed}
-                        onChange={(v) => setAnswers((a) => ({ ...a, incomeNeed: v }))}
-                        disabled={submitting}
-                      />
-                    </Field>
-                    <Field label="Budget">
-                      <ChipGroup
-                        options={BUDGETS}
-                        value={answers.budget}
-                        onChange={(v) => setAnswers((a) => ({ ...a, budget: v }))}
-                        disabled={submitting}
-                      />
-                    </Field>
-                    <Field label="Where you live (UK)" helper="We use this to set realistic expectations for local opportunity coverage.">
-                      <ChipGroup
-                        options={REGIONS}
-                        value={answers.region}
-                        onChange={(v) => setAnswers((a) => ({ ...a, region: v }))}
-                        disabled={submitting}
-                      />
-                      {answers.region && !isSupportedRegion(answers.region) && (
-                        <p className="mt-1.5 text-[10px] text-amber-200/90 leading-snug">
-                          Verified local opportunity coverage isn't available in your area yet — your route judgement will still work.
-                        </p>
-                      )}
-                    </Field>
-                    <Field label="Town or postcode (optional)" helper="Add more detail if you'd like — it's not required.">
-                      <input
-                        type="text"
-                        value={answers.area}
-                        onChange={(e) => setAnswers((a) => ({ ...a, area: e.target.value }))}
-                        placeholder="e.g. Leeds, SE15"
-                        disabled={submitting}
-                        className="w-full rounded-lg bg-gray-700/60 border border-gray-600 px-2.5 py-1.5 text-sm text-white placeholder:text-gray-400 focus:outline-none focus:ring-1 focus:ring-amber-300/60"
-                      />
-                    </Field>
-                    <Field label="Weekly time available">
-                      <ChipGroup
-                        options={WEEKLY_HOURS}
-                        value={answers.weeklyHours}
-                        onChange={(v) => setAnswers((a) => ({ ...a, weeklyHours: v }))}
-                        disabled={submitting}
-                      />
-                    </Field>
-                    <Field label="Commute / relocation">
-                      <ChipGroup
-                        options={COMMUTE_FLEX}
-                        value={answers.commuteFlex}
-                        onChange={(v) => setAnswers((a) => ({ ...a, commuteFlex: v }))}
-                        disabled={submitting}
-                      />
-                    </Field>
-                  </div>
-                </fieldset>
-              )}
-
-              {/* Section 5 — Optional context */}
-              {showSection5 && (
-                <fieldset className="space-y-3 border-t border-gray-700/50 pt-4">
-                  <legend className="text-[10px] font-semibold uppercase tracking-wider text-gray-500 mb-2">
-                    5. Anything else? <span className="text-gray-600 font-normal normal-case">— optional</span>
-                  </legend>
-                  <Field label="Anything else we should factor in?">
-                    <textarea
-                      value={answers.notes}
-                      onChange={(e) => setAnswers((a) => ({ ...a, notes: e.target.value }))}
-                      placeholder="e.g. caring responsibilities, health, previous applications, transport limits, confidence, childcare"
-                      disabled={submitting}
-                      rows={3}
-                      className="w-full rounded-lg bg-gray-700/40 border border-gray-600/60 px-2.5 py-1.5 text-sm text-white placeholder:text-gray-500 focus:outline-none focus:ring-1 focus:ring-amber-300/40 resize-none"
-                    />
-                  </Field>
-                </fieldset>
-              )}
-
-              {/* Submit */}
-              <div className="border-t border-gray-700/50 pt-4 flex flex-wrap items-center gap-3">
-                <button
-                  type="button"
-                  onClick={submit}
-                  disabled={!canSubmit || submitting}
-                  className="inline-flex items-center gap-1.5 text-sm font-medium bg-amber-300 text-gray-900 px-4 py-2 rounded-lg disabled:opacity-40 disabled:cursor-not-allowed hover:bg-amber-200 transition-colors"
-                >
-                  {submitting ? <Loader2 className="h-4 w-4 animate-spin" /> : <Sparkles className="h-4 w-4" />}
-                  {submitting ? "Finding your route…" : "Show my realistic route"}
-                </button>
-                {!canSubmit && (
-                  <p className="text-[11px] text-gray-500">
-                    Still needed: {missing.join(", ")}.
-                  </p>
-                )}
-              </div>
-
-              {error && <p className="mt-1 text-xs text-rose-300">{error}</p>}
-            </div>
+            <WizardForm
+              answers={answers}
+              setAnswers={setAnswers}
+              submitting={submitting}
+              submit={submit}
+              error={error}
+              backgroundRequired={backgroundRequired}
+              backgroundMissing={backgroundMissing}
+              scienceLabel={scienceLabel}
+              scienceHelper={scienceHelper}
+            />
           )}
+
 
           {result && (
             <div ref={resultRef}>
@@ -627,3 +425,367 @@ const RealityCheckPage = () => {
 };
 
 export default RealityCheckPage;
+
+// ── Wizard form ───────────────────────────────────────────────────────────────
+// One-question-per-screen form with visible progress and Back/Next controls.
+// Validation runs per-step; the aggregate `canSubmit` gate in the parent still
+// guards the network submit for defence in depth.
+
+type WizardProps = {
+  answers: RealityCheckAnswers;
+  setAnswers: React.Dispatch<React.SetStateAction<RealityCheckAnswers>>;
+  submitting: boolean;
+  submit: () => void;
+  error: string | null;
+  backgroundRequired: boolean;
+  backgroundMissing: boolean;
+  scienceLabel: string;
+  scienceHelper: string;
+};
+
+type WizardStep = {
+  id: string;
+  phase: 0 | 1 | 2;
+  render: () => React.ReactNode;
+  isValid: () => boolean;
+  optional?: boolean;
+};
+
+const WizardForm = ({
+  answers,
+  setAnswers,
+  submitting,
+  submit,
+  error,
+  backgroundRequired,
+  backgroundMissing,
+  scienceLabel,
+  scienceHelper,
+}: WizardProps) => {
+  const [stepIndex, setStepIndex] = useState(0);
+
+  const set = <K extends keyof RealityCheckAnswers>(key: K, value: RealityCheckAnswers[K]) =>
+    setAnswers((a) => ({ ...a, [key]: value }));
+
+  const rawSteps: (WizardStep | null)[] = [
+    {
+      id: "starting_point",
+      phase: 0,
+      isValid: () => !!answers.startingPoint,
+      render: () => (
+        <Field
+          label="Where are you starting from?"
+          helper="Pick the option that best describes you right now."
+        >
+          <ChipGroup
+            options={STARTING_POINTS}
+            value={answers.startingPoint}
+            onChange={(v) => set("startingPoint", v)}
+            disabled={submitting}
+          />
+        </Field>
+      ),
+    },
+    backgroundRequired
+      ? {
+          id: "background",
+          phase: 0,
+          isValid: () => !backgroundMissing,
+          render: () => (
+            <Field
+              label="What have you studied or worked in?"
+              helper="A brief note helps us judge whether you'll meet entry requirements."
+              error={backgroundMissing ? "Add a little more detail." : null}
+            >
+              <input
+                type="text"
+                value={answers.relevantBackground}
+                onChange={(e) => set("relevantBackground", e.target.value)}
+                placeholder="e.g. psychology degree, retail manager, biology A-level"
+                disabled={submitting}
+                className="w-full rounded-lg bg-gray-700/60 border border-gray-600 px-2.5 py-1.5 text-sm text-white placeholder:text-gray-400 focus:outline-none focus:ring-1 focus:ring-amber-300/60"
+              />
+            </Field>
+          ),
+        }
+      : null,
+    {
+      id: "qualification",
+      phase: 1,
+      isValid: () => !!answers.qualificationLevel,
+      render: () => (
+        <Field label="What's your highest qualification?">
+          <ChipGroup
+            options={QUALIFICATION_LEVELS}
+            value={answers.qualificationLevel}
+            onChange={(v) => set("qualificationLevel", v)}
+            disabled={submitting}
+          />
+        </Field>
+      ),
+    },
+    {
+      id: "english_maths",
+      phase: 1,
+      isValid: () => !!answers.englishMaths,
+      render: () => (
+        <Field
+          label="Do you have GCSE English and maths, or equivalent?"
+          helper="Many routes ask for English and maths or an equivalent qualification."
+        >
+          <ChipGroup
+            options={ENGLISH_MATHS}
+            value={answers.englishMaths}
+            onChange={(v) => set("englishMaths", v)}
+            disabled={submitting}
+          />
+        </Field>
+      ),
+    },
+    {
+      id: "science",
+      phase: 1,
+      isValid: () => !!answers.scienceSubjects,
+      render: () => (
+        <Field label={scienceLabel} helper={scienceHelper}>
+          <ChipGroup
+            options={SCIENCE_SUBJECTS}
+            value={answers.scienceSubjects}
+            onChange={(v) => set("scienceSubjects", v)}
+            disabled={submitting}
+          />
+        </Field>
+      ),
+    },
+    {
+      id: "english_comfort",
+      phase: 2,
+      isValid: () => !!answers.englishComfort,
+      render: () => (
+        <Field
+          label="Are you comfortable studying and working in English?"
+          helper="We only use this to suggest realistic support — never to gatekeep."
+        >
+          <ChipGroup
+            options={ENGLISH_COMFORT}
+            value={answers.englishComfort}
+            onChange={(v) => set("englishComfort", v)}
+            disabled={submitting}
+          />
+        </Field>
+      ),
+    },
+    {
+      id: "income",
+      phase: 2,
+      isValid: () => !!answers.incomeNeed,
+      render: () => (
+        <Field
+          label="Do you need to earn while training?"
+          helper="This changes which routes are realistic — for example, apprenticeships pay, university generally doesn't."
+        >
+          <ChipGroup
+            options={INCOME_NEEDS}
+            value={answers.incomeNeed}
+            onChange={(v) => set("incomeNeed", v)}
+            disabled={submitting}
+          />
+        </Field>
+      ),
+    },
+    {
+      id: "budget",
+      phase: 2,
+      isValid: () => !!answers.budget,
+      render: () => (
+        <Field
+          label="How much can you spend on training?"
+          helper="Roughly — we use this to filter routes you can actually afford."
+        >
+          <ChipGroup
+            options={BUDGETS}
+            value={answers.budget}
+            onChange={(v) => set("budget", v)}
+            disabled={submitting}
+          />
+        </Field>
+      ),
+    },
+    {
+      id: "region",
+      phase: 2,
+      isValid: () => !!answers.region,
+      render: () => (
+        <div className="space-y-3">
+          <Field
+            label="Where in the UK do you live?"
+            helper="We use this to set realistic expectations for local opportunity coverage."
+          >
+            <ChipGroup
+              options={REGIONS}
+              value={answers.region}
+              onChange={(v) => set("region", v)}
+              disabled={submitting}
+            />
+            {answers.region && !isSupportedRegion(answers.region) && (
+              <p className="mt-1.5 text-[10px] text-amber-200/90 leading-snug">
+                Verified local opportunity coverage isn't available in your area yet — your route judgement will still work.
+              </p>
+            )}
+          </Field>
+          <Field label="Town or postcode (optional)" helper="Add more detail if you'd like — it's not required.">
+            <input
+              type="text"
+              value={answers.area}
+              onChange={(e) => set("area", e.target.value)}
+              placeholder="e.g. Leeds, SE15"
+              disabled={submitting}
+              className="w-full rounded-lg bg-gray-700/60 border border-gray-600 px-2.5 py-1.5 text-sm text-white placeholder:text-gray-400 focus:outline-none focus:ring-1 focus:ring-amber-300/60"
+            />
+          </Field>
+        </div>
+      ),
+    },
+    {
+      id: "weekly_hours",
+      phase: 2,
+      isValid: () => !!answers.weeklyHours,
+      optional: true,
+      render: () => (
+        <Field
+          label="How much time can you give this each week?"
+          helper="A rough estimate is fine. Skip if you're not sure."
+        >
+          <ChipGroup
+            options={WEEKLY_HOURS}
+            value={answers.weeklyHours}
+            onChange={(v) => set("weeklyHours", v)}
+            disabled={submitting}
+          />
+        </Field>
+      ),
+    },
+    {
+      id: "commute",
+      phase: 2,
+      isValid: () => !!answers.commuteFlex,
+      optional: true,
+      render: () => (
+        <Field
+          label="How far are you willing to travel or relocate?"
+          helper="Some routes cluster in particular places — this helps us judge fit."
+        >
+          <ChipGroup
+            options={COMMUTE_FLEX}
+            value={answers.commuteFlex}
+            onChange={(v) => set("commuteFlex", v)}
+            disabled={submitting}
+          />
+        </Field>
+      ),
+    },
+    {
+      id: "notes",
+      phase: 2,
+      isValid: () => true,
+      optional: true,
+      render: () => (
+        <Field
+          label="Anything else we should factor in? (optional)"
+          helper="e.g. caring responsibilities, health, transport, previous applications, childcare."
+        >
+          <textarea
+            value={answers.notes}
+            onChange={(e) => set("notes", e.target.value)}
+            placeholder="Tell us anything that could affect what's realistic for you."
+            disabled={submitting}
+            rows={3}
+            className="w-full rounded-lg bg-gray-700/40 border border-gray-600/60 px-2.5 py-1.5 text-sm text-white placeholder:text-gray-500 focus:outline-none focus:ring-1 focus:ring-amber-300/40 resize-none"
+          />
+        </Field>
+      ),
+    },
+  ];
+
+  const steps = rawSteps.filter((s): s is WizardStep => s !== null);
+  const total = steps.length;
+  const safeIndex = Math.min(stepIndex, total - 1);
+  const step = steps[safeIndex];
+  const isLast = safeIndex === total - 1;
+  const canAdvance = step.isValid() || step.optional === true;
+  const progressPct = Math.round(((safeIndex + 1) / total) * 100);
+
+  const goNext = () => {
+    if (isLast) {
+      submit();
+    } else {
+      setStepIndex((i) => Math.min(i + 1, total - 1));
+    }
+  };
+  const goBack = () => setStepIndex((i) => Math.max(i - 1, 0));
+
+  return (
+    <div className="space-y-4">
+      {/* Fine-grained progress */}
+      <div>
+        <div className="flex items-center justify-between text-[11px] text-gray-400 mb-1.5">
+          <span>Question {safeIndex + 1} of {total}</span>
+          {step.optional && (
+            <button
+              type="button"
+              onClick={goNext}
+              disabled={submitting}
+              className="text-amber-200 hover:text-white underline underline-offset-2"
+            >
+              Skip
+            </button>
+          )}
+        </div>
+        <div className="h-1 rounded-full bg-gray-700/60 overflow-hidden">
+          <div
+            className="h-full bg-amber-300 transition-all duration-300"
+            style={{ width: `${progressPct}%` }}
+          />
+        </div>
+      </div>
+
+      {/* Active question */}
+      <div key={step.id} className="pt-1">
+        {step.render()}
+      </div>
+
+      {error && <p className="text-xs text-rose-300">{error}</p>}
+
+      {/* Navigation */}
+      <div className="flex items-center justify-between gap-3 border-t border-gray-700/50 pt-4">
+        <button
+          type="button"
+          onClick={goBack}
+          disabled={safeIndex === 0 || submitting}
+          className="inline-flex items-center gap-1.5 text-sm font-medium text-gray-300 hover:text-white px-3 py-2 rounded-lg disabled:opacity-30 disabled:cursor-not-allowed"
+        >
+          <ArrowLeft className="h-4 w-4" />
+          Back
+        </button>
+        <button
+          type="button"
+          onClick={goNext}
+          disabled={!canAdvance || submitting}
+          className="inline-flex items-center gap-1.5 text-sm font-medium bg-amber-300 text-gray-900 px-4 py-2 rounded-lg disabled:opacity-40 disabled:cursor-not-allowed hover:bg-amber-200 transition-colors"
+        >
+          {submitting ? (
+            <Loader2 className="h-4 w-4 animate-spin" />
+          ) : isLast ? (
+            <Sparkles className="h-4 w-4" />
+          ) : null}
+          {submitting
+            ? "Finding your route…"
+            : isLast
+            ? "Show my realistic route"
+            : "Next"}
+          {!submitting && !isLast && <ArrowRight className="h-4 w-4" />}
+        </button>
+      </div>
+    </div>
+  );
+};
