@@ -613,8 +613,16 @@ const RolePage = () => {
           </div>
         )}
 
+        {/* Grants / bursaries / access schemes — moved here from above the CTA
+            so the pre-CTA area stays focused. Hidden once Reality-check has a
+            session result (matches surface on the dedicated page). */}
+        {!hasRealityCheckResult && (
+          <SupportMatches roleSlug={role.role_slug} roleName={role.role_name} />
+        )}
+
         {/* Detailed sections — collapsed by default */}
-        <Accordion type="multiple" className="mb-6">
+        <Accordion type="multiple" id="about-this-role" className="mb-6 scroll-mt-20">
+
           {role.short_description && (
             <AccordionItem value="about">
               <AccordionTrigger className="text-sm font-medium text-gray-900">
