@@ -498,13 +498,18 @@ const RolePage = () => {
       <Navbar />
 
       <main className="max-w-2xl w-full mx-auto px-4 py-8 font-sans">
-        {/* Header */}
-        <h1 className="text-2xl font-medium text-gray-900 mb-1">{role.role_name}</h1>
+        {/* Map-sheet header */}
+        <p className="font-mono text-[10px] uppercase tracking-[0.15em] text-ink/60 mb-2">
+          Role sheet
+        </p>
+        <h1 className="font-display text-4xl sm:text-5xl leading-[1.05] tracking-tight text-ink mb-2">
+          {role.role_name}
+        </h1>
         {role.reality_rating && (
-          <p className="text-sm text-gray-500 italic mb-3">{role.reality_rating}</p>
+          <p className="text-sm text-ink/70 italic mb-4">{role.reality_rating}</p>
         )}
 
-        {/* Badges — colour encodes meaning via central ratingTone helper */}
+        {/* Legend chips — data at a glance */}
         <div className="flex flex-wrap gap-2 mb-6">
           {role.demand && (
             <span className={ratingPillClass("demand", role.demand)}>
@@ -517,7 +522,7 @@ const RolePage = () => {
             </span>
           )}
           {salaryChip && (
-            <span className="inline-flex items-center rounded-full text-xs font-medium px-3.5 py-[7px] bg-primary/10 text-primary">
+            <span className="inline-flex items-center rounded-sm border-2 border-ink bg-paper px-2.5 py-1 font-mono text-[11px] uppercase tracking-wider text-ink">
               {salaryChip}
             </span>
           )}
@@ -551,41 +556,41 @@ const RolePage = () => {
 
         {/* Personalisation banner */}
         {isPersonalised && personalisationBanner(profile, role.role_name) && (
-          <div className="rounded-xl border border-primary/20 bg-primary/5 p-4 mb-6">
-            <p className="text-xs uppercase tracking-wide text-primary font-medium mb-1">
+          <div className="rounded-md border-2 border-ink bg-tint p-4 mb-6">
+            <p className="font-mono text-[10px] uppercase tracking-[0.15em] text-ink/60 mb-1">
               Personalised for you
             </p>
-            <p className="text-sm text-primary leading-relaxed">
+            <p className="text-sm text-ink leading-relaxed">
               {personalisationBanner(profile, role.role_name)}
             </p>
           </div>
         )}
 
-        {/* Balance pair: honest warnings + grounded positives */}
+        {/* Balance pair: honest warnings + grounded positives — map legend feel */}
         {((role.reality_check || role.uncomfortable_truth || successRoutes.length > 0) || positivesShown.length > 0) && (
           <div className="grid grid-cols-1 md:grid-cols-2 gap-3 mb-6">
             {(role.reality_check || role.uncomfortable_truth || successRoutes.length > 0) && (
-              <div className="rounded-lg border border-gray-200 bg-white p-3">
-                <p className="text-[10px] font-semibold uppercase tracking-wider text-gray-400 mb-2">
+              <div className="rounded-md border-2 border-ink bg-paper p-4">
+                <p className="font-mono text-[10px] uppercase tracking-[0.15em] text-danger mb-2">
                   Before you commit
                 </p>
-                <ul className="space-y-1.5 text-sm text-gray-700">
+                <ul className="space-y-1.5 text-sm text-ink/85">
                   {role.reality_check && (
                     <li className="flex gap-2 items-start leading-snug">
-                      <span className="text-gray-400 flex-shrink-0 mt-0.5">·</span>
-                      <span><span className="font-medium text-gray-900">Reality:</span> {role.reality_check.split(/(?<=[.!?])\s/)[0]}</span>
+                      <span className="text-danger flex-shrink-0 mt-0.5">▲</span>
+                      <span><span className="font-semibold text-ink">Reality:</span> {role.reality_check.split(/(?<=[.!?])\s/)[0]}</span>
                     </li>
                   )}
                   {(role.uncomfortable_truth || role.career_regret_risk) && (
                     <li className="flex gap-2 items-start leading-snug">
-                      <span className="text-gray-400 flex-shrink-0 mt-0.5">·</span>
-                      <span><span className="font-medium text-gray-900">Biggest risk:</span> {(role.uncomfortable_truth || role.career_regret_risk)!.split(/(?<=[.!?])\s/)[0]}</span>
+                      <span className="text-danger flex-shrink-0 mt-0.5">▲</span>
+                      <span><span className="font-semibold text-ink">Biggest risk:</span> {(role.uncomfortable_truth || role.career_regret_risk)!.split(/(?<=[.!?])\s/)[0]}</span>
                     </li>
                   )}
                   {successRoutes.length > 0 && (
                     <li className="flex gap-2 items-start leading-snug">
-                      <span className="text-gray-400 flex-shrink-0 mt-0.5">·</span>
-                      <span><span className="font-medium text-gray-900">Usually works:</span> {(() => {
+                      <span className="text-wood flex-shrink-0 mt-0.5">●</span>
+                      <span><span className="font-semibold text-ink">Usually works:</span> {(() => {
                         const first = successRoutes[0].replace(/^\s*[-•]\s*/, "").trim();
                         const short = first.split(/(?<=[.!?])\s/)[0];
                         return short.length > 90 ? short.slice(0, 90).replace(/\s+\S*$/, "") + "…" : short;
@@ -596,15 +601,15 @@ const RolePage = () => {
               </div>
             )}
             {positivesShown.length > 0 && (
-              <div className="rounded-lg border border-gray-200 bg-white p-3">
-                <p className="text-[10px] font-semibold uppercase tracking-wider text-gray-400 mb-2">
-                  What people like about this job
+              <div className="rounded-md border-2 border-ink bg-paper p-4">
+                <p className="font-mono text-[10px] uppercase tracking-[0.15em] text-wood mb-2">
+                  What people like
                 </p>
-                <ul className="space-y-1.5 text-sm text-gray-700">
+                <ul className="space-y-1.5 text-sm text-ink/85">
                   {positivesShown.map((p) => (
                     <li key={p.label} className="flex gap-2 items-start leading-snug">
-                      <span className="text-gray-400 flex-shrink-0 mt-0.5">·</span>
-                      <span><span className="font-medium text-gray-900">{p.label}:</span> {p.text}</span>
+                      <span className="text-wood flex-shrink-0 mt-0.5">●</span>
+                      <span><span className="font-semibold text-ink">{p.label}:</span> {p.text}</span>
                     </li>
                   ))}
                 </ul>
