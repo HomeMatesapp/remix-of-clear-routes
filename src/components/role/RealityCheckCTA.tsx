@@ -105,35 +105,33 @@ export const RealityCheckCTA = ({
 
   return (
     <section
-      aria-label="Reality-check this route"
-      className="rounded-xl border border-gray-800 bg-gradient-to-br from-gray-900 to-gray-800 p-4 mb-6 text-white shadow-sm"
+      aria-label="Find your most realistic route"
+      className="rounded-xl border border-gray-800 bg-gradient-to-br from-gray-900 to-gray-800 p-5 mb-6 text-white shadow-sm"
     >
-      <div className="flex items-center gap-2 mb-1.5">
-        <Sparkles className="h-3.5 w-3.5 text-amber-300" />
-        <p className="text-[11px] font-semibold uppercase tracking-wider text-amber-300">
-          Reality-check this route
-        </p>
-      </div>
-      <h2 className="text-base font-semibold mb-1">
-        Is {roleName} realistic for you?
+      <h2 className="text-lg font-semibold mb-2 leading-snug">
+        Find your most realistic route into {roleName}
       </h2>
-      <p className="text-xs text-gray-300 mb-3 leading-relaxed">
-        Answer a few questions about your background, qualifications, budget, time, and area.
-        We'll show the route with the best odds — plus the one to be careful with.
+      <p className="text-sm text-gray-300 mb-2 leading-relaxed">
+        Answer a few questions about your qualifications, location, time and budget.
+        You'll get the route most likely to work for you, the biggest barrier to address,
+        and your next three actions.
       </p>
-      <div className="flex flex-wrap items-center gap-3">
+      <p className="text-xs text-gray-400 mb-4">
+        About 3 minutes · No account needed
+      </p>
+      <div className="flex flex-wrap items-center gap-4">
         <Link
           to={target}
           className="inline-flex items-center gap-1.5 text-sm font-medium bg-amber-300 text-gray-900 px-4 py-2 rounded-lg hover:bg-amber-200 transition-colors"
         >
           <Sparkles className="h-4 w-4" />
-          Start Reality-check
+          Check my route
         </Link>
         <a
           href="#about-this-role"
           className="text-xs text-gray-300 underline underline-offset-2 hover:text-white"
         >
-          Read about the role first
+          Not ready yet? Explore the role
         </a>
       </div>
     </section>

@@ -15,7 +15,7 @@ import { RealityCheckCTA } from "@/components/role/RealityCheckCTA";
 import { loadSessionResult } from "@/components/role/reality-check-shared";
 import { Accordion, AccordionItem, AccordionTrigger, AccordionContent } from "@/components/ui/accordion";
 import { SupportMatches } from "@/components/role/SupportMatches";
-import { ServiceLevelBadge } from "@/components/ServiceLevelBadge";
+// ServiceLevelBadge removed from role page; kept in codebase for other surfaces.
 import type { RoleServiceLevel } from "@/lib/reality-check/service-levels";
 
 // ── TYPES ─────────────────────────────────────────────────────────────────────
@@ -528,11 +528,10 @@ const RolePage = () => {
           )}
         </div>
 
-        {/* Service-level badge — honest about how much of Clear Routes is
-            reviewed for this role. */}
-        <div className="mb-3">
-          <ServiceLevelBadge level={role.service_level} />
-        </div>
+        {/* Service-level badge intentionally removed from the role page —
+            the info_only state is already communicated by the CTA card copy.
+            The ServiceLevelBadge component is retained for other surfaces. */}
+
 
         {/* Reality-check this route — compact CTA links to the dedicated page.
             The full form lives at /role/:slug/reality-check. If a result already
