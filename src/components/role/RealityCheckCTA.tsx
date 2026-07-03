@@ -111,13 +111,29 @@ export const RealityCheckCTA = ({
       <h2 className="text-lg font-semibold mb-2 leading-snug">
         Find your most realistic route into {roleName}
       </h2>
-      <p className="text-sm text-gray-300 mb-2 leading-relaxed">
-        Answer a few questions about your qualifications, location, time and budget.
-        You'll get the route most likely to work for you, the biggest barrier to address,
-        and your next three actions.
+      <p className="text-sm text-gray-300 mb-3 leading-relaxed">
+        In about 3 minutes you'll get:
       </p>
+      <ul className="space-y-1.5 mb-3 text-sm text-gray-100">
+        <li className="flex gap-2 items-start leading-snug">
+          <span className="text-amber-300 flex-shrink-0 mt-0.5">·</span>
+          <span>the most realistic route for your situation</span>
+        </li>
+        <li className="flex gap-2 items-start leading-snug">
+          <span className="text-amber-300 flex-shrink-0 mt-0.5">·</span>
+          <span>the main barriers you'll need to solve</span>
+        </li>
+        <li className="flex gap-2 items-start leading-snug">
+          <span className="text-amber-300 flex-shrink-0 mt-0.5">·</span>
+          <span>the training route to avoid</span>
+        </li>
+        <li className="flex gap-2 items-start leading-snug">
+          <span className="text-amber-300 flex-shrink-0 mt-0.5">·</span>
+          <span>your next three actions</span>
+        </li>
+      </ul>
       <p className="text-xs text-gray-400 mb-4">
-        About 3 minutes · No account needed
+        No account needed. You can save the result afterwards.
       </p>
       <div className="flex flex-wrap items-center gap-4">
         <Link
