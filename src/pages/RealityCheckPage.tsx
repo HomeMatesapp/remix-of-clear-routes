@@ -471,8 +471,9 @@ const RealityCheckPage = () => {
               backgroundMissing={backgroundMissing}
               scienceLabel={scienceLabel}
               scienceHelper={scienceHelper}
-              stepIndex={stepIndex}
-              setStepIndex={setStepIndex}
+              stepId={stepId}
+              setStepId={setStepId}
+              startingPointUnresolved={startingPointUnresolved}
               startingPointStatus={startingPointStatus}
               setStartingPointStatus={setStartingPointStatus}
               startingPointOtherText={startingPointOtherText}
