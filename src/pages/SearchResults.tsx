@@ -1,26 +1,43 @@
 import { useEffect, useMemo, useState } from "react";
 import { Helmet } from "react-helmet-async";
-import { Link, useNavigate, useSearchParams } from "react-router-dom";
+import { Link, useSearchParams } from "react-router-dom";
 import { Loader2 } from "lucide-react";
 import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
 import { supabase } from "@/integrations/supabase/client";
 import { slugifyRole } from "@/lib/role";
 import { matchRoleAliases, aliasLabel, type AliasMatch } from "@/lib/role-aliases";
+import { trackEvent } from "@/lib/posthog";
 
 type Match = {
   role_name: string;
   role_slug: string;
   short_description: string | null;
+  salary_entry: number | null;
+  salary_senior: number | null;
+  salary_experienced: number | null;
+  demand: string | null;
+  competition_level: string | null;
+  ai_impact_level: string | null;
   _alias?: AliasMatch | null;
   _tier: "exact" | "alias" | "partial" | "fuzzy";
 };
 
 const tierRank = { exact: 0, alias: 1, partial: 2, fuzzy: 3 } as const;
 
+const fmtK = (n: number | null) => (n == null ? null : `£${Math.round(n / 1000)}K`);
+const salaryRange = (r: Match): string | null => {
+  const lo = r.salary_entry;
+  const hi = r.salary_senior ?? r.salary_experienced;
+  if (lo == null && hi == null) return null;
+  if (lo != null && hi != null && hi > lo) return `${fmtK(lo)}–${fmtK(hi)}+`;
+  return fmtK(lo ?? hi);
+};
+const titleCase = (v: string | null) =>
+  v ? v.charAt(0).toUpperCase() + v.slice(1).toLowerCase() : "";
+
 const SearchResults = () => {
   const [params] = useSearchParams();
-  const navigate = useNavigate();
   const q = (params.get("q") || "").trim();
 
   const [loading, setLoading] = useState(true);
@@ -53,7 +70,9 @@ const SearchResults = () => {
 
       const { data } = await supabase
         .from("roles")
-        .select("role_name, role_slug, short_description")
+        .select(
+          "role_name, role_slug, short_description, salary_entry, salary_experienced, salary_senior, demand, competition_level, ai_impact_level"
+        )
         .or(orClauses.join(","))
         .not("role_slug", "like", "\\_merged\\_%")
         .not("role_slug", "like", "\\_pre\\_%")
@@ -63,7 +82,6 @@ const SearchResults = () => {
       if (cancelled) return;
       const rows = (data || []) as Match[];
 
-      // Score each row by tier
       const aliasBySlug = new Map(aliasMatches.map((a) => [a.slug, a]));
       const scored: Match[] = rows.map((r) => {
         const nameLower = r.role_name.toLowerCase();
@@ -84,16 +102,12 @@ const SearchResults = () => {
         return x.role_name.localeCompare(y.role_name);
       });
 
-      // Single perfect match → straight to the role page
+      // Always land on the results page — no auto-redirect on exact match.
       const exact = scored.find(
         (r) =>
           r._tier === "exact" &&
           (r.role_slug === querySlug || r.role_name.toLowerCase() === qLower)
       );
-      if (scored.length === 1) {
-        navigate(`/role/${scored[0].role_slug}`, { replace: true });
-        return;
-      }
       if (exact && scored.length > 1) {
         setResults([exact, ...scored.filter((r) => r.role_slug !== exact.role_slug)]);
       } else {
@@ -104,13 +118,14 @@ const SearchResults = () => {
     return () => {
       cancelled = true;
     };
-  }, [q, querySlug, navigate]);
+  }, [q, querySlug]);
 
   return (
     <div className="min-h-screen flex flex-col bg-background">
       <Helmet>
         <title>{q ? `Search: ${q}` : "Search"} — Clear Routes</title>
         <meta name="description" content={`Career search results for "${q}".`} />
+        <link rel="canonical" href={q ? `/search?q=${encodeURIComponent(q)}` : "/search"} />
       </Helmet>
       <Navbar />
       <main className="flex-1">
@@ -137,18 +152,36 @@ const SearchResults = () => {
               <p className="mt-2 text-sm text-muted-foreground">
                 {results.length} {results.length === 1 ? "career" : "careers"} found
               </p>
-              <ul className="mt-8 divide-y divide-border border-t border-b border-border">
+              <ul className="mt-8 space-y-3">
                 {results.map((r) => {
                   const showAlias =
                     r._alias &&
                     !r.role_name.toLowerCase().includes(r._alias.matchedAlias);
+                  const salary = salaryRange(r);
+                  const chips = [
+                    salary,
+                    r.demand ? `${titleCase(r.demand)} demand` : null,
+                    r.competition_level ? `${titleCase(r.competition_level)} competition` : null,
+                    r.ai_impact_level ? `${titleCase(r.ai_impact_level)} AI impact` : null,
+                  ].filter(Boolean) as string[];
                   return (
                     <li key={r.role_slug}>
                       <Link
                         to={`/role/${r.role_slug}`}
-                        className="block py-4 hover:bg-muted/50 px-2 -mx-2 rounded transition-colors"
+                        state={{ q }}
+                        onClick={() =>
+                          trackEvent("role_search_result_opened", {
+                            role_slug: r.role_slug,
+                            search_query: q,
+                            source_page: "search_results",
+                          })
+                        }
+                        className="block p-4 border-2 border-ink/80 bg-paper rounded-md hover:bg-tint transition-colors"
                       >
-                        <div className="font-medium text-foreground">{r.role_name}</div>
+                        <div className="flex items-baseline justify-between gap-3">
+                          <div className="font-display text-lg text-ink">{r.role_name}</div>
+                          <div className="font-mono text-xs text-ink/60 shrink-0">View role →</div>
+                        </div>
                         {showAlias && (
                           <div className="mt-0.5 text-xs text-muted-foreground">
                             Also called {aliasLabel(r._alias!)}
@@ -156,8 +189,15 @@ const SearchResults = () => {
                           </div>
                         )}
                         {r.short_description && (
-                          <div className="mt-1 text-sm text-muted-foreground line-clamp-2">
+                          <div className="mt-1 text-sm text-ink/70 line-clamp-2">
                             {r.short_description}
+                          </div>
+                        )}
+                        {chips.length > 0 && (
+                          <div className="mt-2 flex flex-wrap gap-x-3 gap-y-1 font-mono text-[11px] uppercase tracking-wider text-ink/60">
+                            {chips.map((c) => (
+                              <span key={c}>{c}</span>
+                            ))}
                           </div>
                         )}
                       </Link>
