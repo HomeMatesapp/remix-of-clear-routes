@@ -958,15 +958,15 @@ const WizardForm = ({
         >
           {submitting ? (
             <Loader2 className="h-4 w-4 animate-spin" />
-          ) : isLast ? (
+          ) : isReview ? (
             <Sparkles className="h-4 w-4" />
           ) : null}
           {submitting
             ? "Finding your route…"
-            : isLast
+            : isReview
             ? "Show my realistic route"
             : "Next"}
-          {!submitting && !isLast && <ArrowRight className="h-4 w-4" />}
+          {!submitting && !isReview && <ArrowRight className="h-4 w-4" />}
         </button>
       </div>
     </div>
