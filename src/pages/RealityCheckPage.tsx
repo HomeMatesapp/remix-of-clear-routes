@@ -438,11 +438,18 @@ const RealityCheckPage = () => {
               setAnswers={setAnswers}
               submitting={submitting}
               submit={submit}
+              canSubmit={canSubmit}
               error={error}
               backgroundRequired={backgroundRequired}
               backgroundMissing={backgroundMissing}
               scienceLabel={scienceLabel}
               scienceHelper={scienceHelper}
+              stepIndex={stepIndex}
+              setStepIndex={setStepIndex}
+              startingPointStatus={startingPointStatus}
+              setStartingPointStatus={setStartingPointStatus}
+              startingPointOtherText={startingPointOtherText}
+              setStartingPointOtherText={setStartingPointOtherText}
             />
           )}
 
