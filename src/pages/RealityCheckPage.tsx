@@ -114,11 +114,16 @@ const RealityCheckPage = () => {
   const [prefilled, setPrefilled] = useState(false);
   const resultRef = useRef<HTMLDivElement | null>(null);
 
-  // Wizard state — persisted across refresh so partially-completed answers
-  // survive an accidental reload. `startingPointStatus === "answered_unresolved"`
-  // means the user picked "Not sure" or "Something else" for Q1: the engine
-  // gets no signal from that field, but the questionnaire can still submit.
-  const [stepIndex, setStepIndex] = useState(0);
+  // Wizard state is persisted across refresh (per-tab, sessionStorage) so
+  // partially-completed answers survive an accidental reload.
+  // `startingPointStatus === "unresolved_*"` means the user picked "Not sure"
+  // or "Something else" for Q1: the engine gets no signal from that field,
+  // but the questionnaire can still submit — see the review-screen notice
+  // and the result-page banner below.
+  // We track position by stepId (stable) rather than a numeric index so
+  // future changes to question order don't restore users onto a different
+  // question.
+  const [stepId, setStepId] = useState<string | null>(null);
   const [startingPointStatus, setStartingPointStatus] = useState<StartingPointStatus | null>(null);
   const [startingPointOtherText, setStartingPointOtherText] = useState("");
   const [hydratedProgress, setHydratedProgress] = useState(false);
