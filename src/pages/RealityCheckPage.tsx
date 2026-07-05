@@ -940,21 +940,41 @@ const WizardForm = ({
   ];
 
   const steps = rawSteps.filter((s): s is WizardStep => s !== null);
-  const total = steps.length;
-  const safeIndex = Math.min(stepIndex, total - 1);
+  const visibleIds = steps.map((s) => s.id);
+  const questionIds = visibleIds.filter((id) => id !== "review");
+  const totalQuestions = questionIds.length;
+
+  // Initialise stepId once we know the visible steps; clamp any restored
+  // value against the current visible set so an old session can't restore
+  // onto a hidden or unknown screen.
+  const currentStepId = clampStepId(stepId, visibleIds);
+  useEffect(() => {
+    if (stepId !== currentStepId) setStepId(currentStepId);
+  }, [stepId, currentStepId, setStepId]);
+
+  const safeIndex = Math.max(0, visibleIds.indexOf(currentStepId));
   const step = steps[safeIndex];
   const isReview = step.isReview === true;
   const canAdvance = step.isValid() || step.optional === true;
-  const progressPct = Math.round(((safeIndex + 1) / total) * 100);
+  const currentQuestionNumber = isReview
+    ? totalQuestions
+    : Math.min(questionIds.indexOf(step.id) + 1, totalQuestions);
+  const progressPct = Math.round(
+    ((isReview ? totalQuestions : currentQuestionNumber) / Math.max(1, totalQuestions)) * 100,
+  );
 
   const goNext = () => {
     if (isReview) {
       submit();
     } else {
-      setStepIndex((i) => Math.min(i + 1, total - 1));
+      const nextId = visibleIds[Math.min(safeIndex + 1, visibleIds.length - 1)];
+      setStepId(nextId);
     }
   };
-  const goBack = () => setStepIndex((i) => Math.max(i - 1, 0));
+  const goBack = () => {
+    const prevId = visibleIds[Math.max(safeIndex - 1, 0)];
+    setStepId(prevId);
+  };
 
   return (
     <div className="space-y-4">
@@ -962,7 +982,9 @@ const WizardForm = ({
       <div>
         <div className="flex items-center justify-between text-[11px] text-gray-400 mb-1.5">
           <span>
-            {isReview ? `Review · ${total - 1} questions` : `Question ${safeIndex + 1} of ${total - 1}`}
+            {isReview
+              ? `Review · ${totalQuestions} question${totalQuestions === 1 ? "" : "s"}`
+              : `Question ${currentQuestionNumber} of ${totalQuestions}`}
           </span>
           {step.optional && !isReview && (
             <button
