@@ -149,15 +149,15 @@ const RoleHub = () => {
     });
   if (role.ai_impact_level)
     metrics.push({
-      label: "AI impact",
+      label: "AI exposure",
       value: titleCase(role.ai_impact_level),
       tone: levelTone(role.ai_impact_level, true),
     });
 
   const path = `/role/${role.role_slug}`;
   const pageDesc =
-    role.short_description ||
-    `Decide your next step for a career as a ${role.role_name}.`;
+    (role.hub_summary || role.short_description ||
+    `Decide your next step for a career as a ${role.role_name}.`);
 
   return (
     <div className="min-h-screen flex flex-col bg-background">
