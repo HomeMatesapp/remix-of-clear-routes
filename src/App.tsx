@@ -6,6 +6,7 @@ import { Toaster } from "@/components/ui/toaster";
 import { TooltipProvider } from "@/components/ui/tooltip";
 import { AuthProvider } from "@/hooks/useAuth";
 import Index from "./pages/Index";
+import RoleHub from "./pages/RoleHub";
 import RolePage from "./pages/RolePage";
 import RealityCheckPage from "./pages/RealityCheckPage";
 import SearchResults from "./pages/SearchResults";
@@ -42,7 +43,8 @@ const App = () => (
             <ErrorBoundary>
               <Routes>
                 <Route path="/" element={<Index />} />
-                <Route path="/role/:slug" element={<RolePage />} />
+                <Route path="/role/:slug" element={<RoleHub />} />
+                <Route path="/role/:slug/profile" element={<RolePage />} />
                 <Route path="/role/:slug/reality-check" element={<RealityCheckPage />} />
                 <Route path="/search" element={<SearchResults />} />
                 <Route path="/provider/:id" element={<ProviderPage />} />
