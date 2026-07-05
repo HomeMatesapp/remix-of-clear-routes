@@ -171,7 +171,7 @@ const RoleHub = () => {
       </Helmet>
       <Navbar />
       <main className="flex-1">
-        <div className="container mx-auto px-4 py-10 max-w-5xl">
+        <div className="container mx-auto px-4 py-6 max-w-5xl">
           <Link
             to={backSearch}
             className="inline-flex items-center gap-1.5 font-mono text-xs uppercase tracking-wider text-ink/70 hover:text-ink"
@@ -180,7 +180,7 @@ const RoleHub = () => {
             {stateQuery ? `Back to results for "${stateQuery}"` : "Back to search"}
           </Link>
 
-          <header className="mt-6">
+          <header className="mt-4">
             <h1 className="font-display text-4xl sm:text-5xl text-ink leading-tight">
               {role.role_name}
             </h1>
