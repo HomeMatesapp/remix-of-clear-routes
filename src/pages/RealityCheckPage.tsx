@@ -538,13 +538,17 @@ const WizardForm = ({
     setStartingPointOtherText("");
   };
 
-  const pickStartingPointUnresolved = (variant: "not_sure" | "something_else") => {
+  const pickStartingPointUnresolved = (variant: "not_sure" | "other") => {
     set("startingPoint", null);
-    setStartingPointStatus("answered_unresolved");
+    setStartingPointStatus(
+      variant === "not_sure" ? "unresolved_not_sure" : "unresolved_other",
+    );
     if (variant === "not_sure") setStartingPointOtherText("");
   };
 
-  const startingPointUnresolved = startingPointStatus === "answered_unresolved";
+  const notSureActive = startingPointStatus === "unresolved_not_sure";
+  const otherActive = startingPointStatus === "unresolved_other";
+  const startingPointUnresolved = notSureActive || otherActive;
   const startingPointAnswered = !!answers.startingPoint || startingPointUnresolved;
 
   const rawSteps: (WizardStep | null)[] = [
@@ -569,7 +573,7 @@ const WizardForm = ({
               disabled={submitting}
               onClick={() => pickStartingPointUnresolved("not_sure")}
               className={`text-xs px-2.5 py-1 rounded-full border transition-colors ${
-                startingPointUnresolved && !startingPointOtherText
+                notSureActive
                   ? "border-amber-300 bg-amber-300 text-gray-900"
                   : "border-gray-600 bg-gray-700/50 text-gray-200 hover:bg-gray-700"
               } disabled:opacity-50`}
@@ -579,9 +583,9 @@ const WizardForm = ({
             <button
               type="button"
               disabled={submitting}
-              onClick={() => pickStartingPointUnresolved("something_else")}
+              onClick={() => pickStartingPointUnresolved("other")}
               className={`text-xs px-2.5 py-1 rounded-full border transition-colors ${
-                startingPointUnresolved && !!startingPointOtherText
+                otherActive
                   ? "border-amber-300 bg-amber-300 text-gray-900"
                   : "border-gray-600 bg-gray-700/50 text-gray-200 hover:bg-gray-700"
               } disabled:opacity-50`}
@@ -589,7 +593,7 @@ const WizardForm = ({
               Something else
             </button>
           </div>
-          {startingPointUnresolved && (
+          {otherActive && (
             <div className="mt-2">
               <label className="block text-[10px] text-gray-400 mb-1">
                 Tell us briefly what your current situation is (optional)
@@ -606,6 +610,11 @@ const WizardForm = ({
                 We'll skip inferring a starting point from this — your route judgement will be a little less specific.
               </p>
             </div>
+          )}
+          {notSureActive && (
+            <p className="mt-2 text-[10px] text-gray-500 leading-snug">
+              We'll skip inferring a starting point — your route judgement will be a little less specific.
+            </p>
           )}
         </Field>
       ),
