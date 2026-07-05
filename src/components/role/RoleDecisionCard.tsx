@@ -69,7 +69,7 @@ export const RoleDecisionCard = ({
     </div>
   );
 
-  if (comingSoon || !to) {
+  if (comingSoon || !to || primary) {
     return <div className="block h-full">{body}</div>;
   }
   return (
