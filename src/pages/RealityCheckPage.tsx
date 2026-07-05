@@ -520,8 +520,9 @@ type WizardProps = {
   backgroundMissing: boolean;
   scienceLabel: string;
   scienceHelper: string;
-  stepIndex: number;
-  setStepIndex: React.Dispatch<React.SetStateAction<number>>;
+  stepId: string | null;
+  setStepId: React.Dispatch<React.SetStateAction<string | null>>;
+  startingPointUnresolved: boolean;
   startingPointStatus: StartingPointStatus | null;
   setStartingPointStatus: React.Dispatch<React.SetStateAction<StartingPointStatus | null>>;
   startingPointOtherText: string;
