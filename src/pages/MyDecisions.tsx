@@ -275,7 +275,7 @@ const MyDecisions = () => {
                       <div className="flex items-start justify-between gap-2 mb-2">
                         <div className="min-w-0">
                           <Link
-                            to={`/role/${d.role_slug}`}
+                            to={`/role/${d.role_slug}/profile`}
                             className="font-display text-lg font-medium text-foreground hover:underline truncate block"
                           >
                             {d.role_name}
@@ -337,13 +337,13 @@ const MyDecisions = () => {
                           <Target className="h-3.5 w-3.5" /> Find opportunities
                         </Link>
                         <Link
-                          to={`/role/${d.role_slug}`}
+                          to={`/role/${d.role_slug}/profile`}
                           className="inline-flex items-center gap-1 text-muted-foreground hover:text-foreground"
                         >
                           Back to role <ArrowRight className="h-3.5 w-3.5" />
                         </Link>
                         <Link
-                          to={`/role/${d.role_slug}#reality-check`}
+                          to={`/role/${d.role_slug}/reality-check`}
                           className="inline-flex items-center gap-1 text-muted-foreground hover:text-foreground"
                         >
                           <RefreshCcw className="h-3.5 w-3.5" /> Run again with updated answers

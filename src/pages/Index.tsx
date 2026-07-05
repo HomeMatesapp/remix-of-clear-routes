@@ -146,7 +146,10 @@ const Index = () => {
 
   const goToRole = (roleSlug: string, roleName: string, source: string) => {
     trackEvent("search_submitted", { role: roleName, source });
-    navigate(`/role/${roleSlug}`);
+    trackEvent("role_search_submitted", { search_query: roleName, source_page: source });
+    // Always route through the results page so the flow is consistent
+    // and the hub can preserve the original query in its back link.
+    navigate(`/search?q=${encodeURIComponent(roleName)}`);
   };
 
   const submitSearch = () => {
@@ -158,6 +161,7 @@ const Index = () => {
     }
     setSearchError(null);
     trackEvent("search_submitted", { role: trimmed, source: "search_box" });
+    trackEvent("role_search_submitted", { search_query: trimmed, source_page: "search_box" });
     navigate(`/search?q=${encodeURIComponent(trimmed)}`);
   };
 
