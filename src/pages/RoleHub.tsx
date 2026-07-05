@@ -184,9 +184,9 @@ const RoleHub = () => {
             <h1 className="font-display text-4xl sm:text-5xl text-ink leading-tight">
               {role.role_name}
             </h1>
-            {role.short_description && (
-              <p className="mt-3 text-lg text-ink/80 max-w-3xl">
-                {role.short_description}
+            {(role.hub_summary || role.short_description) && (
+              <p className="mt-3 text-base text-ink/80 max-w-3xl leading-relaxed">
+                {role.hub_summary || role.short_description}
               </p>
             )}
           </header>
