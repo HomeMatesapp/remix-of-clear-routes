@@ -41,6 +41,10 @@ import {
   loadSessionResult,
   saveSessionResult,
   clearSessionResult,
+  loadInProgressAnswers,
+  saveInProgressAnswers,
+  clearInProgressAnswers,
+  type StartingPointStatus,
 } from "@/components/role/reality-check-shared";
 import { isSupportedRegion } from "@/lib/reality-check/regions";
 import { isRealityCheckEnabled as isRealityCheckReady } from "@/lib/reality-check/service-levels";
@@ -106,6 +110,15 @@ const RealityCheckPage = () => {
   const [prefilled, setPrefilled] = useState(false);
   const resultRef = useRef<HTMLDivElement | null>(null);
 
+  // Wizard state — persisted across refresh so partially-completed answers
+  // survive an accidental reload. `startingPointStatus === "answered_unresolved"`
+  // means the user picked "Not sure" or "Something else" for Q1: the engine
+  // gets no signal from that field, but the questionnaire can still submit.
+  const [stepIndex, setStepIndex] = useState(0);
+  const [startingPointStatus, setStartingPointStatus] = useState<StartingPointStatus | null>(null);
+  const [startingPointOtherText, setStartingPointOtherText] = useState("");
+  const [hydratedProgress, setHydratedProgress] = useState(false);
+
   // Load role
   useEffect(() => {
     let cancelled = false;
@@ -128,6 +141,18 @@ const RealityCheckPage = () => {
       if (cached) {
         setAnswers(cached.answers);
         setResult(cached.result);
+        setHydratedProgress(true);
+      } else {
+        // Otherwise restore in-progress answers so a mid-wizard refresh
+        // doesn't wipe what the user has already typed.
+        const progress = loadInProgressAnswers(slug);
+        if (progress) {
+          setAnswers(progress.answers);
+          setStepIndex(progress.stepIndex);
+          setStartingPointStatus(progress.startingPointStatus);
+          setStartingPointOtherText(progress.startingPointOtherText);
+        }
+        setHydratedProgress(true);
       }
       setLoading(false);
     })();
@@ -170,6 +195,18 @@ const RealityCheckPage = () => {
     }
   }, [result]);
 
+  // Persist in-progress answers so a refresh mid-wizard doesn't wipe them.
+  // Only writes after hydration to avoid clobbering restored state.
+  useEffect(() => {
+    if (!slug || !hydratedProgress || result) return;
+    saveInProgressAnswers(slug, {
+      answers,
+      stepIndex,
+      startingPointStatus,
+      startingPointOtherText,
+    });
+  }, [slug, hydratedProgress, result, answers, stepIndex, startingPointStatus, startingPointOtherText]);
+
   // ── Validation & progressive disclosure ─────────────────────────────────────
 
   const sciencyRole = role ? isStemOrHealthcareRole(role.role_name) : false;
@@ -180,8 +217,14 @@ const RealityCheckPage = () => {
 
   // Validity is now enforced step-by-step in the WizardForm; the aggregate
   // `canSubmit` gate below still guards the network submit for defence in depth.
+  // Q1 is considered answered if either a canonical starting point is chosen
+  // OR the user selected "Not sure" / "Something else" (answered_unresolved).
+  const startingPointAnswered =
+    !!answers.startingPoint ||
+    startingPointStatus === "unresolved_not_sure" ||
+    startingPointStatus === "unresolved_other";
   const missing: string[] = [];
-  if (!answers.startingPoint) missing.push("starting point");
+  if (!startingPointAnswered) missing.push("starting point");
   if (backgroundMissing) missing.push("relevant background");
   if (!answers.qualificationLevel) missing.push("highest qualification");
   if (!answers.englishMaths) missing.push("English/maths");
@@ -210,6 +253,7 @@ const RealityCheckPage = () => {
     trackEvent("reality_check_submitted", {
       role: role.role_name,
       starting_point: answers.startingPoint,
+      starting_point_status: answers.startingPoint ? "resolved" : startingPointStatus,
       income_need: answers.incomeNeed,
       weekly_hours: answers.weeklyHours,
       budget: answers.budget,
@@ -228,6 +272,7 @@ const RealityCheckPage = () => {
         result: r,
         savedAt: new Date().toISOString(),
       });
+      clearInProgressAnswers(role.role_slug);
       trackEvent("reality_check_result", { role: role.role_name, verdict: r?.overallVerdict });
     } catch (e) {
       setError((e as Error).message || "Something went wrong. Try again.");
@@ -395,11 +440,18 @@ const RealityCheckPage = () => {
               setAnswers={setAnswers}
               submitting={submitting}
               submit={submit}
+              canSubmit={canSubmit}
               error={error}
               backgroundRequired={backgroundRequired}
               backgroundMissing={backgroundMissing}
               scienceLabel={scienceLabel}
               scienceHelper={scienceHelper}
+              stepIndex={stepIndex}
+              setStepIndex={setStepIndex}
+              startingPointStatus={startingPointStatus}
+              setStartingPointStatus={setStartingPointStatus}
+              startingPointOtherText={startingPointOtherText}
+              setStartingPointOtherText={setStartingPointOtherText}
             />
           )}
 
@@ -436,11 +488,18 @@ type WizardProps = {
   setAnswers: React.Dispatch<React.SetStateAction<RealityCheckAnswers>>;
   submitting: boolean;
   submit: () => void;
+  canSubmit: boolean;
   error: string | null;
   backgroundRequired: boolean;
   backgroundMissing: boolean;
   scienceLabel: string;
   scienceHelper: string;
+  stepIndex: number;
+  setStepIndex: React.Dispatch<React.SetStateAction<number>>;
+  startingPointStatus: StartingPointStatus | null;
+  setStartingPointStatus: React.Dispatch<React.SetStateAction<StartingPointStatus | null>>;
+  startingPointOtherText: string;
+  setStartingPointOtherText: React.Dispatch<React.SetStateAction<string>>;
 };
 
 type WizardStep = {
@@ -449,6 +508,7 @@ type WizardStep = {
   render: () => React.ReactNode;
   isValid: () => boolean;
   optional?: boolean;
+  isReview?: boolean;
 };
 
 const WizardForm = ({
@@ -456,22 +516,46 @@ const WizardForm = ({
   setAnswers,
   submitting,
   submit,
+  canSubmit,
   error,
   backgroundRequired,
   backgroundMissing,
   scienceLabel,
   scienceHelper,
+  stepIndex,
+  setStepIndex,
+  startingPointStatus,
+  setStartingPointStatus,
+  startingPointOtherText,
+  setStartingPointOtherText,
 }: WizardProps) => {
-  const [stepIndex, setStepIndex] = useState(0);
-
   const set = <K extends keyof RealityCheckAnswers>(key: K, value: RealityCheckAnswers[K]) =>
     setAnswers((a) => ({ ...a, [key]: value }));
+
+  const pickStartingPoint = (v: RealityCheckAnswers["startingPoint"]) => {
+    set("startingPoint", v);
+    setStartingPointStatus("resolved");
+    setStartingPointOtherText("");
+  };
+
+  const pickStartingPointUnresolved = (variant: "not_sure" | "other") => {
+    set("startingPoint", null);
+    setStartingPointStatus(
+      variant === "not_sure" ? "unresolved_not_sure" : "unresolved_other",
+    );
+    if (variant === "not_sure") setStartingPointOtherText("");
+  };
+
+  const notSureActive = startingPointStatus === "unresolved_not_sure";
+  const otherActive = startingPointStatus === "unresolved_other";
+  const startingPointUnresolved = notSureActive || otherActive;
+  const startingPointAnswered = !!answers.startingPoint || startingPointUnresolved;
 
   const rawSteps: (WizardStep | null)[] = [
     {
       id: "starting_point",
       phase: 0,
-      isValid: () => !!answers.startingPoint,
+      isValid: () => startingPointAnswered,
       render: () => (
         <Field
           label="Where are you starting from?"
@@ -480,9 +564,58 @@ const WizardForm = ({
           <ChipGroup
             options={STARTING_POINTS}
             value={answers.startingPoint}
-            onChange={(v) => set("startingPoint", v)}
+            onChange={pickStartingPoint}
             disabled={submitting}
           />
+          <div className="flex flex-wrap gap-1.5 mt-2 pt-2 border-t border-gray-700/60">
+            <button
+              type="button"
+              disabled={submitting}
+              onClick={() => pickStartingPointUnresolved("not_sure")}
+              className={`text-xs px-2.5 py-1 rounded-full border transition-colors ${
+                notSureActive
+                  ? "border-amber-300 bg-amber-300 text-gray-900"
+                  : "border-gray-600 bg-gray-700/50 text-gray-200 hover:bg-gray-700"
+              } disabled:opacity-50`}
+            >
+              Not sure
+            </button>
+            <button
+              type="button"
+              disabled={submitting}
+              onClick={() => pickStartingPointUnresolved("other")}
+              className={`text-xs px-2.5 py-1 rounded-full border transition-colors ${
+                otherActive
+                  ? "border-amber-300 bg-amber-300 text-gray-900"
+                  : "border-gray-600 bg-gray-700/50 text-gray-200 hover:bg-gray-700"
+              } disabled:opacity-50`}
+            >
+              Something else
+            </button>
+          </div>
+          {otherActive && (
+            <div className="mt-2">
+              <label className="block text-[10px] text-gray-400 mb-1">
+                Tell us briefly what your current situation is (optional)
+              </label>
+              <input
+                type="text"
+                value={startingPointOtherText}
+                onChange={(e) => setStartingPointOtherText(e.target.value)}
+                placeholder="e.g. between roles after a career break"
+                disabled={submitting}
+                className="w-full rounded-lg bg-gray-700/60 border border-gray-600 px-2.5 py-1.5 text-sm text-white placeholder:text-gray-400 focus:outline-none focus:ring-1 focus:ring-amber-300/60"
+              />
+              <p className="text-[10px] text-gray-500 mt-1 leading-snug">
+                We'll skip inferring a starting point from this — your route judgement will be a little less specific.
+              </p>
+            </div>
+          )}
+          {notSureActive && (
+            <p className="mt-2 text-[10px] text-gray-500 leading-snug">
+              We'll skip inferring a starting point — your route judgement will be a little less specific.
+            </p>
+          )}
         </Field>
       ),
     },
@@ -705,18 +838,78 @@ const WizardForm = ({
         </Field>
       ),
     },
+    {
+      id: "review",
+      phase: 2,
+      isReview: true,
+      isValid: () => canSubmit,
+      render: () => {
+        const summaryRows: { label: string; value: string }[] = [];
+        const startingLabel = answers.startingPoint
+          ? STARTING_POINTS.find((o) => o.value === answers.startingPoint)?.label ?? null
+          : startingPointStatus === "unresolved_other"
+          ? startingPointOtherText.trim() || "Something else"
+          : startingPointStatus === "unresolved_not_sure"
+          ? "Not sure"
+          : null;
+        if (startingLabel) summaryRows.push({ label: "Starting from", value: startingLabel });
+        if (answers.relevantBackground.trim())
+          summaryRows.push({ label: "Background", value: answers.relevantBackground.trim() });
+        const ql = QUALIFICATION_LEVELS.find((o) => o.value === answers.qualificationLevel)?.label;
+        if (ql) summaryRows.push({ label: "Highest qualification", value: ql });
+        const em = ENGLISH_MATHS.find((o) => o.value === answers.englishMaths)?.label;
+        if (em) summaryRows.push({ label: "English & maths", value: em });
+        const sci = SCIENCE_SUBJECTS.find((o) => o.value === answers.scienceSubjects)?.label;
+        if (sci) summaryRows.push({ label: "Role-related subjects", value: sci });
+        const ec = ENGLISH_COMFORT.find((o) => o.value === answers.englishComfort)?.label;
+        if (ec) summaryRows.push({ label: "Studying in English", value: ec });
+        const inc = INCOME_NEEDS.find((o) => o.value === answers.incomeNeed)?.label;
+        if (inc) summaryRows.push({ label: "Earning need", value: inc });
+        const bd = BUDGETS.find((o) => o.value === answers.budget)?.label;
+        if (bd) summaryRows.push({ label: "Training budget", value: bd });
+        const rg = REGIONS.find((o) => o.value === answers.region)?.label;
+        if (rg) summaryRows.push({ label: "Region", value: rg });
+        if (answers.area.trim()) summaryRows.push({ label: "Town / postcode", value: answers.area.trim() });
+        const wh = WEEKLY_HOURS.find((o) => o.value === answers.weeklyHours)?.label;
+        if (wh) summaryRows.push({ label: "Weekly time", value: wh });
+        const cf = COMMUTE_FLEX.find((o) => o.value === answers.commuteFlex)?.label;
+        if (cf) summaryRows.push({ label: "Travel", value: cf });
+
+        return (
+          <div>
+            <h2 className="text-base font-medium text-white mb-1">Ready to check your route?</h2>
+            <p className="text-[11px] text-gray-400 mb-3 leading-snug">
+              Review your answers. Use Back to change anything before we run the check.
+            </p>
+            <dl className="rounded-lg border border-gray-700 bg-gray-800/60 divide-y divide-gray-700/60">
+              {summaryRows.map((row) => (
+                <div key={row.label} className="grid grid-cols-[minmax(0,9rem)_1fr] gap-3 px-3 py-2">
+                  <dt className="text-[11px] uppercase tracking-wider text-gray-500">{row.label}</dt>
+                  <dd className="text-xs text-gray-100 break-words">{row.value}</dd>
+                </div>
+              ))}
+            </dl>
+            {!canSubmit && (
+              <p className="mt-3 text-[11px] text-amber-200/90 leading-snug">
+                A few earlier questions still need an answer — use Back to complete them.
+              </p>
+            )}
+          </div>
+        );
+      },
+    },
   ];
 
   const steps = rawSteps.filter((s): s is WizardStep => s !== null);
   const total = steps.length;
   const safeIndex = Math.min(stepIndex, total - 1);
   const step = steps[safeIndex];
-  const isLast = safeIndex === total - 1;
+  const isReview = step.isReview === true;
   const canAdvance = step.isValid() || step.optional === true;
   const progressPct = Math.round(((safeIndex + 1) / total) * 100);
 
   const goNext = () => {
-    if (isLast) {
+    if (isReview) {
       submit();
     } else {
       setStepIndex((i) => Math.min(i + 1, total - 1));
@@ -729,8 +922,10 @@ const WizardForm = ({
       {/* Fine-grained progress */}
       <div>
         <div className="flex items-center justify-between text-[11px] text-gray-400 mb-1.5">
-          <span>Question {safeIndex + 1} of {total}</span>
-          {step.optional && (
+          <span>
+            {isReview ? `Review · ${total - 1} questions` : `Question ${safeIndex + 1} of ${total - 1}`}
+          </span>
+          {step.optional && !isReview && (
             <button
               type="button"
               onClick={goNext}
@@ -775,15 +970,15 @@ const WizardForm = ({
         >
           {submitting ? (
             <Loader2 className="h-4 w-4 animate-spin" />
-          ) : isLast ? (
+          ) : isReview ? (
             <Sparkles className="h-4 w-4" />
           ) : null}
           {submitting
             ? "Finding your route…"
-            : isLast
+            : isReview
             ? "Show my realistic route"
             : "Next"}
-          {!submitting && !isLast && <ArrowRight className="h-4 w-4" />}
+          {!submitting && !isReview && <ArrowRight className="h-4 w-4" />}
         </button>
       </div>
     </div>

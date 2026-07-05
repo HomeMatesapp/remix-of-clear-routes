@@ -203,6 +203,62 @@ export const clearSessionResult = (slug: string) => {
   }
 };
 
+// ── In-progress questionnaire persistence ─────────────────────────────────────
+// Distinct from the result cache above: preserves the user's un-submitted
+// answers and their position in the wizard across a page refresh or an
+// accidental navigation-away. Wiped on successful submit.
+
+const progressKey = (slug: string) => `cr_rc_progress_${slug}`;
+const PROGRESS_TTL_MS = 24 * 60 * 60 * 1000;
+
+export type StartingPointStatus =
+  | "resolved"
+  | "unresolved_not_sure"
+  | "unresolved_other";
+
+export interface InProgressAnswers {
+  answers: RealityCheckAnswers;
+  stepIndex: number;
+  startingPointStatus: StartingPointStatus | null;
+  startingPointOtherText: string;
+  savedAt: string;
+}
+
+export const loadInProgressAnswers = (slug: string): InProgressAnswers | null => {
+  try {
+    const raw = sessionStorage.getItem(progressKey(slug));
+    if (!raw) return null;
+    const parsed = JSON.parse(raw) as InProgressAnswers;
+    const savedAt = Date.parse(parsed.savedAt);
+    if (!Number.isFinite(savedAt) || Date.now() - savedAt > PROGRESS_TTL_MS) {
+      sessionStorage.removeItem(progressKey(slug));
+      return null;
+    }
+    return parsed;
+  } catch {
+    return null;
+  }
+};
+
+export const saveInProgressAnswers = (slug: string, entry: Omit<InProgressAnswers, "savedAt">) => {
+  try {
+    sessionStorage.setItem(
+      progressKey(slug),
+      JSON.stringify({ ...entry, savedAt: new Date().toISOString() }),
+    );
+  } catch {
+    /* ignore */
+  }
+};
+
+export const clearInProgressAnswers = (slug: string) => {
+  try {
+    sessionStorage.removeItem(progressKey(slug));
+  } catch {
+    /* ignore */
+  }
+};
+
 // ── Small reusable UI ─────────────────────────────────────────────────────────
 
 export function ChipGroup<T extends string>({
