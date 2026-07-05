@@ -847,8 +847,10 @@ const WizardForm = ({
         const summaryRows: { label: string; value: string }[] = [];
         const startingLabel = answers.startingPoint
           ? STARTING_POINTS.find((o) => o.value === answers.startingPoint)?.label ?? null
-          : startingPointStatus === "answered_unresolved"
-          ? startingPointOtherText.trim() || "Not sure"
+          : startingPointStatus === "unresolved_other"
+          ? startingPointOtherText.trim() || "Something else"
+          : startingPointStatus === "unresolved_not_sure"
+          ? "Not sure"
           : null;
         if (startingLabel) summaryRows.push({ label: "Starting from", value: startingLabel });
         if (answers.relevantBackground.trim())
