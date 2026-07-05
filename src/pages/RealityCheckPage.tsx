@@ -66,35 +66,101 @@ type Role = RoleContext & {
 const isFilled = (v: unknown) =>
   typeof v === "string" ? v.trim().length > 0 : v !== null && v !== undefined;
 
-const STEPS = ["Starting point", "Qualifications", "Practical constraints", "Result"] as const;
+const PHASES = ["Starting point", "Qualifications", "Practical constraints", "Result"] as const;
 
-const StepIndicator = ({ current }: { current: 0 | 1 | 2 | 3 }) => (
-  <ol className="flex flex-wrap items-center gap-x-3 gap-y-1 text-[11px] text-gray-400 mb-4">
-    {STEPS.map((label, i) => {
-      const active = i === current;
-      const done = i < current;
-      return (
-        <li key={label} className="flex items-center gap-1.5">
-          <span
-            className={`inline-flex items-center justify-center h-5 w-5 rounded-full text-[10px] font-semibold ${
-              done
-                ? "bg-emerald-400/20 text-emerald-200 border border-emerald-400/40"
-                : active
-                ? "bg-amber-300 text-gray-900"
-                : "bg-gray-700 text-gray-400 border border-gray-600"
-            }`}
-          >
-            {i + 1}
-          </span>
-          <span className={active ? "text-amber-200 font-medium" : done ? "text-gray-300" : ""}>
-            {label}
-          </span>
-          {i < STEPS.length - 1 && <span className="text-gray-700">›</span>}
-        </li>
-      );
-    })}
-  </ol>
+const ContourBackdrop = () => (
+  <div className="pointer-events-none absolute inset-0 overflow-hidden" aria-hidden="true">
+    <svg viewBox="0 0 1400 900" preserveAspectRatio="xMidYMid slice" className="w-full h-full">
+      <g fill="none" stroke="hsl(var(--contour))" strokeWidth="1.4" opacity="0.4">
+        <path d="M-50 800 C300 740, 620 830, 900 760 S1300 670, 1460 710" />
+        <path d="M-50 720 C320 665, 640 755, 920 685 S1290 595, 1460 635" />
+        <path d="M-50 640 C340 590, 660 680, 940 610 S1280 520, 1460 560" />
+        <path d="M850 120 C1000 95, 1150 150, 1290 105 S1440 60, 1520 80" />
+        <path d="M900 190 C1040 168, 1180 220, 1300 178 S1440 135, 1520 155" />
+      </g>
+    </svg>
+  </div>
 );
+
+const WizardHeader = ({ roleName, roleSlug }: { roleName: string; roleSlug: string }) => (
+  <nav className="sticky top-0 z-40 flex items-center justify-between bg-paper border-b-2 border-ink h-[66px] px-4 sm:px-8 md:px-12">
+    <Link to="/" className="flex items-center gap-2.5 font-display font-extrabold text-[20px] text-ink no-underline">
+      <span
+        aria-hidden="true"
+        className="inline-block w-0 h-0 border-l-[11px] border-r-[11px] border-b-[19px] border-l-transparent border-r-transparent border-b-path"
+      />
+      Clear Routes
+    </Link>
+    <Link
+      to={`/role/${roleSlug}`}
+      className="font-mono text-[13px] text-muted-foreground hover:text-ink hover:underline underline-offset-4"
+    >
+      <span className="hidden sm:inline">Save &amp; exit — back to {roleName}</span>
+      <span className="sm:hidden">Save &amp; exit</span>
+    </Link>
+  </nav>
+);
+
+const PhaseTrail = ({ current }: { current: 0 | 1 | 2 | 3 }) => {
+  // Progress fraction across the trail (0 → left, 3 → right)
+  const donePct = Math.max(0, Math.min(1, current / (PHASES.length - 1))) * 92;
+  return (
+    <div className="mt-5 relative px-1.5" aria-label="Progress phases">
+      <div className="absolute left-3.5 right-3.5 top-[11px] border-t-[3px] border-dashed border-[hsl(40_15%_82%)]" aria-hidden="true" />
+      <div
+        className="absolute left-3.5 top-[11px] border-t-[3px] border-dashed border-path transition-all duration-300"
+        style={{ width: `${donePct}%` }}
+        aria-hidden="true"
+      />
+      <ol className="relative flex justify-between list-none m-0 p-0">
+        {PHASES.map((label, i) => {
+          const done = i < current;
+          const isCurrent = i === current;
+          const isLast = i === PHASES.length - 1;
+          return (
+            <li key={label} className="flex flex-col items-center gap-2 w-1/4">
+              {isLast ? (
+                <span
+                  className={[
+                    "w-0 h-0 border-l-[12px] border-r-[12px] border-b-[21px] border-l-transparent border-r-transparent",
+                    done || isCurrent ? "border-b-path" : "border-b-[hsl(40_15%_82%)]",
+                  ].join(" ")}
+                  aria-hidden="true"
+                />
+              ) : (
+                <span
+                  className={[
+                    "relative w-[22px] h-[22px] rounded-full bg-white border-[4px] transition-colors",
+                    done
+                      ? "border-path bg-path after:content-[''] after:absolute after:inset-1 after:rounded-full after:bg-white"
+                      : isCurrent
+                      ? "border-path shadow-[0_0_0_5px_hsl(var(--path)/0.15)]"
+                      : "border-[hsl(40_15%_82%)]",
+                  ].join(" ")}
+                  aria-hidden="true"
+                />
+              )}
+              <span
+                className={[
+                  "font-mono text-[11px] tracking-[0.1em] uppercase text-center",
+                  isCurrent
+                    ? "text-path font-semibold"
+                    : done
+                    ? "text-ink"
+                    : "text-muted-foreground",
+                  // On narrow screens, hide labels for non-current phases
+                  isCurrent ? "block" : "hidden sm:block",
+                ].join(" ")}
+              >
+                {label}
+              </span>
+            </li>
+          );
+        })}
+      </ol>
+    </div>
+  );
+};
 
 // ── Page ──────────────────────────────────────────────────────────────────────
 
