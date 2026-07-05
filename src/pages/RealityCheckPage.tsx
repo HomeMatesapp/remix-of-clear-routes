@@ -663,6 +663,7 @@ const WizardForm = ({
         <Field
           label="Where are you starting from?"
           helper="Pick the option that best describes you right now."
+          why="Your starting point decides which routes are even open to you — an apprenticeship straight from school and an experience-based NVQ route have completely different entry doors."
         >
           <ChipGroup
             options={STARTING_POINTS}
@@ -670,35 +671,43 @@ const WizardForm = ({
             onChange={pickStartingPoint}
             disabled={submitting}
           />
-          <div className="flex flex-wrap gap-1.5 mt-2 pt-2 border-t border-gray-700/60">
+          <div className="flex flex-wrap gap-2 mt-4 pt-4 border-t border-dashed border-[hsl(40_15%_82%)]">
             <button
               type="button"
               disabled={submitting}
+              aria-pressed={notSureActive}
               onClick={() => pickStartingPointUnresolved("not_sure")}
-              className={`text-xs px-2.5 py-1 rounded-full border transition-colors ${
+              className={[
+                "font-body font-bold text-[14px] border-2 rounded-full px-4 py-2 transition-colors min-h-[40px]",
+                "focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-path focus-visible:ring-offset-2 focus-visible:ring-offset-white",
                 notSureActive
-                  ? "border-amber-300 bg-amber-300 text-gray-900"
-                  : "border-gray-600 bg-gray-700/50 text-gray-200 hover:bg-gray-700"
-              } disabled:opacity-50`}
+                  ? "bg-path border-path text-white"
+                  : "bg-white border-ink text-ink hover:border-path hover:text-path",
+                "disabled:opacity-50",
+              ].join(" ")}
             >
               Not sure
             </button>
             <button
               type="button"
               disabled={submitting}
+              aria-pressed={otherActive}
               onClick={() => pickStartingPointUnresolved("other")}
-              className={`text-xs px-2.5 py-1 rounded-full border transition-colors ${
+              className={[
+                "font-body font-bold text-[14px] border-2 rounded-full px-4 py-2 transition-colors min-h-[40px]",
+                "focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-path focus-visible:ring-offset-2 focus-visible:ring-offset-white",
                 otherActive
-                  ? "border-amber-300 bg-amber-300 text-gray-900"
-                  : "border-gray-600 bg-gray-700/50 text-gray-200 hover:bg-gray-700"
-              } disabled:opacity-50`}
+                  ? "bg-path border-path text-white"
+                  : "bg-white border-ink text-ink hover:border-path hover:text-path",
+                "disabled:opacity-50",
+              ].join(" ")}
             >
               Something else
             </button>
           </div>
           {otherActive && (
-            <div className="mt-2">
-              <label className="block text-[10px] text-gray-400 mb-1">
+            <div className="mt-4">
+              <label className="block font-mono text-[11px] uppercase tracking-wider text-muted-foreground mb-1.5">
                 Tell us briefly what your current situation is (optional)
               </label>
               <input
@@ -707,15 +716,15 @@ const WizardForm = ({
                 onChange={(e) => setStartingPointOtherText(e.target.value)}
                 placeholder="e.g. between roles after a career break"
                 disabled={submitting}
-                className="w-full rounded-lg bg-gray-700/60 border border-gray-600 px-2.5 py-1.5 text-sm text-white placeholder:text-gray-400 focus:outline-none focus:ring-1 focus:ring-amber-300/60"
+                className="w-full rounded-md bg-white border-2 border-ink px-3 py-2 text-[15px] text-ink placeholder:text-muted-foreground focus:outline-none focus:ring-2 focus:ring-path focus:ring-offset-0"
               />
-              <p className="text-[10px] text-gray-500 mt-1 leading-snug">
+              <p className="text-[12.5px] text-muted-foreground mt-1.5 leading-snug">
                 We'll skip inferring a starting point from this — your route judgement will be a little less specific.
               </p>
             </div>
           )}
           {notSureActive && (
-            <p className="mt-2 text-[10px] text-gray-500 leading-snug">
+            <p className="mt-3 text-[12.5px] text-muted-foreground leading-snug">
               We'll skip inferring a starting point — your route judgement will be a little less specific.
             </p>
           )}
