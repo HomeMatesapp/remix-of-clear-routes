@@ -486,11 +486,18 @@ type WizardProps = {
   setAnswers: React.Dispatch<React.SetStateAction<RealityCheckAnswers>>;
   submitting: boolean;
   submit: () => void;
+  canSubmit: boolean;
   error: string | null;
   backgroundRequired: boolean;
   backgroundMissing: boolean;
   scienceLabel: string;
   scienceHelper: string;
+  stepIndex: number;
+  setStepIndex: React.Dispatch<React.SetStateAction<number>>;
+  startingPointStatus: StartingPointStatus | null;
+  setStartingPointStatus: React.Dispatch<React.SetStateAction<StartingPointStatus | null>>;
+  startingPointOtherText: string;
+  setStartingPointOtherText: React.Dispatch<React.SetStateAction<string>>;
 };
 
 type WizardStep = {
@@ -499,6 +506,7 @@ type WizardStep = {
   render: () => React.ReactNode;
   isValid: () => boolean;
   optional?: boolean;
+  isReview?: boolean;
 };
 
 const WizardForm = ({
@@ -506,22 +514,42 @@ const WizardForm = ({
   setAnswers,
   submitting,
   submit,
+  canSubmit,
   error,
   backgroundRequired,
   backgroundMissing,
   scienceLabel,
   scienceHelper,
+  stepIndex,
+  setStepIndex,
+  startingPointStatus,
+  setStartingPointStatus,
+  startingPointOtherText,
+  setStartingPointOtherText,
 }: WizardProps) => {
-  const [stepIndex, setStepIndex] = useState(0);
-
   const set = <K extends keyof RealityCheckAnswers>(key: K, value: RealityCheckAnswers[K]) =>
     setAnswers((a) => ({ ...a, [key]: value }));
+
+  const pickStartingPoint = (v: RealityCheckAnswers["startingPoint"]) => {
+    set("startingPoint", v);
+    setStartingPointStatus("resolved");
+    setStartingPointOtherText("");
+  };
+
+  const pickStartingPointUnresolved = (variant: "not_sure" | "something_else") => {
+    set("startingPoint", null);
+    setStartingPointStatus("answered_unresolved");
+    if (variant === "not_sure") setStartingPointOtherText("");
+  };
+
+  const startingPointUnresolved = startingPointStatus === "answered_unresolved";
+  const startingPointAnswered = !!answers.startingPoint || startingPointUnresolved;
 
   const rawSteps: (WizardStep | null)[] = [
     {
       id: "starting_point",
       phase: 0,
-      isValid: () => !!answers.startingPoint,
+      isValid: () => startingPointAnswered,
       render: () => (
         <Field
           label="Where are you starting from?"
@@ -530,9 +558,53 @@ const WizardForm = ({
           <ChipGroup
             options={STARTING_POINTS}
             value={answers.startingPoint}
-            onChange={(v) => set("startingPoint", v)}
+            onChange={pickStartingPoint}
             disabled={submitting}
           />
+          <div className="flex flex-wrap gap-1.5 mt-2 pt-2 border-t border-gray-700/60">
+            <button
+              type="button"
+              disabled={submitting}
+              onClick={() => pickStartingPointUnresolved("not_sure")}
+              className={`text-xs px-2.5 py-1 rounded-full border transition-colors ${
+                startingPointUnresolved && !startingPointOtherText
+                  ? "border-amber-300 bg-amber-300 text-gray-900"
+                  : "border-gray-600 bg-gray-700/50 text-gray-200 hover:bg-gray-700"
+              } disabled:opacity-50`}
+            >
+              Not sure
+            </button>
+            <button
+              type="button"
+              disabled={submitting}
+              onClick={() => pickStartingPointUnresolved("something_else")}
+              className={`text-xs px-2.5 py-1 rounded-full border transition-colors ${
+                startingPointUnresolved && !!startingPointOtherText
+                  ? "border-amber-300 bg-amber-300 text-gray-900"
+                  : "border-gray-600 bg-gray-700/50 text-gray-200 hover:bg-gray-700"
+              } disabled:opacity-50`}
+            >
+              Something else
+            </button>
+          </div>
+          {startingPointUnresolved && (
+            <div className="mt-2">
+              <label className="block text-[10px] text-gray-400 mb-1">
+                Tell us briefly what your current situation is (optional)
+              </label>
+              <input
+                type="text"
+                value={startingPointOtherText}
+                onChange={(e) => setStartingPointOtherText(e.target.value)}
+                placeholder="e.g. between roles after a career break"
+                disabled={submitting}
+                className="w-full rounded-lg bg-gray-700/60 border border-gray-600 px-2.5 py-1.5 text-sm text-white placeholder:text-gray-400 focus:outline-none focus:ring-1 focus:ring-amber-300/60"
+              />
+              <p className="text-[10px] text-gray-500 mt-1 leading-snug">
+                We'll skip inferring a starting point from this — your route judgement will be a little less specific.
+              </p>
+            </div>
+          )}
         </Field>
       ),
     },
