@@ -205,47 +205,67 @@ export const clearSessionResult = (slug: string) => {
 
 // ── In-progress questionnaire persistence ─────────────────────────────────────
 // Distinct from the result cache above: preserves the user's un-submitted
-// answers and their position in the wizard across a page refresh or an
-// accidental navigation-away. Wiped on successful submit.
+// answers and position in the wizard across a page refresh or in-tab navigation.
+// NOTE: sessionStorage is per-tab and is cleared when the tab closes. This is
+// intentional for Increment 1a — "resume within this session", not "resume
+// tomorrow". Move to localStorage later if a longer-lived resume is required.
+// Wiped on successful submit; retained on failed submit.
 
 const progressKey = (slug: string) => `cr_rc_progress_${slug}`;
 const PROGRESS_TTL_MS = 24 * 60 * 60 * 1000;
+const CURRENT_DRAFT_SCHEMA = 1;
 
 export type StartingPointStatus =
   | "resolved"
   | "unresolved_not_sure"
   | "unresolved_other";
 
-export interface InProgressAnswers {
+// Persisted draft. `stepId` is used instead of a numeric index so that
+// changing the question order (e.g. when role modules ship) doesn't restore
+// users onto a different question.
+export interface RealityCheckDraft {
+  schemaVersion: 1;
   answers: RealityCheckAnswers;
-  stepIndex: number;
+  stepId: string;
   startingPointStatus: StartingPointStatus | null;
   startingPointOtherText: string;
-  savedAt: string;
+  savedAt: number;
 }
 
-export const loadInProgressAnswers = (slug: string): InProgressAnswers | null => {
+// Back-compat alias for consumers that used the older name.
+export type InProgressAnswers = RealityCheckDraft;
+
+export const loadInProgressAnswers = (slug: string): RealityCheckDraft | null => {
   try {
     const raw = sessionStorage.getItem(progressKey(slug));
     if (!raw) return null;
-    const parsed = JSON.parse(raw) as InProgressAnswers;
-    const savedAt = Date.parse(parsed.savedAt);
+    const parsed = JSON.parse(raw) as Partial<RealityCheckDraft>;
+    if (parsed?.schemaVersion !== CURRENT_DRAFT_SCHEMA) {
+      sessionStorage.removeItem(progressKey(slug));
+      return null;
+    }
+    const savedAt = typeof parsed.savedAt === "number" ? parsed.savedAt : NaN;
     if (!Number.isFinite(savedAt) || Date.now() - savedAt > PROGRESS_TTL_MS) {
       sessionStorage.removeItem(progressKey(slug));
       return null;
     }
-    return parsed;
+    return parsed as RealityCheckDraft;
   } catch {
     return null;
   }
 };
 
-export const saveInProgressAnswers = (slug: string, entry: Omit<InProgressAnswers, "savedAt">) => {
+export const saveInProgressAnswers = (
+  slug: string,
+  entry: Omit<RealityCheckDraft, "savedAt" | "schemaVersion">,
+) => {
   try {
-    sessionStorage.setItem(
-      progressKey(slug),
-      JSON.stringify({ ...entry, savedAt: new Date().toISOString() }),
-    );
+    const draft: RealityCheckDraft = {
+      schemaVersion: CURRENT_DRAFT_SCHEMA,
+      ...entry,
+      savedAt: Date.now(),
+    };
+    sessionStorage.setItem(progressKey(slug), JSON.stringify(draft));
   } catch {
     /* ignore */
   }
@@ -258,6 +278,43 @@ export const clearInProgressAnswers = (slug: string) => {
     /* ignore */
   }
 };
+
+// ── Wizard helpers (pure, unit-testable) ─────────────────────────────────────
+
+// If a conditional question is no longer visible, its answer should not
+// linger in state, persistence, or the submission payload. Extend this as
+// more conditional questions arrive (role modules, etc.).
+export const sanitiseAnswersForVisibility = (
+  answers: RealityCheckAnswers,
+  visibility: { backgroundRequired: boolean },
+): RealityCheckAnswers => {
+  if (visibility.backgroundRequired) return answers;
+  if (!answers.relevantBackground) return answers;
+  return { ...answers, relevantBackground: "" };
+};
+
+// Clamp a persisted stepId to the currently visible steps. If the stored
+// step no longer exists (e.g. background hidden after re-selecting starting
+// point), fall back to the first step so a restored session cannot land on
+// a hidden or out-of-range screen.
+export const clampStepId = (
+  stepId: string | null | undefined,
+  visibleStepIds: string[],
+): string => {
+  if (!stepId || !visibleStepIds.includes(stepId)) {
+    return visibleStepIds[0] ?? "";
+  }
+  return stepId;
+};
+
+// User-facing copy for when the starting point signal is missing from the
+// engine input. Rendered on the review screen and (as a restrained banner)
+// on the result page.
+export const UNRESOLVED_STARTING_POINT_NOTICE =
+  "We couldn't identify your current starting point. Your result may be less specific. You can continue, or go back and choose the closest available option.";
+
+export const UNRESOLVED_STARTING_POINT_OTHER_NOTICE =
+  "We've saved your description, but it isn't yet used to select your route.";
 
 // ── Small reusable UI ─────────────────────────────────────────────────────────
 

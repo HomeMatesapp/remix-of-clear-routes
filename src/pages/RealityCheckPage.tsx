@@ -44,6 +44,10 @@ import {
   loadInProgressAnswers,
   saveInProgressAnswers,
   clearInProgressAnswers,
+  sanitiseAnswersForVisibility,
+  clampStepId,
+  UNRESOLVED_STARTING_POINT_NOTICE,
+  UNRESOLVED_STARTING_POINT_OTHER_NOTICE,
   type StartingPointStatus,
 } from "@/components/role/reality-check-shared";
 import { isSupportedRegion } from "@/lib/reality-check/regions";
@@ -110,11 +114,16 @@ const RealityCheckPage = () => {
   const [prefilled, setPrefilled] = useState(false);
   const resultRef = useRef<HTMLDivElement | null>(null);
 
-  // Wizard state — persisted across refresh so partially-completed answers
-  // survive an accidental reload. `startingPointStatus === "answered_unresolved"`
-  // means the user picked "Not sure" or "Something else" for Q1: the engine
-  // gets no signal from that field, but the questionnaire can still submit.
-  const [stepIndex, setStepIndex] = useState(0);
+  // Wizard state is persisted across refresh (per-tab, sessionStorage) so
+  // partially-completed answers survive an accidental reload.
+  // `startingPointStatus === "unresolved_*"` means the user picked "Not sure"
+  // or "Something else" for Q1: the engine gets no signal from that field,
+  // but the questionnaire can still submit — see the review-screen notice
+  // and the result-page banner below.
+  // We track position by stepId (stable) rather than a numeric index so
+  // future changes to question order don't restore users onto a different
+  // question.
+  const [stepId, setStepId] = useState<string | null>(null);
   const [startingPointStatus, setStartingPointStatus] = useState<StartingPointStatus | null>(null);
   const [startingPointOtherText, setStartingPointOtherText] = useState("");
   const [hydratedProgress, setHydratedProgress] = useState(false);
@@ -148,7 +157,7 @@ const RealityCheckPage = () => {
         const progress = loadInProgressAnswers(slug);
         if (progress) {
           setAnswers(progress.answers);
-          setStepIndex(progress.stepIndex);
+          setStepId(progress.stepId);
           setStartingPointStatus(progress.startingPointStatus);
           setStartingPointOtherText(progress.startingPointOtherText);
         }
@@ -195,18 +204,6 @@ const RealityCheckPage = () => {
     }
   }, [result]);
 
-  // Persist in-progress answers so a refresh mid-wizard doesn't wipe them.
-  // Only writes after hydration to avoid clobbering restored state.
-  useEffect(() => {
-    if (!slug || !hydratedProgress || result) return;
-    saveInProgressAnswers(slug, {
-      answers,
-      stepIndex,
-      startingPointStatus,
-      startingPointOtherText,
-    });
-  }, [slug, hydratedProgress, result, answers, stepIndex, startingPointStatus, startingPointOtherText]);
-
   // ── Validation & progressive disclosure ─────────────────────────────────────
 
   const sciencyRole = role ? isStemOrHealthcareRole(role.role_name) : false;
@@ -215,12 +212,40 @@ const RealityCheckPage = () => {
     !!answers.startingPoint && BACKGROUND_REQUIRED_FOR.includes(answers.startingPoint);
   const backgroundMissing = backgroundRequired && answers.relevantBackground.trim().length < 3;
 
+  // Dependency cleanup — when a conditional question is no longer visible
+  // (e.g. background question hidden after user re-selects starting point),
+  // its answer must not linger in state, persistence, or the submission
+  // payload. Runs on every render but only writes when a change is needed.
+  useEffect(() => {
+    if (!backgroundRequired && answers.relevantBackground) {
+      setAnswers((a) => sanitiseAnswersForVisibility(a, { backgroundRequired: false }));
+    }
+  }, [backgroundRequired, answers.relevantBackground]);
+
+  // Persist in-progress answers so a refresh mid-wizard doesn't wipe them.
+  // Only writes after hydration to avoid clobbering restored state. Uses
+  // stepId (not a numeric index) so the persisted position stays meaningful
+  // when the question order changes.
+  useEffect(() => {
+    if (!slug || !hydratedProgress || result) return;
+    if (!stepId) return;
+    saveInProgressAnswers(slug, {
+      answers,
+      stepId,
+      startingPointStatus,
+      startingPointOtherText,
+    });
+  }, [slug, hydratedProgress, result, answers, stepId, startingPointStatus, startingPointOtherText]);
+
   // Validity is now enforced step-by-step in the WizardForm; the aggregate
   // `canSubmit` gate below still guards the network submit for defence in depth.
   // Q1 is considered answered if either a canonical starting point is chosen
   // OR the user selected "Not sure" / "Something else" (answered_unresolved).
   const startingPointAnswered =
     !!answers.startingPoint ||
+    startingPointStatus === "unresolved_not_sure" ||
+    startingPointStatus === "unresolved_other";
+  const startingPointUnresolved =
     startingPointStatus === "unresolved_not_sure" ||
     startingPointStatus === "unresolved_other";
   const missing: string[] = [];
@@ -247,28 +272,35 @@ const RealityCheckPage = () => {
 
   const submit = async () => {
     if (!role || !canSubmit || submitting) return;
+    // Sanitise for visibility one more time before sending, so any hidden
+    // conditional answer that hasn't been cleared by the state effect yet
+    // can't leak into the submission payload or the saved result.
+    const submissionAnswers = sanitiseAnswersForVisibility(answers, { backgroundRequired });
     setSubmitting(true);
     setError(null);
     setResult(null);
+    // NOTE: we deliberately do NOT include `startingPointOtherText` in
+    // analytics — the raw free text stays on the client until we have an
+    // AI interpretation layer to make it safe to send.
     trackEvent("reality_check_submitted", {
       role: role.role_name,
-      starting_point: answers.startingPoint,
-      starting_point_status: answers.startingPoint ? "resolved" : startingPointStatus,
-      income_need: answers.incomeNeed,
-      weekly_hours: answers.weeklyHours,
-      budget: answers.budget,
-      commute_flex: answers.commuteFlex,
+      starting_point: submissionAnswers.startingPoint,
+      starting_point_status: submissionAnswers.startingPoint ? "resolved" : startingPointStatus,
+      income_need: submissionAnswers.incomeNeed,
+      weekly_hours: submissionAnswers.weeklyHours,
+      budget: submissionAnswers.budget,
+      commute_flex: submissionAnswers.commuteFlex,
     });
     try {
       const { data, error: fnErr } = await supabase.functions.invoke("reality-check", {
-        body: { role, answers },
+        body: { role, answers: submissionAnswers },
       });
       if (fnErr) throw fnErr;
       if ((data as { error?: string })?.error) throw new Error((data as { error: string }).error);
       const r = (data as { result: RealityCheckResult }).result;
       setResult(r);
       saveSessionResult(role.role_slug, {
-        answers,
+        answers: submissionAnswers,
         result: r,
         savedAt: new Date().toISOString(),
       });
@@ -446,8 +478,9 @@ const RealityCheckPage = () => {
               backgroundMissing={backgroundMissing}
               scienceLabel={scienceLabel}
               scienceHelper={scienceHelper}
-              stepIndex={stepIndex}
-              setStepIndex={setStepIndex}
+              stepId={stepId}
+              setStepId={setStepId}
+              startingPointUnresolved={startingPointUnresolved}
               startingPointStatus={startingPointStatus}
               setStartingPointStatus={setStartingPointStatus}
               startingPointOtherText={startingPointOtherText}
@@ -458,6 +491,13 @@ const RealityCheckPage = () => {
 
           {result && (
             <div ref={resultRef}>
+              {startingPointUnresolved && (
+                <div className="mb-3 rounded-lg border border-amber-300/30 bg-amber-300/5 px-3 py-2">
+                  <p className="text-[11px] text-amber-100 leading-snug">
+                    {UNRESOLVED_STARTING_POINT_NOTICE}
+                  </p>
+                </div>
+              )}
               <ResultView
                 result={result}
                 answers={answers}
@@ -494,8 +534,9 @@ type WizardProps = {
   backgroundMissing: boolean;
   scienceLabel: string;
   scienceHelper: string;
-  stepIndex: number;
-  setStepIndex: React.Dispatch<React.SetStateAction<number>>;
+  stepId: string | null;
+  setStepId: React.Dispatch<React.SetStateAction<string | null>>;
+  startingPointUnresolved: boolean;
   startingPointStatus: StartingPointStatus | null;
   setStartingPointStatus: React.Dispatch<React.SetStateAction<StartingPointStatus | null>>;
   startingPointOtherText: string;
@@ -522,8 +563,9 @@ const WizardForm = ({
   backgroundMissing,
   scienceLabel,
   scienceHelper,
-  stepIndex,
-  setStepIndex,
+  stepId,
+  setStepId,
+  startingPointUnresolved,
   startingPointStatus,
   setStartingPointStatus,
   startingPointOtherText,
@@ -548,7 +590,6 @@ const WizardForm = ({
 
   const notSureActive = startingPointStatus === "unresolved_not_sure";
   const otherActive = startingPointStatus === "unresolved_other";
-  const startingPointUnresolved = notSureActive || otherActive;
   const startingPointAnswered = !!answers.startingPoint || startingPointUnresolved;
 
   const rawSteps: (WizardStep | null)[] = [
@@ -889,6 +930,18 @@ const WizardForm = ({
                 </div>
               ))}
             </dl>
+            {startingPointUnresolved && (
+              <div className="mt-3 rounded-lg border border-amber-300/30 bg-amber-300/5 px-3 py-2">
+                <p className="text-[11px] text-amber-100 leading-snug">
+                  {UNRESOLVED_STARTING_POINT_NOTICE}
+                </p>
+                {otherActive && startingPointOtherText.trim() && (
+                  <p className="mt-1 text-[11px] text-amber-100/80 leading-snug">
+                    {UNRESOLVED_STARTING_POINT_OTHER_NOTICE}
+                  </p>
+                )}
+              </div>
+            )}
             {!canSubmit && (
               <p className="mt-3 text-[11px] text-amber-200/90 leading-snug">
                 A few earlier questions still need an answer — use Back to complete them.
@@ -901,21 +954,41 @@ const WizardForm = ({
   ];
 
   const steps = rawSteps.filter((s): s is WizardStep => s !== null);
-  const total = steps.length;
-  const safeIndex = Math.min(stepIndex, total - 1);
+  const visibleIds = steps.map((s) => s.id);
+  const questionIds = visibleIds.filter((id) => id !== "review");
+  const totalQuestions = questionIds.length;
+
+  // Initialise stepId once we know the visible steps; clamp any restored
+  // value against the current visible set so an old session can't restore
+  // onto a hidden or unknown screen.
+  const currentStepId = clampStepId(stepId, visibleIds);
+  useEffect(() => {
+    if (stepId !== currentStepId) setStepId(currentStepId);
+  }, [stepId, currentStepId, setStepId]);
+
+  const safeIndex = Math.max(0, visibleIds.indexOf(currentStepId));
   const step = steps[safeIndex];
   const isReview = step.isReview === true;
   const canAdvance = step.isValid() || step.optional === true;
-  const progressPct = Math.round(((safeIndex + 1) / total) * 100);
+  const currentQuestionNumber = isReview
+    ? totalQuestions
+    : Math.min(questionIds.indexOf(step.id) + 1, totalQuestions);
+  const progressPct = Math.round(
+    ((isReview ? totalQuestions : currentQuestionNumber) / Math.max(1, totalQuestions)) * 100,
+  );
 
   const goNext = () => {
     if (isReview) {
       submit();
     } else {
-      setStepIndex((i) => Math.min(i + 1, total - 1));
+      const nextId = visibleIds[Math.min(safeIndex + 1, visibleIds.length - 1)];
+      setStepId(nextId);
     }
   };
-  const goBack = () => setStepIndex((i) => Math.max(i - 1, 0));
+  const goBack = () => {
+    const prevId = visibleIds[Math.max(safeIndex - 1, 0)];
+    setStepId(prevId);
+  };
 
   return (
     <div className="space-y-4">
@@ -923,7 +996,9 @@ const WizardForm = ({
       <div>
         <div className="flex items-center justify-between text-[11px] text-gray-400 mb-1.5">
           <span>
-            {isReview ? `Review · ${total - 1} questions` : `Question ${safeIndex + 1} of ${total - 1}`}
+            {isReview
+              ? `Review · ${totalQuestions} question${totalQuestions === 1 ? "" : "s"}`
+              : `Question ${currentQuestionNumber} of ${totalQuestions}`}
           </span>
           {step.optional && !isReview && (
             <button
