@@ -136,7 +136,7 @@ describe("unresolved starting point", () => {
 
   it("exposes copy for the reduced-specificity notice on review and result", () => {
     expect(UNRESOLVED_STARTING_POINT_NOTICE).toMatch(/less specific/i);
-    expect(UNRESOLVED_STARTING_POINT_OTHER_NOTICE).toMatch(/not yet used/i);
+    expect(UNRESOLVED_STARTING_POINT_OTHER_NOTICE).toMatch(/isn't yet used/i);
   });
 });
 
