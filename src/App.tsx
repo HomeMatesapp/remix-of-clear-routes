@@ -14,6 +14,8 @@ import ProviderPage from "./pages/ProviderPage";
 import Personalise from "./pages/Personalise";
 import Profile from "./pages/Profile";
 import MyDecisions from "./pages/MyDecisions";
+import MyRoute from "./pages/MyRoute";
+import { Navigate } from "react-router-dom";
 import OpportunitiesPage from "./pages/OpportunitiesPage";
 import HowItWorks from "./pages/HowItWorks";
 import ForInstitutions from "./pages/ForInstitutions";
@@ -50,7 +52,9 @@ const App = () => (
                 <Route path="/provider/:id" element={<ProviderPage />} />
                 <Route path="/personalise" element={<Personalise />} />
                 <Route path="/profile" element={<Profile />} />
-                <Route path="/my-decisions" element={<MyDecisions />} />
+                <Route path="/my-route" element={<MyRoute />} />
+                <Route path="/my-decisions" element={<Navigate to="/my-route" replace />} />
+                <Route path="/my-decisions/legacy" element={<MyDecisions />} />
                 <Route path="/my-decisions/:decisionId/opportunities" element={<OpportunitiesPage />} />
                 <Route path="/how-it-works" element={<HowItWorks />} />
                 <Route path="/for-institutions" element={<ForInstitutions />} />

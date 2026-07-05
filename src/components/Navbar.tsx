@@ -32,7 +32,7 @@ const Navbar = () => {
           {user ? (
             <>
               <Button variant="ghost" size="sm" asChild>
-                <Link to="/my-decisions">My Decisions</Link>
+                <Link to="/my-route">My Route</Link>
               </Button>
               <Button variant="ghost" size="sm" asChild>
                 <Link to="/profile">
