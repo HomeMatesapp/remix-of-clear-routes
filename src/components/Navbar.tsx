@@ -13,7 +13,7 @@ const Navbar = () => {
   };
 
   return (
-    <nav className="border-b border-border bg-background/80 backdrop-blur-sm sticky top-0 z-50">
+    <nav className="border-b border-border bg-background sticky top-0 z-50">
       <div className="container mx-auto flex items-center justify-between h-16 px-4">
         <Link to="/" className="font-display text-lg font-semibold text-foreground">
           Clear Routes
