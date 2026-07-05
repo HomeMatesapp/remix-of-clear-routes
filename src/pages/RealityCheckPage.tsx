@@ -892,7 +892,6 @@ const WizardForm = ({
   const safeIndex = Math.min(stepIndex, total - 1);
   const step = steps[safeIndex];
   const isReview = step.isReview === true;
-  const isLast = safeIndex === total - 1;
   const canAdvance = step.isValid() || step.optional === true;
   const progressPct = Math.round(((safeIndex + 1) / total) * 100);
 
