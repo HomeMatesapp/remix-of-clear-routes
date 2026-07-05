@@ -141,6 +141,18 @@ const RealityCheckPage = () => {
       if (cached) {
         setAnswers(cached.answers);
         setResult(cached.result);
+        setHydratedProgress(true);
+      } else {
+        // Otherwise restore in-progress answers so a mid-wizard refresh
+        // doesn't wipe what the user has already typed.
+        const progress = loadInProgressAnswers(slug);
+        if (progress) {
+          setAnswers(progress.answers);
+          setStepIndex(progress.stepIndex);
+          setStartingPointStatus(progress.startingPointStatus);
+          setStartingPointOtherText(progress.startingPointOtherText);
+        }
+        setHydratedProgress(true);
       }
       setLoading(false);
     })();
