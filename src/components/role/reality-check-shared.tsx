@@ -394,13 +394,13 @@ export function ChipGroup<T extends string>({
   onChange,
   disabled,
 }: {
-  options: { value: T; label: string }[];
+  options: { value: T; label: string; small?: string }[];
   value: T | null;
   onChange: (v: T) => void;
   disabled?: boolean;
 }) {
   return (
-    <div className="flex flex-wrap gap-1.5">
+    <div className="flex flex-wrap gap-3">
       {options.map((o) => {
         const active = o.value === value;
         return (
@@ -408,14 +408,22 @@ export function ChipGroup<T extends string>({
             key={o.value}
             type="button"
             disabled={disabled}
+            aria-pressed={active}
             onClick={() => onChange(o.value)}
-            className={`text-xs px-2.5 py-1 rounded-full border transition-colors ${
+            className={[
+              "font-body font-bold text-[15px] leading-tight text-left",
+              "border-2 rounded-full px-5 py-3 transition-colors",
+              "min-h-[44px] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-path focus-visible:ring-offset-2 focus-visible:ring-offset-paper",
               active
-                ? "border-amber-300 bg-amber-300 text-gray-900"
-                : "border-gray-600 bg-gray-700/50 text-gray-200 hover:bg-gray-700"
-            } disabled:opacity-50 disabled:cursor-not-allowed`}
+                ? "bg-path border-path text-white"
+                : "bg-white border-ink text-ink hover:border-path hover:text-path",
+              "disabled:opacity-50 disabled:cursor-not-allowed",
+            ].join(" ")}
           >
             {o.label}
+            {o.small && (
+              <span className="block font-normal text-[13px] opacity-75 mt-0.5">{o.small}</span>
+            )}
           </button>
         );
       })}
@@ -427,19 +435,45 @@ export function Field({
   label,
   helper,
   error,
+  why,
   children,
+  hideLabel,
 }: {
   label: string;
   helper?: string;
   error?: string | null;
+  why?: string;
   children: React.ReactNode;
+  hideLabel?: boolean;
 }) {
   return (
     <div>
-      <label className="block text-xs font-medium text-gray-300 mb-1">{label}</label>
-      {helper && <p className="text-[10px] text-gray-500 mb-1.5 leading-snug">{helper}</p>}
-      {children}
-      {error && <p className="text-[10px] text-rose-300 mt-1">{error}</p>}
+      {!hideLabel && (
+        <h1 className="font-display font-extrabold text-ink tracking-[-0.02em] leading-[1.08] text-[clamp(26px,4.4vw,40px)]">
+          {label}
+        </h1>
+      )}
+      {helper && (
+        <p className="mt-2.5 text-[15px] leading-relaxed text-[hsl(90_10%_28%)] max-w-[56ch]">
+          {helper}
+        </p>
+      )}
+      <div className="mt-6">{children}</div>
+      {error && (
+        <p role="alert" className="mt-3 text-sm font-medium text-danger">
+          {error}
+        </p>
+      )}
+      {why && (
+        <details className="mt-6 group">
+          <summary className="font-mono text-[12.5px] text-muted-foreground cursor-pointer list-none inline-flex items-center gap-2 hover:text-ink focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-path rounded">
+            <span aria-hidden="true">ⓘ</span> Why we ask
+          </summary>
+          <p className="mt-2 text-[14.5px] leading-relaxed text-[hsl(90_10%_28%)] max-w-[60ch] border-l-[3px] border-contour pl-3.5">
+            {why}
+          </p>
+        </details>
+      )}
     </div>
   );
 }

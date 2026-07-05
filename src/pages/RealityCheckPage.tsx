@@ -1,7 +1,7 @@
 import { useEffect, useMemo, useRef, useState } from "react";
 import { Link, useParams } from "react-router-dom";
 import { Helmet } from "react-helmet-async";
-import { ArrowLeft, ArrowRight, Loader2, Pencil, Sparkles, UserCog } from "lucide-react";
+import { ArrowLeft, Loader2, Pencil, UserCog } from "lucide-react";
 import { supabase } from "@/integrations/supabase/client";
 import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
@@ -66,35 +66,101 @@ type Role = RoleContext & {
 const isFilled = (v: unknown) =>
   typeof v === "string" ? v.trim().length > 0 : v !== null && v !== undefined;
 
-const STEPS = ["Starting point", "Qualifications", "Practical constraints", "Result"] as const;
+const PHASES = ["Starting point", "Qualifications", "Practical constraints", "Result"] as const;
 
-const StepIndicator = ({ current }: { current: 0 | 1 | 2 | 3 }) => (
-  <ol className="flex flex-wrap items-center gap-x-3 gap-y-1 text-[11px] text-gray-400 mb-4">
-    {STEPS.map((label, i) => {
-      const active = i === current;
-      const done = i < current;
-      return (
-        <li key={label} className="flex items-center gap-1.5">
-          <span
-            className={`inline-flex items-center justify-center h-5 w-5 rounded-full text-[10px] font-semibold ${
-              done
-                ? "bg-emerald-400/20 text-emerald-200 border border-emerald-400/40"
-                : active
-                ? "bg-amber-300 text-gray-900"
-                : "bg-gray-700 text-gray-400 border border-gray-600"
-            }`}
-          >
-            {i + 1}
-          </span>
-          <span className={active ? "text-amber-200 font-medium" : done ? "text-gray-300" : ""}>
-            {label}
-          </span>
-          {i < STEPS.length - 1 && <span className="text-gray-700">›</span>}
-        </li>
-      );
-    })}
-  </ol>
+const ContourBackdrop = () => (
+  <div className="pointer-events-none absolute inset-0 overflow-hidden" aria-hidden="true">
+    <svg viewBox="0 0 1400 900" preserveAspectRatio="xMidYMid slice" className="w-full h-full">
+      <g fill="none" stroke="hsl(var(--contour))" strokeWidth="1.4" opacity="0.4">
+        <path d="M-50 800 C300 740, 620 830, 900 760 S1300 670, 1460 710" />
+        <path d="M-50 720 C320 665, 640 755, 920 685 S1290 595, 1460 635" />
+        <path d="M-50 640 C340 590, 660 680, 940 610 S1280 520, 1460 560" />
+        <path d="M850 120 C1000 95, 1150 150, 1290 105 S1440 60, 1520 80" />
+        <path d="M900 190 C1040 168, 1180 220, 1300 178 S1440 135, 1520 155" />
+      </g>
+    </svg>
+  </div>
 );
+
+const WizardHeader = ({ roleName, roleSlug }: { roleName: string; roleSlug: string }) => (
+  <nav className="sticky top-0 z-40 flex items-center justify-between bg-paper border-b-2 border-ink h-[66px] px-4 sm:px-8 md:px-12">
+    <Link to="/" className="flex items-center gap-2.5 font-display font-extrabold text-[20px] text-ink no-underline">
+      <span
+        aria-hidden="true"
+        className="inline-block w-0 h-0 border-l-[11px] border-r-[11px] border-b-[19px] border-l-transparent border-r-transparent border-b-path"
+      />
+      Clear Routes
+    </Link>
+    <Link
+      to={`/role/${roleSlug}`}
+      className="font-mono text-[13px] text-muted-foreground hover:text-ink hover:underline underline-offset-4"
+    >
+      <span className="hidden sm:inline">Save &amp; exit — back to {roleName}</span>
+      <span className="sm:hidden">Save &amp; exit</span>
+    </Link>
+  </nav>
+);
+
+const PhaseTrail = ({ current }: { current: 0 | 1 | 2 | 3 }) => {
+  // Progress fraction across the trail (0 → left, 3 → right)
+  const donePct = Math.max(0, Math.min(1, current / (PHASES.length - 1))) * 92;
+  return (
+    <div className="mt-5 relative px-1.5" aria-label="Progress phases">
+      <div className="absolute left-3.5 right-3.5 top-[11px] border-t-[3px] border-dashed border-[hsl(40_15%_82%)]" aria-hidden="true" />
+      <div
+        className="absolute left-3.5 top-[11px] border-t-[3px] border-dashed border-path transition-all duration-300"
+        style={{ width: `${donePct}%` }}
+        aria-hidden="true"
+      />
+      <ol className="relative flex justify-between list-none m-0 p-0">
+        {PHASES.map((label, i) => {
+          const done = i < current;
+          const isCurrent = i === current;
+          const isLast = i === PHASES.length - 1;
+          return (
+            <li key={label} className="flex flex-col items-center gap-2 w-1/4">
+              {isLast ? (
+                <span
+                  className={[
+                    "w-0 h-0 border-l-[12px] border-r-[12px] border-b-[21px] border-l-transparent border-r-transparent",
+                    done || isCurrent ? "border-b-path" : "border-b-[hsl(40_15%_82%)]",
+                  ].join(" ")}
+                  aria-hidden="true"
+                />
+              ) : (
+                <span
+                  className={[
+                    "relative w-[22px] h-[22px] rounded-full bg-white border-[4px] transition-colors",
+                    done
+                      ? "border-path bg-path after:content-[''] after:absolute after:inset-1 after:rounded-full after:bg-white"
+                      : isCurrent
+                      ? "border-path shadow-[0_0_0_5px_hsl(var(--path)/0.15)]"
+                      : "border-[hsl(40_15%_82%)]",
+                  ].join(" ")}
+                  aria-hidden="true"
+                />
+              )}
+              <span
+                className={[
+                  "font-mono text-[11px] tracking-[0.1em] uppercase text-center",
+                  isCurrent
+                    ? "text-path font-semibold"
+                    : done
+                    ? "text-ink"
+                    : "text-muted-foreground",
+                  // On narrow screens, hide labels for non-current phases
+                  isCurrent ? "block" : "hidden sm:block",
+                ].join(" ")}
+              >
+                {label}
+              </span>
+            </li>
+          );
+        })}
+      </ol>
+    </div>
+  );
+};
 
 // ── Page ──────────────────────────────────────────────────────────────────────
 
@@ -405,7 +471,7 @@ const RealityCheckPage = () => {
     : "Subjects you've studied that relate to this role can affect your options.";
 
   return (
-    <div className="min-h-screen flex flex-col bg-background">
+    <div className="min-h-screen flex flex-col bg-paper text-ink">
       <Helmet>
         <title>Reality-check {role.role_name} | Clear Routes</title>
         <meta
@@ -414,104 +480,100 @@ const RealityCheckPage = () => {
         />
       </Helmet>
 
-      <Navbar />
+      <WizardHeader roleName={role.role_name} roleSlug={role.role_slug} />
 
-      <main className="max-w-2xl w-full mx-auto px-4 py-6 font-sans">
-        <Link
-          to={`/role/${role.role_slug}`}
-          className="inline-flex items-center gap-1.5 text-xs text-muted-foreground hover:text-foreground mb-4"
-        >
-          <ArrowLeft className="h-3.5 w-3.5" />
-          Back to {role.role_name}
-        </Link>
+      <div className="relative flex-1 overflow-hidden">
+        <ContourBackdrop />
+        <main className="relative max-w-[820px] mx-auto px-4 sm:px-8 py-8 sm:py-12 pb-20">
+          <p className="font-mono text-[12.5px] tracking-[0.14em] uppercase text-muted-foreground">
+            Reality-check · <b className="text-ink font-semibold">{role.role_name}</b>
+          </p>
 
-        <h1 className="text-2xl font-medium text-gray-900 mb-1">
-          Reality-check your route into {role.role_name}
-        </h1>
-        <p className="text-sm text-gray-500 mb-6 leading-relaxed">
-          We'll use your background, qualifications, budget, time, and area to judge the most realistic route.
-        </p>
-
-        <section
-          aria-label="Reality-check this route"
-          className="relative rounded-xl border border-gray-800 bg-gradient-to-br from-gray-900 to-gray-800 p-4 sm:p-5 text-white shadow-sm"
-        >
-          <StepIndicator current={currentStep} />
+          <PhaseTrail current={currentStep} />
 
           {!result && prefilled && (
-            <div className="mb-3 flex items-center justify-between gap-3 rounded-lg border border-amber-300/20 bg-amber-300/5 px-2.5 py-1.5">
-              <p className="text-[11px] text-amber-100">Using your saved Decision Profile.</p>
+            <div className="mt-6 flex items-center justify-between gap-3 rounded-md border-2 border-ink bg-tint px-3 py-2">
+              <p className="text-[13px] text-ink">Using your saved Decision Profile.</p>
               <Link
                 to="/my-decisions#decision-profile"
-                className="text-[11px] text-amber-200 underline underline-offset-2 hover:text-white inline-flex items-center gap-1"
+                className="text-[12px] font-mono text-path underline underline-offset-4 hover:text-ink inline-flex items-center gap-1"
               >
-                <UserCog className="h-3 w-3" /> Edit
+                <UserCog className="h-3.5 w-3.5" /> Edit
               </Link>
             </div>
           )}
 
-          {result && (
-            <div className="mb-4 flex flex-wrap items-center justify-between gap-2 rounded-lg border border-gray-700 bg-gray-800/60 px-3 py-2">
-              <p className="text-[11px] text-gray-300 leading-snug">
-                <span className="font-semibold uppercase tracking-wider text-gray-500 mr-1.5">Checked for:</span>
-                {chips.join(" · ")}
-              </p>
-              <button
-                type="button"
-                onClick={editAnswers}
-                className="inline-flex items-center gap-1 text-[11px] font-medium text-amber-200 hover:text-white underline underline-offset-2"
-              >
-                <Pencil className="h-3 w-3" /> Edit answers
-              </button>
-            </div>
+          {!result ? (
+            <section
+              aria-label="Reality-check this route"
+              aria-live="polite"
+              className="mt-8 bg-white border-2 border-ink rounded-[10px] overflow-hidden"
+            >
+              <WizardForm
+                answers={answers}
+                setAnswers={setAnswers}
+                submitting={submitting}
+                submit={submit}
+                canSubmit={canSubmit}
+                error={error}
+                backgroundRequired={backgroundRequired}
+                backgroundMissing={backgroundMissing}
+                scienceLabel={scienceLabel}
+                scienceHelper={scienceHelper}
+                stepId={stepId}
+                setStepId={setStepId}
+                startingPointUnresolved={startingPointUnresolved}
+                startingPointStatus={startingPointStatus}
+                setStartingPointStatus={setStartingPointStatus}
+                startingPointOtherText={startingPointOtherText}
+                setStartingPointOtherText={setStartingPointOtherText}
+              />
+            </section>
+          ) : (
+            <section
+              aria-label="Reality-check result"
+              className="mt-8 bg-white border-2 border-ink rounded-[10px] p-4 sm:p-6"
+            >
+              <div className="mb-4 flex flex-wrap items-center justify-between gap-2 border-b-2 border-dashed border-[hsl(40_15%_82%)] pb-3">
+                <p className="text-[12px] text-muted-foreground leading-snug">
+                  <span className="font-mono uppercase tracking-wider text-ink mr-1.5">Checked for:</span>
+                  {chips.join(" · ")}
+                </p>
+                <button
+                  type="button"
+                  onClick={editAnswers}
+                  className="inline-flex items-center gap-1 font-mono text-[12px] text-path hover:text-ink underline underline-offset-4"
+                >
+                  <Pencil className="h-3 w-3" /> Edit answers
+                </button>
+              </div>
+              <div ref={resultRef}>
+                {startingPointUnresolved && (
+                  <div className="mb-4 rounded-md border-l-4 border-path bg-tint px-3 py-2">
+                    <p className="text-[13px] text-ink leading-snug">
+                      {UNRESOLVED_STARTING_POINT_NOTICE}
+                    </p>
+                  </div>
+                )}
+                <ResultView
+                  result={result}
+                  answers={answers}
+                  role={role}
+                  onEdit={editAnswers}
+                  initialProfile={initialProfile}
+                  onProfileSaved={(p) => setInitialProfile(p)}
+                />
+              </div>
+            </section>
           )}
 
           {!result && (
-            <WizardForm
-              answers={answers}
-              setAnswers={setAnswers}
-              submitting={submitting}
-              submit={submit}
-              canSubmit={canSubmit}
-              error={error}
-              backgroundRequired={backgroundRequired}
-              backgroundMissing={backgroundMissing}
-              scienceLabel={scienceLabel}
-              scienceHelper={scienceHelper}
-              stepId={stepId}
-              setStepId={setStepId}
-              startingPointUnresolved={startingPointUnresolved}
-              startingPointStatus={startingPointStatus}
-              setStartingPointStatus={setStartingPointStatus}
-              startingPointOtherText={startingPointOtherText}
-              setStartingPointOtherText={setStartingPointOtherText}
-            />
+            <p className="mt-5 text-center font-mono text-[12.5px] text-muted-foreground">
+              Your progress is saved on this device · No account needed
+            </p>
           )}
-
-
-          {result && (
-            <div ref={resultRef}>
-              {startingPointUnresolved && (
-                <div className="mb-3 rounded-lg border border-amber-300/30 bg-amber-300/5 px-3 py-2">
-                  <p className="text-[11px] text-amber-100 leading-snug">
-                    {UNRESOLVED_STARTING_POINT_NOTICE}
-                  </p>
-                </div>
-              )}
-              <ResultView
-                result={result}
-                answers={answers}
-                role={role}
-                onEdit={editAnswers}
-                initialProfile={initialProfile}
-                onProfileSaved={(p) => setInitialProfile(p)}
-              />
-            </div>
-          )}
-        </section>
-      </main>
-
-      <Footer />
+        </main>
+      </div>
     </div>
   );
 };
@@ -601,6 +663,7 @@ const WizardForm = ({
         <Field
           label="Where are you starting from?"
           helper="Pick the option that best describes you right now."
+          why="Your starting point decides which routes are even open to you — an apprenticeship straight from school and an experience-based NVQ route have completely different entry doors."
         >
           <ChipGroup
             options={STARTING_POINTS}
@@ -608,35 +671,43 @@ const WizardForm = ({
             onChange={pickStartingPoint}
             disabled={submitting}
           />
-          <div className="flex flex-wrap gap-1.5 mt-2 pt-2 border-t border-gray-700/60">
+          <div className="flex flex-wrap gap-2 mt-4 pt-4 border-t border-dashed border-[hsl(40_15%_82%)]">
             <button
               type="button"
               disabled={submitting}
+              aria-pressed={notSureActive}
               onClick={() => pickStartingPointUnresolved("not_sure")}
-              className={`text-xs px-2.5 py-1 rounded-full border transition-colors ${
+              className={[
+                "font-body font-bold text-[14px] border-2 rounded-full px-4 py-2 transition-colors min-h-[40px]",
+                "focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-path focus-visible:ring-offset-2 focus-visible:ring-offset-white",
                 notSureActive
-                  ? "border-amber-300 bg-amber-300 text-gray-900"
-                  : "border-gray-600 bg-gray-700/50 text-gray-200 hover:bg-gray-700"
-              } disabled:opacity-50`}
+                  ? "bg-path border-path text-white"
+                  : "bg-white border-ink text-ink hover:border-path hover:text-path",
+                "disabled:opacity-50",
+              ].join(" ")}
             >
               Not sure
             </button>
             <button
               type="button"
               disabled={submitting}
+              aria-pressed={otherActive}
               onClick={() => pickStartingPointUnresolved("other")}
-              className={`text-xs px-2.5 py-1 rounded-full border transition-colors ${
+              className={[
+                "font-body font-bold text-[14px] border-2 rounded-full px-4 py-2 transition-colors min-h-[40px]",
+                "focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-path focus-visible:ring-offset-2 focus-visible:ring-offset-white",
                 otherActive
-                  ? "border-amber-300 bg-amber-300 text-gray-900"
-                  : "border-gray-600 bg-gray-700/50 text-gray-200 hover:bg-gray-700"
-              } disabled:opacity-50`}
+                  ? "bg-path border-path text-white"
+                  : "bg-white border-ink text-ink hover:border-path hover:text-path",
+                "disabled:opacity-50",
+              ].join(" ")}
             >
               Something else
             </button>
           </div>
           {otherActive && (
-            <div className="mt-2">
-              <label className="block text-[10px] text-gray-400 mb-1">
+            <div className="mt-4">
+              <label className="block font-mono text-[11px] uppercase tracking-wider text-muted-foreground mb-1.5">
                 Tell us briefly what your current situation is (optional)
               </label>
               <input
@@ -645,15 +716,15 @@ const WizardForm = ({
                 onChange={(e) => setStartingPointOtherText(e.target.value)}
                 placeholder="e.g. between roles after a career break"
                 disabled={submitting}
-                className="w-full rounded-lg bg-gray-700/60 border border-gray-600 px-2.5 py-1.5 text-sm text-white placeholder:text-gray-400 focus:outline-none focus:ring-1 focus:ring-amber-300/60"
+                className="w-full rounded-md bg-white border-2 border-ink px-3 py-2 text-[15px] text-ink placeholder:text-muted-foreground focus:outline-none focus:ring-2 focus:ring-path focus:ring-offset-0"
               />
-              <p className="text-[10px] text-gray-500 mt-1 leading-snug">
+              <p className="text-[12.5px] text-muted-foreground mt-1.5 leading-snug">
                 We'll skip inferring a starting point from this — your route judgement will be a little less specific.
               </p>
             </div>
           )}
           {notSureActive && (
-            <p className="mt-2 text-[10px] text-gray-500 leading-snug">
+            <p className="mt-3 text-[12.5px] text-muted-foreground leading-snug">
               We'll skip inferring a starting point — your route judgement will be a little less specific.
             </p>
           )}
@@ -669,6 +740,7 @@ const WizardForm = ({
             <Field
               label="What have you studied or worked in?"
               helper="A brief note helps us judge whether you'll meet entry requirements."
+              why="If your starting point is a related field or a career change, your existing study or work can shorten a route — but only when it maps to what employers or awarding bodies recognise."
               error={backgroundMissing ? "Add a little more detail." : null}
             >
               <input
@@ -677,7 +749,7 @@ const WizardForm = ({
                 onChange={(e) => set("relevantBackground", e.target.value)}
                 placeholder="e.g. psychology degree, retail manager, biology A-level"
                 disabled={submitting}
-                className="w-full rounded-lg bg-gray-700/60 border border-gray-600 px-2.5 py-1.5 text-sm text-white placeholder:text-gray-400 focus:outline-none focus:ring-1 focus:ring-amber-300/60"
+                className={PAPER_INPUT}
               />
             </Field>
           ),
@@ -688,7 +760,10 @@ const WizardForm = ({
       phase: 1,
       isValid: () => !!answers.qualificationLevel,
       render: () => (
-        <Field label="What's your highest qualification?">
+        <Field
+          label="What's your highest qualification?"
+          why="Different routes have different entry doors. Your highest qualification decides which are open right now, and which need bridging first."
+        >
           <ChipGroup
             options={QUALIFICATION_LEVELS}
             value={answers.qualificationLevel}
@@ -706,6 +781,7 @@ const WizardForm = ({
         <Field
           label="Do you have GCSE English and maths, or equivalent?"
           helper="Many routes ask for English and maths or an equivalent qualification."
+          why="Most regulated and apprenticeship routes require English and maths at GCSE grade 4/C or equivalent — sometimes as a strict entry gate."
         >
           <ChipGroup
             options={ENGLISH_MATHS}
@@ -721,7 +797,11 @@ const WizardForm = ({
       phase: 1,
       isValid: () => !!answers.scienceSubjects,
       render: () => (
-        <Field label={scienceLabel} helper={scienceHelper}>
+        <Field
+          label={scienceLabel}
+          helper={scienceHelper}
+          why="Some routes have subject-specific entry requirements — this signals whether you already meet them or would need a bridging qualification."
+        >
           <ChipGroup
             options={SCIENCE_SUBJECTS}
             value={answers.scienceSubjects}
@@ -739,6 +819,7 @@ const WizardForm = ({
         <Field
           label="Are you comfortable studying and working in English?"
           helper="We only use this to suggest realistic support — never to gatekeep."
+          why="If English isn't your first language, we can point you at support and preparation routes instead of assuming you don't need them."
         >
           <ChipGroup
             options={ENGLISH_COMFORT}
@@ -757,6 +838,7 @@ const WizardForm = ({
         <Field
           label="Do you need to earn while training?"
           helper="This changes which routes are realistic — for example, apprenticeships pay, university generally doesn't."
+          why="If you need income now, unpaid or full-time study routes may not be realistic — this rules those out honestly rather than recommending routes you'd have to abandon."
         >
           <ChipGroup
             options={INCOME_NEEDS}
@@ -775,6 +857,7 @@ const WizardForm = ({
         <Field
           label="How much can you spend on training?"
           helper="Roughly — we use this to filter routes you can actually afford."
+          why="Some routes cost nothing and pay you; others quietly cost thousands. We use this to rule out routes that would put you in debt for no better outcome — never to sell you anything."
         >
           <ChipGroup
             options={BUDGETS}
@@ -790,10 +873,11 @@ const WizardForm = ({
       phase: 2,
       isValid: () => !!answers.region,
       render: () => (
-        <div className="space-y-3">
+        <div className="space-y-6">
           <Field
             label="Where in the UK do you live?"
             helper="We use this to set realistic expectations for local opportunity coverage."
+            why="Some routes cluster in specific regions and countries of the UK have different funding and entry rules. Your region shapes which routes are actually reachable."
           >
             <ChipGroup
               options={REGIONS}
@@ -802,21 +886,24 @@ const WizardForm = ({
               disabled={submitting}
             />
             {answers.region && !isSupportedRegion(answers.region) && (
-              <p className="mt-1.5 text-[10px] text-amber-200/90 leading-snug">
+              <p className="mt-3 text-[13px] text-wood font-medium leading-snug">
                 Verified local opportunity coverage isn't available in your area yet — your route judgement will still work.
               </p>
             )}
           </Field>
-          <Field label="Town or postcode (optional)" helper="Add more detail if you'd like — it's not required.">
+          <div>
+            <label className="block font-mono text-[11px] uppercase tracking-wider text-muted-foreground mb-1.5">
+              Town or postcode (optional)
+            </label>
             <input
               type="text"
               value={answers.area}
               onChange={(e) => set("area", e.target.value)}
               placeholder="e.g. Leeds, SE15"
               disabled={submitting}
-              className="w-full rounded-lg bg-gray-700/60 border border-gray-600 px-2.5 py-1.5 text-sm text-white placeholder:text-gray-400 focus:outline-none focus:ring-1 focus:ring-amber-300/60"
+              className={PAPER_INPUT}
             />
-          </Field>
+          </div>
         </div>
       ),
     },
@@ -829,6 +916,7 @@ const WizardForm = ({
         <Field
           label="How much time can you give this each week?"
           helper="A rough estimate is fine. Skip if you're not sure."
+          why="Time is the constraint people most often overestimate. A part-time college route needs steady evening hours for two years; an apprenticeship replaces your working week entirely."
         >
           <ChipGroup
             options={WEEKLY_HOURS}
@@ -848,6 +936,7 @@ const WizardForm = ({
         <Field
           label="How far are you willing to travel or relocate?"
           helper="Some routes cluster in particular places — this helps us judge fit."
+          why="If a good route requires moving city or a long commute you can't sustain, we'd rather flag that upfront than let you find out three months in."
         >
           <ChipGroup
             options={COMMUTE_FLEX}
@@ -873,8 +962,8 @@ const WizardForm = ({
             onChange={(e) => set("notes", e.target.value)}
             placeholder="Tell us anything that could affect what's realistic for you."
             disabled={submitting}
-            rows={3}
-            className="w-full rounded-lg bg-gray-700/40 border border-gray-600/60 px-2.5 py-1.5 text-sm text-white placeholder:text-gray-500 focus:outline-none focus:ring-1 focus:ring-amber-300/40 resize-none"
+            rows={4}
+            className={`${PAPER_INPUT} resize-none`}
           />
         </Field>
       ),
@@ -918,32 +1007,39 @@ const WizardForm = ({
 
         return (
           <div>
-            <h2 className="text-base font-medium text-white mb-1">Ready to check your route?</h2>
-            <p className="text-[11px] text-gray-400 mb-3 leading-snug">
+            <h1 className="font-display font-extrabold text-ink tracking-[-0.02em] leading-[1.08] text-[clamp(24px,3.6vw,34px)]">
+              Ready to check your route?
+            </h1>
+            <p className="mt-2.5 text-[15px] leading-relaxed text-[hsl(90_10%_28%)] max-w-[56ch]">
               Review your answers. Use Back to change anything before we run the check.
             </p>
-            <dl className="rounded-lg border border-gray-700 bg-gray-800/60 divide-y divide-gray-700/60">
+            <dl className="mt-6 rounded-md border-2 border-ink divide-y-2 divide-ink/10 bg-white">
               {summaryRows.map((row) => (
-                <div key={row.label} className="grid grid-cols-[minmax(0,9rem)_1fr] gap-3 px-3 py-2">
-                  <dt className="text-[11px] uppercase tracking-wider text-gray-500">{row.label}</dt>
-                  <dd className="text-xs text-gray-100 break-words">{row.value}</dd>
+                <div
+                  key={row.label}
+                  className="grid grid-cols-1 sm:grid-cols-[minmax(0,11rem)_1fr] gap-1 sm:gap-4 px-4 py-3"
+                >
+                  <dt className="font-mono text-[11px] uppercase tracking-wider text-muted-foreground">
+                    {row.label}
+                  </dt>
+                  <dd className="text-[15px] text-ink break-words">{row.value}</dd>
                 </div>
               ))}
             </dl>
             {startingPointUnresolved && (
-              <div className="mt-3 rounded-lg border border-amber-300/30 bg-amber-300/5 px-3 py-2">
-                <p className="text-[11px] text-amber-100 leading-snug">
+              <div className="mt-4 rounded-md border-l-4 border-path bg-tint px-3 py-2.5">
+                <p className="text-[13.5px] text-ink leading-snug">
                   {UNRESOLVED_STARTING_POINT_NOTICE}
                 </p>
                 {otherActive && startingPointOtherText.trim() && (
-                  <p className="mt-1 text-[11px] text-amber-100/80 leading-snug">
+                  <p className="mt-1.5 text-[13px] text-ink/80 leading-snug">
                     {UNRESOLVED_STARTING_POINT_OTHER_NOTICE}
                   </p>
                 )}
               </div>
             )}
             {!canSubmit && (
-              <p className="mt-3 text-[11px] text-amber-200/90 leading-snug">
+              <p className="mt-4 text-[13.5px] text-danger font-medium leading-snug">
                 A few earlier questions still need an answer — use Back to complete them.
               </p>
             )}
@@ -991,71 +1087,64 @@ const WizardForm = ({
   };
 
   return (
-    <div className="space-y-4">
-      {/* Fine-grained progress */}
-      <div>
-        <div className="flex items-center justify-between text-[11px] text-gray-400 mb-1.5">
-          <span>
-            {isReview
-              ? `Review · ${totalQuestions} question${totalQuestions === 1 ? "" : "s"}`
-              : `Question ${currentQuestionNumber} of ${totalQuestions}`}
-          </span>
+    <div>
+      {/* Card header — question count + compact progress bar */}
+      <div className="flex justify-between items-center gap-3 px-6 py-3.5 bg-tint border-b-2 border-ink">
+        <span className="font-mono text-[12px] tracking-[0.14em] uppercase text-muted-foreground">
+          {isReview ? `Review · ${totalQuestions} questions` : `Question ${currentQuestionNumber} of ${totalQuestions}`}
+        </span>
+        <span
+          className="flex-1 max-w-[220px] h-[6px] border-[1.5px] border-ink rounded-full overflow-hidden bg-white"
+          aria-hidden="true"
+        >
+          <span
+            className="block h-full bg-path transition-all duration-300"
+            style={{ width: `${progressPct}%` }}
+          />
+        </span>
+      </div>
+
+      {/* Card body — current question */}
+      <div key={step.id} className="p-6 sm:p-10">
+        {step.render()}
+        {error && <p role="alert" className="mt-4 text-sm font-medium text-danger">{error}</p>}
+      </div>
+
+      {/* Card footer — Back / Skip / Next */}
+      <div className="flex flex-col-reverse sm:flex-row justify-between items-stretch sm:items-center gap-3 px-6 py-4 border-t-2 border-dashed border-[hsl(40_15%_82%)]">
+        <button
+          type="button"
+          onClick={goBack}
+          disabled={safeIndex === 0 || submitting}
+          className="font-body font-bold text-[15px] bg-transparent border-2 border-transparent text-muted-foreground px-4 py-2.5 rounded-[5px] hover:text-ink hover:border-ink disabled:opacity-35 disabled:cursor-default disabled:hover:border-transparent transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-path"
+        >
+          ← Back
+        </button>
+        <div className="flex flex-col-reverse sm:flex-row sm:items-center gap-3 sm:gap-5">
           {step.optional && !isReview && (
             <button
               type="button"
               onClick={goNext}
               disabled={submitting}
-              className="text-amber-200 hover:text-white underline underline-offset-2"
+              className="font-mono text-[13px] text-muted-foreground hover:text-ink underline underline-offset-4 bg-transparent border-0 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-path rounded"
             >
-              Skip
+              Skip this question
             </button>
           )}
+          <button
+            type="button"
+            onClick={goNext}
+            disabled={!canAdvance || submitting}
+            className="font-display font-bold text-[16px] bg-path text-white border-0 px-7 py-3.5 rounded-[5px] hover:bg-ink disabled:bg-[hsl(40_15%_82%)] disabled:text-muted-foreground disabled:cursor-not-allowed transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-path focus-visible:ring-offset-2 focus-visible:ring-offset-white inline-flex items-center justify-center gap-2 min-h-[44px]"
+          >
+            {submitting && <Loader2 className="h-4 w-4 animate-spin" aria-hidden="true" />}
+            {submitting ? "Finding your route…" : isReview ? "Show my realistic route →" : "Next →"}
+          </button>
         </div>
-        <div className="h-1 rounded-full bg-gray-700/60 overflow-hidden">
-          <div
-            className="h-full bg-amber-300 transition-all duration-300"
-            style={{ width: `${progressPct}%` }}
-          />
-        </div>
-      </div>
-
-      {/* Active question */}
-      <div key={step.id} className="pt-1">
-        {step.render()}
-      </div>
-
-      {error && <p className="text-xs text-rose-300">{error}</p>}
-
-      {/* Navigation */}
-      <div className="flex items-center justify-between gap-3 border-t border-gray-700/50 pt-4">
-        <button
-          type="button"
-          onClick={goBack}
-          disabled={safeIndex === 0 || submitting}
-          className="inline-flex items-center gap-1.5 text-sm font-medium text-gray-300 hover:text-white px-3 py-2 rounded-lg disabled:opacity-30 disabled:cursor-not-allowed"
-        >
-          <ArrowLeft className="h-4 w-4" />
-          Back
-        </button>
-        <button
-          type="button"
-          onClick={goNext}
-          disabled={!canAdvance || submitting}
-          className="inline-flex items-center gap-1.5 text-sm font-medium bg-amber-300 text-gray-900 px-4 py-2 rounded-lg disabled:opacity-40 disabled:cursor-not-allowed hover:bg-amber-200 transition-colors"
-        >
-          {submitting ? (
-            <Loader2 className="h-4 w-4 animate-spin" />
-          ) : isReview ? (
-            <Sparkles className="h-4 w-4" />
-          ) : null}
-          {submitting
-            ? "Finding your route…"
-            : isReview
-            ? "Show my realistic route"
-            : "Next"}
-          {!submitting && !isReview && <ArrowRight className="h-4 w-4" />}
-        </button>
       </div>
     </div>
   );
 };
+
+const PAPER_INPUT =
+  "w-full rounded-md bg-white border-2 border-ink px-3 py-2.5 text-[15px] text-ink placeholder:text-muted-foreground focus:outline-none focus:ring-2 focus:ring-path focus:ring-offset-0";
