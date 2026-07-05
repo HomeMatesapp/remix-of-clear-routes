@@ -220,7 +220,9 @@ const RealityCheckPage = () => {
   // Q1 is considered answered if either a canonical starting point is chosen
   // OR the user selected "Not sure" / "Something else" (answered_unresolved).
   const startingPointAnswered =
-    !!answers.startingPoint || startingPointStatus === "answered_unresolved";
+    !!answers.startingPoint ||
+    startingPointStatus === "unresolved_not_sure" ||
+    startingPointStatus === "unresolved_other";
   const missing: string[] = [];
   if (!startingPointAnswered) missing.push("starting point");
   if (backgroundMissing) missing.push("relevant background");
