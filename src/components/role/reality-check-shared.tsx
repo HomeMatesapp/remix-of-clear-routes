@@ -211,7 +211,10 @@ export const clearSessionResult = (slug: string) => {
 const progressKey = (slug: string) => `cr_rc_progress_${slug}`;
 const PROGRESS_TTL_MS = 24 * 60 * 60 * 1000;
 
-export type StartingPointStatus = "resolved" | "answered_unresolved";
+export type StartingPointStatus =
+  | "resolved"
+  | "unresolved_not_sure"
+  | "unresolved_other";
 
 export interface InProgressAnswers {
   answers: RealityCheckAnswers;
