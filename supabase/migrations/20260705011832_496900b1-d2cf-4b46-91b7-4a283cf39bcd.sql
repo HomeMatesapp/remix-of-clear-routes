@@ -1,0 +1,1 @@
+ALTER TABLE public.saved_decisions ADD COLUMN IF NOT EXISTS route_actions jsonb;

@@ -885,6 +885,7 @@ export type Database = {
           role_id: string | null
           role_name: string
           role_slug: string
+          route_actions: Json | null
           route_to_avoid_title: string | null
           updated_at: string
           user_id: string
@@ -902,6 +903,7 @@ export type Database = {
           role_id?: string | null
           role_name: string
           role_slug: string
+          route_actions?: Json | null
           route_to_avoid_title?: string | null
           updated_at?: string
           user_id: string
@@ -919,6 +921,7 @@ export type Database = {
           role_id?: string | null
           role_name?: string
           role_slug?: string
+          route_actions?: Json | null
           route_to_avoid_title?: string | null
           updated_at?: string
           user_id?: string
