@@ -48,7 +48,11 @@ export interface RoleConfig {
   family: string;
   engineId: string;
   questionnaireVersion: string;
-  questionIds: readonly string[];
+  // Each role owns its ordered question list — universal / family / role-
+  // specific questions are composed at config time. Two roles may declare
+  // the same question id (e.g. `working_conditions_to_check`) with different
+  // options; there is no global question bank.
+  questions: readonly Question[];
   // Wire the config to a role-specific signal extractor + edge-function
   // request-body key. Keeps the wizard renderer generic — it doesn't need
   // to know which role it is rendering.
@@ -56,9 +60,8 @@ export interface RoleConfig {
   extractSignals: (answers: AnswerMap, inline: InlineTextMap) => unknown;
 }
 
-export interface ResolvedConfig extends RoleConfig {
-  questions: readonly Question[];
-}
+// Kept as an alias for backwards compatibility — resolution is now a no-op.
+export type ResolvedConfig = RoleConfig;
 
 
 // Answer storage inside the v3 draft.
