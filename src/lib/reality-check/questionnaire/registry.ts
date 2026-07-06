@@ -4,10 +4,12 @@
 import type { ResolvedConfig, RoleConfig } from "./types";
 import { electricianConfig } from "./roles/electrician";
 import { plumberConfig } from "./roles/plumber";
+import { heatingEngineerConfig } from "./roles/heating-engineer";
 
 const ROLE_CONFIGS: Record<string, RoleConfig> = {
   [electricianConfig.roleSlug]: electricianConfig,
   [plumberConfig.roleSlug]: plumberConfig,
+  [heatingEngineerConfig.roleSlug]: heatingEngineerConfig,
 };
 
 /**
