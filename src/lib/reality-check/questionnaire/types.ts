@@ -1,0 +1,61 @@
+// Modular questionnaire configuration — types.
+//
+// Universal, family and role-specific question definitions are composed into
+// an ordered visibleSteps array by the registry. The wizard renders any
+// config generically so a new role only requires question data + a signals
+// module + a route engine.
+
+export type ControlType = "single_select" | "multi_select" | "text";
+
+export type QuestionPhase =
+  | "starting_point"
+  | "qualifications"
+  | "practical_constraints";
+
+export interface QuestionOption {
+  value: string;
+  label: string;
+  small?: string;
+  // If true, selecting this option clears every other selection AND is cleared
+  // by selecting any other option. Used for "None", "Not sure yet", etc.
+  exclusive?: boolean;
+}
+
+export interface ConditionalField {
+  // Show the field when the current answer includes any of these option values.
+  showWhenValueIn: readonly string[];
+  label: string;
+  placeholder?: string;
+  // Never used as an eligibility signal.
+  hint?: string;
+}
+
+export interface Question {
+  id: string;
+  phase: QuestionPhase;
+  title: string;
+  helpText?: string;
+  whyWeAsk: string;
+  controlType: ControlType;
+  options?: readonly QuestionOption[];
+  maxSelections?: number;
+  conditionalField?: ConditionalField;
+  required?: boolean; // default true
+}
+
+export interface RoleConfig {
+  roleSlug: string;
+  family: string;
+  engineId: string;
+  questionnaireVersion: string;
+  questionIds: readonly string[];
+}
+
+export interface ResolvedConfig extends RoleConfig {
+  questions: readonly Question[];
+}
+
+// Answer storage inside the v3 draft.
+export type AnswerValue = string | string[];
+export type AnswerMap = Record<string, AnswerValue>;
+export type InlineTextMap = Record<string, string>;
