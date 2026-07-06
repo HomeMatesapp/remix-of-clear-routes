@@ -136,3 +136,26 @@ describe("flushPendingDecision", () => {
     expect(readPendingDecision()).toBeNull();
   });
 });
+
+describe("modular payload round-trip", () => {
+  it("preserves result.modular through stash → read", () => {
+    const modularResult = {
+      ...result,
+      modular: {
+        status: "route_recommended",
+        headline: "H",
+        routes: [
+          { kind: "recommended", title: "R", fit: "f", constraint: "c", checks: [], nextAction: "n" },
+        ],
+        checksBeforeCommitting: ["a"],
+      },
+    } as unknown as RealityCheckResult;
+    stashPendingDecision(role, answers, modularResult);
+    const p = readPendingDecision();
+    expect(p?.result.modular).toBeDefined();
+    expect(p?.result.modular?.status).toBe("route_recommended");
+    expect(p?.result.modular?.routes[0].kind).toBe("recommended");
+    expect(p?.result.modular?.routes[0].title).toBe("R");
+  });
+});
+
