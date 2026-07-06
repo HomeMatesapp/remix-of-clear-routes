@@ -133,3 +133,54 @@ describe("sanitiseAnswerMap drops answers for questions not in the active config
     expect(cleaned).not.toHaveProperty("relevantBackground");
   });
 });
+
+describe("registry — plumber", () => {
+  it("resolves Plumber by slug to exactly 9 questions in the specified order", () => {
+    const cfg = resolveConfig("plumber");
+    expect(cfg).not.toBeNull();
+    expect(cfg!.questionnaireVersion).toBe("plumber-v1");
+    expect(cfg!.engineId).toBe("plumber-v1");
+    expect(cfg!.family).toBe("skilled-trades");
+    expect(cfg!.questions.map((q) => q.id)).toEqual([
+      "starting_point",
+      "relevant_experience",
+      "plumbing_qualification",
+      "maths_english_status",
+      "training_availability",
+      "training_budget",
+      "travel_range",
+      "working_conditions_to_check",
+      "route_priorities",
+    ]);
+  });
+
+  it("hasModularConfig returns true for plumber", () => {
+    expect(hasModularConfig("plumber")).toBe(true);
+  });
+
+  it("Electrician and Plumber declare different working_conditions_to_check options", () => {
+    const e = resolveConfig("electrician")!.questions.find((q) => q.id === "working_conditions_to_check")!;
+    const p = resolveConfig("plumber")!.questions.find((q) => q.id === "working_conditions_to_check")!;
+    const eValues = (e.options ?? []).map((o) => o.value).sort();
+    const pValues = (p.options ?? []).map((o) => o.value).sort();
+    expect(eValues).not.toEqual(pValues);
+    expect(pValues).toContain("emergency_callouts");
+    expect(eValues).toContain("working_at_height");
+  });
+
+  it("Plumber relevant_experience includes plumbing_work; Electrician includes electrical_work", () => {
+    const e = resolveConfig("electrician")!.questions.find((q) => q.id === "relevant_experience")!;
+    const p = resolveConfig("plumber")!.questions.find((q) => q.id === "relevant_experience")!;
+    expect((p.options ?? []).map((o) => o.value)).toContain("plumbing_work");
+    expect((e.options ?? []).map((o) => o.value)).toContain("electrical_work");
+  });
+
+  it("plumbing_qualification does not show the inline text field for 'none' or 'not_sure'", () => {
+    const q = resolveConfig("plumber")!.questions.find((x) => x.id === "plumbing_qualification")!;
+    expect(q.conditionalField).toBeDefined();
+    expect(q.conditionalField!.showWhenValueIn).not.toContain("none");
+    expect(q.conditionalField!.showWhenValueIn).not.toContain("not_sure");
+    expect(q.conditionalField!.showWhenValueIn).toContain("gas_heating");
+    expect(q.conditionalField!.showWhenValueIn).toContain("older_unknown");
+  });
+});
