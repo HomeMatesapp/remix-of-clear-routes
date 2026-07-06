@@ -5,6 +5,8 @@
 // composed from universal + skilled-trades definitions.
 
 import type { Question, RoleConfig } from "../types";
+import { extractElectricianSignals } from "../signals";
+
 
 export const electricalQualificationQuestion: Question = {
   id: "electrical_qualification",
@@ -71,4 +73,7 @@ export const electricianConfig: RoleConfig = {
     "working_conditions_to_check",
     "route_priorities",
   ],
+  requestBodyKey: "electricianSignals",
+  extractSignals: extractElectricianSignals,
 };
+

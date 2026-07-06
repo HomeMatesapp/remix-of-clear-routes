@@ -49,11 +49,17 @@ export interface RoleConfig {
   engineId: string;
   questionnaireVersion: string;
   questionIds: readonly string[];
+  // Wire the config to a role-specific signal extractor + edge-function
+  // request-body key. Keeps the wizard renderer generic — it doesn't need
+  // to know which role it is rendering.
+  requestBodyKey: string;
+  extractSignals: (answers: AnswerMap, inline: InlineTextMap) => unknown;
 }
 
 export interface ResolvedConfig extends RoleConfig {
   questions: readonly Question[];
 }
+
 
 // Answer storage inside the v3 draft.
 export type AnswerValue = string | string[];

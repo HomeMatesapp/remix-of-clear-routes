@@ -1,8 +1,17 @@
-// Electrician (modular) wizard — renders a resolved questionnaire config
-// against the Field Map visual system, matching the legacy WizardForm shell.
+// Config-driven Reality Check wizard.
 //
-// Only used for role slugs that have a modular questionnaire configuration
-// (currently: electrician). Non-modular roles continue on the legacy wizard.
+// Renders any resolved questionnaire config against the Field Map visual
+// system. Role-specific behaviour lives entirely in the config — the
+// renderer must not know which role it is rendering.
+//
+// Role-specific concerns live in:
+//   - questionnaire config (questions + display copy)
+//   - config.extractSignals (typed signal extraction)
+//   - config.requestBodyKey (edge-function payload shape)
+//   - the role's route engine + adapter
+//
+// The wizard just walks the resolved question list, persists a role-scoped
+// v3 draft, and hands the extracted signals to the edge function.
 
 import { useEffect, useMemo, useState } from "react";
 import { Loader2 } from "lucide-react";
@@ -19,15 +28,13 @@ import {
   sanitiseInlineText,
   toggleMultiSelect,
 } from "@/lib/reality-check/questionnaire/sanitise";
-import { extractElectricianSignals } from "@/lib/reality-check/questionnaire/signals";
 import {
   clearModularDraft,
+  invalidateLegacyDraftForRole,
   loadModularDraft,
   saveModularDraft,
 } from "@/lib/reality-check/questionnaire/draft-v3";
-import {
-  invalidateLegacyDraftForRole,
-} from "@/lib/reality-check/questionnaire/draft-v3";
+
 
 const REVIEW_ID = "__review__";
 
@@ -257,13 +264,14 @@ function ReviewCard({
 
 // ── Main component ──────────────────────────────────────────────────────────
 
-export interface ElectricianWizardProps {
+export interface ModularRealityCheckWizardProps {
   role: RoleContext & { role_slug: string; role_name: string };
   config: ResolvedConfig;
   onResult: (result: RealityCheckResult, answers: AnswerMap, inlineText: InlineTextMap) => void;
 }
 
-export function ElectricianWizard({ role, config, onResult }: ElectricianWizardProps) {
+export function ModularRealityCheckWizard({ role, config, onResult }: ModularRealityCheckWizardProps) {
+
   const { toast } = useToast();
   const [answers, setAnswers] = useState<AnswerMap>({});
   const [inlineText, setInlineTextState] = useState<InlineTextMap>({});
@@ -348,17 +356,22 @@ export function ElectricianWizard({ role, config, onResult }: ElectricianWizardP
     // Final sanitisation so nothing hidden leaks through.
     const cleanedAnswers = sanitiseAnswerMap(config.questions, answers);
     const cleanedInline = sanitiseInlineText(config.questions, cleanedAnswers, inlineText);
-    const signals = extractElectricianSignals(cleanedAnswers, cleanedInline);
+    const signals = config.extractSignals(cleanedAnswers, cleanedInline);
+    const startingPointForAnalytics =
+      typeof cleanedAnswers.starting_point === "string" ? cleanedAnswers.starting_point : null;
+    const trainingBudgetForAnalytics =
+      typeof cleanedAnswers.training_budget === "string" ? cleanedAnswers.training_budget : null;
     trackEvent("reality_check_submitted", {
       role: role.role_name,
       questionnaire_version: config.questionnaireVersion,
-      starting_point: signals.startingPoint,
-      training_budget: signals.trainingBudgetBand,
+      starting_point: startingPointForAnalytics,
+      training_budget: trainingBudgetForAnalytics,
     });
     try {
       const { data, error: fnErr } = await supabase.functions.invoke("reality-check", {
-        body: { role, answers: {}, electricianSignals: signals },
+        body: { role, answers: {}, [config.requestBodyKey]: signals },
       });
+
       if (fnErr) throw fnErr;
       if ((data as { error?: string })?.error) throw new Error((data as { error: string }).error);
       const result = (data as { result: RealityCheckResult }).result;

@@ -50,7 +50,7 @@ import {
   UNRESOLVED_STARTING_POINT_OTHER_NOTICE,
   type StartingPointStatus,
 } from "@/components/role/reality-check-shared";
-import { ElectricianWizard } from "@/components/role/ElectricianWizard";
+import { ModularRealityCheckWizard } from "@/components/role/ModularRealityCheckWizard";
 import { resolveConfig, hasModularConfig } from "@/lib/reality-check/questionnaire/registry";
 import { isSupportedRegion } from "@/lib/reality-check/regions";
 import { isRealityCheckEnabled as isRealityCheckReady } from "@/lib/reality-check/service-levels";
@@ -512,7 +512,7 @@ const RealityCheckPage = () => {
               className="mt-8 bg-white border-2 border-ink rounded-[10px] overflow-hidden"
             >
               {hasModularConfig(role.role_slug) ? (
-                <ElectricianWizard
+                <ModularRealityCheckWizard
                   role={role}
                   config={resolveConfig(role.role_slug)!}
                   onResult={(r) => setResult(r)}
