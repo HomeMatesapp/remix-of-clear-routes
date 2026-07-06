@@ -209,14 +209,14 @@ const priorityBonus = (
 ): number => {
   let bonus = 0;
   if (priorities.includes("not_sure_yet")) return 0;
-  const w = 6;
+  const w = 12;
   for (const p of priorities) {
     if (p === "earn_while_training" && routeId === "apprenticeship") bonus += w;
     if (p === "practical_experience" && routeId === "apprenticeship") bonus += w;
     if (p === "low_cost" && routeId === "apprenticeship") bonus += w;
-    if (p === "strongest_employment" && routeId === "apprenticeship") bonus += 3;
-    if (p === "recognised_qualification" && routeId === "college_then_workplace_experience") bonus += w;
-    if (p === "fit_around_commitments" && routeId === "college_then_workplace_experience") bonus += 4;
+    if (p === "strongest_employment" && routeId === "apprenticeship") bonus += 6;
+    if (p === "recognised_qualification" && routeId === "college_then_workplace_experience") bonus += 15;
+    if (p === "fit_around_commitments" && routeId === "college_then_workplace_experience") bonus += 8;
     if (p === "qualify_quickly" && routeId === "experienced_worker_route") bonus += w;
   }
   return bonus;

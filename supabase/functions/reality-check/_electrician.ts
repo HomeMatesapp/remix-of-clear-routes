@@ -134,14 +134,14 @@ const baseScore = (id: ElectricianRouteId, s: Signals) => {
 const priorityBonus = (id: ElectricianRouteId, priorities: string[]) => {
   if (priorities.includes("not_sure_yet")) return 0;
   let bonus = 0;
-  const w = 6;
+  const w = 12;
   for (const p of priorities) {
     if (p === "earn_while_training" && id === "apprenticeship") bonus += w;
     if (p === "practical_experience" && id === "apprenticeship") bonus += w;
     if (p === "low_cost" && id === "apprenticeship") bonus += w;
-    if (p === "strongest_employment" && id === "apprenticeship") bonus += 3;
-    if (p === "recognised_qualification" && id === "college_then_workplace_experience") bonus += w;
-    if (p === "fit_around_commitments" && id === "college_then_workplace_experience") bonus += 4;
+    if (p === "strongest_employment" && id === "apprenticeship") bonus += 6;
+    if (p === "recognised_qualification" && id === "college_then_workplace_experience") bonus += 15;
+    if (p === "fit_around_commitments" && id === "college_then_workplace_experience") bonus += 8;
     if (p === "qualify_quickly" && id === "experienced_worker_route") bonus += w;
   }
   return bonus;

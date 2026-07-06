@@ -72,7 +72,7 @@
     },
     "expected": {
       "status": "route_recommended",
-      "recommendedRouteId": "experienced_worker_route"
+      "recommendedRouteId": "apprenticeship"
     }
   },
   {
