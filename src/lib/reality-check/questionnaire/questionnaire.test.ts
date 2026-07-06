@@ -189,6 +189,7 @@ describe("reviewed-modular gate naming and semantics", () => {
   it("hasReviewedModularRealityCheck is true for reviewed roles only", () => {
     expect(hasReviewedModularRealityCheck("electrician")).toBe(true);
     expect(hasReviewedModularRealityCheck("plumber")).toBe(true);
+    expect(hasReviewedModularRealityCheck("hvac-engineer")).toBe(true);
     expect(hasReviewedModularRealityCheck("registered-nurse")).toBe(false);
     expect(hasReviewedModularRealityCheck("unknown-role-slug")).toBe(false);
   });
@@ -199,9 +200,121 @@ describe("reviewed-modular gate naming and semantics", () => {
   });
 
   it("gate requires BOTH a questionnaire and a route engine — modular roles always resolve a config", () => {
-    for (const slug of ["electrician", "plumber"]) {
+    for (const slug of ["electrician", "plumber", "hvac-engineer"]) {
       expect(hasReviewedModularRealityCheck(slug)).toBe(true);
       expect(resolveConfig(slug)).not.toBeNull();
     }
+  });
+});
+
+describe("registry — heating engineer (slug: hvac-engineer)", () => {
+  it("resolves Heating Engineer by slug to exactly 9 questions in the specified order", () => {
+    const cfg = resolveConfig("hvac-engineer");
+    expect(cfg).not.toBeNull();
+    expect(cfg!.questionnaireVersion).toBe("heating-engineer-v1");
+    expect(cfg!.engineId).toBe("heating-engineer-v1");
+    expect(cfg!.family).toBe("skilled-trades");
+    expect(cfg!.questions.map((q) => q.id)).toEqual([
+      "starting_point",
+      "relevant_experience",
+      "heating_qualification",
+      "maths_english_status",
+      "training_availability",
+      "training_budget",
+      "travel_range",
+      "working_conditions_to_check",
+      "route_priorities",
+    ]);
+  });
+
+  it("shared maths/English question is reused (same object identity across roles)", () => {
+    const e = resolveConfig("electrician")!.questions.find((q) => q.id === "maths_english_status")!;
+    const p = resolveConfig("plumber")!.questions.find((q) => q.id === "maths_english_status")!;
+    const h = resolveConfig("hvac-engineer")!.questions.find((q) => q.id === "maths_english_status")!;
+    expect(h).toBe(e);
+    expect(h).toBe(p);
+  });
+
+  it("Heating Engineer working_conditions differ from Electrician and Plumber", () => {
+    const e = resolveConfig("electrician")!.questions.find((q) => q.id === "working_conditions_to_check")!;
+    const p = resolveConfig("plumber")!.questions.find((q) => q.id === "working_conditions_to_check")!;
+    const h = resolveConfig("hvac-engineer")!.questions.find((q) => q.id === "working_conditions_to_check")!;
+    const hVals = (h.options ?? []).map((o) => o.value);
+    expect(hVals).toContain("safety_critical_systems");
+    expect((e.options ?? []).map((o) => o.value)).not.toContain("safety_critical_systems");
+    expect((p.options ?? []).map((o) => o.value)).not.toContain("safety_critical_systems");
+  });
+
+  it("heating_qualification does not show inline field for 'none' or 'not_sure'", () => {
+    const q = resolveConfig("hvac-engineer")!.questions.find((x) => x.id === "heating_qualification")!;
+    expect(q.conditionalField).toBeDefined();
+    expect(q.conditionalField!.showWhenValueIn).not.toContain("none");
+    expect(q.conditionalField!.showWhenValueIn).not.toContain("not_sure");
+    expect(q.conditionalField!.showWhenValueIn).toContain("gas_or_gas_safe_claimed");
+    expect(q.conditionalField!.showWhenValueIn).toContain("heat_pump_or_low_carbon");
+    expect(q.conditionalField!.showWhenValueIn).toContain("international");
+  });
+
+  it("Heating Engineer relevant_experience includes heating/gas/plumbing/building-services options", () => {
+    const q = resolveConfig("hvac-engineer")!.questions.find((x) => x.id === "relevant_experience")!;
+    const vals = (q.options ?? []).map((o) => o.value);
+    for (const v of [
+      "heating_install_service",
+      "plumbing_or_domestic_heat",
+      "gas_appliance_or_systems",
+      "building_services_hvac",
+      "electrical_controls",
+    ]) {
+      expect(vals).toContain(v);
+    }
+  });
+
+  it("working_conditions exclusive options behave both ways", () => {
+    const wc = resolveConfig("hvac-engineer")!.questions.find((x) => x.id === "working_conditions_to_check")!;
+    expect(toggleMultiSelect(wc, ["safety_critical_systems", "emergency_callouts"], "none")).toEqual(["none"]);
+    expect(toggleMultiSelect(wc, ["none"], "safety_critical_systems")).toEqual(["safety_critical_systems"]);
+    expect(toggleMultiSelect(wc, ["confined_or_plant_rooms"], "need_more_info")).toEqual(["need_more_info"]);
+    expect(toggleMultiSelect(wc, ["need_more_info"], "customer_sites")).toEqual(["customer_sites"]);
+  });
+
+  it("adding Heating Engineer does not alter Electrician or Plumber question sequences", () => {
+    expect(resolveConfig("electrician")!.questions.map((q) => q.id)).toEqual([
+      "starting_point",
+      "relevant_experience",
+      "electrical_qualification",
+      "maths_english_status",
+      "training_availability",
+      "training_budget",
+      "travel_range",
+      "working_conditions_to_check",
+      "route_priorities",
+    ]);
+    expect(resolveConfig("plumber")!.questions.map((q) => q.id)).toEqual([
+      "starting_point",
+      "relevant_experience",
+      "plumbing_qualification",
+      "maths_english_status",
+      "training_availability",
+      "training_budget",
+      "travel_range",
+      "working_conditions_to_check",
+      "route_priorities",
+    ]);
+  });
+
+  it("heating_qualification inline text clears when no longer relevant", () => {
+    const cfg = resolveConfig("hvac-engineer")!;
+    const cleared = sanitiseInlineText(
+      cfg.questions,
+      { heating_qualification: "none" },
+      { heating_qualification: "ACS CCN1" },
+    );
+    expect(cleared.heating_qualification).toBeUndefined();
+    const kept = sanitiseInlineText(
+      cfg.questions,
+      { heating_qualification: "gas_or_gas_safe_claimed" },
+      { heating_qualification: "ACS CCN1" },
+    );
+    expect(kept.heating_qualification).toBe("ACS CCN1");
   });
 });
