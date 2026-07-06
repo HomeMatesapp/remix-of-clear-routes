@@ -13,12 +13,11 @@
 
 import { serve } from "https://deno.land/std@0.168.0/http/server.ts";
 import { buildResult } from "./_readiness.ts";
+import { buildElectricianResult } from "./_electrician.ts";
 import { getCorsHeaders } from "../_shared/cors.ts";
 
 
-// Re-exported so existing tests against answersToLabels keep passing. The
-// labeller is unused by the deterministic engine but useful for analytics /
-// debugging and is still imported by some legacy callers.
+// Re-exported so existing tests against answersToLabels keep passing.
 export { answersToLabels } from "./_labels.ts";
 
 serve(async (req) => {
@@ -26,14 +25,22 @@ serve(async (req) => {
   if (req.method === "OPTIONS") return new Response("ok", { headers: corsHeaders });
 
   try {
-    const { role, answers } = await req.json();
+    const { role, answers, electricianSignals } = await req.json();
     if (!role?.role_name) {
       return new Response(JSON.stringify({ error: "role required" }), {
         status: 400,
         headers: { ...corsHeaders, "Content-Type": "application/json" },
       });
     }
-    const result = buildResult(answers, role);
+    // Slug-based dispatch: Electrician runs the new modular engine driven by
+    // structured signals extracted client-side. Everything else stays on the
+    // legacy deterministic readiness engine.
+    let result;
+    if (role.role_slug === "electrician" && electricianSignals) {
+      result = buildElectricianResult({ signals: electricianSignals });
+    } else {
+      result = buildResult(answers, role);
+    }
     return new Response(JSON.stringify({ result }), {
       headers: { ...corsHeaders, "Content-Type": "application/json" },
     });

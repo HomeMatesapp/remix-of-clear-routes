@@ -222,6 +222,9 @@ export interface RealityCheckResult {
   // Deprecated — still on type, hidden by Release 1 UI.
   localRealism?: LocalRealism;
   firstMoves: string[];
+  // Optional. Non-eligibility observations surfaced to the user, e.g. from
+  // working_conditions_to_check in the Electrician engine. Never a blocker.
+  considerations?: string[];
 }
 
 // Subset of role context the engine needs. Keep narrow — the edge function

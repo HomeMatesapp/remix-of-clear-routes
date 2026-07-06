@@ -1,0 +1,216 @@
+[
+  {
+    "name": "beginner_school_weekday",
+    "signals": {
+      "startingPoint": "still_at_school",
+      "hasElectricalExperience": false,
+      "hasRelatedTradeExperience": false,
+      "electricalQualificationLevel": "none",
+      "mathsEnglishStatus": "both",
+      "availableTrainingPatterns": ["full_time_work_based", "full_time_college"],
+      "trainingBudgetBand": "free_only",
+      "travelRange": "up_to_30",
+      "workingConditionsToCheck": [],
+      "routePriorities": []
+    },
+    "expected": {
+      "status": "route_recommended",
+      "recommendedRouteId": "apprenticeship"
+    }
+  },
+  {
+    "name": "career_changer_evenings_only",
+    "signals": {
+      "startingPoint": "career_changer",
+      "hasElectricalExperience": false,
+      "hasRelatedTradeExperience": false,
+      "electricalQualificationLevel": "none",
+      "mathsEnglishStatus": "both",
+      "availableTrainingPatterns": ["weekday_evenings"],
+      "trainingBudgetBand": "500_to_2000",
+      "travelRange": "up_to_60",
+      "workingConditionsToCheck": [],
+      "routePriorities": []
+    },
+    "expected": {
+      "status": "route_recommended",
+      "recommendedRouteId": "college_then_workplace_experience"
+    }
+  },
+  {
+    "name": "level_2_holder",
+    "signals": {
+      "startingPoint": "career_changer",
+      "hasElectricalExperience": true,
+      "hasRelatedTradeExperience": true,
+      "electricalQualificationLevel": "level_2",
+      "mathsEnglishStatus": "both",
+      "availableTrainingPatterns": ["one_or_two_weekdays"],
+      "trainingBudgetBand": "500_to_2000",
+      "travelRange": "up_to_60",
+      "workingConditionsToCheck": [],
+      "routePriorities": []
+    },
+    "expected": {
+      "status": "route_recommended",
+      "recommendedRouteId": "apprenticeship"
+    }
+  },
+  {
+    "name": "level_3_holder",
+    "signals": {
+      "startingPoint": "career_changer",
+      "hasElectricalExperience": true,
+      "hasRelatedTradeExperience": false,
+      "electricalQualificationLevel": "level_3",
+      "mathsEnglishStatus": "both",
+      "availableTrainingPatterns": ["full_time_work_based", "one_or_two_weekdays"],
+      "trainingBudgetBand": "over_2000",
+      "travelRange": "wider_area",
+      "workingConditionsToCheck": [],
+      "routePriorities": ["qualify_quickly"]
+    },
+    "expected": {
+      "status": "route_recommended",
+      "recommendedRouteId": "apprenticeship"
+    }
+  },
+  {
+    "name": "older_uk_qualification_verification",
+    "signals": {
+      "startingPoint": "returning_after_break",
+      "hasElectricalExperience": true,
+      "hasRelatedTradeExperience": false,
+      "electricalQualificationLevel": "older_unknown",
+      "mathsEnglishStatus": "both",
+      "availableTrainingPatterns": ["one_or_two_weekdays"],
+      "trainingBudgetBand": "over_2000",
+      "travelRange": "up_to_60",
+      "workingConditionsToCheck": [],
+      "routePriorities": []
+    },
+    "expected": {
+      "status": "qualification_verification_required",
+      "recommendedRouteId": null
+    }
+  },
+  {
+    "name": "international_qualification_verification",
+    "signals": {
+      "startingPoint": "career_changer",
+      "hasElectricalExperience": true,
+      "hasRelatedTradeExperience": false,
+      "electricalQualificationLevel": "international",
+      "mathsEnglishStatus": "international",
+      "availableTrainingPatterns": ["full_time_work_based"],
+      "trainingBudgetBand": "over_2000",
+      "travelRange": "wider_area",
+      "workingConditionsToCheck": [],
+      "routePriorities": []
+    },
+    "expected": {
+      "status": "qualification_verification_required",
+      "recommendedRouteId": null
+    }
+  },
+  {
+    "name": "budget_low_versus_high_identical_readiness",
+    "note": "See paired case below; assertion enforced in parity test rather than expected block.",
+    "signals": {
+      "startingPoint": "career_changer",
+      "hasElectricalExperience": false,
+      "hasRelatedTradeExperience": false,
+      "electricalQualificationLevel": "none",
+      "mathsEnglishStatus": "both",
+      "availableTrainingPatterns": ["weekday_evenings"],
+      "trainingBudgetBand": "free_only",
+      "travelRange": "up_to_60",
+      "workingConditionsToCheck": [],
+      "routePriorities": []
+    },
+    "pairedWith": "budget_high_variant",
+    "expected": {
+      "status": "route_recommended",
+      "recommendedRouteId": "college_then_workplace_experience"
+    }
+  },
+  {
+    "name": "budget_high_variant",
+    "signals": {
+      "startingPoint": "career_changer",
+      "hasElectricalExperience": false,
+      "hasRelatedTradeExperience": false,
+      "electricalQualificationLevel": "none",
+      "mathsEnglishStatus": "both",
+      "availableTrainingPatterns": ["weekday_evenings"],
+      "trainingBudgetBand": "over_2000",
+      "travelRange": "up_to_60",
+      "workingConditionsToCheck": [],
+      "routePriorities": []
+    },
+    "expected": {
+      "status": "route_recommended",
+      "recommendedRouteId": "college_then_workplace_experience"
+    }
+  },
+  {
+    "name": "working_conditions_concerns_do_not_reject",
+    "signals": {
+      "startingPoint": "still_at_school",
+      "hasElectricalExperience": false,
+      "hasRelatedTradeExperience": false,
+      "electricalQualificationLevel": "none",
+      "mathsEnglishStatus": "both",
+      "availableTrainingPatterns": ["full_time_work_based"],
+      "trainingBudgetBand": "free_only",
+      "travelRange": "up_to_30",
+      "workingConditionsToCheck": ["working_at_height", "confined_spaces"],
+      "routePriorities": []
+    },
+    "expected": {
+      "status": "route_recommended",
+      "recommendedRouteId": "apprenticeship",
+      "considerationsCountAtLeast": 2
+    }
+  },
+  {
+    "name": "priorities_reorder_two_viable_routes",
+    "signals": {
+      "startingPoint": "career_changer",
+      "hasElectricalExperience": false,
+      "hasRelatedTradeExperience": true,
+      "electricalQualificationLevel": "none",
+      "mathsEnglishStatus": "both",
+      "availableTrainingPatterns": ["one_or_two_weekdays"],
+      "trainingBudgetBand": "over_2000",
+      "travelRange": "up_to_60",
+      "workingConditionsToCheck": [],
+      "routePriorities": ["recognised_qualification", "fit_around_commitments"]
+    },
+    "expected": {
+      "status": "route_recommended",
+      "recommendedRouteId": "college_then_workplace_experience"
+    }
+  },
+  {
+    "name": "priorities_cannot_promote_ineligible_route",
+    "note": "User selects a priority favouring experienced_worker_route but has no electrical experience and no relevant qualification — must still not be recommended.",
+    "signals": {
+      "startingPoint": "career_changer",
+      "hasElectricalExperience": false,
+      "hasRelatedTradeExperience": false,
+      "electricalQualificationLevel": "none",
+      "mathsEnglishStatus": "both",
+      "availableTrainingPatterns": ["full_time_work_based"],
+      "trainingBudgetBand": "over_2000",
+      "travelRange": "up_to_60",
+      "workingConditionsToCheck": [],
+      "routePriorities": ["qualify_quickly"]
+    },
+    "expected": {
+      "status": "route_recommended",
+      "recommendedRouteId": "apprenticeship",
+      "recommendedRouteMustNotBe": "experienced_worker_route"
+    }
+  }
+]

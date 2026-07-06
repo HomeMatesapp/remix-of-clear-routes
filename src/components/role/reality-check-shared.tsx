@@ -698,6 +698,22 @@ export function ResultView({
         </Card>
       )}
 
+      {/* Considerations — never blockers. Currently populated by the
+          Electrician engine from working_conditions_to_check. */}
+      {result.considerations && result.considerations.length > 0 && (
+        <Card icon={<ListChecks className="h-4 w-4" />} eyebrow="Things to check" tone="sky">
+          <ul className="space-y-2">
+            {result.considerations.map((c, i) => (
+              <li key={i} className="text-sm text-gray-200 leading-relaxed flex gap-2">
+                <span className="text-sky-300">•</span>
+                <span>{c}</span>
+              </li>
+            ))}
+          </ul>
+        </Card>
+      )}
+
+
       {(() => {
         const sources = getSourcesForResult(role, answers, result);
         return (
