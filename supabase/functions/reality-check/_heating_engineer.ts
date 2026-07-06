@@ -3,6 +3,10 @@
 // enforced by shared fixtures at
 // /shared/reality-check/heating-engineer-cases.json.
 
+import { buildModularPayload } from "./_modular_payload.ts";
+import { heatingEngineerFlavor } from "./_heating_engineer_flavor.ts";
+
+
 type RouteId =
   | "apprenticeship"
   | "college_then_workplace_experience"
@@ -466,5 +470,6 @@ export function buildHeatingEngineerResult(input: { signals: Signals }) {
     routeToAvoid,
     firstMoves: firstMoves.slice(0, 3),
     considerations: out.considerations.length ? out.considerations : undefined,
+    modular: buildModularPayload<string>(out, heatingEngineerFlavor),
   };
 }

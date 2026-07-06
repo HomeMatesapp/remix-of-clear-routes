@@ -1,6 +1,7 @@
 // Adapt the pure Plumber engine output to the shared RealityCheckResult
 // shape used across the app. Verification and bridging outcomes are never
-// presented as confirmed training routes.
+// presented as confirmed training routes. Also builds the modular route-
+// comparison payload consumed by ModularResultView.
 
 import type { RealityCheckAnswers, RealityCheckResult } from "../types";
 import {
@@ -10,6 +11,9 @@ import {
   type PlumberEngineOutput,
   type PlumberRouteId,
 } from "./plumber";
+import { buildModularPayload } from "./modular-payload";
+import { plumberFlavor } from "./plumber-flavor";
+
 
 const readinessForStatus = (
   status: PlumberEngineOutput["status"],
@@ -151,6 +155,7 @@ export const buildPlumberResult = (
     routeToAvoid: routeToAvoidFor(),
     firstMoves: firstMovesFor(out),
     considerations: out.considerations.length ? out.considerations : undefined,
+    modular: buildModularPayload<PlumberRouteId>(out, plumberFlavor),
   };
 };
 

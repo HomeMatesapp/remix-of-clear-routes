@@ -4,6 +4,10 @@
 // /shared/reality-check/plumber-cases.json which both the Vitest and Deno
 // tests load and run.
 
+import { buildModularPayload } from "./_modular_payload.ts";
+import { plumberFlavor } from "./_plumber_flavor.ts";
+
+
 type PlumberRouteId =
   | "apprenticeship"
   | "college_then_workplace_experience"
@@ -436,5 +440,6 @@ export function buildPlumberResult(input: { signals: Signals }) {
     routeToAvoid,
     firstMoves: firstMoves.slice(0, 3),
     considerations: out.considerations.length ? out.considerations : undefined,
+    modular: buildModularPayload<string>(out, plumberFlavor),
   };
 }

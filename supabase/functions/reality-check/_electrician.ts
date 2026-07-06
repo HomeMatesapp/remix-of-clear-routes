@@ -4,6 +4,10 @@
 // /shared/reality-check/electrician-cases.json which both the Vitest and Deno
 // tests load and run.
 
+import { buildModularPayload } from "./_modular_payload.ts";
+import { electricianFlavor } from "./_electrician_flavor.ts";
+
+
 type ElectricianRouteId =
   | "apprenticeship"
   | "college_then_workplace_experience"
@@ -428,5 +432,6 @@ export function buildElectricianResult(input: { signals: Signals }) {
     routeToAvoid,
     firstMoves: firstMoves.slice(0, 3),
     considerations: out.considerations.length ? out.considerations : undefined,
+    modular: buildModularPayload<string>(out, electricianFlavor),
   };
 }

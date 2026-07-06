@@ -205,6 +205,62 @@ export interface LocalRealism {
   dependsOn: string[];
 }
 
+// ── Modular route-comparison payload ───────────────────────────────────────
+// Populated by the three reviewed modular role adapters (electrician,
+// plumber, hvac-engineer). When present on a result, the app renders the
+// Field-Map route-comparison view (`ModularResultView`) instead of the
+// legacy dashboard `ResultView`. The presence of `result.modular` — never
+// the role slug — is the sole runtime gate.
+
+export type ModularRealityCheckStatus =
+  | "route_recommended"
+  | "qualification_verification_required"
+  | "bridging_required"
+  | "insufficient_information";
+
+export type ModularRouteCardKind =
+  | "recommended"
+  | "backup"
+  | "caution"
+  | "investigate_after_check"
+  | "may_open_later";
+
+export interface ModularRouteCard {
+  kind: ModularRouteCardKind;
+  title: string;
+  /** Why this route may fit — never asserts eligibility. */
+  fit: string;
+  /** What could make it difficult — heading in UI: "What could make it difficult". */
+  constraint: string;
+  /** What must be checked with the provider / assessor. */
+  checks: string[];
+  timeCaveat?: string;
+  costCaveat?: string;
+  patternCaveat?: string;
+  nextAction: string;
+  /** Rendered as a separate note, never conflated with readiness. */
+  affordable?: boolean;
+}
+
+export interface ModularMissingInformationItem {
+  /** Human-readable label of the missing question. */
+  label: string;
+  /** Question id inside the modular questionnaire. Passed back to onEdit(). */
+  questionId: string;
+}
+
+export interface ModularRealityCheckPayload {
+  status: ModularRealityCheckStatus;
+  /** Status-aware summary rendered in the result header. */
+  headline: string;
+  /** Route cards. Empty for `insufficient_information`. */
+  routes: ModularRouteCard[];
+  /** Blockers / provider checks — distinct from working-condition considerations. */
+  checksBeforeCommitting: string[];
+  /** Populated for `insufficient_information` only. */
+  missingInformation?: ModularMissingInformationItem[];
+}
+
 export interface RealityCheckResult {
   // Release 1 four-state verdict (deterministic).
   readiness: Readiness;
@@ -223,9 +279,13 @@ export interface RealityCheckResult {
   localRealism?: LocalRealism;
   firstMoves: string[];
   // Optional. Non-eligibility observations surfaced to the user, e.g. from
-  // working_conditions_to_check in the Electrician engine. Never a blocker.
+  // working_conditions_to_check in the modular engines. Never a blocker.
   considerations?: string[];
+  // Present only for reviewed modular roles. Runtime gate for the
+  // route-comparison view — see ModularResultView.
+  modular?: ModularRealityCheckPayload;
 }
+
 
 // Subset of role context the engine needs. Keep narrow — the edge function
 // receives only what's needed to judge the route.

@@ -52,6 +52,8 @@ import {
 } from "@/components/role/reality-check-shared";
 import { ModularRealityCheckWizard } from "@/components/role/ModularRealityCheckWizard";
 import { resolveConfig, hasReviewedModularRealityCheck } from "@/lib/reality-check/questionnaire/registry";
+import { updateModularDraftStepId } from "@/lib/reality-check/questionnaire/draft-v3";
+import { ModularResultView } from "@/components/reality-check/ModularResultView";
 import { isSupportedRegion } from "@/lib/reality-check/regions";
 import { isRealityCheckEnabled as isRealityCheckReady } from "@/lib/reality-check/service-levels";
 
@@ -381,11 +383,20 @@ const RealityCheckPage = () => {
     }
   };
 
-  const editAnswers = () => {
+  const editAnswers = (questionId?: string) => {
+    // If a modular draft exists for this role and a target question is
+    // supplied, jump the wizard back to that question on re-hydration.
+    if (questionId && role) {
+      const cfg = resolveConfig(role.role_slug);
+      if (cfg) {
+        updateModularDraftStepId(role.role_slug, cfg.questionnaireVersion, questionId);
+      }
+    }
     setResult(null);
     setError(null);
     if (role) clearSessionResult(role.role_slug);
   };
+
 
   const chips = useMemo(() => answerChips(answers), [answers]);
 
@@ -556,7 +567,7 @@ const RealityCheckPage = () => {
                 </p>
                 <button
                   type="button"
-                  onClick={editAnswers}
+                  onClick={() => editAnswers()}
                   className="inline-flex items-center gap-1 font-mono text-[12px] text-path hover:text-ink underline underline-offset-4"
                 >
                   <Pencil className="h-3 w-3" /> Edit answers
@@ -570,17 +581,27 @@ const RealityCheckPage = () => {
                     </p>
                   </div>
                 )}
-                <ResultView
-                  result={result}
-                  answers={answers}
-                  role={role}
-                  onEdit={editAnswers}
-                  initialProfile={initialProfile}
-                  onProfileSaved={(p) => setInitialProfile(p)}
-                />
+                {result.modular ? (
+                  <ModularResultView
+                    result={result as RealityCheckResult & { modular: NonNullable<RealityCheckResult["modular"]> }}
+                    role={role}
+                    onEdit={editAnswers}
+                    answers={answers}
+                  />
+                ) : (
+                  <ResultView
+                    result={result}
+                    answers={answers}
+                    role={role}
+                    onEdit={() => editAnswers()}
+                    initialProfile={initialProfile}
+                    onProfileSaved={(p) => setInitialProfile(p)}
+                  />
+                )}
               </div>
             </section>
           )}
+
 
           {!result && (
             <p className="mt-5 text-center font-mono text-[12.5px] text-muted-foreground">
