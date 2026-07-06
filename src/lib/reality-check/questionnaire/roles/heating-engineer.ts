@@ -130,4 +130,7 @@ export const heatingEngineerConfig: RoleConfig = {
   ],
   requestBodyKey: "heatingEngineerSignals",
   extractSignals: extractHeatingEngineerSignals,
+  scopeNote:
+    "This Reality-check covers heating, ventilation, building-services and related domestic-heating routes. Gas Safe registration, heat-pump certification and qualification equivalence must be checked separately.",
 };
+
