@@ -1,7 +1,7 @@
 // Adapt the pure Heating Engineer engine output to the shared
 // RealityCheckResult shape. Verification and bridging outcomes are never
 // presented as confirmed training routes. Gas Safe registration is never
-// asserted as verified.
+// asserted as verified. Also builds the modular route-comparison payload.
 
 import type { RealityCheckAnswers, RealityCheckResult } from "../types";
 import {
@@ -11,6 +11,9 @@ import {
   type HeatingEngineerEngineOutput,
   type HeatingEngineerRouteId,
 } from "./heating-engineer";
+import { buildModularPayload } from "./modular-payload";
+import { heatingEngineerFlavor } from "./heating-engineer-flavor";
+
 
 const readinessForStatus = (
   status: HeatingEngineerEngineOutput["status"],
@@ -152,6 +155,7 @@ export const buildHeatingEngineerResult = (
     routeToAvoid: routeToAvoidFor(),
     firstMoves: firstMovesFor(out),
     considerations: out.considerations.length ? out.considerations : undefined,
+    modular: buildModularPayload<HeatingEngineerRouteId>(out, heatingEngineerFlavor),
   };
 };
 

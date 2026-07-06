@@ -29,7 +29,7 @@ import {
   toggleMultiSelect,
 } from "@/lib/reality-check/questionnaire/sanitise";
 import {
-  clearModularDraft,
+  
   invalidateLegacyDraftForRole,
   loadModularDraft,
   saveModularDraft,
@@ -376,8 +376,13 @@ export function ModularRealityCheckWizard({ role, config, onResult }: ModularRea
       if ((data as { error?: string })?.error) throw new Error((data as { error: string }).error);
       const result = (data as { result: RealityCheckResult }).result;
       trackEvent("reality_check_result", { role: role.role_name, verdict: result?.overallVerdict });
-      clearModularDraft(role.role_slug, config.questionnaireVersion);
+      // NOTE: keep the modular draft alive after submit so a user who
+      // clicks an "edit" link on the result view returns to their answered
+      // state (see updateModularDraftStepId in draft-v3). The draft's own
+      // 24h TTL and sessionStorage scope keep it from leaking across
+      // sessions.
       onResult(result, cleanedAnswers, cleanedInline);
+
     } catch (e) {
       const msg = (e as Error).message || "Something went wrong. Try again.";
       setError(msg);

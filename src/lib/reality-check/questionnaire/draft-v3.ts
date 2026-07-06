@@ -86,6 +86,34 @@ export const clearModularDraft = (roleSlug: string, questionnaireVersion: string
   }
 };
 
+/**
+ * Update the persisted stepId on the current modular draft, if any exists.
+ * Used when the user clicks a missing-information "Edit" link on the result
+ * screen so the wizard re-hydrates directly at that question.
+ * No-op if there is no live draft for this role/version.
+ */
+export const updateModularDraftStepId = (
+  roleSlug: string,
+  questionnaireVersion: string,
+  stepId: string,
+): void => {
+  try {
+    const existing = loadModularDraft(roleSlug, questionnaireVersion);
+    if (!existing) return;
+    saveModularDraft({
+      roleSlug,
+      questionnaireVersion,
+      answers: existing.answers,
+      inlineText: existing.inlineText,
+      stepId,
+    });
+  } catch {
+    /* ignore */
+  }
+};
+
+
+
 // Invalidate any legacy v2 (`cr_rc_progress_${slug}`) draft for a role now
 // covered by a modular questionnaire — its question set no longer matches.
 export const invalidateLegacyDraftForRole = (roleSlug: string): void => {

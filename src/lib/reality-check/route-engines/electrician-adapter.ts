@@ -1,6 +1,7 @@
 // Adapt the pure Electrician engine output to the shared RealityCheckResult
 // shape used across the app. Verification and bridging outcomes are never
-// presented as confirmed training routes.
+// presented as confirmed training routes. Also builds the modular route-
+// comparison payload consumed by ModularResultView.
 
 import type { RealityCheckAnswers, RealityCheckResult } from "../types";
 import {
@@ -10,6 +11,9 @@ import {
   type ElectricianEngineOutput,
   type ElectricianRouteId,
 } from "./electrician";
+import { buildModularPayload } from "./modular-payload";
+import { electricianFlavor } from "./electrician-flavor";
+
 
 const readinessForStatus = (
   status: ElectricianEngineOutput["status"],
@@ -162,8 +166,10 @@ export const buildElectricianResult = (
     routeToAvoid: routeToAvoidFor(),
     firstMoves: firstMovesFor(out),
     considerations: out.considerations.length ? out.considerations : undefined,
+    modular: buildModularPayload<ElectricianRouteId>(out, electricianFlavor),
   };
 };
+
 
 export { runElectricianEngine };
 export type { ElectricianEngineOutput };

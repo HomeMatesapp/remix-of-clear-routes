@@ -37,6 +37,11 @@ export interface DecisionResultSnapshot {
   routeToAvoid?: { title: string };
   localRealism?: { rating: "strong" | "mixed" | "weak" };
   firstMoves?: string[];
+  // Preserved so reviewed modular Reality-check results round-trip through
+  // save + reload and can be rendered by ModularResultView. The payload is
+  // deterministic and already engine-scrubbed — no further sanitisation.
+  modular?: RealityCheckResult["modular"];
+  considerations?: string[];
 }
 
 export const sanitiseDecisionAnswers = (
@@ -70,7 +75,10 @@ export const sanitiseDecisionResult = (
     ? { rating: result.localRealism.rating }
     : undefined,
   firstMoves: result.firstMoves?.slice(0, 3),
+  modular: result.modular,
+  considerations: result.considerations,
 });
+
 
 export interface PendingDecision {
   role: {
