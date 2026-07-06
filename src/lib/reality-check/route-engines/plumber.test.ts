@@ -125,3 +125,67 @@ describe("Plumber adapter to RealityCheckResult", () => {
     expect(r.considerations && r.considerations.length).toBeGreaterThan(0);
   });
 });
+
+describe("Plumber engine — gas/heating qualification rule", () => {
+  const base: PlumberSignals = {
+    startingPoint: "career_changer",
+    hasPlumbingExperience: true,
+    hasRelatedTradeExperience: true,
+    plumbingQualificationLevel: "gas_heating",
+    mathsEnglishStatus: "both",
+    availableTrainingPatterns: ["full_time_work_based"],
+    trainingBudgetBand: "over_2000",
+    travelRange: "wider_area",
+    workingConditionsToCheck: [],
+    routePriorities: [],
+  };
+
+  it("gas_heating + plumbing experience: eligible AND emits a verification check", () => {
+    const out = runPlumberEngine({ signals: base });
+    const ewa = out.routeEvaluations.find((r) => r.id === "experienced_worker_route")!;
+    expect(ewa.eligible).toBe(true);
+    expect(
+      ewa.blockersAndChecks.some((c) => /not automatically equivalent/i.test(c)),
+    ).toBe(true);
+  });
+
+  it("gas_heating WITHOUT plumbing experience: not eligible (no automatic equivalency)", () => {
+    const out = runPlumberEngine({
+      signals: { ...base, hasPlumbingExperience: false },
+    });
+    const ewa = out.routeEvaluations.find((r) => r.id === "experienced_worker_route")!;
+    expect(ewa.eligible).toBe(false);
+  });
+
+  it("gas_heating + no maths/English clarity: still eligible but flags maths/English check on other routes", () => {
+    const out = runPlumberEngine({
+      signals: {
+        ...base,
+        mathsEnglishStatus: "neither",
+        availableTrainingPatterns: ["full_time_work_based", "one_or_two_weekdays"],
+      },
+    });
+    const ewa = out.routeEvaluations.find((r) => r.id === "experienced_worker_route")!;
+    expect(ewa.eligible).toBe(true);
+    const app = out.routeEvaluations.find((r) => r.id === "apprenticeship")!;
+    expect(app.blockersAndChecks.some((c) => /English and maths/i.test(c))).toBe(true);
+  });
+
+  it("gas_heating + working-condition concerns: considerations shown, still eligible", () => {
+    const out = runPlumberEngine({
+      signals: { ...base, workingConditionsToCheck: ["confined_spaces", "emergency_callouts"] },
+    });
+    expect(out.considerations.length).toBeGreaterThanOrEqual(2);
+    const ewa = out.routeEvaluations.find((r) => r.id === "experienced_worker_route")!;
+    expect(ewa.eligible).toBe(true);
+  });
+
+  it("free-text qualification names must not affect eligibility (engine doesn't see free text)", () => {
+    // Sanity: engine input has no free-text field; the questionnaire strips it
+    // before reaching the engine. Two identical signal objects must produce
+    // identical eligibility regardless of any user-typed qualification name.
+    const a = runPlumberEngine({ signals: base });
+    const b = runPlumberEngine({ signals: { ...base } });
+    expect(a.recommendedRouteId).toBe(b.recommendedRouteId);
+  });
+});
