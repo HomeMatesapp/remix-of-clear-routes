@@ -230,7 +230,6 @@ const routeBlockersAndChecks = (routeId: PlumberRouteId, s: PlumberSignals): str
     );
   }
   return out;
-}
 };
 
 const routeImmediateAction = (routeId: PlumberRouteId): string => {
