@@ -1,0 +1,1 @@
+UPDATE public.roles SET role_name = 'Heating & ventilation engineer' WHERE role_slug = 'hvac-engineer';

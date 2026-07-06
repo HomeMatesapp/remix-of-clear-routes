@@ -58,7 +58,11 @@ export interface RoleConfig {
   // to know which role it is rendering.
   requestBodyKey: string;
   extractSignals: (answers: AnswerMap, inline: InlineTextMap) => unknown;
+  // Optional short scope note shown at the top of the wizard. Use to clarify
+  // what a role does and does not cover (e.g. gas registration is separate).
+  scopeNote?: string;
 }
+
 
 // Kept as an alias for backwards compatibility — resolution is now a no-op.
 export type ResolvedConfig = RoleConfig;
