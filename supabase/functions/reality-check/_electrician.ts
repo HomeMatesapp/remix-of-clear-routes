@@ -320,7 +320,7 @@ export function runElectricianEngine(input: { signals: Signals }): EngineOutput 
     blockersAndChecks: best.blockersAndChecks,
     immediateAction: best.immediateAction,
     evidenceNotes: ranked.map((r) => r.evidenceNote),
-    routeEvaluations: ranked,
+    routeEvaluations: [...ranked, ...evals.filter((e) => !e.eligible)],
     missingSignals: [],
   };
 }
