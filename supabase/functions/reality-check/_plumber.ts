@@ -177,6 +177,11 @@ const routeBlockers = (id: PlumberRouteId, s: Signals): string[] => {
     );
   }
   if (id === "experienced_worker_route") {
+    if (s.plumbingQualificationLevel === "gas_heating") {
+      out.push(
+        "Your gas, heating or building-services qualification may be relevant to the experienced-worker route but is not automatically equivalent to a plumbing qualification — confirm with an approved plumbing assessment centre how it maps to the current requirements.",
+      );
+    }
     out.push(
       "You will need to evidence substantial recent plumbing work — check the current assessment portfolio requirements with an approved centre.",
     );
