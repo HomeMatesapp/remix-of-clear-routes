@@ -1,12 +1,24 @@
 // Electrician-specific questions + config.
 //
 // Two questions live here: electrical_qualification (with a conditional
-// qualification-name field) and maths_english_status. Everything else is
-// composed from universal + skilled-trades definitions.
+// qualification-name field) and the Electrician working-conditions options.
+// Everything else is composed from universal + skilled-trades + shared
+// qualifications definitions.
 
 import type { Question, RoleConfig } from "../types";
 import { extractElectricianSignals } from "../signals";
-
+import {
+  startingPointQuestion,
+  trainingBudgetQuestion,
+  travelRangeQuestion,
+  routePrioritiesQuestion,
+} from "../universal";
+import {
+  relevantExperienceQuestion,
+  workingConditionsQuestion,
+  trainingAvailabilityQuestion,
+} from "../families/skilled-trades";
+import { mathsEnglishQuestion } from "../families/qualifications";
 
 export const electricalQualificationQuestion: Question = {
   id: "electrical_qualification",
@@ -40,40 +52,27 @@ export const electricalQualificationQuestion: Question = {
   },
 };
 
-export const mathsEnglishQuestion: Question = {
-  id: "maths_english_status",
-  phase: "qualifications",
-  title: "Which best describes your maths and English qualifications?",
-  whyWeAsk:
-    "Some training providers and apprenticeships have maths and English entry requirements. Missing qualifications do not necessarily prevent you from becoming an electrician, but they may affect the route or additional study required.",
-  controlType: "single_select",
-  options: [
-    { value: "both",          label: "I have both maths and English" },
-    { value: "maths_only",    label: "I have maths but not English" },
-    { value: "english_only",  label: "I have English but not maths" },
-    { value: "neither",       label: "I do not have either" },
-    { value: "international", label: "I have qualifications from outside the UK" },
-    { value: "not_sure",      label: "I'm not sure" },
-  ],
-};
+// Re-exported so existing tests that import from ./roles/electrician keep
+// working after mathsEnglishQuestion moved to the shared qualifications
+// family.
+export { mathsEnglishQuestion };
 
 export const electricianConfig: RoleConfig = {
   roleSlug: "electrician",
   family: "skilled-trades",
   engineId: "electrician-v1",
   questionnaireVersion: "electrician-v1",
-  questionIds: [
-    "starting_point",
-    "relevant_experience",
-    "electrical_qualification",
-    "maths_english_status",
-    "training_availability",
-    "training_budget",
-    "travel_range",
-    "working_conditions_to_check",
-    "route_priorities",
+  questions: [
+    startingPointQuestion,
+    relevantExperienceQuestion,
+    electricalQualificationQuestion,
+    mathsEnglishQuestion,
+    trainingAvailabilityQuestion,
+    trainingBudgetQuestion,
+    travelRangeQuestion,
+    workingConditionsQuestion,
+    routePrioritiesQuestion,
   ],
   requestBodyKey: "electricianSignals",
   extractSignals: extractElectricianSignals,
 };
-

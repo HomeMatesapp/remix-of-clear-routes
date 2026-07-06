@@ -89,3 +89,27 @@ describe("modular draft v3", () => {
     expect(sessionStorage.getItem(`cr_rc_progress_registered-nurse`)).not.toBeNull();
   });
 });
+
+describe("plumber vs electrician draft isolation", () => {
+  it("Plumber and Electrician drafts do not collide", () => {
+    saveModularDraft({
+      roleSlug: "electrician",
+      questionnaireVersion: "electrician-v1",
+      answers: { starting_point: "still_at_school" },
+      inlineText: {},
+      stepId: "starting_point",
+    });
+    saveModularDraft({
+      roleSlug: "plumber",
+      questionnaireVersion: "plumber-v1",
+      answers: { starting_point: "career_changer" },
+      inlineText: {},
+      stepId: "plumbing_qualification",
+    });
+    const e = loadModularDraft("electrician", "electrician-v1");
+    const p = loadModularDraft("plumber", "plumber-v1");
+    expect(e?.answers.starting_point).toBe("still_at_school");
+    expect(p?.answers.starting_point).toBe("career_changer");
+    expect(p?.stepId).toBe("plumbing_qualification");
+  });
+});

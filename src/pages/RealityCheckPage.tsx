@@ -425,8 +425,10 @@ const RealityCheckPage = () => {
   }
 
   // Gate by service_level — info_only roles do not yet have a reviewed
-  // Reality-check. Show an honest fallback rather than running the engine.
-  if (!isRealityCheckReady(role.service_level)) {
+  // Reality-check. Modular-config roles are reviewed by definition (their
+  // questionnaire + route engine exist), so they bypass the gate regardless
+  // of the DB service_level value.
+  if (!hasModularConfig(role.role_slug) && !isRealityCheckReady(role.service_level)) {
     return (
       <div className="min-h-screen flex flex-col bg-background">
         <Helmet>

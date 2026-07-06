@@ -14,6 +14,7 @@
 import { serve } from "https://deno.land/std@0.168.0/http/server.ts";
 import { buildResult } from "./_readiness.ts";
 import { buildElectricianResult } from "./_electrician.ts";
+import { buildPlumberResult } from "./_plumber.ts";
 import { getCorsHeaders } from "../_shared/cors.ts";
 
 
@@ -25,19 +26,21 @@ serve(async (req) => {
   if (req.method === "OPTIONS") return new Response("ok", { headers: corsHeaders });
 
   try {
-    const { role, answers, electricianSignals } = await req.json();
+    const { role, answers, electricianSignals, plumberSignals } = await req.json();
     if (!role?.role_name) {
       return new Response(JSON.stringify({ error: "role required" }), {
         status: 400,
         headers: { ...corsHeaders, "Content-Type": "application/json" },
       });
     }
-    // Slug-based dispatch: Electrician runs the new modular engine driven by
-    // structured signals extracted client-side. Everything else stays on the
-    // legacy deterministic readiness engine.
+    // Slug-based dispatch: each modular role has its own deterministic
+    // engine driven by structured signals extracted client-side.
+    // Everything else stays on the legacy readiness engine.
     let result;
     if (role.role_slug === "electrician" && electricianSignals) {
       result = buildElectricianResult({ signals: electricianSignals });
+    } else if (role.role_slug === "plumber" && plumberSignals) {
+      result = buildPlumberResult({ signals: plumberSignals });
     } else {
       result = buildResult(answers, role);
     }

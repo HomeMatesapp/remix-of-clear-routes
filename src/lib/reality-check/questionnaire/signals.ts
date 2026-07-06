@@ -91,3 +91,53 @@ export const extractElectricianSignals = (
     routePriorities: asArray(answers.route_priorities),
   };
 };
+
+// ── Plumber ──────────────────────────────────────────────────────────────────
+
+export type PlumberQualificationLevel =
+  | "none"
+  | "foundation"
+  | "level_2"
+  | "level_3"
+  | "gas_heating"
+  | "older_unknown"
+  | "international"
+  | "unknown_level"
+  | "not_sure";
+
+export interface PlumberSignals {
+  startingPoint: ElectricianStartingPoint | null;
+  hasPlumbingExperience: boolean;
+  hasRelatedTradeExperience: boolean;
+  plumbingQualificationLevel: PlumberQualificationLevel | null;
+  mathsEnglishStatus: MathsEnglishStatus | null;
+  availableTrainingPatterns: string[];
+  trainingBudgetBand: TrainingBudgetBand | null;
+  travelRange: TravelRange | null;
+  workingConditionsToCheck: string[];
+  routePriorities: string[];
+}
+
+export const extractPlumberSignals = (
+  answers: AnswerMap,
+  _inline: InlineTextMap = {},
+): PlumberSignals => {
+  const experience = asArray(answers.relevant_experience);
+  return {
+    startingPoint: asString(answers.starting_point) as ElectricianStartingPoint | null,
+    hasPlumbingExperience: experience.includes("plumbing_work"),
+    hasRelatedTradeExperience:
+      experience.includes("gas_or_heating") ||
+      experience.includes("construction_or_trade") ||
+      experience.includes("engineering_technical"),
+    plumbingQualificationLevel:
+      asString(answers.plumbing_qualification) as PlumberQualificationLevel | null,
+    mathsEnglishStatus:
+      asString(answers.maths_english_status) as MathsEnglishStatus | null,
+    availableTrainingPatterns: asArray(answers.training_availability),
+    trainingBudgetBand: asString(answers.training_budget) as TrainingBudgetBand | null,
+    travelRange: asString(answers.travel_range) as TravelRange | null,
+    workingConditionsToCheck: asArray(answers.working_conditions_to_check),
+    routePriorities: asArray(answers.route_priorities),
+  };
+};
