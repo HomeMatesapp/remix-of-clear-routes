@@ -158,8 +158,8 @@
     "roleSlug": "actor",
     "roleName": "Actor",
     "primaryFamily": "creative_media_content",
-    "routeArchetype": "competitive_entry_led",
-    "recommendedRealityCheckDepth": "standard_role_page",
+    "routeArchetype": "commission_or_gig_led",
+    "recommendedRealityCheckDepth": "deep_reviewed_reality_check",
     "deepCheckRubric": {
       "regulated": false,
       "expensiveWrongTurn": true,
