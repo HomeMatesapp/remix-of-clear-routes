@@ -201,7 +201,7 @@ describe("reviewed-modular gate naming and semantics", () => {
   });
 
   it("gate requires BOTH a questionnaire and a route engine — modular roles always resolve a config", () => {
-    for (const slug of ["electrician", "plumber", "hvac-engineer", "software-engineer", "registered-nurse"]) {
+    for (const slug of ["electrician", "plumber", "hvac-engineer", "software-engineer", "registered-nurse", "police-officer"]) {
       expect(hasReviewedModularRealityCheck(slug)).toBe(true);
       expect(resolveConfig(slug)).not.toBeNull();
     }
