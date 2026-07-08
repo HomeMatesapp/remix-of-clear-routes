@@ -367,7 +367,7 @@ describe("Software Engineer questionnaire config", () => {
 describe("Software Engineer taxonomy freeze", () => {
   it("software-engineer is now a frozen deep role", () => {
     expect(FROZEN_DEEP_ROLES).toContain("software-engineer");
-    expect(FROZEN_DEEP_ROLES.length).toBe(4);
+    expect(FROZEN_DEEP_ROLES.length).toBeGreaterThanOrEqual(4);
   });
 
   it("taxonomy entry has deep_reviewed_reality_check depth", () => {

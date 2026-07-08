@@ -26,8 +26,8 @@ describe("registry", () => {
   });
 
   it("returns null for unknown role slugs (legacy flow will run)", () => {
-    expect(resolveConfig("registered-nurse")).toBeNull();
-    expect(hasModularConfig("registered-nurse")).toBe(false);
+    expect(resolveConfig("unknown-role-slug")).toBeNull();
+    expect(hasModularConfig("unknown-role-slug")).toBe(false);
     expect(hasModularConfig("electrician")).toBe(true);
   });
 });
@@ -190,7 +190,8 @@ describe("reviewed-modular gate naming and semantics", () => {
     expect(hasReviewedModularRealityCheck("electrician")).toBe(true);
     expect(hasReviewedModularRealityCheck("plumber")).toBe(true);
     expect(hasReviewedModularRealityCheck("hvac-engineer")).toBe(true);
-    expect(hasReviewedModularRealityCheck("registered-nurse")).toBe(false);
+    expect(hasReviewedModularRealityCheck("software-engineer")).toBe(true);
+    expect(hasReviewedModularRealityCheck("registered-nurse")).toBe(true);
     expect(hasReviewedModularRealityCheck("unknown-role-slug")).toBe(false);
   });
 
@@ -200,7 +201,7 @@ describe("reviewed-modular gate naming and semantics", () => {
   });
 
   it("gate requires BOTH a questionnaire and a route engine — modular roles always resolve a config", () => {
-    for (const slug of ["electrician", "plumber", "hvac-engineer"]) {
+    for (const slug of ["electrician", "plumber", "hvac-engineer", "software-engineer", "registered-nurse"]) {
       expect(hasReviewedModularRealityCheck(slug)).toBe(true);
       expect(resolveConfig(slug)).not.toBeNull();
     }
