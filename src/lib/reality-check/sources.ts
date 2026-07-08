@@ -267,7 +267,16 @@ function roleRegulationSources(role: RoleContext): SourceEntry[] {
   const name = (role.role_name ?? "").toLowerCase();
   const out: SourceEntry[] = [];
   if (/(nurse|midwif)/.test(name)) {
-    out.push(SOURCES.nhs_careers, SOURCES.nmc);
+    out.push(
+      SOURCES.nhs_careers,
+      SOURCES.nmc,
+      SOURCES.nmc_becoming_a_nurse,
+      SOURCES.nmc_approved_programmes,
+      SOURCES.nmc_overseas,
+      SOURCES.nmc_return_to_practice,
+      SOURCES.skills_england_rnda,
+      SOURCES.national_careers_registered_nurse,
+    );
   } else if (/(paramedic|therapist|radiograph|pharmacist|dentist|doctor|gp|midwif)/.test(name)) {
     out.push(SOURCES.nhs_careers);
   }
