@@ -29,6 +29,7 @@ export const RealityCheckCTA = ({
   serviceLevel: RoleServiceLevel | null | undefined;
 }) => {
   const [cached, setCached] = useState<SessionRCEntry | null>(null);
+  const reviewedDeep = isReviewedDeepRole(roleSlug);
 
   useEffect(() => {
     setCached(loadSessionResult(roleSlug));
