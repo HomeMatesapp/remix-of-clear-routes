@@ -330,6 +330,17 @@ export function ModularResultView({
         </PaperCard>
       )}
 
+      {/* F′. Sources — same source-selection path as legacy ResultView.
+          Presentation-only wiring so modular results (Registered Nurse and
+          every other modular role) surface their citations. */}
+      <SourcesPanel
+        sources={getSourcesForResult(
+          role,
+          (answers ?? {}) as RealityCheckAnswers,
+          result,
+        )}
+      />
+
       {/* F. Save this route check — reuses existing SavePrompt in live mode */}
       {mode === "live" && answers && (
         <PaperCard accent="ink">
