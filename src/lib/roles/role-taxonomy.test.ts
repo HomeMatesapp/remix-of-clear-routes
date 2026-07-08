@@ -67,6 +67,12 @@ describe("role taxonomy structure", () => {
     }
   });
 
+  it("no notes exceed 200 characters", () => {
+    for (const e of ROLE_TAXONOMY) {
+      expect((e.notes ?? "").length, e.roleSlug).toBeLessThanOrEqual(200);
+    }
+  });
+
   it("has no duplicate slugs", () => {
     const seen = new Set<string>();
     for (const e of ROLE_TAXONOMY) {
