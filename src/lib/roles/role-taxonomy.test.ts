@@ -153,13 +153,22 @@ describe("summary + shortlist", () => {
     }
   });
 
+  it("every shortlist entry has a rubric-based justification and trades-diff note", () => {
+    for (const e of summary.shortlist) {
+      expect(typeof e.whyCandidate).toBe("string");
+      expect(e.whyCandidate.length).toBeGreaterThan(10);
+      expect(e.whyCandidate).toContain(`Score ${e.score}/10`);
+      expect(typeof e.differentFromTradesModule).toBe("string");
+      expect(e.differentFromTradesModule.length).toBeGreaterThan(20);
+    }
+  });
+
   it("family counts sum to total roles", () => {
     const total = Object.values(summary.byFamily).reduce((a, b) => a + b, 0);
     expect(total).toBe(summary.totalRoles);
   });
 
-  it("no family is empty (undersized signal) or > 250 (oversized signal)", () => {
-    // Soft-fail signals as informational — enforce loose bounds only
+  it("no family is empty or > 250", () => {
     for (const [fam, count] of Object.entries(summary.byFamily)) {
       expect(count, `${fam} count`).toBeGreaterThan(0);
       expect(count, `${fam} count`).toBeLessThanOrEqual(250);

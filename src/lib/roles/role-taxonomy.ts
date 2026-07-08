@@ -17,8 +17,7 @@ import raw from "./role-taxonomy.json";
 export const ROUTE_FAMILIES = [
   "skilled_trades",
   "construction_built_environment",
-  "digital_product_technology",
-  "data_ai_analytics",
+  "digital_data_technology",
   "healthcare_clinical",
   "care_social_support",
   "education_training",
@@ -29,8 +28,7 @@ export const ROUTE_FAMILIES = [
   "science_research_environment",
   "transport_aviation_logistics",
   "business_operations_commercial",
-  "hospitality_retail_service",
-  "beauty_wellness_personal_services",
+  "hospitality_retail_personal_service",
   "agriculture_land_animal",
   "elite_competitive_long_route",
 ] as const;
@@ -120,6 +118,12 @@ export function getTaxonomyEntry(slug: string): RoleTaxonomyEntry | undefined {
   return ROLE_TAXONOMY.find((e) => e.roleSlug === slug);
 }
 
+export type ShortlistEntry = RoleTaxonomyEntry & {
+  score: number;
+  whyCandidate: string; // rubric-derived justification
+  differentFromTradesModule: string; // how its Reality Check would differ from the Electrician/Plumber/HVAC pattern
+};
+
 export type TaxonomySummary = {
   totalRoles: number;
   byFamily: Record<RouteFamily, number>;
@@ -127,9 +131,61 @@ export type TaxonomySummary = {
   byDepth: Record<RealityCheckDepth, number>;
   byPriority: Record<DeepCheckPriority, number>;
   byConfidence: Record<"high" | "needs_review", number>;
-  shortlist: RoleTaxonomyEntry[]; // 15–25 top deep-check candidates
+  shortlist: ShortlistEntry[]; // 15–25 top deep-check candidates
   needsReview: RoleTaxonomyEntry[];
 };
+
+/** Human-readable rubric justification derived entirely from the flags. */
+export function explainRubric(e: RoleTaxonomyEntry): string {
+  const r = e.deepCheckRubric;
+  const parts: string[] = [];
+  if (r.regulated) parts.push("regulated (protected title/register)");
+  if (r.expensiveWrongTurn) parts.push("expensive wrong turn");
+  if (r.routeConfusion === 2) parts.push("high route confusion");
+  else if (r.routeConfusion === 1) parts.push("some route confusion");
+  if (r.demandLikely === 2) parts.push("high demand");
+  else if (r.demandLikely === 1) parts.push("moderate demand");
+  if (r.highConsequenceAdvice) parts.push("high-consequence advice");
+  return parts.length
+    ? `Score ${rubricScore(r)}/10: ${parts.join(", ")}.`
+    : `Score ${rubricScore(r)}/10.`;
+}
+
+/** How this role's Reality Check would differ from the skilled-trades module. */
+export function differsFromTradesModule(e: RoleTaxonomyEntry): string {
+  switch (e.routeArchetype) {
+    case "regulated_registration_led":
+      return "Statutory register + protected title; the checker centres on registration eligibility, prior-learning recognition and body-specific route (not Gas Safe/electrical certs).";
+    case "licence_led":
+      return "Licence/certification chain (not trade card); focus on licence prerequisites, medicals, background checks and renewal cadence.";
+    case "portfolio_led":
+      return "Portfolio + credit-based hiring, not time-served apprenticeship; checker weighs body-of-work, briefs and freelance viability.";
+    case "commission_or_gig_led":
+      return "Paid-work-as-route; income variability, agent/rep dynamics and credit-building replace an employer training plan.";
+    case "selection_led":
+      return "Assessment-heavy entry (fitness, vetting, aptitude); checker probes selection standards, prior offences and residency, not trade eligibility.";
+    case "competitive_entry_led":
+      return "Small-number, high-competition entry; realistic-odds framing and feeder-pathway options matter more than route mechanics.";
+    case "postgraduate_led":
+      return "Long stacked-degree route with funding cliffs; checker maps UG → Masters/DClin/PhD costs and clinical placement supply.";
+    case "degree_led":
+      return "Degree-plus-conversion routes with employer variance; checker weighs course selectivity, placement year value and grad-scheme odds vs self-taught paths.";
+    case "short_course_risk":
+      return "Warn about weak private courses / mis-selling; checker names credible awarding bodies and highlights regulator status.";
+    case "self_employment_led":
+      return "Client acquisition + business viability, not employment; checker probes insurance, tax status, pricing floor and demand geography.";
+    case "employer_training_led":
+      return "Entry-level with on-the-job training; checker focuses on progression ceilings and pay realism, not qualifications.";
+    case "experience_led":
+      return "Reached via years in adjacent roles; checker maps typical stepping-stone titles and how long each takes.";
+    case "feeder_pathway_led":
+      return "Depends on prior career (military/athletic/teaching); checker asks about the feeder role and transition timing.";
+    case "apprenticeship_led":
+      return "Apprenticeship pattern like trades, but different awarding body/register — checker adapts the skilled-trades module rather than reinventing it.";
+    default:
+      return "Multiple viable routes; checker's main job is helping the user choose between them.";
+  }
+}
 
 export function summarise(
   entries: readonly RoleTaxonomyEntry[] = ROLE_TAXONOMY,
@@ -175,7 +231,12 @@ export function summarise(
       return b.deepCheckRubric.routeConfusion - a.deepCheckRubric.routeConfusion;
     });
 
-  const shortlist = topCandidates.slice(0, 25);
+  const shortlist: ShortlistEntry[] = topCandidates.slice(0, 25).map((e) => ({
+    ...e,
+    score: rubricScore(e.deepCheckRubric),
+    whyCandidate: explainRubric(e),
+    differentFromTradesModule: differsFromTradesModule(e),
+  }));
   const needsReview = entries.filter((e) => e.confidence === "needs_review");
 
   return {

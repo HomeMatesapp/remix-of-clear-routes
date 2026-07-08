@@ -180,7 +180,7 @@
   {
     "roleSlug": "acupuncturist",
     "roleName": "Acupuncturist",
-    "primaryFamily": "beauty_wellness_personal_services",
+    "primaryFamily": "hospitality_retail_personal_service",
     "routeArchetype": "apprenticeship_led",
     "recommendedRealityCheckDepth": "standard_role_page",
     "deepCheckRubric": {
@@ -340,7 +340,7 @@
   {
     "roleSlug": "aesthetic-practitioner",
     "roleName": "Aesthetic Practitioner",
-    "primaryFamily": "beauty_wellness_personal_services",
+    "primaryFamily": "hospitality_retail_personal_service",
     "routeArchetype": "short_course_risk",
     "recommendedRealityCheckDepth": "light_route_checker",
     "deepCheckRubric": {
@@ -516,7 +516,7 @@
   {
     "roleSlug": "ai-engineer",
     "roleName": "AI Engineer",
-    "primaryFamily": "data_ai_analytics",
+    "primaryFamily": "digital_data_technology",
     "routeArchetype": "degree_led",
     "recommendedRealityCheckDepth": "standard_role_page",
     "deepCheckRubric": {
@@ -532,7 +532,7 @@
   {
     "roleSlug": "ai-ethics-specialist",
     "roleName": "AI Ethics Specialist",
-    "primaryFamily": "data_ai_analytics",
+    "primaryFamily": "digital_data_technology",
     "routeArchetype": "degree_led",
     "recommendedRealityCheckDepth": "standard_role_page",
     "deepCheckRubric": {
@@ -564,7 +564,7 @@
   {
     "roleSlug": "ai-product-manager",
     "roleName": "AI Product Manager",
-    "primaryFamily": "data_ai_analytics",
+    "primaryFamily": "digital_data_technology",
     "routeArchetype": "degree_led",
     "recommendedRealityCheckDepth": "standard_role_page",
     "deepCheckRubric": {
@@ -580,7 +580,7 @@
   {
     "roleSlug": "ai-research-scientist",
     "roleName": "AI Research Scientist",
-    "primaryFamily": "data_ai_analytics",
+    "primaryFamily": "digital_data_technology",
     "routeArchetype": "postgraduate_led",
     "recommendedRealityCheckDepth": "standard_role_page",
     "deepCheckRubric": {
@@ -596,7 +596,7 @@
   {
     "roleSlug": "ai-safety-engineer",
     "roleName": "AI Safety Engineer",
-    "primaryFamily": "data_ai_analytics",
+    "primaryFamily": "digital_data_technology",
     "routeArchetype": "degree_led",
     "recommendedRealityCheckDepth": "standard_role_page",
     "deepCheckRubric": {
@@ -612,7 +612,7 @@
   {
     "roleSlug": "ai-trainer-ai-data-annotator",
     "roleName": "AI Trainer / AI Data Annotator",
-    "primaryFamily": "data_ai_analytics",
+    "primaryFamily": "digital_data_technology",
     "routeArchetype": "degree_led",
     "recommendedRealityCheckDepth": "standard_role_page",
     "deepCheckRubric": {
@@ -1108,7 +1108,7 @@
   {
     "roleSlug": "aromatherapist",
     "roleName": "Aromatherapist",
-    "primaryFamily": "beauty_wellness_personal_services",
+    "primaryFamily": "hospitality_retail_personal_service",
     "routeArchetype": "apprenticeship_led",
     "recommendedRealityCheckDepth": "standard_role_page",
     "deepCheckRubric": {
@@ -1429,8 +1429,8 @@
   {
     "roleSlug": "autonomous-vehicle-safety-driver",
     "roleName": "Autonomous Vehicle Safety Driver",
-    "primaryFamily": "digital_product_technology",
-    "routeArchetype": "portfolio_led",
+    "primaryFamily": "digital_data_technology",
+    "routeArchetype": "degree_led",
     "recommendedRealityCheckDepth": "standard_role_page",
     "deepCheckRubric": {
       "regulated": false,
@@ -1525,7 +1525,7 @@
   {
     "roleSlug": "baker-pastry-chef",
     "roleName": "Baker / Pastry Chef",
-    "primaryFamily": "hospitality_retail_service",
+    "primaryFamily": "hospitality_retail_personal_service",
     "routeArchetype": "apprenticeship_led",
     "recommendedRealityCheckDepth": "standard_role_page",
     "deepCheckRubric": {
@@ -1541,7 +1541,7 @@
   {
     "roleSlug": "barber",
     "roleName": "Barber",
-    "primaryFamily": "beauty_wellness_personal_services",
+    "primaryFamily": "hospitality_retail_personal_service",
     "routeArchetype": "apprenticeship_led",
     "recommendedRealityCheckDepth": "standard_role_page",
     "deepCheckRubric": {
@@ -1557,8 +1557,8 @@
   {
     "roleSlug": "barista",
     "roleName": "Barista",
-    "primaryFamily": "hospitality_retail_service",
-    "routeArchetype": "employer_training_led",
+    "primaryFamily": "hospitality_retail_personal_service",
+    "routeArchetype": "apprenticeship_led",
     "recommendedRealityCheckDepth": "standard_role_page",
     "deepCheckRubric": {
       "regulated": false,
@@ -1573,8 +1573,8 @@
   {
     "roleSlug": "barista-coffee-specialist",
     "roleName": "Barista / Coffee Specialist",
-    "primaryFamily": "hospitality_retail_service",
-    "routeArchetype": "employer_training_led",
+    "primaryFamily": "hospitality_retail_personal_service",
+    "routeArchetype": "apprenticeship_led",
     "recommendedRealityCheckDepth": "standard_role_page",
     "deepCheckRubric": {
       "regulated": false,
@@ -1605,7 +1605,7 @@
   {
     "roleSlug": "bartender",
     "roleName": "Bartender",
-    "primaryFamily": "hospitality_retail_service",
+    "primaryFamily": "hospitality_retail_personal_service",
     "routeArchetype": "employer_training_led",
     "recommendedRealityCheckDepth": "standard_role_page",
     "deepCheckRubric": {
@@ -1653,7 +1653,7 @@
   {
     "roleSlug": "beautician",
     "roleName": "Beautician",
-    "primaryFamily": "beauty_wellness_personal_services",
+    "primaryFamily": "hospitality_retail_personal_service",
     "routeArchetype": "apprenticeship_led",
     "recommendedRealityCheckDepth": "standard_role_page",
     "deepCheckRubric": {
@@ -1669,7 +1669,7 @@
   {
     "roleSlug": "beauty-therapist",
     "roleName": "Beauty Therapist",
-    "primaryFamily": "beauty_wellness_personal_services",
+    "primaryFamily": "hospitality_retail_personal_service",
     "routeArchetype": "degree_led",
     "recommendedRealityCheckDepth": "standard_role_page",
     "deepCheckRubric": {
@@ -1861,8 +1861,8 @@
   {
     "roleSlug": "blockchain-developer",
     "roleName": "Blockchain Developer",
-    "primaryFamily": "digital_product_technology",
-    "routeArchetype": "portfolio_led",
+    "primaryFamily": "digital_data_technology",
+    "routeArchetype": "degree_led",
     "recommendedRealityCheckDepth": "standard_role_page",
     "deepCheckRubric": {
       "regulated": false,
@@ -1893,7 +1893,7 @@
   {
     "roleSlug": "body-piercer",
     "roleName": "Body Piercer",
-    "primaryFamily": "beauty_wellness_personal_services",
+    "primaryFamily": "hospitality_retail_personal_service",
     "routeArchetype": "apprenticeship_led",
     "recommendedRealityCheckDepth": "standard_role_page",
     "deepCheckRubric": {
@@ -2117,7 +2117,7 @@
   {
     "roleSlug": "brow-technician",
     "roleName": "Brow Technician",
-    "primaryFamily": "beauty_wellness_personal_services",
+    "primaryFamily": "hospitality_retail_personal_service",
     "routeArchetype": "apprenticeship_led",
     "recommendedRealityCheckDepth": "standard_role_page",
     "deepCheckRubric": {
@@ -2293,7 +2293,7 @@
   {
     "roleSlug": "butcher",
     "roleName": "Butcher",
-    "primaryFamily": "hospitality_retail_service",
+    "primaryFamily": "hospitality_retail_personal_service",
     "routeArchetype": "apprenticeship_led",
     "recommendedRealityCheckDepth": "standard_role_page",
     "deepCheckRubric": {
@@ -2758,8 +2758,8 @@
   {
     "roleSlug": "catering-manager",
     "roleName": "Catering Manager",
-    "primaryFamily": "hospitality_retail_service",
-    "routeArchetype": "employer_training_led",
+    "primaryFamily": "hospitality_retail_personal_service",
+    "routeArchetype": "apprenticeship_led",
     "recommendedRealityCheckDepth": "standard_role_page",
     "deepCheckRubric": {
       "regulated": false,
@@ -2822,7 +2822,7 @@
   {
     "roleSlug": "celebrity-chef",
     "roleName": "Celebrity Chef",
-    "primaryFamily": "hospitality_retail_service",
+    "primaryFamily": "hospitality_retail_personal_service",
     "routeArchetype": "apprenticeship_led",
     "recommendedRealityCheckDepth": "standard_role_page",
     "deepCheckRubric": {
@@ -2950,7 +2950,7 @@
   {
     "roleSlug": "chef",
     "roleName": "Chef",
-    "primaryFamily": "hospitality_retail_service",
+    "primaryFamily": "hospitality_retail_personal_service",
     "routeArchetype": "apprenticeship_led",
     "recommendedRealityCheckDepth": "standard_role_page",
     "deepCheckRubric": {
@@ -3014,7 +3014,7 @@
   {
     "roleSlug": "chief-ai-officer",
     "roleName": "Chief AI Officer (CAIO)",
-    "primaryFamily": "digital_product_technology",
+    "primaryFamily": "digital_data_technology",
     "routeArchetype": "experience_led",
     "recommendedRealityCheckDepth": "standard_role_page",
     "deepCheckRubric": {
@@ -3030,7 +3030,7 @@
   {
     "roleSlug": "chief-information-security-officer",
     "roleName": "Chief Information Security Officer",
-    "primaryFamily": "digital_product_technology",
+    "primaryFamily": "digital_data_technology",
     "routeArchetype": "experience_led",
     "recommendedRealityCheckDepth": "standard_role_page",
     "deepCheckRubric": {
@@ -3384,7 +3384,7 @@
   {
     "roleSlug": "climate-risk-modeller",
     "roleName": "Climate Risk Modeller",
-    "primaryFamily": "data_ai_analytics",
+    "primaryFamily": "digital_data_technology",
     "routeArchetype": "degree_led",
     "recommendedRealityCheckDepth": "standard_role_page",
     "deepCheckRubric": {
@@ -3528,7 +3528,7 @@
   {
     "roleSlug": "cloud-engineer",
     "roleName": "Cloud Engineer",
-    "primaryFamily": "digital_product_technology",
+    "primaryFamily": "digital_data_technology",
     "routeArchetype": "degree_led",
     "recommendedRealityCheckDepth": "standard_role_page",
     "deepCheckRubric": {
@@ -3544,7 +3544,7 @@
   {
     "roleSlug": "cloud-security-architect",
     "roleName": "Cloud Security Architect",
-    "primaryFamily": "digital_product_technology",
+    "primaryFamily": "digital_data_technology",
     "routeArchetype": "regulated_registration_led",
     "recommendedRealityCheckDepth": "light_route_checker",
     "deepCheckRubric": {
@@ -3624,7 +3624,7 @@
   {
     "roleSlug": "colourist",
     "roleName": "Colourist",
-    "primaryFamily": "beauty_wellness_personal_services",
+    "primaryFamily": "hospitality_retail_personal_service",
     "routeArchetype": "apprenticeship_led",
     "recommendedRealityCheckDepth": "standard_role_page",
     "deepCheckRubric": {
@@ -3736,7 +3736,7 @@
   {
     "roleSlug": "commissioning-engineer",
     "roleName": "Commissioning Engineer",
-    "primaryFamily": "hospitality_retail_service",
+    "primaryFamily": "hospitality_retail_personal_service",
     "routeArchetype": "degree_led",
     "recommendedRealityCheckDepth": "standard_role_page",
     "deepCheckRubric": {
@@ -3848,8 +3848,8 @@
   {
     "roleSlug": "computer-repair-technician",
     "roleName": "Computer Repair Technician",
-    "primaryFamily": "digital_product_technology",
-    "routeArchetype": "portfolio_led",
+    "primaryFamily": "digital_data_technology",
+    "routeArchetype": "degree_led",
     "recommendedRealityCheckDepth": "standard_role_page",
     "deepCheckRubric": {
       "regulated": false,
@@ -3880,7 +3880,7 @@
   {
     "roleSlug": "computer-vision-engineer",
     "roleName": "Computer Vision Engineer",
-    "primaryFamily": "digital_product_technology",
+    "primaryFamily": "digital_data_technology",
     "routeArchetype": "degree_led",
     "recommendedRealityCheckDepth": "standard_role_page",
     "deepCheckRubric": {
@@ -3896,8 +3896,8 @@
   {
     "roleSlug": "concierge",
     "roleName": "Concierge",
-    "primaryFamily": "hospitality_retail_service",
-    "routeArchetype": "employer_training_led",
+    "primaryFamily": "hospitality_retail_personal_service",
+    "routeArchetype": "apprenticeship_led",
     "recommendedRealityCheckDepth": "standard_role_page",
     "deepCheckRubric": {
       "regulated": false,
@@ -3912,8 +3912,8 @@
   {
     "roleSlug": "conference-interpreter",
     "roleName": "Conference Interpreter",
-    "primaryFamily": "hospitality_retail_service",
-    "routeArchetype": "employer_training_led",
+    "primaryFamily": "hospitality_retail_personal_service",
+    "routeArchetype": "apprenticeship_led",
     "recommendedRealityCheckDepth": "standard_role_page",
     "deepCheckRubric": {
       "regulated": false,
@@ -3928,8 +3928,8 @@
   {
     "roleSlug": "conference-manager",
     "roleName": "Conference Manager",
-    "primaryFamily": "hospitality_retail_service",
-    "routeArchetype": "employer_training_led",
+    "primaryFamily": "hospitality_retail_personal_service",
+    "routeArchetype": "apprenticeship_led",
     "recommendedRealityCheckDepth": "standard_role_page",
     "deepCheckRubric": {
       "regulated": false,
@@ -4008,8 +4008,8 @@
   {
     "roleSlug": "construction-technology-specialist",
     "roleName": "Construction Technology Specialist",
-    "primaryFamily": "digital_product_technology",
-    "routeArchetype": "portfolio_led",
+    "primaryFamily": "digital_data_technology",
+    "routeArchetype": "degree_led",
     "recommendedRealityCheckDepth": "standard_role_page",
     "deepCheckRubric": {
       "regulated": false,
@@ -4040,7 +4040,7 @@
   {
     "roleSlug": "consumer-behaviour-analyst",
     "roleName": "Consumer Behaviour Analyst",
-    "primaryFamily": "data_ai_analytics",
+    "primaryFamily": "digital_data_technology",
     "routeArchetype": "degree_led",
     "recommendedRealityCheckDepth": "standard_role_page",
     "deepCheckRubric": {
@@ -4248,8 +4248,8 @@
   {
     "roleSlug": "corporate-event-planner",
     "roleName": "Corporate Event Planner",
-    "primaryFamily": "hospitality_retail_service",
-    "routeArchetype": "employer_training_led",
+    "primaryFamily": "hospitality_retail_personal_service",
+    "routeArchetype": "apprenticeship_led",
     "recommendedRealityCheckDepth": "standard_role_page",
     "deepCheckRubric": {
       "regulated": false,
@@ -4777,7 +4777,7 @@
   {
     "roleSlug": "cruise-ship-officer-director",
     "roleName": "Cruise Ship Officer / Director",
-    "primaryFamily": "hospitality_retail_service",
+    "primaryFamily": "hospitality_retail_personal_service",
     "routeArchetype": "experience_led",
     "recommendedRealityCheckDepth": "standard_role_page",
     "deepCheckRubric": {
@@ -4857,7 +4857,7 @@
   {
     "roleSlug": "cyber-risk-consultant",
     "roleName": "Cyber Risk Consultant",
-    "primaryFamily": "digital_product_technology",
+    "primaryFamily": "digital_data_technology",
     "routeArchetype": "degree_led",
     "recommendedRealityCheckDepth": "light_route_checker",
     "deepCheckRubric": {
@@ -4873,7 +4873,7 @@
   {
     "roleSlug": "cybersecurity-analyst",
     "roleName": "Cybersecurity Analyst",
-    "primaryFamily": "digital_product_technology",
+    "primaryFamily": "digital_data_technology",
     "routeArchetype": "degree_led",
     "recommendedRealityCheckDepth": "light_route_checker",
     "deepCheckRubric": {
@@ -4889,7 +4889,7 @@
   {
     "roleSlug": "cybersecurity-consultant",
     "roleName": "Cybersecurity Consultant (Independent)",
-    "primaryFamily": "digital_product_technology",
+    "primaryFamily": "digital_data_technology",
     "routeArchetype": "degree_led",
     "recommendedRealityCheckDepth": "light_route_checker",
     "deepCheckRubric": {
@@ -4953,7 +4953,7 @@
   {
     "roleSlug": "data-analyst",
     "roleName": "Data Analyst",
-    "primaryFamily": "data_ai_analytics",
+    "primaryFamily": "digital_data_technology",
     "routeArchetype": "degree_led",
     "recommendedRealityCheckDepth": "standard_role_page",
     "deepCheckRubric": {
@@ -4969,7 +4969,7 @@
   {
     "roleSlug": "data-architect",
     "roleName": "Data Architect",
-    "primaryFamily": "data_ai_analytics",
+    "primaryFamily": "digital_data_technology",
     "routeArchetype": "regulated_registration_led",
     "recommendedRealityCheckDepth": "light_route_checker",
     "deepCheckRubric": {
@@ -4985,7 +4985,7 @@
   {
     "roleSlug": "data-engineer",
     "roleName": "Data Engineer",
-    "primaryFamily": "data_ai_analytics",
+    "primaryFamily": "digital_data_technology",
     "routeArchetype": "degree_led",
     "recommendedRealityCheckDepth": "standard_role_page",
     "deepCheckRubric": {
@@ -5033,7 +5033,7 @@
   {
     "roleSlug": "data-scientist",
     "roleName": "Data Scientist",
-    "primaryFamily": "data_ai_analytics",
+    "primaryFamily": "digital_data_technology",
     "routeArchetype": "degree_led",
     "recommendedRealityCheckDepth": "standard_role_page",
     "deepCheckRubric": {
@@ -5049,7 +5049,7 @@
   {
     "roleSlug": "database-administrator",
     "roleName": "Database Administrator",
-    "primaryFamily": "digital_product_technology",
+    "primaryFamily": "digital_data_technology",
     "routeArchetype": "employer_training_led",
     "recommendedRealityCheckDepth": "standard_role_page",
     "deepCheckRubric": {
@@ -5338,7 +5338,7 @@
   {
     "roleSlug": "devops-engineer",
     "roleName": "DevOps Engineer",
-    "primaryFamily": "digital_product_technology",
+    "primaryFamily": "digital_data_technology",
     "routeArchetype": "degree_led",
     "recommendedRealityCheckDepth": "standard_role_page",
     "deepCheckRubric": {
@@ -5418,8 +5418,8 @@
   {
     "roleSlug": "digital-campaign-strategist",
     "roleName": "Digital Campaign Strategist",
-    "primaryFamily": "digital_product_technology",
-    "routeArchetype": "portfolio_led",
+    "primaryFamily": "digital_data_technology",
+    "routeArchetype": "degree_led",
     "recommendedRealityCheckDepth": "standard_role_page",
     "deepCheckRubric": {
       "regulated": false,
@@ -5450,8 +5450,8 @@
   {
     "roleSlug": "digital-forensics-specialist",
     "roleName": "Digital Forensics Specialist",
-    "primaryFamily": "digital_product_technology",
-    "routeArchetype": "portfolio_led",
+    "primaryFamily": "digital_data_technology",
+    "routeArchetype": "degree_led",
     "recommendedRealityCheckDepth": "standard_role_page",
     "deepCheckRubric": {
       "regulated": false,
@@ -5498,8 +5498,8 @@
   {
     "roleSlug": "digital-marketing-specialist",
     "roleName": "Digital Marketing Specialist",
-    "primaryFamily": "digital_product_technology",
-    "routeArchetype": "portfolio_led",
+    "primaryFamily": "digital_data_technology",
+    "routeArchetype": "degree_led",
     "recommendedRealityCheckDepth": "standard_role_page",
     "deepCheckRubric": {
       "regulated": false,
@@ -5530,7 +5530,7 @@
   {
     "roleSlug": "digital-transformation-consultant",
     "roleName": "Digital Transformation Consultant",
-    "primaryFamily": "digital_product_technology",
+    "primaryFamily": "digital_data_technology",
     "routeArchetype": "degree_led",
     "recommendedRealityCheckDepth": "standard_role_page",
     "deepCheckRubric": {
@@ -5546,7 +5546,7 @@
   {
     "roleSlug": "digital-twin-engineer",
     "roleName": "Digital Twin Engineer",
-    "primaryFamily": "digital_product_technology",
+    "primaryFamily": "digital_data_technology",
     "routeArchetype": "degree_led",
     "recommendedRealityCheckDepth": "standard_role_page",
     "deepCheckRubric": {
@@ -5738,7 +5738,7 @@
   {
     "roleSlug": "domestic-cleaner-cleaning-business-owner",
     "roleName": "Domestic Cleaner / Cleaning Business Owner",
-    "primaryFamily": "beauty_wellness_personal_services",
+    "primaryFamily": "hospitality_retail_personal_service",
     "routeArchetype": "self_employment_led",
     "recommendedRealityCheckDepth": "standard_role_page",
     "deepCheckRubric": {
@@ -5930,8 +5930,8 @@
   {
     "roleSlug": "e-commerce-manager",
     "roleName": "E-commerce Manager",
-    "primaryFamily": "digital_product_technology",
-    "routeArchetype": "portfolio_led",
+    "primaryFamily": "digital_data_technology",
+    "routeArchetype": "degree_led",
     "recommendedRealityCheckDepth": "standard_role_page",
     "deepCheckRubric": {
       "regulated": false,
@@ -6106,8 +6106,8 @@
   {
     "roleSlug": "educational-technologist",
     "roleName": "Educational Technologist",
-    "primaryFamily": "digital_product_technology",
-    "routeArchetype": "portfolio_led",
+    "primaryFamily": "digital_data_technology",
+    "routeArchetype": "degree_led",
     "recommendedRealityCheckDepth": "standard_role_page",
     "deepCheckRubric": {
       "regulated": false,
@@ -6138,8 +6138,8 @@
   {
     "roleSlug": "electoral-commissioner-election-coordinator",
     "roleName": "Electoral Commissioner / Election Coordinator",
-    "primaryFamily": "hospitality_retail_service",
-    "routeArchetype": "employer_training_led",
+    "primaryFamily": "hospitality_retail_personal_service",
+    "routeArchetype": "apprenticeship_led",
     "recommendedRealityCheckDepth": "standard_role_page",
     "deepCheckRubric": {
       "regulated": false,
@@ -6251,7 +6251,7 @@
   {
     "roleSlug": "embedded-systems-engineer",
     "roleName": "Embedded Systems Engineer",
-    "primaryFamily": "digital_product_technology",
+    "primaryFamily": "digital_data_technology",
     "routeArchetype": "degree_led",
     "recommendedRealityCheckDepth": "standard_role_page",
     "deepCheckRubric": {
@@ -6493,7 +6493,7 @@
   {
     "roleSlug": "environmental-data-scientist",
     "roleName": "Environmental Data Scientist",
-    "primaryFamily": "data_ai_analytics",
+    "primaryFamily": "digital_data_technology",
     "routeArchetype": "degree_led",
     "recommendedRealityCheckDepth": "standard_role_page",
     "deepCheckRubric": {
@@ -6701,8 +6701,8 @@
   {
     "roleSlug": "ethical-hacker",
     "roleName": "Ethical Hacker (Bug Bounty Hunter)",
-    "primaryFamily": "digital_product_technology",
-    "routeArchetype": "portfolio_led",
+    "primaryFamily": "digital_data_technology",
+    "routeArchetype": "degree_led",
     "recommendedRealityCheckDepth": "standard_role_page",
     "deepCheckRubric": {
       "regulated": false,
@@ -6749,7 +6749,7 @@
   {
     "roleSlug": "ev-infrastructure-engineer",
     "roleName": "EV Infrastructure Engineer",
-    "primaryFamily": "digital_product_technology",
+    "primaryFamily": "digital_data_technology",
     "routeArchetype": "degree_led",
     "recommendedRealityCheckDepth": "standard_role_page",
     "deepCheckRubric": {
@@ -6765,8 +6765,8 @@
   {
     "roleSlug": "event-coordinator",
     "roleName": "Event Coordinator",
-    "primaryFamily": "hospitality_retail_service",
-    "routeArchetype": "employer_training_led",
+    "primaryFamily": "hospitality_retail_personal_service",
+    "routeArchetype": "apprenticeship_led",
     "recommendedRealityCheckDepth": "standard_role_page",
     "deepCheckRubric": {
       "regulated": false,
@@ -6781,8 +6781,8 @@
   {
     "roleSlug": "event-manager",
     "roleName": "Event Manager",
-    "primaryFamily": "hospitality_retail_service",
-    "routeArchetype": "employer_training_led",
+    "primaryFamily": "hospitality_retail_personal_service",
+    "routeArchetype": "apprenticeship_led",
     "recommendedRealityCheckDepth": "standard_role_page",
     "deepCheckRubric": {
       "regulated": false,
@@ -7229,8 +7229,8 @@
   {
     "roleSlug": "festival-manager",
     "roleName": "Festival Manager",
-    "primaryFamily": "hospitality_retail_service",
-    "routeArchetype": "employer_training_led",
+    "primaryFamily": "hospitality_retail_personal_service",
+    "routeArchetype": "apprenticeship_led",
     "recommendedRealityCheckDepth": "standard_role_page",
     "deepCheckRubric": {
       "regulated": false,
@@ -7582,7 +7582,7 @@
   {
     "roleSlug": "fitness-instructor",
     "roleName": "Fitness Instructor",
-    "primaryFamily": "beauty_wellness_personal_services",
+    "primaryFamily": "hospitality_retail_personal_service",
     "routeArchetype": "apprenticeship_led",
     "recommendedRealityCheckDepth": "standard_role_page",
     "deepCheckRubric": {
@@ -7614,7 +7614,7 @@
   {
     "roleSlug": "flight-test-engineer",
     "roleName": "Flight Test Engineer",
-    "primaryFamily": "digital_product_technology",
+    "primaryFamily": "digital_data_technology",
     "routeArchetype": "degree_led",
     "recommendedRealityCheckDepth": "standard_role_page",
     "deepCheckRubric": {
@@ -7678,8 +7678,8 @@
   {
     "roleSlug": "food-and-beverage-manager",
     "roleName": "Food and Beverage Manager",
-    "primaryFamily": "hospitality_retail_service",
-    "routeArchetype": "employer_training_led",
+    "primaryFamily": "hospitality_retail_personal_service",
+    "routeArchetype": "apprenticeship_led",
     "recommendedRealityCheckDepth": "standard_role_page",
     "deepCheckRubric": {
       "regulated": false,
@@ -7999,7 +7999,7 @@
   {
     "roleSlug": "game-designer",
     "roleName": "Game Designer",
-    "primaryFamily": "digital_product_technology",
+    "primaryFamily": "digital_data_technology",
     "routeArchetype": "portfolio_led",
     "recommendedRealityCheckDepth": "standard_role_page",
     "deepCheckRubric": {
@@ -8015,8 +8015,8 @@
   {
     "roleSlug": "game-qa-tester",
     "roleName": "Game QA Tester",
-    "primaryFamily": "digital_product_technology",
-    "routeArchetype": "portfolio_led",
+    "primaryFamily": "digital_data_technology",
+    "routeArchetype": "degree_led",
     "recommendedRealityCheckDepth": "standard_role_page",
     "deepCheckRubric": {
       "regulated": false,
@@ -8207,7 +8207,7 @@
   {
     "roleSlug": "generative-ai-specialist",
     "roleName": "Generative AI Specialist",
-    "primaryFamily": "data_ai_analytics",
+    "primaryFamily": "digital_data_technology",
     "routeArchetype": "degree_led",
     "recommendedRealityCheckDepth": "standard_role_page",
     "deepCheckRubric": {
@@ -8592,7 +8592,7 @@
   {
     "roleSlug": "hairdresser",
     "roleName": "Hairdresser",
-    "primaryFamily": "beauty_wellness_personal_services",
+    "primaryFamily": "hospitality_retail_personal_service",
     "routeArchetype": "apprenticeship_led",
     "recommendedRealityCheckDepth": "standard_role_page",
     "deepCheckRubric": {
@@ -8624,7 +8624,7 @@
   {
     "roleSlug": "head-chef",
     "roleName": "Head Chef",
-    "primaryFamily": "hospitality_retail_service",
+    "primaryFamily": "hospitality_retail_personal_service",
     "routeArchetype": "apprenticeship_led",
     "recommendedRealityCheckDepth": "standard_role_page",
     "deepCheckRubric": {
@@ -8753,8 +8753,8 @@
   {
     "roleSlug": "healthcare-ai-specialist",
     "roleName": "Healthcare AI Specialist",
-    "primaryFamily": "digital_product_technology",
-    "routeArchetype": "portfolio_led",
+    "primaryFamily": "digital_data_technology",
+    "routeArchetype": "degree_led",
     "recommendedRealityCheckDepth": "standard_role_page",
     "deepCheckRubric": {
       "regulated": false,
@@ -8785,7 +8785,7 @@
   {
     "roleSlug": "healthcare-data-analyst",
     "roleName": "Healthcare Data Analyst",
-    "primaryFamily": "data_ai_analytics",
+    "primaryFamily": "digital_data_technology",
     "routeArchetype": "degree_led",
     "recommendedRealityCheckDepth": "standard_role_page",
     "deepCheckRubric": {
@@ -9058,8 +9058,8 @@
   {
     "roleSlug": "hospitality-manager",
     "roleName": "Hospitality Manager",
-    "primaryFamily": "hospitality_retail_service",
-    "routeArchetype": "employer_training_led",
+    "primaryFamily": "hospitality_retail_personal_service",
+    "routeArchetype": "apprenticeship_led",
     "recommendedRealityCheckDepth": "standard_role_page",
     "deepCheckRubric": {
       "regulated": false,
@@ -9090,8 +9090,8 @@
   {
     "roleSlug": "hotel-concierge",
     "roleName": "Hotel Concierge",
-    "primaryFamily": "hospitality_retail_service",
-    "routeArchetype": "employer_training_led",
+    "primaryFamily": "hospitality_retail_personal_service",
+    "routeArchetype": "apprenticeship_led",
     "recommendedRealityCheckDepth": "standard_role_page",
     "deepCheckRubric": {
       "regulated": false,
@@ -9106,8 +9106,8 @@
   {
     "roleSlug": "hotel-manager",
     "roleName": "Hotel Manager",
-    "primaryFamily": "hospitality_retail_service",
-    "routeArchetype": "employer_training_led",
+    "primaryFamily": "hospitality_retail_personal_service",
+    "routeArchetype": "apprenticeship_led",
     "recommendedRealityCheckDepth": "standard_role_page",
     "deepCheckRubric": {
       "regulated": false,
@@ -9122,7 +9122,7 @@
   {
     "roleSlug": "hotel-receptionist",
     "roleName": "Hotel Receptionist",
-    "primaryFamily": "hospitality_retail_service",
+    "primaryFamily": "hospitality_retail_personal_service",
     "routeArchetype": "employer_training_led",
     "recommendedRealityCheckDepth": "standard_role_page",
     "deepCheckRubric": {
@@ -9138,7 +9138,7 @@
   {
     "roleSlug": "housekeeper",
     "roleName": "Housekeeper",
-    "primaryFamily": "hospitality_retail_service",
+    "primaryFamily": "hospitality_retail_personal_service",
     "routeArchetype": "employer_training_led",
     "recommendedRealityCheckDepth": "standard_role_page",
     "deepCheckRubric": {
@@ -9250,7 +9250,7 @@
   {
     "roleSlug": "human-ai-interaction-designer",
     "roleName": "Human-AI Interaction Designer",
-    "primaryFamily": "digital_product_technology",
+    "primaryFamily": "digital_data_technology",
     "routeArchetype": "portfolio_led",
     "recommendedRealityCheckDepth": "standard_role_page",
     "deepCheckRubric": {
@@ -9314,7 +9314,7 @@
   {
     "roleSlug": "hypnotherapist",
     "roleName": "Hypnotherapist",
-    "primaryFamily": "beauty_wellness_personal_services",
+    "primaryFamily": "hospitality_retail_personal_service",
     "routeArchetype": "short_course_risk",
     "recommendedRealityCheckDepth": "standard_role_page",
     "deepCheckRubric": {
@@ -9346,8 +9346,8 @@
   {
     "roleSlug": "identity-access-management-specialist",
     "roleName": "Identity & Access Management Specialist",
-    "primaryFamily": "digital_product_technology",
-    "routeArchetype": "portfolio_led",
+    "primaryFamily": "digital_data_technology",
+    "routeArchetype": "degree_led",
     "recommendedRealityCheckDepth": "standard_role_page",
     "deepCheckRubric": {
       "regulated": false,
@@ -9458,7 +9458,7 @@
   {
     "roleSlug": "impact-and-evaluation-manager",
     "roleName": "Impact and Evaluation Manager",
-    "primaryFamily": "data_ai_analytics",
+    "primaryFamily": "digital_data_technology",
     "routeArchetype": "degree_led",
     "recommendedRealityCheckDepth": "standard_role_page",
     "deepCheckRubric": {
@@ -9570,7 +9570,7 @@
   {
     "roleSlug": "insight-analyst",
     "roleName": "Insight Analyst",
-    "primaryFamily": "data_ai_analytics",
+    "primaryFamily": "digital_data_technology",
     "routeArchetype": "degree_led",
     "recommendedRealityCheckDepth": "standard_role_page",
     "deepCheckRubric": {
@@ -9826,8 +9826,8 @@
   {
     "roleSlug": "it-support-technician",
     "roleName": "IT Support Technician",
-    "primaryFamily": "digital_product_technology",
-    "routeArchetype": "portfolio_led",
+    "primaryFamily": "digital_data_technology",
+    "routeArchetype": "degree_led",
     "recommendedRealityCheckDepth": "standard_role_page",
     "deepCheckRubric": {
       "regulated": false,
@@ -9938,7 +9938,7 @@
   {
     "roleSlug": "kitchen-porter",
     "roleName": "Kitchen Porter",
-    "primaryFamily": "hospitality_retail_service",
+    "primaryFamily": "hospitality_retail_personal_service",
     "routeArchetype": "employer_training_led",
     "recommendedRealityCheckDepth": "standard_role_page",
     "deepCheckRubric": {
@@ -10098,7 +10098,7 @@
   {
     "roleSlug": "lash-technician",
     "roleName": "Lash Technician",
-    "primaryFamily": "beauty_wellness_personal_services",
+    "primaryFamily": "hospitality_retail_personal_service",
     "routeArchetype": "apprenticeship_led",
     "recommendedRealityCheckDepth": "standard_role_page",
     "deepCheckRubric": {
@@ -10162,8 +10162,8 @@
   {
     "roleSlug": "learning-experience-designer",
     "roleName": "Learning Experience Designer",
-    "primaryFamily": "digital_product_technology",
-    "routeArchetype": "portfolio_led",
+    "primaryFamily": "digital_data_technology",
+    "routeArchetype": "degree_led",
     "recommendedRealityCheckDepth": "standard_role_page",
     "deepCheckRubric": {
       "regulated": false,
@@ -10258,8 +10258,8 @@
   {
     "roleSlug": "leisure-centre-manager",
     "roleName": "Leisure Centre Manager",
-    "primaryFamily": "hospitality_retail_service",
-    "routeArchetype": "employer_training_led",
+    "primaryFamily": "hospitality_retail_personal_service",
+    "routeArchetype": "apprenticeship_led",
     "recommendedRealityCheckDepth": "standard_role_page",
     "deepCheckRubric": {
       "regulated": false,
@@ -10322,7 +10322,7 @@
   {
     "roleSlug": "life-coach",
     "roleName": "Life Coach (Professional)",
-    "primaryFamily": "beauty_wellness_personal_services",
+    "primaryFamily": "hospitality_retail_personal_service",
     "routeArchetype": "short_course_risk",
     "recommendedRealityCheckDepth": "standard_role_page",
     "deepCheckRubric": {
@@ -10435,7 +10435,7 @@
   {
     "roleSlug": "literary-festival-director",
     "roleName": "Literary Festival Director",
-    "primaryFamily": "hospitality_retail_service",
+    "primaryFamily": "hospitality_retail_personal_service",
     "routeArchetype": "experience_led",
     "recommendedRealityCheckDepth": "standard_role_page",
     "deepCheckRubric": {
@@ -10707,7 +10707,7 @@
   {
     "roleSlug": "machine-learning-engineer",
     "roleName": "Machine Learning Engineer",
-    "primaryFamily": "data_ai_analytics",
+    "primaryFamily": "digital_data_technology",
     "routeArchetype": "degree_led",
     "recommendedRealityCheckDepth": "standard_role_page",
     "deepCheckRubric": {
@@ -11076,7 +11076,7 @@
   {
     "roleSlug": "massage-therapist",
     "roleName": "Massage Therapist",
-    "primaryFamily": "beauty_wellness_personal_services",
+    "primaryFamily": "hospitality_retail_personal_service",
     "routeArchetype": "degree_led",
     "recommendedRealityCheckDepth": "standard_role_page",
     "deepCheckRubric": {
@@ -11429,7 +11429,7 @@
   {
     "roleSlug": "microblading-pmu-artist",
     "roleName": "Microblading / PMU Artist",
-    "primaryFamily": "beauty_wellness_personal_services",
+    "primaryFamily": "hospitality_retail_personal_service",
     "routeArchetype": "apprenticeship_led",
     "recommendedRealityCheckDepth": "standard_role_page",
     "deepCheckRubric": {
@@ -11637,7 +11637,7 @@
   {
     "roleSlug": "mixologist-bartender",
     "roleName": "Mixologist / Bartender",
-    "primaryFamily": "hospitality_retail_service",
+    "primaryFamily": "hospitality_retail_personal_service",
     "routeArchetype": "employer_training_led",
     "recommendedRealityCheckDepth": "standard_role_page",
     "deepCheckRubric": {
@@ -11653,7 +11653,7 @@
   {
     "roleSlug": "mlops-engineer",
     "roleName": "MLOps Engineer",
-    "primaryFamily": "data_ai_analytics",
+    "primaryFamily": "digital_data_technology",
     "routeArchetype": "degree_led",
     "recommendedRealityCheckDepth": "standard_role_page",
     "deepCheckRubric": {
@@ -11829,8 +11829,8 @@
   {
     "roleSlug": "mountain-leader",
     "roleName": "Mountain Leader",
-    "primaryFamily": "hospitality_retail_service",
-    "routeArchetype": "employer_training_led",
+    "primaryFamily": "hospitality_retail_personal_service",
+    "routeArchetype": "apprenticeship_led",
     "recommendedRealityCheckDepth": "standard_role_page",
     "deepCheckRubric": {
       "regulated": false,
@@ -11973,7 +11973,7 @@
   {
     "roleSlug": "nail-technician",
     "roleName": "Nail Technician",
-    "primaryFamily": "beauty_wellness_personal_services",
+    "primaryFamily": "hospitality_retail_personal_service",
     "routeArchetype": "apprenticeship_led",
     "recommendedRealityCheckDepth": "standard_role_page",
     "deepCheckRubric": {
@@ -12117,7 +12117,7 @@
   {
     "roleSlug": "network-engineer",
     "roleName": "Network Engineer",
-    "primaryFamily": "digital_product_technology",
+    "primaryFamily": "digital_data_technology",
     "routeArchetype": "degree_led",
     "recommendedRealityCheckDepth": "standard_role_page",
     "deepCheckRubric": {
@@ -12261,7 +12261,7 @@
   {
     "roleSlug": "nlp-engineer",
     "roleName": "NLP Engineer",
-    "primaryFamily": "data_ai_analytics",
+    "primaryFamily": "digital_data_technology",
     "routeArchetype": "degree_led",
     "recommendedRealityCheckDepth": "standard_role_page",
     "deepCheckRubric": {
@@ -12389,7 +12389,7 @@
   {
     "roleSlug": "nutritionist-nutritional-therapist",
     "roleName": "Nutritionist / Nutritional Therapist",
-    "primaryFamily": "beauty_wellness_personal_services",
+    "primaryFamily": "hospitality_retail_personal_service",
     "routeArchetype": "degree_led",
     "recommendedRealityCheckDepth": "standard_role_page",
     "deepCheckRubric": {
@@ -12597,8 +12597,8 @@
   {
     "roleSlug": "online-learning-designer",
     "roleName": "Online Learning Designer",
-    "primaryFamily": "digital_product_technology",
-    "routeArchetype": "portfolio_led",
+    "primaryFamily": "digital_data_technology",
+    "routeArchetype": "degree_led",
     "recommendedRealityCheckDepth": "standard_role_page",
     "deepCheckRubric": {
       "regulated": false,
@@ -13077,7 +13077,7 @@
   {
     "roleSlug": "pastry-chef",
     "roleName": "Pastry Chef",
-    "primaryFamily": "hospitality_retail_service",
+    "primaryFamily": "hospitality_retail_personal_service",
     "routeArchetype": "apprenticeship_led",
     "recommendedRealityCheckDepth": "standard_role_page",
     "deepCheckRubric": {
@@ -13221,8 +13221,8 @@
   {
     "roleSlug": "penetration-tester",
     "roleName": "Penetration Tester",
-    "primaryFamily": "digital_product_technology",
-    "routeArchetype": "portfolio_led",
+    "primaryFamily": "digital_data_technology",
+    "routeArchetype": "degree_led",
     "recommendedRealityCheckDepth": "standard_role_page",
     "deepCheckRubric": {
       "regulated": false,
@@ -13253,7 +13253,7 @@
   {
     "roleSlug": "performance-analyst",
     "roleName": "Performance Analyst",
-    "primaryFamily": "digital_product_technology",
+    "primaryFamily": "digital_data_technology",
     "routeArchetype": "degree_led",
     "recommendedRealityCheckDepth": "standard_role_page",
     "deepCheckRubric": {
@@ -13365,7 +13365,7 @@
   {
     "roleSlug": "personal-trainer",
     "roleName": "Personal Trainer",
-    "primaryFamily": "beauty_wellness_personal_services",
+    "primaryFamily": "hospitality_retail_personal_service",
     "routeArchetype": "self_employment_led",
     "recommendedRealityCheckDepth": "standard_role_page",
     "deepCheckRubric": {
@@ -13669,7 +13669,7 @@
   {
     "roleSlug": "pilates-instructor",
     "roleName": "Pilates Instructor",
-    "primaryFamily": "beauty_wellness_personal_services",
+    "primaryFamily": "hospitality_retail_personal_service",
     "routeArchetype": "self_employment_led",
     "recommendedRealityCheckDepth": "standard_role_page",
     "deepCheckRubric": {
@@ -14406,8 +14406,8 @@
   {
     "roleSlug": "process-server",
     "roleName": "Process Server",
-    "primaryFamily": "hospitality_retail_service",
-    "routeArchetype": "employer_training_led",
+    "primaryFamily": "hospitality_retail_personal_service",
+    "routeArchetype": "apprenticeship_led",
     "recommendedRealityCheckDepth": "standard_role_page",
     "deepCheckRubric": {
       "regulated": false,
@@ -14470,7 +14470,7 @@
   {
     "roleSlug": "product-manager",
     "roleName": "Product Manager",
-    "primaryFamily": "digital_product_technology",
+    "primaryFamily": "digital_data_technology",
     "routeArchetype": "degree_led",
     "recommendedRealityCheckDepth": "standard_role_page",
     "deepCheckRubric": {
@@ -14663,7 +14663,7 @@
   {
     "roleSlug": "prompt-engineer",
     "roleName": "Prompt Engineer",
-    "primaryFamily": "data_ai_analytics",
+    "primaryFamily": "digital_data_technology",
     "routeArchetype": "degree_led",
     "recommendedRealityCheckDepth": "standard_role_page",
     "deepCheckRubric": {
@@ -14823,7 +14823,7 @@
   {
     "roleSlug": "psychological-wellbeing-practitioner",
     "roleName": "Psychological Wellbeing Practitioner",
-    "primaryFamily": "beauty_wellness_personal_services",
+    "primaryFamily": "hospitality_retail_personal_service",
     "routeArchetype": "apprenticeship_led",
     "recommendedRealityCheckDepth": "standard_role_page",
     "deepCheckRubric": {
@@ -15225,7 +15225,7 @@
   {
     "roleSlug": "recreation-assistant",
     "roleName": "Recreation Assistant",
-    "primaryFamily": "hospitality_retail_service",
+    "primaryFamily": "hospitality_retail_personal_service",
     "routeArchetype": "employer_training_led",
     "recommendedRealityCheckDepth": "standard_role_page",
     "deepCheckRubric": {
@@ -15273,7 +15273,7 @@
   {
     "roleSlug": "reflexologist",
     "roleName": "Reflexologist",
-    "primaryFamily": "beauty_wellness_personal_services",
+    "primaryFamily": "hospitality_retail_personal_service",
     "routeArchetype": "short_course_risk",
     "recommendedRealityCheckDepth": "standard_role_page",
     "deepCheckRubric": {
@@ -15529,8 +15529,8 @@
   {
     "roleSlug": "restaurant-manager",
     "roleName": "Restaurant Manager",
-    "primaryFamily": "hospitality_retail_service",
-    "routeArchetype": "employer_training_led",
+    "primaryFamily": "hospitality_retail_personal_service",
+    "routeArchetype": "apprenticeship_led",
     "recommendedRealityCheckDepth": "standard_role_page",
     "deepCheckRubric": {
       "regulated": false,
@@ -15545,7 +15545,7 @@
   {
     "roleSlug": "retail-assistant",
     "roleName": "Retail Assistant",
-    "primaryFamily": "hospitality_retail_service",
+    "primaryFamily": "hospitality_retail_personal_service",
     "routeArchetype": "employer_training_led",
     "recommendedRealityCheckDepth": "standard_role_page",
     "deepCheckRubric": {
@@ -15561,8 +15561,8 @@
   {
     "roleSlug": "retail-manager",
     "roleName": "Retail Manager",
-    "primaryFamily": "hospitality_retail_service",
-    "routeArchetype": "employer_training_led",
+    "primaryFamily": "hospitality_retail_personal_service",
+    "routeArchetype": "apprenticeship_led",
     "recommendedRealityCheckDepth": "standard_role_page",
     "deepCheckRubric": {
       "regulated": false,
@@ -15577,8 +15577,8 @@
   {
     "roleSlug": "retail-supervisor",
     "roleName": "Retail Supervisor",
-    "primaryFamily": "hospitality_retail_service",
-    "routeArchetype": "employer_training_led",
+    "primaryFamily": "hospitality_retail_personal_service",
+    "routeArchetype": "apprenticeship_led",
     "recommendedRealityCheckDepth": "standard_role_page",
     "deepCheckRubric": {
       "regulated": false,
@@ -15593,8 +15593,8 @@
   {
     "roleSlug": "revenue-manager",
     "roleName": "Revenue Manager (Hotel)",
-    "primaryFamily": "hospitality_retail_service",
-    "routeArchetype": "employer_training_led",
+    "primaryFamily": "hospitality_retail_personal_service",
+    "routeArchetype": "apprenticeship_led",
     "recommendedRealityCheckDepth": "standard_role_page",
     "deepCheckRubric": {
       "regulated": false,
@@ -15721,7 +15721,7 @@
   {
     "roleSlug": "robotics-engineer",
     "roleName": "Robotics Engineer",
-    "primaryFamily": "digital_product_technology",
+    "primaryFamily": "digital_data_technology",
     "routeArchetype": "degree_led",
     "recommendedRealityCheckDepth": "standard_role_page",
     "deepCheckRubric": {
@@ -15737,8 +15737,8 @@
   {
     "roleSlug": "robotics-technician",
     "roleName": "Robotics Technician",
-    "primaryFamily": "digital_product_technology",
-    "routeArchetype": "portfolio_led",
+    "primaryFamily": "digital_data_technology",
+    "routeArchetype": "degree_led",
     "recommendedRealityCheckDepth": "standard_role_page",
     "deepCheckRubric": {
       "regulated": false,
@@ -15913,7 +15913,7 @@
   {
     "roleSlug": "salon-owner",
     "roleName": "Salon Owner",
-    "primaryFamily": "beauty_wellness_personal_services",
+    "primaryFamily": "hospitality_retail_personal_service",
     "routeArchetype": "self_employment_led",
     "recommendedRealityCheckDepth": "standard_role_page",
     "deepCheckRubric": {
@@ -16233,7 +16233,7 @@
   {
     "roleSlug": "security-consultant",
     "roleName": "Security Consultant",
-    "primaryFamily": "digital_product_technology",
+    "primaryFamily": "digital_data_technology",
     "routeArchetype": "degree_led",
     "recommendedRealityCheckDepth": "standard_role_page",
     "deepCheckRubric": {
@@ -16249,7 +16249,7 @@
   {
     "roleSlug": "security-engineer",
     "roleName": "Security Engineer",
-    "primaryFamily": "digital_product_technology",
+    "primaryFamily": "digital_data_technology",
     "routeArchetype": "degree_led",
     "recommendedRealityCheckDepth": "standard_role_page",
     "deepCheckRubric": {
@@ -16297,7 +16297,7 @@
   {
     "roleSlug": "security-operations-analyst",
     "roleName": "Security Operations Analyst",
-    "primaryFamily": "digital_product_technology",
+    "primaryFamily": "digital_data_technology",
     "routeArchetype": "competitive_entry_led",
     "recommendedRealityCheckDepth": "standard_role_page",
     "deepCheckRubric": {
@@ -16345,7 +16345,7 @@
   {
     "roleSlug": "semiconductor-engineer",
     "roleName": "Semiconductor Engineer",
-    "primaryFamily": "digital_product_technology",
+    "primaryFamily": "digital_data_technology",
     "routeArchetype": "degree_led",
     "recommendedRealityCheckDepth": "standard_role_page",
     "deepCheckRubric": {
@@ -16537,7 +16537,7 @@
   {
     "roleSlug": "showroom-sales-consultant",
     "roleName": "Showroom Sales Consultant",
-    "primaryFamily": "hospitality_retail_service",
+    "primaryFamily": "hospitality_retail_personal_service",
     "routeArchetype": "degree_led",
     "recommendedRealityCheckDepth": "standard_role_page",
     "deepCheckRubric": {
@@ -16923,7 +16923,7 @@
   {
     "roleSlug": "software-engineer",
     "roleName": "Software Engineer",
-    "primaryFamily": "digital_product_technology",
+    "primaryFamily": "digital_data_technology",
     "routeArchetype": "degree_led",
     "recommendedRealityCheckDepth": "standard_role_page",
     "deepCheckRubric": {
@@ -17035,8 +17035,8 @@
   {
     "roleSlug": "sommelier",
     "roleName": "Sommelier",
-    "primaryFamily": "hospitality_retail_service",
-    "routeArchetype": "employer_training_led",
+    "primaryFamily": "hospitality_retail_personal_service",
+    "routeArchetype": "apprenticeship_led",
     "recommendedRealityCheckDepth": "standard_role_page",
     "deepCheckRubric": {
       "regulated": false,
@@ -17115,7 +17115,7 @@
   {
     "roleSlug": "sous-chef",
     "roleName": "Sous Chef",
-    "primaryFamily": "hospitality_retail_service",
+    "primaryFamily": "hospitality_retail_personal_service",
     "routeArchetype": "apprenticeship_led",
     "recommendedRealityCheckDepth": "standard_role_page",
     "deepCheckRubric": {
@@ -17131,7 +17131,7 @@
   {
     "roleSlug": "spa-manager-therapist",
     "roleName": "Spa Manager / Therapist",
-    "primaryFamily": "hospitality_retail_service",
+    "primaryFamily": "hospitality_retail_personal_service",
     "routeArchetype": "degree_led",
     "recommendedRealityCheckDepth": "standard_role_page",
     "deepCheckRubric": {
@@ -17147,7 +17147,7 @@
   {
     "roleSlug": "spa-therapist",
     "roleName": "Spa Therapist",
-    "primaryFamily": "hospitality_retail_service",
+    "primaryFamily": "hospitality_retail_personal_service",
     "routeArchetype": "degree_led",
     "recommendedRealityCheckDepth": "standard_role_page",
     "deepCheckRubric": {
@@ -17307,7 +17307,7 @@
   {
     "roleSlug": "sports-massage-therapist",
     "roleName": "Sports Massage Therapist",
-    "primaryFamily": "beauty_wellness_personal_services",
+    "primaryFamily": "hospitality_retail_personal_service",
     "routeArchetype": "degree_led",
     "recommendedRealityCheckDepth": "standard_role_page",
     "deepCheckRubric": {
@@ -17403,7 +17403,7 @@
   {
     "roleSlug": "spray-tan-technician",
     "roleName": "Spray Tan Technician",
-    "primaryFamily": "beauty_wellness_personal_services",
+    "primaryFamily": "hospitality_retail_personal_service",
     "routeArchetype": "apprenticeship_led",
     "recommendedRealityCheckDepth": "standard_role_page",
     "deepCheckRubric": {
@@ -17451,7 +17451,7 @@
   {
     "roleSlug": "statistician",
     "roleName": "Statistician (Government)",
-    "primaryFamily": "data_ai_analytics",
+    "primaryFamily": "digital_data_technology",
     "routeArchetype": "degree_led",
     "recommendedRealityCheckDepth": "standard_role_page",
     "deepCheckRubric": {
@@ -17547,8 +17547,8 @@
   {
     "roleSlug": "store-assistant-manager",
     "roleName": "Store Assistant Manager",
-    "primaryFamily": "hospitality_retail_service",
-    "routeArchetype": "employer_training_led",
+    "primaryFamily": "hospitality_retail_personal_service",
+    "routeArchetype": "apprenticeship_led",
     "recommendedRealityCheckDepth": "standard_role_page",
     "deepCheckRubric": {
       "regulated": false,
@@ -17867,7 +17867,7 @@
   {
     "roleSlug": "synthetic-data-engineer",
     "roleName": "Synthetic Data Engineer",
-    "primaryFamily": "data_ai_analytics",
+    "primaryFamily": "digital_data_technology",
     "routeArchetype": "degree_led",
     "recommendedRealityCheckDepth": "standard_role_page",
     "deepCheckRubric": {
@@ -17883,7 +17883,7 @@
   {
     "roleSlug": "systems-administrator",
     "roleName": "Systems Administrator",
-    "primaryFamily": "digital_product_technology",
+    "primaryFamily": "digital_data_technology",
     "routeArchetype": "employer_training_led",
     "recommendedRealityCheckDepth": "standard_role_page",
     "deepCheckRubric": {
@@ -17979,7 +17979,7 @@
   {
     "roleSlug": "tattoo-removal-technician",
     "roleName": "Tattoo Removal Technician",
-    "primaryFamily": "beauty_wellness_personal_services",
+    "primaryFamily": "hospitality_retail_personal_service",
     "routeArchetype": "apprenticeship_led",
     "recommendedRealityCheckDepth": "standard_role_page",
     "deepCheckRubric": {
@@ -18107,8 +18107,8 @@
   {
     "roleSlug": "technical-writer",
     "roleName": "Technical Writer",
-    "primaryFamily": "digital_product_technology",
-    "routeArchetype": "portfolio_led",
+    "primaryFamily": "digital_data_technology",
+    "routeArchetype": "degree_led",
     "recommendedRealityCheckDepth": "standard_role_page",
     "deepCheckRubric": {
       "regulated": false,
@@ -18252,7 +18252,7 @@
   {
     "roleSlug": "test-engineer",
     "roleName": "Test Engineer",
-    "primaryFamily": "digital_product_technology",
+    "primaryFamily": "digital_data_technology",
     "routeArchetype": "degree_led",
     "recommendedRealityCheckDepth": "standard_role_page",
     "deepCheckRubric": {
@@ -18396,7 +18396,7 @@
   {
     "roleSlug": "ticketing-manager",
     "roleName": "Ticketing Manager",
-    "primaryFamily": "hospitality_retail_service",
+    "primaryFamily": "hospitality_retail_personal_service",
     "routeArchetype": "employer_training_led",
     "recommendedRealityCheckDepth": "standard_role_page",
     "deepCheckRubric": {
@@ -18460,8 +18460,8 @@
   {
     "roleSlug": "tour-guide",
     "roleName": "Tour Guide",
-    "primaryFamily": "hospitality_retail_service",
-    "routeArchetype": "employer_training_led",
+    "primaryFamily": "hospitality_retail_personal_service",
+    "routeArchetype": "apprenticeship_led",
     "recommendedRealityCheckDepth": "standard_role_page",
     "deepCheckRubric": {
       "regulated": false,
@@ -18686,8 +18686,8 @@
   {
     "roleSlug": "travel-agent",
     "roleName": "Travel Agent",
-    "primaryFamily": "hospitality_retail_service",
-    "routeArchetype": "employer_training_led",
+    "primaryFamily": "hospitality_retail_personal_service",
+    "routeArchetype": "apprenticeship_led",
     "recommendedRealityCheckDepth": "standard_role_page",
     "deepCheckRubric": {
       "regulated": false,
@@ -18702,7 +18702,7 @@
   {
     "roleSlug": "travel-agent-travel-consultant",
     "roleName": "Travel Agent / Travel Consultant",
-    "primaryFamily": "hospitality_retail_service",
+    "primaryFamily": "hospitality_retail_personal_service",
     "routeArchetype": "degree_led",
     "recommendedRealityCheckDepth": "standard_role_page",
     "deepCheckRubric": {
@@ -18766,8 +18766,8 @@
   {
     "roleSlug": "trust-and-safety-specialist",
     "roleName": "Trust and Safety Specialist",
-    "primaryFamily": "digital_product_technology",
-    "routeArchetype": "portfolio_led",
+    "primaryFamily": "digital_data_technology",
+    "routeArchetype": "degree_led",
     "recommendedRealityCheckDepth": "standard_role_page",
     "deepCheckRubric": {
       "regulated": false,
@@ -18894,7 +18894,7 @@
   {
     "roleSlug": "ux-designer",
     "roleName": "UX Designer",
-    "primaryFamily": "digital_product_technology",
+    "primaryFamily": "digital_data_technology",
     "routeArchetype": "portfolio_led",
     "recommendedRealityCheckDepth": "standard_role_page",
     "deepCheckRubric": {
@@ -18910,8 +18910,8 @@
   {
     "roleSlug": "ux-researcher",
     "roleName": "UX Researcher",
-    "primaryFamily": "digital_product_technology",
-    "routeArchetype": "portfolio_led",
+    "primaryFamily": "digital_data_technology",
+    "routeArchetype": "degree_led",
     "recommendedRealityCheckDepth": "standard_role_page",
     "deepCheckRubric": {
       "regulated": false,
@@ -18942,8 +18942,8 @@
   {
     "roleSlug": "venue-manager",
     "roleName": "Venue Manager",
-    "primaryFamily": "hospitality_retail_service",
-    "routeArchetype": "employer_training_led",
+    "primaryFamily": "hospitality_retail_personal_service",
+    "routeArchetype": "apprenticeship_led",
     "recommendedRealityCheckDepth": "standard_role_page",
     "deepCheckRubric": {
       "regulated": false,
@@ -19102,8 +19102,8 @@
   {
     "roleSlug": "virtual-assistant",
     "roleName": "Virtual Assistant",
-    "primaryFamily": "digital_product_technology",
-    "routeArchetype": "portfolio_led",
+    "primaryFamily": "digital_data_technology",
+    "routeArchetype": "degree_led",
     "recommendedRealityCheckDepth": "standard_role_page",
     "deepCheckRubric": {
       "regulated": false,
@@ -19118,8 +19118,8 @@
   {
     "roleSlug": "virtual-reality-content-producer",
     "roleName": "Virtual Reality Content Producer",
-    "primaryFamily": "digital_product_technology",
-    "routeArchetype": "portfolio_led",
+    "primaryFamily": "digital_data_technology",
+    "routeArchetype": "degree_led",
     "recommendedRealityCheckDepth": "standard_role_page",
     "deepCheckRubric": {
       "regulated": false,
@@ -19150,8 +19150,8 @@
   {
     "roleSlug": "visual-merchandiser",
     "roleName": "Visual Merchandiser",
-    "primaryFamily": "hospitality_retail_service",
-    "routeArchetype": "employer_training_led",
+    "primaryFamily": "hospitality_retail_personal_service",
+    "routeArchetype": "apprenticeship_led",
     "recommendedRealityCheckDepth": "standard_role_page",
     "deepCheckRubric": {
       "regulated": false,
@@ -19246,7 +19246,7 @@
   {
     "roleSlug": "waiter-waitress",
     "roleName": "Waiter / Waitress",
-    "primaryFamily": "hospitality_retail_service",
+    "primaryFamily": "hospitality_retail_personal_service",
     "routeArchetype": "employer_training_led",
     "recommendedRealityCheckDepth": "standard_role_page",
     "deepCheckRubric": {
@@ -19358,7 +19358,7 @@
   {
     "roleSlug": "web-developer",
     "roleName": "Web Developer",
-    "primaryFamily": "digital_product_technology",
+    "primaryFamily": "digital_data_technology",
     "routeArchetype": "portfolio_led",
     "recommendedRealityCheckDepth": "standard_role_page",
     "deepCheckRubric": {
@@ -19390,7 +19390,7 @@
   {
     "roleSlug": "wedding-cake-designer-baker",
     "roleName": "Wedding Cake Designer / Baker",
-    "primaryFamily": "hospitality_retail_service",
+    "primaryFamily": "hospitality_retail_personal_service",
     "routeArchetype": "apprenticeship_led",
     "recommendedRealityCheckDepth": "standard_role_page",
     "deepCheckRubric": {
@@ -19406,8 +19406,8 @@
   {
     "roleSlug": "wedding-caterer",
     "roleName": "Wedding Caterer",
-    "primaryFamily": "hospitality_retail_service",
-    "routeArchetype": "employer_training_led",
+    "primaryFamily": "hospitality_retail_personal_service",
+    "routeArchetype": "apprenticeship_led",
     "recommendedRealityCheckDepth": "standard_role_page",
     "deepCheckRubric": {
       "regulated": false,
@@ -19438,8 +19438,8 @@
   {
     "roleSlug": "wedding-dress-alterations-specialist",
     "roleName": "Wedding Dress Alterations Specialist",
-    "primaryFamily": "hospitality_retail_service",
-    "routeArchetype": "employer_training_led",
+    "primaryFamily": "hospitality_retail_personal_service",
+    "routeArchetype": "apprenticeship_led",
     "recommendedRealityCheckDepth": "standard_role_page",
     "deepCheckRubric": {
       "regulated": false,
@@ -19454,8 +19454,8 @@
   {
     "roleSlug": "wedding-dress-designer",
     "roleName": "Wedding Dress Designer",
-    "primaryFamily": "hospitality_retail_service",
-    "routeArchetype": "employer_training_led",
+    "primaryFamily": "hospitality_retail_personal_service",
+    "routeArchetype": "apprenticeship_led",
     "recommendedRealityCheckDepth": "standard_role_page",
     "deepCheckRubric": {
       "regulated": false,
@@ -19486,7 +19486,7 @@
   {
     "roleSlug": "wedding-hair-stylist",
     "roleName": "Wedding Hair Stylist",
-    "primaryFamily": "beauty_wellness_personal_services",
+    "primaryFamily": "hospitality_retail_personal_service",
     "routeArchetype": "apprenticeship_led",
     "recommendedRealityCheckDepth": "standard_role_page",
     "deepCheckRubric": {
@@ -19534,8 +19534,8 @@
   {
     "roleSlug": "wedding-planner",
     "roleName": "Wedding Planner",
-    "primaryFamily": "hospitality_retail_service",
-    "routeArchetype": "employer_training_led",
+    "primaryFamily": "hospitality_retail_personal_service",
+    "routeArchetype": "apprenticeship_led",
     "recommendedRealityCheckDepth": "standard_role_page",
     "deepCheckRubric": {
       "regulated": false,
@@ -19550,8 +19550,8 @@
   {
     "roleSlug": "wedding-stationer-invitation-designer",
     "roleName": "Wedding Stationer / Invitation Designer",
-    "primaryFamily": "hospitality_retail_service",
-    "routeArchetype": "employer_training_led",
+    "primaryFamily": "hospitality_retail_personal_service",
+    "routeArchetype": "apprenticeship_led",
     "recommendedRealityCheckDepth": "standard_role_page",
     "deepCheckRubric": {
       "regulated": false,
@@ -19566,8 +19566,8 @@
   {
     "roleSlug": "wedding-toastmaster-master-of-ceremonies",
     "roleName": "Wedding Toastmaster / Master of Ceremonies",
-    "primaryFamily": "hospitality_retail_service",
-    "routeArchetype": "employer_training_led",
+    "primaryFamily": "hospitality_retail_personal_service",
+    "routeArchetype": "apprenticeship_led",
     "recommendedRealityCheckDepth": "standard_role_page",
     "deepCheckRubric": {
       "regulated": false,
@@ -19678,7 +19678,7 @@
   {
     "roleSlug": "wellness-coach",
     "roleName": "Wellness Coach",
-    "primaryFamily": "beauty_wellness_personal_services",
+    "primaryFamily": "hospitality_retail_personal_service",
     "routeArchetype": "apprenticeship_led",
     "recommendedRealityCheckDepth": "standard_role_page",
     "deepCheckRubric": {
@@ -19710,8 +19710,8 @@
   {
     "roleSlug": "wilderness-guide-expedition-leader",
     "roleName": "Wilderness Guide / Expedition Leader",
-    "primaryFamily": "hospitality_retail_service",
-    "routeArchetype": "employer_training_led",
+    "primaryFamily": "hospitality_retail_personal_service",
+    "routeArchetype": "apprenticeship_led",
     "recommendedRealityCheckDepth": "standard_role_page",
     "deepCheckRubric": {
       "regulated": false,
@@ -19856,7 +19856,7 @@
   {
     "roleSlug": "yoga-instructor",
     "roleName": "Yoga Instructor",
-    "primaryFamily": "beauty_wellness_personal_services",
+    "primaryFamily": "hospitality_retail_personal_service",
     "routeArchetype": "self_employment_led",
     "recommendedRealityCheckDepth": "standard_role_page",
     "deepCheckRubric": {
