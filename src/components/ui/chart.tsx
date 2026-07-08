@@ -87,11 +87,35 @@ ${colorConfig
   );
 };
 
+// recharts 3.x tightened generic tooltip/legend typings and moved `payload`/`label`
+// off the public props type. Widen locally so this shadcn adapter keeps working.
+type TooltipInnerProps = {
+  active?: boolean;
+  payload?: Array<{
+    dataKey?: string | number;
+    name?: string;
+    value?: number | string;
+    color?: string;
+    payload?: Record<string, unknown> & { fill?: string };
+  }>;
+  label?: unknown;
+  labelFormatter?: (value: unknown, payload: unknown) => React.ReactNode;
+  formatter?: (
+    value: unknown,
+    name: unknown,
+    item: unknown,
+    index: number,
+    payload: unknown,
+  ) => React.ReactNode;
+  color?: string;
+  labelClassName?: string;
+};
+
 const ChartTooltip = RechartsPrimitive.Tooltip;
 
 const ChartTooltipContent = React.forwardRef<
   HTMLDivElement,
-  React.ComponentProps<typeof RechartsPrimitive.Tooltip> &
+  TooltipInnerProps &
     React.ComponentProps<"div"> & {
       hideLabel?: boolean;
       hideIndicator?: boolean;
@@ -227,10 +251,19 @@ ChartTooltipContent.displayName = "ChartTooltip";
 
 const ChartLegend = RechartsPrimitive.Legend;
 
+type LegendInnerProps = {
+  payload?: Array<{
+    value?: string;
+    dataKey?: string | number;
+    color?: string;
+  }>;
+  verticalAlign?: "top" | "middle" | "bottom";
+};
+
 const ChartLegendContent = React.forwardRef<
   HTMLDivElement,
   React.ComponentProps<"div"> &
-    Pick<RechartsPrimitive.LegendProps, "payload" | "verticalAlign"> & {
+    LegendInnerProps & {
       hideIcon?: boolean;
       nameKey?: string;
     }
