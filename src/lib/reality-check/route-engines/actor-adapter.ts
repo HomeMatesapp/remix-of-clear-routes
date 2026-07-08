@@ -25,7 +25,7 @@ import {
 } from "./actor-flavor";
 
 export const ACTOR_SCOPE_NOTE =
-  "Acting is not statutorily regulated. There is no guaranteed route to paid work. Cautions on paid courses, agent terms, casting-platform fees and unpaid work always apply where relevant.";
+  "Acting is not statutorily regulated. There is no promised route to paid work. Cautions on paid courses, agent terms, casting-platform fees and unpaid work always apply where relevant.";
 
 const readinessForStatus = (
   status: ActorEngineOutput["status"],

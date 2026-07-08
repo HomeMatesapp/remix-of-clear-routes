@@ -86,7 +86,7 @@ const AFF: Record<ActorRouteId, string> = {
 };
 
 export const ACTOR_SCOPE_NOTE =
-  "Acting is not statutorily regulated. There is no guaranteed route to paid work. Cautions on paid courses, agent terms, casting-platform fees and unpaid work always apply where relevant.";
+  "Acting is not statutorily regulated. There is no promised route to paid work. Cautions on paid courses, agent terms, casting-platform fees and unpaid work always apply where relevant.";
 
 const LEVEL_3 = new Set([
   "a_level_or_level_3",
@@ -361,7 +361,7 @@ export function runActorEngine(input: { signals: Signals }): EngineOutput {
       affordabilityNotes: [], considerations: [],
       blockersAndChecks: ["Right now the strongest next step is building foundations — training, materials or credits — rather than pursuing a specific route as the primary outcome."],
       immediateAction: "Focus on one foundation-building step first (short course, headshot + showreel, or a student/fringe credit) before comparing named routes.",
-      evidenceNotes: ["Acting has no statutory qualification gate and no guaranteed route to paid work. Foundations build the evidence needed for later routes."],
+      evidenceNotes: ["Acting has no statutory qualification gate and no promised route to paid work. Foundations build the evidence needed for later routes."],
       routeEvaluations: evals, missingSignals: [],
       mayOpenLaterRouteIds: mayOpen, isInternationalVerification: false,
       showCourseCaution: shouldShowCourseCaution(s, eligibleIds),

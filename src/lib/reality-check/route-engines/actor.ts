@@ -495,7 +495,7 @@ export const runActorEngine = (
       immediateAction:
         "Focus on one foundation-building step first (short course, headshot + showreel, or a student/fringe credit) before comparing named routes.",
       evidenceNotes: [
-        "Acting has no statutory qualification gate and no guaranteed route to paid work. Foundations build the evidence needed for later routes.",
+        "Acting has no statutory qualification gate and no promised route to paid work. Foundations build the evidence needed for later routes.",
       ],
       routeEvaluations: evaluations,
       missingSignals: [],

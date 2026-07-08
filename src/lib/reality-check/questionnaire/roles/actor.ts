@@ -37,7 +37,7 @@ export const actorConfig: RoleConfig = {
   engineId: "actor-v1",
   questionnaireVersion: "actor-v1",
   scopeNote:
-    "Acting is not statutorily regulated. There is no guaranteed route to paid acting work. This checker compares evidence-building routes and flags common risks (private courses, agent terms, casting-platform fees, unpaid work). Child performer routes are out of scope for v1.",
+    "Acting is not statutorily regulated. There is no promised route to paid acting work. This checker compares evidence-building routes and flags common risks (private courses, agent terms, casting-platform fees, unpaid work). Child performer routes are out of scope for v1.",
   questions: [
     actorPerformerScopeQuestion,
     actorHighestQualificationQuestion,
