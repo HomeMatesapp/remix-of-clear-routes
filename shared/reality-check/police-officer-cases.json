@@ -1,0 +1,216 @@
+[
+  {
+    "name": "a_level_direct_application_pcep",
+    "signals": {
+      "startingPoint": "school_leaver",
+      "highestQualification": "a_level_or_level_3",
+      "englishMathsStatus": "english_and_maths_met",
+      "currentPublicServiceExperience": "none",
+      "routePreference": "fastest_application_route",
+      "studyPatternAvailable": "work_based_training_preferred",
+      "regionAvailability": "england_wales_any_force",
+      "checks_before_applying": [],
+      "priority": "graduate_as_fast_as_possible"
+    },
+    "expected": {
+      "status": "route_recommended",
+      "recommendedRouteId": "police_constable_entry_programme"
+    }
+  },
+  {
+    "name": "a_level_earn_while_training_pcda",
+    "signals": {
+      "startingPoint": "career_changer",
+      "highestQualification": "a_level_or_level_3",
+      "englishMathsStatus": "english_and_maths_met",
+      "currentPublicServiceExperience": "none",
+      "routePreference": "earn_while_training",
+      "studyPatternAvailable": "need_to_keep_earning",
+      "regionAvailability": "england_wales_any_force",
+      "checks_before_applying": [],
+      "priority": "avoid_student_debt"
+    },
+    "expected": {
+      "status": "route_recommended",
+      "recommendedRouteId": "police_constable_degree_apprenticeship"
+    }
+  },
+  {
+    "name": "degree_holder_dhep",
+    "signals": {
+      "startingPoint": "graduate",
+      "highestQualification": "bachelors_any_subject",
+      "englishMathsStatus": "english_and_maths_met",
+      "currentPublicServiceExperience": "none",
+      "routePreference": "fastest_application_route",
+      "studyPatternAvailable": "work_based_training_preferred",
+      "regionAvailability": "england_wales_any_force",
+      "checks_before_applying": [],
+      "priority": "graduate_as_fast_as_possible"
+    },
+    "expected": {
+      "status": "route_recommended",
+      "recommendedRouteId": "degree_holder_entry_programme"
+    }
+  },
+  {
+    "name": "professional_policing_degree_treated_as_pcep",
+    "signals": {
+      "startingPoint": "graduate",
+      "highestQualification": "professional_policing_degree",
+      "englishMathsStatus": "english_and_maths_met",
+      "currentPublicServiceExperience": "none",
+      "routePreference": "fastest_application_route",
+      "studyPatternAvailable": "flexible",
+      "regionAvailability": "england_wales_any_force",
+      "checks_before_applying": [],
+      "priority": "graduate_as_fast_as_possible"
+    },
+    "expected": {
+      "status": "route_recommended",
+      "recommendedRouteId": "police_constable_entry_programme"
+    }
+  },
+  {
+    "name": "a_level_degree_first_professional_policing_degree_route",
+    "signals": {
+      "startingPoint": "school_leaver",
+      "highestQualification": "a_level_or_level_3",
+      "englishMathsStatus": "english_and_maths_met",
+      "currentPublicServiceExperience": "none",
+      "routePreference": "degree_first",
+      "studyPatternAvailable": "full_time_study_possible",
+      "regionAvailability": "england_wales_any_force",
+      "checks_before_applying": [],
+      "priority": "structured_academic_route"
+    },
+    "expected": {
+      "status": "route_recommended",
+      "recommendedRouteId": "professional_policing_degree_then_apply"
+    }
+  },
+  {
+    "name": "special_constable_gcse_unlocks_pcep",
+    "signals": {
+      "startingPoint": "currently_in_public_service",
+      "highestQualification": "gcse",
+      "englishMathsStatus": "english_and_maths_met",
+      "currentPublicServiceExperience": "special_constable",
+      "routePreference": "fastest_application_route",
+      "studyPatternAvailable": "work_based_training_preferred",
+      "regionAvailability": "england_wales_any_force",
+      "checks_before_applying": [],
+      "priority": "graduate_as_fast_as_possible"
+    },
+    "expected": {
+      "status": "route_recommended",
+      "recommendedRouteId": "police_constable_entry_programme"
+    }
+  },
+  {
+    "name": "gcse_only_beginner_bridging",
+    "signals": {
+      "startingPoint": "school_leaver",
+      "highestQualification": "gcse",
+      "englishMathsStatus": "english_and_maths_met",
+      "currentPublicServiceExperience": "none",
+      "routePreference": "not_sure",
+      "studyPatternAvailable": "flexible",
+      "regionAvailability": "england_wales_any_force",
+      "checks_before_applying": [],
+      "priority": "not_sure"
+    },
+    "expected": {
+      "status": "bridging_required",
+      "recommendedRouteId": null
+    }
+  },
+  {
+    "name": "english_maths_gap_bridging",
+    "signals": {
+      "startingPoint": "career_changer",
+      "highestQualification": "a_level_or_level_3",
+      "englishMathsStatus": "one_missing",
+      "currentPublicServiceExperience": "none",
+      "routePreference": "fastest_application_route",
+      "studyPatternAvailable": "flexible",
+      "regionAvailability": "england_wales_any_force",
+      "checks_before_applying": [],
+      "priority": "graduate_as_fast_as_possible"
+    },
+    "expected": {
+      "status": "bridging_required"
+    }
+  },
+  {
+    "name": "international_qualification_verification",
+    "signals": {
+      "startingPoint": "career_changer",
+      "highestQualification": "international",
+      "englishMathsStatus": "english_and_maths_met",
+      "currentPublicServiceExperience": "none",
+      "routePreference": "fastest_application_route",
+      "studyPatternAvailable": "flexible",
+      "regionAvailability": "england_wales_any_force",
+      "checks_before_applying": [],
+      "priority": "not_sure"
+    },
+    "expected": {
+      "status": "qualification_verification_required",
+      "recommendedRouteId": null
+    }
+  },
+  {
+    "name": "former_officer_rejoiner_verification",
+    "signals": {
+      "startingPoint": "former_police_officer",
+      "highestQualification": "bachelors_any_subject",
+      "englishMathsStatus": "english_and_maths_met",
+      "currentPublicServiceExperience": "none",
+      "routePreference": "fastest_application_route",
+      "studyPatternAvailable": "work_based_training_preferred",
+      "regionAvailability": "england_wales_any_force",
+      "checks_before_applying": [],
+      "priority": "graduate_as_fast_as_possible"
+    },
+    "expected": {
+      "status": "qualification_verification_required",
+      "recommendedRouteId": null,
+      "verificationPrimaryRouteId": "police_rejoiner_route"
+    }
+  },
+  {
+    "name": "unknown_qualification_insufficient",
+    "signals": {
+      "startingPoint": "career_changer",
+      "highestQualification": "unknown",
+      "englishMathsStatus": "english_and_maths_met",
+      "currentPublicServiceExperience": "none",
+      "routePreference": "fastest_application_route",
+      "studyPatternAvailable": "flexible",
+      "regionAvailability": "england_wales_any_force",
+      "checks_before_applying": [],
+      "priority": "not_sure"
+    },
+    "expected": {
+      "status": "insufficient_information"
+    }
+  },
+  {
+    "name": "english_maths_not_sure_insufficient",
+    "signals": {
+      "startingPoint": "career_changer",
+      "highestQualification": "a_level_or_level_3",
+      "englishMathsStatus": "not_sure",
+      "currentPublicServiceExperience": "none",
+      "routePreference": "fastest_application_route",
+      "studyPatternAvailable": "flexible",
+      "regionAvailability": "england_wales_any_force",
+      "checks_before_applying": [],
+      "priority": "not_sure"
+    },
+    "expected": {
+      "status": "insufficient_information"
+    }
+  }
+]

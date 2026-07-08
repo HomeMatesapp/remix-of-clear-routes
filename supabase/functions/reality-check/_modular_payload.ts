@@ -40,6 +40,9 @@ export interface ModularPayload {
   missingInformation?: ModularMissingInformationItem[];
 }
 
+/** Legacy alias — retained so older Deno mirrors keep compiling. */
+export type ModularRealityCheckPayload = ModularPayload;
+
 export interface ModularEngineOutputShape<RouteId extends string> {
   status: ModularStatus;
   recommendedRouteId: RouteId | null;

@@ -14763,7 +14763,8 @@
     "roleName": "Police Officer",
     "primaryFamily": "public_service_security",
     "routeArchetype": "selection_led",
-    "recommendedRealityCheckDepth": "light_route_checker",
+    "secondaryArchetype": "mixed_route",
+    "recommendedRealityCheckDepth": "deep_reviewed_reality_check",
     "deepCheckRubric": {
       "regulated": true,
       "expensiveWrongTurn": false,

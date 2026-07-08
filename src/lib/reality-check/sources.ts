@@ -258,6 +258,61 @@ export const SOURCES: Readonly<Record<string, SourceEntry>> = Object.freeze({
       "Public explainer for UK nursing routes: degree, degree apprenticeship, nursing associate / assistant practitioner progression, and graduate conversion.",
     category: "pathway",
   },
+  joining_the_police_entry_routes: {
+    id: "joining_the_police_entry_routes",
+    organisation: "College of Policing / Joining the Police",
+    title: "Ways to become a police officer",
+    period: "Current",
+    lastChecked: "2026-07-08",
+    url: "https://www.joiningthepolice.co.uk/how-to-join/entry-routes",
+    usage:
+      "Load-bearing source for the PCEP, PCDA and DHEP constable-entry routes and the current entry-route landscape in England and Wales.",
+    category: "pathway",
+  },
+  college_of_policing_pcda: {
+    id: "college_of_policing_pcda",
+    organisation: "College of Policing",
+    title: "Police Constable Degree Apprenticeship (PCDA)",
+    period: "Current",
+    lastChecked: "2026-07-08",
+    url: "https://www.college.police.uk/career-learning/learning/pcda",
+    usage:
+      "Referenced when describing the PCDA route, its L3-or-equivalent entry expectations and its apprenticeship structure.",
+    category: "apprenticeship",
+  },
+  college_of_policing_dhep: {
+    id: "college_of_policing_dhep",
+    organisation: "College of Policing",
+    title: "Degree Holder Entry Programme (DHEP)",
+    period: "Current",
+    lastChecked: "2026-07-08",
+    url: "https://www.college.police.uk/career-learning/learning/dhep",
+    usage:
+      "Referenced when describing the DHEP route for degree holders and force-by-force availability.",
+    category: "pathway",
+  },
+  college_of_policing_professional_policing_degree: {
+    id: "college_of_policing_professional_policing_degree",
+    organisation: "College of Policing",
+    title: "Professional Policing Degree (pre-join)",
+    period: "Current",
+    lastChecked: "2026-07-08",
+    url: "https://www.college.police.uk/career-learning/learning/professional-policing-degree",
+    usage:
+      "Referenced when describing the self-funded pre-join Professional Policing Degree and its recognised-provider list.",
+    category: "pathway",
+  },
+  national_careers_police_officer: {
+    id: "national_careers_police_officer",
+    organisation: "National Careers Service",
+    title: "Job profile: Police officer",
+    period: "Current",
+    lastChecked: "2026-07-08",
+    url: "https://nationalcareers.service.gov.uk/job-profiles/police-officer",
+    usage:
+      "Public explainer for UK police constable entry routes referenced in the Police Officer reality-check methodology.",
+    category: "pathway",
+  },
 });
 
 // ── Selection logic ─────────────────────────────────────────────────────────
@@ -265,6 +320,7 @@ export const SOURCES: Readonly<Record<string, SourceEntry>> = Object.freeze({
 // Map a role to the regulation-specific sources we should always cite for it.
 function roleRegulationSources(role: RoleContext): SourceEntry[] {
   const name = (role.role_name ?? "").toLowerCase();
+  const slug = (role.role_slug ?? "").toLowerCase();
   const out: SourceEntry[] = [];
   if (/(nurse|midwif)/.test(name)) {
     out.push(
@@ -279,6 +335,16 @@ function roleRegulationSources(role: RoleContext): SourceEntry[] {
     );
   } else if (/(paramedic|therapist|radiograph|pharmacist|dentist|doctor|gp|midwif)/.test(name)) {
     out.push(SOURCES.nhs_careers);
+  }
+  if (slug === "police-officer" || /\bpolice\s+officer\b/.test(name)) {
+    out.push(
+      SOURCES.joining_the_police_entry_routes,
+      SOURCES.college_of_policing_pcda,
+      SOURCES.college_of_policing_dhep,
+      SOURCES.college_of_policing_professional_policing_degree,
+      SOURCES.national_careers_police_officer,
+      SOURCES.uk_enic,
+    );
   }
   return out;
 }

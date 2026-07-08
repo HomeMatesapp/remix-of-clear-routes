@@ -510,3 +510,119 @@ export const extractRegisteredNurseSignals = (
     routePriorities: asArray(answers.nursing_route_priorities),
   };
 };
+
+// ── Police Officer (slug: police-officer) ────────────────────────────────────
+//
+// Selection-led public-service route. Signals contain no health, disability,
+// criminal-record, DBS, vetting-outcome, nationality, residency, immigration
+// or visa fields — those items belong to the recruiting force.
+
+export type PoliceOfficerStartingPoint =
+  | "school_leaver"
+  | "career_changer"
+  | "graduate"
+  | "returning_to_work"
+  | "currently_in_public_service"
+  | "former_police_officer"
+  | "not_sure";
+
+export type PoliceOfficerHighestQualification =
+  | "none"
+  | "gcse"
+  | "a_level_or_level_3"
+  | "professional_policing_degree"
+  | "bachelors_any_subject"
+  | "masters_plus"
+  | "international"
+  | "unknown";
+
+export type PoliceOfficerEnglishMathsStatus =
+  | "english_and_maths_met"
+  | "one_missing"
+  | "neither_met"
+  | "not_sure";
+
+export type PoliceOfficerPublicServiceExperience =
+  | "none"
+  | "pcso"
+  | "special_constable"
+  | "armed_forces"
+  | "prison_border_security_or_emergency_services"
+  | "other_relevant_public_service"
+  | "not_sure";
+
+export type PoliceOfficerRoutePreference =
+  | "fastest_application_route"
+  | "earn_while_training"
+  | "degree_first"
+  | "not_sure";
+
+export type PoliceOfficerStudyPattern =
+  | "full_time_study_possible"
+  | "work_based_training_preferred"
+  | "need_to_keep_earning"
+  | "flexible"
+  | "not_sure";
+
+export type PoliceOfficerRegionAvailability =
+  | "england_wales_any_force"
+  | "specific_region"
+  | "not_sure";
+
+export type PoliceOfficerChecksBeforeApplying =
+  | "fitness_or_medical_process"
+  | "vetting_process"
+  | "national_eligibility_criteria"
+  | "driving_licence_process"
+  | "none_of_these";
+
+export type PoliceOfficerPriority =
+  | "avoid_student_debt"
+  | "graduate_as_fast_as_possible"
+  | "keep_earning_while_training"
+  | "structured_academic_route"
+  | "not_sure";
+
+export interface PoliceOfficerSignals {
+  startingPoint: PoliceOfficerStartingPoint | null;
+  highestQualification: PoliceOfficerHighestQualification | null;
+  englishMathsStatus: PoliceOfficerEnglishMathsStatus | null;
+  currentPublicServiceExperience: PoliceOfficerPublicServiceExperience | null;
+  routePreference: PoliceOfficerRoutePreference | null;
+  studyPatternAvailable: PoliceOfficerStudyPattern | null;
+  regionAvailability: PoliceOfficerRegionAvailability | null;
+  /** Multi-select check topics. Never used in eligibility. */
+  checks_before_applying: readonly PoliceOfficerChecksBeforeApplying[];
+  priority: PoliceOfficerPriority | null;
+}
+
+export const extractPoliceOfficerSignals = (
+  answers: AnswerMap,
+  _inline: InlineTextMap = {},
+): PoliceOfficerSignals => ({
+  startingPoint: asString(answers.starting_point) as
+    | PoliceOfficerStartingPoint
+    | null,
+  highestQualification: asString(answers.highest_qualification) as
+    | PoliceOfficerHighestQualification
+    | null,
+  englishMathsStatus: asString(answers.english_maths_status) as
+    | PoliceOfficerEnglishMathsStatus
+    | null,
+  currentPublicServiceExperience: asString(
+    answers.current_public_service_experience,
+  ) as PoliceOfficerPublicServiceExperience | null,
+  routePreference: asString(answers.route_preference) as
+    | PoliceOfficerRoutePreference
+    | null,
+  studyPatternAvailable: asString(answers.study_pattern_available) as
+    | PoliceOfficerStudyPattern
+    | null,
+  regionAvailability: asString(answers.region_availability) as
+    | PoliceOfficerRegionAvailability
+    | null,
+  checks_before_applying: asArray(
+    answers.checks_before_applying,
+  ) as PoliceOfficerChecksBeforeApplying[],
+  priority: asString(answers.police_priority) as PoliceOfficerPriority | null,
+});
