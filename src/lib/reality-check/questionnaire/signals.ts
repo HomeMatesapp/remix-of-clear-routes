@@ -199,3 +199,149 @@ export const extractHeatingEngineerSignals = (
     routePriorities: asArray(answers.route_priorities),
   };
 };
+
+// ── Software Engineer (slug: software-engineer) ──────────────────────────────
+//
+// portfolioUrl is captured for display in Review ONLY. The engine's eligibility
+// input strips it before evaluation (see route-engines/software-engineer.ts →
+// stripPortfolioUrl). The extractor keeps it here so the wizard can render it.
+
+export type SoftwareEngineerStartingPoint =
+  | "still_at_school"
+  | "recently_left_education"
+  | "career_changer"
+  | "adjacent_tech_role"
+  | "already_coding_at_work"
+  | "returning_after_break"
+  | "none_fit"
+  | "not_sure_yet";
+
+export type SoftwareEngineerHighestQualification =
+  | "none"
+  | "gcse"
+  | "a_level"
+  | "l3_vocational"
+  | "bachelors_cs"
+  | "bachelors_non_cs"
+  | "masters_plus"
+  | "international"
+  | "unknown";
+
+export type SoftwareEngineerMastersSubject =
+  | "computing"
+  | "non_computing"
+  | "unknown";
+
+export type SoftwareEngineerCodingExperience =
+  | "none"
+  | "hobbyist"
+  | "self_taught_6m_plus"
+  | "bootcamp_grad"
+  | "paid_experience";
+
+export type SoftwareEngineerPortfolioState =
+  | "none"
+  | "tutorials_only"
+  | "personal_projects"
+  | "deployed"
+  | "open_source";
+
+export type SoftwareEngineerLearningTime =
+  | "lt5"
+  | "5_15"
+  | "15_30"
+  | "30_plus";
+
+export type SoftwareEngineerTrainingBudget =
+  | "0"
+  | "0_2k"
+  | "2k_10k"
+  | "10k_plus";
+
+export type SoftwareEngineerLocationFlexibility =
+  | "remote_only"
+  | "hybrid_region"
+  | "relocate"
+  | "london_only";
+
+export interface SoftwareEngineerSignals {
+  startingPoint: SoftwareEngineerStartingPoint | null;
+  codingExperience: SoftwareEngineerCodingExperience | null;
+  portfolioState: SoftwareEngineerPortfolioState | null;
+  /** Display-only. Never used for eligibility or scoring. */
+  portfolioUrl?: string;
+  highestQualification: SoftwareEngineerHighestQualification | null;
+  mastersSubject?: SoftwareEngineerMastersSubject;
+  mathsEnglishStatus: MathsEnglishStatus | null;
+  learningTimeHoursPerWeek: SoftwareEngineerLearningTime | null;
+  trainingBudgetGbp: SoftwareEngineerTrainingBudget | null;
+  locationFlexibility: SoftwareEngineerLocationFlexibility | null;
+  routePriorities: string[];
+}
+
+const PORTFOLIO_STATES_ALLOWING_URL: ReadonlySet<SoftwareEngineerPortfolioState> =
+  new Set(["personal_projects", "deployed", "open_source"]);
+
+export const extractSoftwareEngineerSignals = (
+  answers: AnswerMap,
+  inline: InlineTextMap = {},
+): SoftwareEngineerSignals => {
+  const portfolioState = asString(answers.portfolio_state) as
+    | SoftwareEngineerPortfolioState
+    | null;
+
+  // Portfolio URL clears whenever the state moves away from a state that
+  // supports it. Enforced here (in the extractor) so the invariant holds even
+  // if the UI reducer misses the transition — cheap defence in depth.
+  let portfolioUrl: string | undefined;
+  if (
+    portfolioState &&
+    PORTFOLIO_STATES_ALLOWING_URL.has(portfolioState)
+  ) {
+    const raw = inline.portfolio_state ?? inline.portfolio_url;
+    if (typeof raw === "string" && raw.trim().length > 0) {
+      portfolioUrl = raw.trim();
+    }
+  }
+
+  const highest = asString(answers.highest_qualification) as
+    | SoftwareEngineerHighestQualification
+    | null;
+  const mastersSubjectRaw = asString(answers.masters_subject) as
+    | SoftwareEngineerMastersSubject
+    | null;
+
+  // Accept `digital_route_priorities` (new) and legacy `route_priorities` so
+  // both question ids feed the same signal.
+  const priorities = asArray(answers.digital_route_priorities).length
+    ? asArray(answers.digital_route_priorities)
+    : asArray(answers.route_priorities);
+
+  return {
+    startingPoint: asString(answers.starting_point) as
+      | SoftwareEngineerStartingPoint
+      | null,
+    codingExperience: asString(answers.coding_experience) as
+      | SoftwareEngineerCodingExperience
+      | null,
+    portfolioState,
+    ...(portfolioUrl !== undefined ? { portfolioUrl } : {}),
+    highestQualification: highest,
+    ...(highest === "masters_plus" && mastersSubjectRaw
+      ? { mastersSubject: mastersSubjectRaw }
+      : {}),
+    mathsEnglishStatus: asString(answers.maths_english_status) as
+      | MathsEnglishStatus
+      | null,
+    learningTimeHoursPerWeek: asString(
+      answers.learning_time_available,
+    ) as SoftwareEngineerLearningTime | null,
+    trainingBudgetGbp: asString(answers.training_budget) as
+      | SoftwareEngineerTrainingBudget
+      | null,
+    locationFlexibility: asString(answers.location_flexibility) as
+      | SoftwareEngineerLocationFlexibility
+      | null,
+    routePriorities: priorities,
+  };
+};

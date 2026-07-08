@@ -17980,8 +17980,8 @@
     "roleSlug": "software-engineer",
     "roleName": "Software Engineer",
     "primaryFamily": "digital_data_technology",
-    "routeArchetype": "degree_led",
-    "recommendedRealityCheckDepth": "standard_role_page",
+    "routeArchetype": "portfolio_led",
+    "recommendedRealityCheckDepth": "deep_reviewed_reality_check",
     "deepCheckRubric": {
       "regulated": false,
       "expensiveWrongTurn": false,
@@ -17991,7 +17991,9 @@
       "productProofValue": 2
     },
     "deepCheckPriority": "strong_candidate",
-    "confidence": "high"
+    "confidence": "high",
+    "secondaryArchetype": "degree_led",
+    "notes": "Frozen: v1 reviewed modular Reality Check ships this release; proves the digital/portfolio route family (self-taught, bootcamp, degree, conversion MSc, apprenticeship, junior-role progression)."
   },
   {
     "roleSlug": "soil-scientist",

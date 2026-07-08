@@ -1,0 +1,223 @@
+[
+  {
+    "name": "self_taught_deployed_portfolio",
+    "signals": {
+      "startingPoint": "career_changer",
+      "codingExperience": "self_taught_6m_plus",
+      "portfolioState": "deployed",
+      "highestQualification": "bachelors_non_cs",
+      "mathsEnglishStatus": "both",
+      "learningTimeHoursPerWeek": "15_30",
+      "trainingBudgetGbp": "0_2k",
+      "locationFlexibility": "hybrid_region",
+      "routePriorities": ["speed", "low_cost"]
+    },
+    "expected": {
+      "status": "route_recommended",
+      "recommendedRouteMustBeOneOf": ["self_taught_portfolio", "bootcamp_intensive", "degree_conversion_msc", "junior_role_with_training"]
+    }
+  },
+  {
+    "name": "tutorials_only_no_time_bridges",
+    "signals": {
+      "startingPoint": "career_changer",
+      "codingExperience": "hobbyist",
+      "portfolioState": "tutorials_only",
+      "highestQualification": "gcse",
+      "mathsEnglishStatus": "both",
+      "learningTimeHoursPerWeek": "lt5",
+      "trainingBudgetGbp": "0",
+      "locationFlexibility": "remote_only",
+      "routePriorities": []
+    },
+    "expected": {
+      "status": "bridging_required",
+      "recommendedRouteId": null
+    }
+  },
+  {
+    "name": "bachelors_cs_never_takes_conversion",
+    "signals": {
+      "startingPoint": "career_changer",
+      "codingExperience": "hobbyist",
+      "portfolioState": "personal_projects",
+      "highestQualification": "bachelors_cs",
+      "mathsEnglishStatus": "both",
+      "learningTimeHoursPerWeek": "15_30",
+      "trainingBudgetGbp": "10k_plus",
+      "locationFlexibility": "hybrid_region",
+      "routePriorities": ["job_security"]
+    },
+    "expected": {
+      "status": "route_recommended",
+      "recommendedRouteMustNotBe": "degree_conversion_msc"
+    }
+  },
+  {
+    "name": "gcse_only_not_direct_to_degree_cs",
+    "signals": {
+      "startingPoint": "recently_left_education",
+      "codingExperience": "hobbyist",
+      "portfolioState": "personal_projects",
+      "highestQualification": "gcse",
+      "mathsEnglishStatus": "both",
+      "learningTimeHoursPerWeek": "15_30",
+      "trainingBudgetGbp": "0",
+      "locationFlexibility": "hybrid_region",
+      "routePriorities": []
+    },
+    "expected": {
+      "status": "route_recommended",
+      "recommendedRouteMustNotBe": "degree_computer_science"
+    }
+  },
+  {
+    "name": "a_level_maths_english_direct_degree",
+    "signals": {
+      "startingPoint": "recently_left_education",
+      "codingExperience": "hobbyist",
+      "portfolioState": "personal_projects",
+      "highestQualification": "a_level",
+      "mathsEnglishStatus": "both",
+      "learningTimeHoursPerWeek": "15_30",
+      "trainingBudgetGbp": "0",
+      "locationFlexibility": "hybrid_region",
+      "routePriorities": ["job_security"]
+    },
+    "expected": {
+      "status": "route_recommended",
+      "recommendedRouteMustBeOneOf": [
+        "degree_computer_science",
+        "apprenticeship_digital",
+        "self_taught_portfolio"
+      ]
+    }
+  },
+  {
+    "name": "beginner_no_evidence_no_apprenticeship",
+    "signals": {
+      "startingPoint": "career_changer",
+      "codingExperience": "none",
+      "portfolioState": "none",
+      "highestQualification": "gcse",
+      "mathsEnglishStatus": "neither",
+      "learningTimeHoursPerWeek": "lt5",
+      "trainingBudgetGbp": "0",
+      "locationFlexibility": "hybrid_region",
+      "routePriorities": []
+    },
+    "expected": {
+      "status": "bridging_required",
+      "recommendedRouteId": null
+    }
+  },
+  {
+    "name": "already_coding_at_work_progresses_junior",
+    "signals": {
+      "startingPoint": "already_coding_at_work",
+      "codingExperience": "paid_experience",
+      "portfolioState": "personal_projects",
+      "highestQualification": "bachelors_non_cs",
+      "mathsEnglishStatus": "both",
+      "learningTimeHoursPerWeek": "5_15",
+      "trainingBudgetGbp": "0",
+      "locationFlexibility": "hybrid_region",
+      "routePriorities": ["speed", "employer_training"]
+    },
+    "expected": {
+      "status": "route_recommended",
+      "recommendedRouteId": "junior_role_with_training"
+    }
+  },
+  {
+    "name": "masters_plus_unknown_does_not_block_other_routes",
+    "signals": {
+      "startingPoint": "career_changer",
+      "codingExperience": "self_taught_6m_plus",
+      "portfolioState": "deployed",
+      "highestQualification": "masters_plus",
+      "mastersSubject": "unknown",
+      "mathsEnglishStatus": "both",
+      "learningTimeHoursPerWeek": "15_30",
+      "trainingBudgetGbp": "2k_10k",
+      "locationFlexibility": "hybrid_region",
+      "routePriorities": []
+    },
+    "expected": {
+      "status": "route_recommended",
+      "recommendedRouteMustNotBe": "degree_conversion_msc"
+    }
+  },
+  {
+    "name": "international_only_no_route_verify",
+    "signals": {
+      "startingPoint": "returning_after_break",
+      "codingExperience": "none",
+      "portfolioState": "none",
+      "highestQualification": "international",
+      "mathsEnglishStatus": "not_sure",
+      "learningTimeHoursPerWeek": "lt5",
+      "trainingBudgetGbp": "0",
+      "locationFlexibility": "remote_only",
+      "routePriorities": []
+    },
+    "expected": {
+      "status": "qualification_verification_required",
+      "recommendedRouteId": null
+    }
+  },
+  {
+    "name": "budget_zero_bootcamp_still_eligible_but_not_affordable",
+    "signals": {
+      "startingPoint": "career_changer",
+      "codingExperience": "hobbyist",
+      "portfolioState": "personal_projects",
+      "highestQualification": "bachelors_non_cs",
+      "mathsEnglishStatus": "both",
+      "learningTimeHoursPerWeek": "30_plus",
+      "trainingBudgetGbp": "0",
+      "locationFlexibility": "hybrid_region",
+      "routePriorities": ["speed"]
+    },
+    "expected": {
+      "status": "route_recommended",
+      "bootcampMustBeEligible": true
+    }
+  },
+  {
+    "name": "priorities_reorder_but_cannot_promote_ineligible",
+    "signals": {
+      "startingPoint": "recently_left_education",
+      "codingExperience": "none",
+      "portfolioState": "none",
+      "highestQualification": "gcse",
+      "mathsEnglishStatus": "neither",
+      "learningTimeHoursPerWeek": "lt5",
+      "trainingBudgetGbp": "10k_plus",
+      "locationFlexibility": "hybrid_region",
+      "routePriorities": ["high_pay"]
+    },
+    "expected": {
+      "status": "bridging_required",
+      "recommendedRouteId": null
+    }
+  },
+  {
+    "name": "missing_starting_point_insufficient",
+    "signals": {
+      "startingPoint": null,
+      "codingExperience": "hobbyist",
+      "portfolioState": "personal_projects",
+      "highestQualification": "a_level",
+      "mathsEnglishStatus": "both",
+      "learningTimeHoursPerWeek": "15_30",
+      "trainingBudgetGbp": "0",
+      "locationFlexibility": "hybrid_region",
+      "routePriorities": []
+    },
+    "expected": {
+      "status": "insufficient_information",
+      "recommendedRouteId": null
+    }
+  }
+]

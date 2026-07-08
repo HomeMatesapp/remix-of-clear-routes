@@ -129,11 +129,12 @@ export function priorityFromScore(score: number): DeepCheckPriority {
   return "not_priority";
 }
 
-/** Slugs of the three frozen reviewed roles. */
+/** Slugs of the frozen reviewed roles (deep_reviewed_reality_check depth). */
 export const FROZEN_DEEP_ROLES: readonly string[] = [
   "electrician",
   "plumber",
   "hvac-engineer",
+  "software-engineer",
 ] as const;
 
 export function getTaxonomyEntry(slug: string): RoleTaxonomyEntry | undefined {
