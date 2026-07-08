@@ -567,6 +567,49 @@ describe("Registered Nurse — sources", () => {
     expect(SOURCES.national_careers).toBeDefined();
     expect(SOURCES.skills_england_rnda).toBeDefined();
   });
+
+  it("registry includes the two source patches required before manual QA", () => {
+    expect(SOURCES.nmc_approved_programmes).toBeDefined();
+    expect(SOURCES.nmc_approved_programmes.organisation).toMatch(/Nursing and Midwifery Council/);
+    expect(SOURCES.national_careers_registered_nurse).toBeDefined();
+    expect(SOURCES.national_careers_registered_nurse.organisation).toMatch(/National Careers Service/);
+  });
+
+  it("non-approved diploma warning cites the NMC approved-programmes source (by wording)", () => {
+    // The warning copy references the NMC approved-programmes list; the
+    // `nmc_approved_programmes` source is the citation for that copy.
+    expect(NON_APPROVED_DIPLOMA_WARNING).toMatch(/NMC approved-programmes list/i);
+    expect(SOURCES.nmc_approved_programmes.usage).toMatch(/non-approved nursing diploma warning/i);
+  });
+
+  it("NMC-approved-programme footer cites the NMC approved-programmes source (by wording)", () => {
+    expect(NMC_APPROVED_FOOTER).toMatch(/NMC-approved/i);
+    expect(SOURCES.nmc_approved_programmes.usage).toMatch(/approved-programme requirement/i);
+  });
+
+  it("public route explanation source covers the four public-facing UK nursing routes", () => {
+    const usage = SOURCES.national_careers_registered_nurse.usage;
+    expect(usage).toMatch(/degree/i);
+    expect(usage).toMatch(/apprenticeship/i);
+    expect(usage).toMatch(/nursing associate|assistant practitioner/i);
+    expect(usage).toMatch(/graduate/i);
+  });
+
+  it("getSourcesForResult for Registered Nurse includes both patched sources on a recommended result", async () => {
+    const { getSourcesForResult } = await import("../sources");
+    const engineOut = run(base());
+    // Minimal RealityCheckResult shim — sources selection reads titles only.
+    const result = {
+      bestRoute: { title: ROUTE_TITLES[engineOut.recommendedRouteId ?? "pre_registration_nursing_degree"] },
+      backupRoute: undefined,
+    } as unknown as Parameters<typeof getSourcesForResult>[2];
+    const role = { role_slug: "registered-nurse", role_name: "Registered Nurse" } as never;
+    const ids = getSourcesForResult(role, {} as never, result).map((s) => s.id);
+    expect(ids).toContain("nmc_approved_programmes");
+    expect(ids).toContain("national_careers_registered_nurse");
+    expect(ids).toContain("nmc_becoming_a_nurse");
+    expect(ids).toContain("skills_england_rnda");
+  });
 });
 
 // ── Shared parity fixture ───────────────────────────────────────────────────
