@@ -1,0 +1,128 @@
+[
+  {
+    "name": "adult_beginner_bridging",
+    "signals": {
+      "performerScope": "adult_professional_route",
+      "highestQualification": "gcse",
+      "qualificationOrigin": "uk",
+      "trainingBackground": "no_formal_training",
+      "existingCredits": "none",
+      "auditionMaterials": ["none_yet"],
+      "representationStatus": "no_agent",
+      "routePriorities": ["unsure"],
+      "incomeExpectation": "unsure",
+      "timeAvailability": "evenings_weekends_only",
+      "budgetForTrainingOrMaterials": "none",
+      "checksBeforeCommitting": []
+    },
+    "expected": { "status": "route_recommended", "recommendedRouteId": "portfolio_audition_materials_route" }
+  },
+  {
+    "name": "gcse_priority_formal_training_no_degree_recommendation",
+    "signals": {
+      "performerScope": "adult_professional_route",
+      "highestQualification": "gcse",
+      "qualificationOrigin": "uk",
+      "trainingBackground": "short_courses_or_workshops",
+      "existingCredits": "student_or_amateur_only",
+      "auditionMaterials": ["headshot", "showreel"],
+      "representationStatus": "no_agent",
+      "routePriorities": ["formal_training"],
+      "incomeExpectation": "mixed_income_expected",
+      "timeAvailability": "full_time",
+      "budgetForTrainingOrMaterials": "under_500",
+      "checksBeforeCommitting": []
+    },
+    "expected": { "status": "route_recommended", "recommendedRouteMustNotBe": "university_drama_degree" }
+  },
+  {
+    "name": "level_3_full_time_formal_priority_degree_recommendable",
+    "signals": {
+      "performerScope": "adult_professional_route",
+      "highestQualification": "a_level_or_level_3",
+      "qualificationOrigin": "uk",
+      "trainingBackground": "school_or_youth_drama",
+      "existingCredits": "student_or_amateur_only",
+      "auditionMaterials": ["headshot"],
+      "representationStatus": "no_agent",
+      "routePriorities": ["formal_training", "stage_work"],
+      "incomeExpectation": "mixed_income_expected",
+      "timeAvailability": "full_time",
+      "budgetForTrainingOrMaterials": "none",
+      "checksBeforeCommitting": []
+    },
+    "expected": { "status": "route_recommended" }
+  },
+  {
+    "name": "under_18_scope_bridging_no_paid_course",
+    "signals": {
+      "performerScope": "under_18_or_child_performer",
+      "highestQualification": "gcse",
+      "qualificationOrigin": "uk",
+      "trainingBackground": "school_or_youth_drama",
+      "existingCredits": "student_or_amateur_only",
+      "auditionMaterials": ["headshot"],
+      "representationStatus": "no_agent",
+      "routePriorities": ["formal_training"],
+      "incomeExpectation": "mixed_income_expected",
+      "timeAvailability": "full_time",
+      "budgetForTrainingOrMaterials": "2000_plus",
+      "checksBeforeCommitting": []
+    },
+    "expected": { "status": "bridging_required", "recommendedRouteId": null }
+  },
+  {
+    "name": "international_qualification_degree_relevant_verification",
+    "signals": {
+      "performerScope": "adult_professional_route",
+      "highestQualification": "bachelors_drama_or_acting",
+      "qualificationOrigin": "international",
+      "trainingBackground": "international_training",
+      "existingCredits": "some_paid_credits",
+      "auditionMaterials": ["headshot", "showreel"],
+      "representationStatus": "seeking_agent",
+      "routePriorities": ["formal_training"],
+      "incomeExpectation": "main_income_soon",
+      "timeAvailability": "full_time",
+      "budgetForTrainingOrMaterials": "500_to_2000",
+      "checksBeforeCommitting": []
+    },
+    "expected": { "status": "qualification_verification_required", "recommendedRouteId": null }
+  },
+  {
+    "name": "unknown_qualification_does_not_verify",
+    "signals": {
+      "performerScope": "adult_professional_route",
+      "highestQualification": "unknown",
+      "qualificationOrigin": "unknown",
+      "trainingBackground": "short_courses_or_workshops",
+      "existingCredits": "student_or_amateur_only",
+      "auditionMaterials": ["headshot"],
+      "representationStatus": "no_agent",
+      "routePriorities": ["build_credits"],
+      "incomeExpectation": "unsure",
+      "timeAvailability": "part_time_flexible",
+      "budgetForTrainingOrMaterials": "under_500",
+      "checksBeforeCommitting": []
+    },
+    "expected": { "status": "route_recommended" }
+  },
+  {
+    "name": "seeking_agent_with_materials_agent_route_recommendable",
+    "signals": {
+      "performerScope": "adult_professional_route",
+      "highestQualification": "a_level_or_level_3",
+      "qualificationOrigin": "uk",
+      "trainingBackground": "short_courses_or_workshops",
+      "existingCredits": "some_paid_credits",
+      "auditionMaterials": ["headshot", "showreel", "spotlight_or_equivalent_profile"],
+      "representationStatus": "seeking_agent",
+      "routePriorities": ["agent_and_profile"],
+      "incomeExpectation": "main_income_soon",
+      "timeAvailability": "part_time_flexible",
+      "budgetForTrainingOrMaterials": "under_500",
+      "checksBeforeCommitting": []
+    },
+    "expected": { "status": "route_recommended", "recommendedRouteId": "agent_and_casting_profile_route" }
+  }
+]
