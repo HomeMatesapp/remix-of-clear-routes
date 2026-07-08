@@ -8,6 +8,7 @@ import { heatingEngineerConfig } from "./roles/heating-engineer";
 import { softwareEngineerConfig } from "./roles/software-engineer";
 import { registeredNurseConfig } from "./roles/registered-nurse";
 import { policeOfficerConfig } from "./roles/police-officer";
+import { actorConfig } from "./roles/actor";
 
 const ROLE_CONFIGS: Record<string, RoleConfig> = {
   [electricianConfig.roleSlug]: electricianConfig,
@@ -16,6 +17,7 @@ const ROLE_CONFIGS: Record<string, RoleConfig> = {
   [softwareEngineerConfig.roleSlug]: softwareEngineerConfig,
   [registeredNurseConfig.roleSlug]: registeredNurseConfig,
   [policeOfficerConfig.roleSlug]: policeOfficerConfig,
+  [actorConfig.roleSlug]: actorConfig,
 };
 
 /**
