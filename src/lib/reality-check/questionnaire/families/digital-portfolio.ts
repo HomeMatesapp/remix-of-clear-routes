@@ -58,6 +58,12 @@ export const mastersSubjectQuestion: Question = {
   whyWeAsk:
     "A conversion Master's is designed for people whose existing degree is not in computing. If yours already is, other routes are usually a better fit.",
   controlType: "single_select",
+  // Only asked when the user has already selected `masters_plus` as their
+  // highest qualification. Non-masters users must not see this question.
+  visibleWhen: {
+    questionId: "highest_qualification",
+    valueIn: ["masters_plus"],
+  },
   options: [
     { value: "computing",     label: "Yes — computer science, software engineering or similar" },
     { value: "non_computing", label: "No — a different subject" },

@@ -30,6 +30,20 @@ export interface ConditionalField {
   hint?: string;
 }
 
+/**
+ * Whole-question visibility gate. When set, the question is only rendered
+ * (and only counted for advance/submit) if the referenced prior question's
+ * answer overlaps `valueIn`. This is distinct from `conditionalField` which
+ * only reveals an inline text field on the SAME question.
+ *
+ * Hidden questions have their stored answer dropped by sanitiseAnswerMap so
+ * signal extraction never sees stale values.
+ */
+export interface VisibleWhen {
+  questionId: string;
+  valueIn: readonly string[];
+}
+
 export interface Question {
   id: string;
   phase: QuestionPhase;
@@ -40,6 +54,7 @@ export interface Question {
   options?: readonly QuestionOption[];
   maxSelections?: number;
   conditionalField?: ConditionalField;
+  visibleWhen?: VisibleWhen;
   required?: boolean; // default true
 }
 

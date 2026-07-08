@@ -22,7 +22,9 @@ import type { RealityCheckResult, RoleContext } from "@/lib/reality-check/types"
 import type { ResolvedConfig } from "@/lib/reality-check/questionnaire/types";
 import type { AnswerMap, InlineTextMap, Question } from "@/lib/reality-check/questionnaire/types";
 import {
+  getVisibleQuestions,
   isAnswered,
+  isQuestionVisible,
   sanitiseAnswer,
   sanitiseAnswerMap,
   sanitiseInlineText,
@@ -308,13 +310,23 @@ export function ModularRealityCheckWizard({ role, config, onResult }: ModularRea
     });
   }, [hydrated, role.role_slug, config.questionnaireVersion, answers, inlineText, stepId]);
 
-  const questionIds = useMemo(() => config.questions.map((q) => q.id), [config]);
+  const visibleQuestions = useMemo(
+    () => getVisibleQuestions(config.questions, answers),
+    [config, answers],
+  );
+  const questionIds = useMemo(() => visibleQuestions.map((q) => q.id), [visibleQuestions]);
   const visibleIds = useMemo(() => [...questionIds, REVIEW_ID], [questionIds]);
   const totalQuestions = questionIds.length;
-  const safeIndex = Math.max(0, visibleIds.indexOf(stepId));
+  // If the current step became hidden (e.g. user changed a gating answer via
+  // Back), fall back to the last visible step at or before its previous index.
+  const rawIndex = visibleIds.indexOf(stepId);
+  const safeIndex = rawIndex >= 0 ? rawIndex : 0;
   const currentId = visibleIds[safeIndex];
   const isReview = currentId === REVIEW_ID;
-  const currentQuestion = !isReview ? config.questions.find((q) => q.id === currentId) : null;
+  const currentQuestion = !isReview ? visibleQuestions.find((q) => q.id === currentId) : null;
+  useEffect(() => {
+    if (rawIndex < 0 && stepId !== currentId) setStepId(currentId);
+  }, [rawIndex, stepId, currentId]);
 
   const currentQuestionNumber = isReview ? totalQuestions : Math.min(safeIndex + 1, totalQuestions);
   const progressPct = Math.round((currentQuestionNumber / Math.max(1, totalQuestions)) * 100);
@@ -327,7 +339,12 @@ export function ModularRealityCheckWizard({ role, config, onResult }: ModularRea
       const next = { ...prev };
       if (cleaned === undefined) delete next[id];
       else next[id] = cleaned;
-      // Clear inline text if the trigger option is no longer selected.
+      // Clear any answers now hidden by a changed gate, and clear inline
+      // text if its trigger option is no longer selected.
+      for (const other of config.questions) {
+        if (other.id === id) continue;
+        if (!isQuestionVisible(other, next)) delete next[other.id];
+      }
       setInlineTextState((prevInline) => sanitiseInlineText(config.questions, next, prevInline));
       return next;
     });
@@ -338,7 +355,7 @@ export function ModularRealityCheckWizard({ role, config, onResult }: ModularRea
   };
 
   const canAdvance = isReview
-    ? config.questions.every((q) => isAnswered(q, answers[q.id]))
+    ? visibleQuestions.every((q) => isAnswered(q, answers[q.id]))
     : currentQuestion
     ? isAnswered(currentQuestion, answers[currentQuestion.id])
     : false;

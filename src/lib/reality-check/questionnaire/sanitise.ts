@@ -78,7 +78,22 @@ export const sanitiseInlineText = (
   return cleaned;
 };
 
-// Drop answers for questions not in the active config; re-apply exclusives/max.
+// Whole-question visibility check. Missing `visibleWhen` → always visible.
+export const isQuestionVisible = (q: Question, answers: AnswerMap): boolean => {
+  if (!q.visibleWhen) return true;
+  const dep = answers[q.visibleWhen.questionId];
+  const values = asArray(dep);
+  return values.some((v) => q.visibleWhen!.valueIn.includes(v));
+};
+
+// Filter to the questions currently visible given the provided answers.
+export const getVisibleQuestions = (
+  questions: readonly Question[],
+  answers: AnswerMap,
+): readonly Question[] => questions.filter((q) => isQuestionVisible(q, answers));
+
+// Drop answers for questions not in the active config OR currently hidden
+// by an unmet visibleWhen gate; re-apply exclusives/max.
 export const sanitiseAnswerMap = (
   questions: readonly Question[],
   answers: AnswerMap,
@@ -88,6 +103,7 @@ export const sanitiseAnswerMap = (
   for (const [id, v] of Object.entries(answers)) {
     if (!validIds.has(id)) continue;
     const q = questions.find((x) => x.id === id)!;
+    if (!isQuestionVisible(q, answers)) continue;
     const sanitised = sanitiseAnswer(q, v);
     if (sanitised !== undefined) out[id] = sanitised;
   }
