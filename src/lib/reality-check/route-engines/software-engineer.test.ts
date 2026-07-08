@@ -8,9 +8,9 @@ import {
   toEligibilityInput,
   ROUTE_TITLES,
   type SoftwareEngineerEngineInput,
-  type SoftwareEngineerSignals,
   type SoftwareEngineerRouteId,
 } from "./software-engineer";
+import type { SoftwareEngineerSignals } from "../questionnaire/signals";
 import { softwareEngineerConfig } from "../questionnaire/roles/software-engineer";
 import { extractSoftwareEngineerSignals } from "../questionnaire/signals";
 import { mathsEnglishQuestion } from "../questionnaire/families/qualifications";
