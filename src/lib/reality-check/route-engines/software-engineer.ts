@@ -196,25 +196,22 @@ const isConversionMscEligible = (
 };
 
 // Apprenticeship: needs maths/English, on-site presence, and at least one
-// evidence-of-interest signal so a complete beginner with zero engagement
+// evidence-of-interest signal so a total beginner with zero engagement
 // bridges rather than being handed apprenticeship as the recommendation.
+// "Evidence of interest" = ANY of: non-null coding experience above none,
+// any portfolio state above none, or a starting point that implies prior
+// engagement with tech (adjacent role / already coding at work).
 const isApprenticeshipEligible = (
   s: SoftwareEngineerEligibilitySignals,
 ): boolean => {
   if (s.mathsEnglishStatus !== "both") return false;
   if (s.locationFlexibility === "remote_only") return false;
-  const hasEvidence =
-    s.startingPoint !== "complete_beginner" &&
-    (s.startingPoint === "adjacent_tech_role" ||
-      s.startingPoint === "already_coding_at_work" ||
-      s.startingPoint === "career_changer" ||
-      s.startingPoint === "returning_after_break" ||
-      s.startingPoint === "still_at_school" ||
-      s.startingPoint === "recently_left_education");
-  const evidenceElsewhere =
+  const evidenceOfInterest =
+    s.startingPoint === "adjacent_tech_role" ||
+    s.startingPoint === "already_coding_at_work" ||
     (s.codingExperience !== null && s.codingExperience !== "none") ||
     (s.portfolioState !== null && s.portfolioState !== "none");
-  return hasEvidence || evidenceElsewhere;
+  return evidenceOfInterest;
 };
 
 const isJuniorRoleEligible = (
