@@ -49,9 +49,10 @@ const HowItWorks = () => (
         </h2>
         <p className="text-[15px] leading-relaxed text-foreground/85 mb-5 max-w-2xl">
           Clear Routes now supports deterministic, source-backed route checks
-          across regulated, apprenticeship-led, portfolio-led, selection-led
-          and gig/creative careers. Every reviewed check follows the same
-          rules:
+          across eight reviewed careers spanning six route-problem types —
+          regulated, apprenticeship-led, portfolio-led, selection-led,
+          gig/creative, and regulated-professional multi-route qualification.
+          Every reviewed check follows the same rules:
         </p>
         <ul
           data-testid="methodology-principles"

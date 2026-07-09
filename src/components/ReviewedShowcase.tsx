@@ -1,4 +1,4 @@
-// Product-facing showcase of the seven release-hardened Reality Checks.
+// Product-facing showcase of the eight release-hardened Reality Checks.
 // Purpose: make the deterministic coverage visible and commercially legible.
 // This is a presentation-only component — it does not change any route logic.
 

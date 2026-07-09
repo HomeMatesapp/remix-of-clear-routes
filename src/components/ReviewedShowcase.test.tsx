@@ -1,4 +1,4 @@
-// Product-facing pass: verify the seven release-hardened Reality Checks
+// Product-facing pass: verify the eight release-hardened Reality Checks
 // remain visible in the showcase and still open through the reviewed gate.
 
 import { describe, expect, it } from "vitest";
@@ -15,12 +15,22 @@ import { FROZEN_DEEP_ROLES } from "@/lib/roles/role-taxonomy";
 import { hasReviewedModularRealityCheck } from "@/lib/reality-check/questionnaire/registry";
 
 describe("ReviewedShowcase", () => {
-  it("covers exactly the seven frozen deep-reviewed roles", () => {
+  it("covers exactly the eight frozen deep-reviewed roles", () => {
+    expect(FROZEN_DEEP_ROLES).toHaveLength(8);
     expect(REVIEWED_SHOWCASE_ROLES).toHaveLength(FROZEN_DEEP_ROLES.length);
     expect(REVIEWED_SHOWCASE_ROLES.map((r) => r.slug).sort()).toEqual(
       [...FROZEN_DEEP_ROLES].sort(),
     );
+    expect(REVIEWED_SHOWCASE_ROLES.map((r) => r.slug)).toContain("solicitor");
     expect(() => assertShowcaseCoversFrozen()).not.toThrow();
+  });
+
+  it("includes the regulated_professional_multi_route problem type introduced by Solicitor", () => {
+    expect(ROUTE_PROBLEM_TYPES.map((p) => p.id)).toContain(
+      "regulated_professional_multi_route",
+    );
+    const solicitor = REVIEWED_SHOWCASE_ROLES.find((r) => r.slug === "solicitor");
+    expect(solicitor?.routeProblem).toBe("regulated_professional_multi_route");
   });
 
   it("every showcase role still resolves through the reviewed modular gate", () => {
