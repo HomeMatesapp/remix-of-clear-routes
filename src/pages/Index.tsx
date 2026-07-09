@@ -6,6 +6,8 @@ import Footer from "@/components/Footer";
 import { supabase } from "@/integrations/supabase/client";
 import { trackEvent } from "@/lib/posthog";
 import { matchRoleAliases } from "@/lib/role-aliases";
+import { ReviewedShowcase } from "@/components/ReviewedShowcase";
+
 
 // Featured surveyed roles for the map-sheet grid. Kept small on purpose —
 // this is a legend, not an index. Full list lives on /search.
@@ -409,7 +411,10 @@ const Index = () => {
           </div>
         </section>
 
+        <ReviewedShowcase />
+
         {/* ─── FINAL CTA: trig point ─────────────────────────────────── */}
+
         <section className="relative overflow-hidden border-t-2 border-ink py-20 md:py-24 text-center">
           <FinalContours />
           <div className="container mx-auto px-4 md:px-8 max-w-3xl relative">

@@ -39,6 +39,42 @@ const HowItWorks = () => (
         </p>
       </div>
 
+      {/* ─── Methodology ────────────────────────────────────────── */}
+      <section id="methodology" className="mt-14 scroll-mt-24">
+        <p className="text-xs font-semibold uppercase tracking-wider text-muted-foreground mb-5">
+          Methodology
+        </p>
+        <h2 className="font-display text-2xl md:text-3xl font-medium text-foreground mb-4">
+          How reviewed Reality Checks are built.
+        </h2>
+        <p className="text-[15px] leading-relaxed text-foreground/85 mb-5 max-w-2xl">
+          Clear Routes now supports deterministic, source-backed route checks
+          across regulated, apprenticeship-led, portfolio-led, selection-led
+          and gig/creative careers. Every reviewed check follows the same
+          rules:
+        </p>
+        <ul
+          data-testid="methodology-principles"
+          className="grid grid-cols-1 sm:grid-cols-2 gap-x-8 gap-y-3 text-[15px] text-foreground max-w-2xl"
+        >
+          {[
+            "No LLM-generated verdicts — every judgement comes from deterministic route logic.",
+            "Deterministic route logic reviewed per role, mirrored in the edge function and unit-tested.",
+            "Grounded in official and public sources — regulators, government pay data, sector bodies.",
+            "Role-specific caveats built in — regulation, vetting, portfolio evidence, or gig uncertainty.",
+            "No guaranteed-outcome language — routes describe evidence and risk, never promised jobs.",
+            "Sources panel on every result so you can check the facts behind the verdict.",
+          ].map((line) => (
+            <li key={line} className="flex gap-2 leading-relaxed">
+              <span className="text-primary mt-0.5">•</span>
+              <span>{line}</span>
+            </li>
+          ))}
+        </ul>
+      </section>
+
+
+
       {/* ─── Three steps ─────────────────────────────────────────── */}
       <section className="mt-14">
         <p className="text-xs font-semibold uppercase tracking-wider text-muted-foreground mb-5">
