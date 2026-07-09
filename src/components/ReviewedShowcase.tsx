@@ -120,7 +120,7 @@ export function ReviewedShowcase() {
           Deep Reality Checks
         </p>
         <h2 className="font-display font-extrabold text-[clamp(1.75rem,4vw,2.75rem)] mt-2.5 text-foreground max-w-[22ch]">
-          Seven careers, five different route problems.
+          Eight careers, six different route problems.
         </h2>
         <p className="mt-4 text-[15.5px] text-foreground/80 max-w-[62ch] leading-relaxed">
           {REVIEWED_PROOF_COPY}
