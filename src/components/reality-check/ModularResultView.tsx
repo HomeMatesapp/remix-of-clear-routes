@@ -31,6 +31,7 @@ import type {
   RoleContext,
 } from "@/lib/reality-check/types";
 import { SavePrompt } from "@/components/role/reality-check-shared";
+import { ResultForwardDoors } from "@/components/reality-check/ResultForwardDoors";
 import { SourcesPanel } from "@/components/reality-check/SourcesPanel";
 import { getSourcesForResult } from "@/lib/reality-check/sources";
 
@@ -241,7 +242,11 @@ export function ModularResultView({
 
       {/* B. Route comparison */}
       {m.routes.length > 0 && (
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+        <div
+          id="route-comparison"
+          tabIndex={-1}
+          className="grid grid-cols-1 md:grid-cols-2 gap-4 focus:outline-none"
+        >
           {m.routes.map((card, i) => (
             <RouteCard key={`${card.kind}-${i}`} card={card} />
           ))}
@@ -341,34 +346,47 @@ export function ModularResultView({
         )}
       />
 
+      {/* E′. Forward doors — Increment 1 decision-support hub. Live mode only;
+          consumes the already-computed payload status, never engine logic. */}
+      {mode === "live" && (
+        <ResultForwardDoors
+          role={role}
+          status={m.status}
+          hasRoutes={m.routes.length > 0}
+          recommendedRouteTitle={recommended?.title}
+        />
+      )}
+
       {/* F. Save this route check — reuses existing SavePrompt in live mode */}
       {mode === "live" && answers && (
-        <PaperCard accent="ink">
-          <Eyebrow tone="ink">Save this route check</Eyebrow>
-          <p className="mt-2 text-[14px] text-ink leading-snug">
-            Save your answers so you can compare routes again when your
-            availability, budget or qualifications change.
-          </p>
-          <div className="mt-4">
-            <SavePrompt role={role} answers={answers} result={result} />
-          </div>
-          <p className="mt-3 text-[12.5px] text-muted-foreground leading-snug">
-            You can also{" "}
-            <Link
-              to={`/role/${role.role_slug}/reality-check`}
-              onClick={(e) => {
-                if (onEdit) {
-                  e.preventDefault();
-                  onEdit();
-                }
-              }}
-              className="text-path underline underline-offset-4 hover:text-ink"
-            >
-              reassess later
-            </Link>
-            .
-          </p>
-        </PaperCard>
+        <div id="save-route-check" tabIndex={-1} className="focus:outline-none">
+          <PaperCard accent="ink">
+            <Eyebrow tone="ink">Save this route check</Eyebrow>
+            <p className="mt-2 text-[14px] text-ink leading-snug">
+              Save your answers so you can compare routes again when your
+              availability, budget or qualifications change.
+            </p>
+            <div className="mt-4">
+              <SavePrompt role={role} answers={answers} result={result} />
+            </div>
+            <p className="mt-3 text-[12.5px] text-muted-foreground leading-snug">
+              You can also{" "}
+              <Link
+                to={`/role/${role.role_slug}/reality-check`}
+                onClick={(e) => {
+                  if (onEdit) {
+                    e.preventDefault();
+                    onEdit();
+                  }
+                }}
+                className="text-path underline underline-offset-4 hover:text-ink"
+              >
+                reassess later
+              </Link>
+              .
+            </p>
+          </PaperCard>
+        </div>
       )}
     </div>
   );
