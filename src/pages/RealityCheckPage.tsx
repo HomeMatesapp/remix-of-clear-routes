@@ -54,6 +54,7 @@ import { ModularRealityCheckWizard } from "@/components/role/ModularRealityCheck
 import { resolveConfig, hasReviewedModularRealityCheck } from "@/lib/reality-check/questionnaire/registry";
 import { updateModularDraftStepId } from "@/lib/reality-check/questionnaire/draft-v3";
 import { ModularResultView } from "@/components/reality-check/ModularResultView";
+import { UnreviewedRealityCheckFallback } from "@/components/reality-check/UnreviewedRealityCheckFallback";
 import { isSupportedRegion } from "@/lib/reality-check/regions";
 import { isRealityCheckEnabled as isRealityCheckReady } from "@/lib/reality-check/service-levels";
 
