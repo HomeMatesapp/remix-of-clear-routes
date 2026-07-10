@@ -22,3 +22,8 @@ dist-ssr
 *.njsproj
 *.sln
 *.sw?
+
+# Environment files — never commit; values are injected by Lovable Cloud / Supabase connection
+.env
+.env.local
+.env.*.local
