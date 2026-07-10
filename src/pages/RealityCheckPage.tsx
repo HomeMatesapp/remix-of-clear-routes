@@ -52,9 +52,7 @@ import {
 } from "@/components/role/reality-check-shared";
 import { ModularRealityCheckWizard } from "@/components/role/ModularRealityCheckWizard";
 import { resolveConfig, hasReviewedModularRealityCheck } from "@/lib/reality-check/questionnaire/registry";
-import { loadModularDraft, updateModularDraftStepId } from "@/lib/reality-check/questionnaire/draft-v3";
-import { RealityCheckStart } from "@/components/reality-check/RealityCheckStart";
-import { shouldShowStartScreen } from "@/lib/reality-check/start-screen";
+import { updateModularDraftStepId } from "@/lib/reality-check/questionnaire/draft-v3";
 import { ModularResultView } from "@/components/reality-check/ModularResultView";
 import { isSupportedRegion } from "@/lib/reality-check/regions";
 import { isRealityCheckEnabled as isRealityCheckReady } from "@/lib/reality-check/service-levels";
@@ -185,9 +183,6 @@ const RealityCheckPage = () => {
   const [initialProfile, setInitialProfile] = useState<DecisionProfileFields | null>(null);
   const [prefilled, setPrefilled] = useState(false);
   const resultRef = useRef<HTMLDivElement | null>(null);
-  // Increment 1: focus target so keyboard and screen-reader users land in
-  // the questionnaire after clicking Start.
-  const wizardSectionRef = useRef<HTMLElement | null>(null);
 
   // Wizard state is persisted across refresh (per-tab, sessionStorage) so
   // partially-completed answers survive an accidental reload.
@@ -202,20 +197,10 @@ const RealityCheckPage = () => {
   const [startingPointStatus, setStartingPointStatus] = useState<StartingPointStatus | null>(null);
   const [startingPointOtherText, setStartingPointOtherText] = useState("");
   const [hydratedProgress, setHydratedProgress] = useState(false);
-  // Increment 1: start-screen gate. Any pre-existing progress (legacy
-  // in-progress answers or a modular draft) bypasses the start screen so
-  // save/resume behaviour is unchanged.
-  const [hadSavedProgress, setHadSavedProgress] = useState(false);
-  const [startAcknowledged, setStartAcknowledged] = useState(false);
 
   // Load role
   useEffect(() => {
     let cancelled = false;
-    // Reset the start-screen gate on every slug change so flags cannot leak
-    // between roles in the same SPA session.
-    setHydratedProgress(false);
-    setHadSavedProgress(false);
-    setStartAcknowledged(false);
     (async () => {
       setLoading(true);
       const { data } = await supabase
@@ -245,13 +230,6 @@ const RealityCheckPage = () => {
           setStepId(progress.stepId);
           setStartingPointStatus(progress.startingPointStatus);
           setStartingPointOtherText(progress.startingPointOtherText);
-          setHadSavedProgress(true);
-        }
-        // A modular draft also counts as existing progress: the wizard
-        // self-hydrates it, so the start screen must not sit in front of it.
-        const cfg = resolveConfig(slug);
-        if (cfg && loadModularDraft(slug, cfg.questionnaireVersion)) {
-          setHadSavedProgress(true);
         }
         setHydratedProgress(true);
       }
@@ -422,14 +400,6 @@ const RealityCheckPage = () => {
 
   const chips = useMemo(() => answerChips(answers), [answers]);
 
-  // Increment 1: whether the pre-questionnaire start screen should show.
-  const showStart = shouldShowStartScreen({
-    hydrated: hydratedProgress,
-    hasResult: result !== null,
-    hadSavedProgress,
-    startAcknowledged,
-  });
-
   // ── Render: loading / not found ─────────────────────────────────────────────
 
   if (loading) {
@@ -537,7 +507,7 @@ const RealityCheckPage = () => {
             Reality-check · <b className="text-ink font-semibold">{role.role_name}</b>
           </p>
 
-          {!showStart && <PhaseTrail current={currentStep} />}
+          <PhaseTrail current={currentStep} />
 
           {!result && prefilled && (
             <div className="mt-6 flex items-center justify-between gap-3 rounded-md border-2 border-ink bg-tint px-3 py-2">
@@ -551,24 +521,11 @@ const RealityCheckPage = () => {
             </div>
           )}
 
-          {!result && showStart ? (
-            <RealityCheckStart
-              roleName={role.role_name}
-              roleSlug={role.role_slug}
-              onStart={() => {
-                setStartAcknowledged(true);
-                requestAnimationFrame(() => {
-                  wizardSectionRef.current?.focus({ preventScroll: true });
-                });
-              }}
-            />
-          ) : !result ? (
+          {!result ? (
             <section
-              ref={wizardSectionRef}
-              tabIndex={-1}
               aria-label="Reality-check this route"
               aria-live="polite"
-              className="mt-8 bg-white border-2 border-ink rounded-[10px] overflow-hidden focus:outline-none"
+              className="mt-8 bg-white border-2 border-ink rounded-[10px] overflow-hidden"
             >
               {hasReviewedModularRealityCheck(role.role_slug) ? (
                 <ModularRealityCheckWizard
