@@ -422,6 +422,14 @@ const RealityCheckPage = () => {
 
   const chips = useMemo(() => answerChips(answers), [answers]);
 
+  // Increment 1: whether the pre-questionnaire start screen should show.
+  const showStart = shouldShowStartScreen({
+    hydrated: hydratedProgress,
+    hasResult: result !== null,
+    hadSavedProgress,
+    startAcknowledged,
+  });
+
   // ── Render: loading / not found ─────────────────────────────────────────────
 
   if (loading) {
@@ -529,7 +537,7 @@ const RealityCheckPage = () => {
             Reality-check · <b className="text-ink font-semibold">{role.role_name}</b>
           </p>
 
-          <PhaseTrail current={currentStep} />
+          {!showStart && <PhaseTrail current={currentStep} />}
 
           {!result && prefilled && (
             <div className="mt-6 flex items-center justify-between gap-3 rounded-md border-2 border-ink bg-tint px-3 py-2">
@@ -543,11 +551,24 @@ const RealityCheckPage = () => {
             </div>
           )}
 
-          {!result ? (
+          {!result && showStart ? (
+            <RealityCheckStart
+              roleName={role.role_name}
+              roleSlug={role.role_slug}
+              onStart={() => {
+                setStartAcknowledged(true);
+                requestAnimationFrame(() => {
+                  wizardSectionRef.current?.focus({ preventScroll: true });
+                });
+              }}
+            />
+          ) : !result ? (
             <section
+              ref={wizardSectionRef}
+              tabIndex={-1}
               aria-label="Reality-check this route"
               aria-live="polite"
-              className="mt-8 bg-white border-2 border-ink rounded-[10px] overflow-hidden"
+              className="mt-8 bg-white border-2 border-ink rounded-[10px] overflow-hidden focus:outline-none"
             >
               {hasReviewedModularRealityCheck(role.role_slug) ? (
                 <ModularRealityCheckWizard
