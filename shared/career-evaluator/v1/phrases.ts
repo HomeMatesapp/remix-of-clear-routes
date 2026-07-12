@@ -19,11 +19,11 @@ export const CONFIDENCE_PHRASE: Record<
   string
 > = {
   comprehensive:
-    "Evidence coverage: comprehensive. This is coverage of the evidence used to reach this result — not a prediction that you will succeed.",
+    "Evidence coverage: comprehensive. This describes how much of the pack's evidence was drawn on to reach this result — it is not a prediction of the outcome.",
   adequate:
-    "Evidence coverage: adequate. This is coverage of the evidence used to reach this result — not a prediction that you will succeed.",
+    "Evidence coverage: adequate. This describes how much of the pack's evidence was drawn on to reach this result — it is not a prediction of the outcome.",
   limited:
-    "Evidence coverage: limited. This is coverage of the evidence used to reach this result — not a prediction that you will succeed. Some checks remain outstanding.",
+    "Evidence coverage: limited. Some checks remain outstanding. This describes coverage of the evidence used to reach this result — it is not a prediction of the outcome.",
 };
 
 /**
