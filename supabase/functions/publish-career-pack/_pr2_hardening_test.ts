@@ -304,21 +304,24 @@ Deno.test("PR 2 hardening — full proof matrix", async (t) => {
         role_id: ids.roleA, role_slug: `proof-a-${uniq()}`, role_name: "TestRole A",
         input_snapshot: {}, result_snapshot: {}, answer_snapshot: {},
       };
+      // Partial: legacy_engine (default) with pack fields → source_shape violation.
       const { error: partErr } = await sb.from("saved_decisions").insert({
         ...base, pack_id: ids.packA2, pack_version: "1.0.1",
       });
       assert(partErr !== null, "expected constraint violation");
-      assert(/saved_decisions_v1_all_or_nothing/.test(partErr!.message),
+      assert(/saved_decisions_source_shape_chk|saved_decisions_v1_all_or_nothing/.test(partErr!.message),
         `unexpected error: ${partErr!.message}`);
 
+      // Full V1 with correct evaluation_source discriminator accepted.
       const { error: fullErr } = await sb.from("saved_decisions").insert({
-        ...base,
+        ...base, evaluation_source: "generic_pack_v1",
         pack_id: ids.packA2, pack_version: "1.0.1",
         pack_content_hash: randHash(), evaluator_schema_version: "reality-check-result/v1",
         result_v1: { ok: true },
       });
       assertEquals(fullErr, null, `full V1 should be accepted: ${fullErr?.message}`);
 
+      // Legacy (default source, no pack fields) accepted.
       const { error: legacyErr } = await sb.from("saved_decisions").insert({ ...base });
       assertEquals(legacyErr, null, `legacy should be accepted: ${legacyErr?.message}`);
     });
