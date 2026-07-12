@@ -11,13 +11,13 @@ export default defineConfig({
     include: [
       "src/**/*.{test,spec}.{ts,tsx}",
       "scripts/**/*.{test,spec}.ts",
-      "shared/**/*.{test,spec}.ts",
+      "supabase/functions/_shared/**/*.{test,spec}.ts",
     ],
   },
   resolve: {
     alias: {
       "@": path.resolve(__dirname, "./src"),
-      "@shared": path.resolve(__dirname, "./shared"),
+      "@shared": path.resolve(__dirname, "./supabase/functions/_shared"),
     },
   },
 });

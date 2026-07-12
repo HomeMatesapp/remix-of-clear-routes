@@ -4,13 +4,13 @@
 // from `index.ts` after server-side pack resolution via role_pack_bindings.
 // The client NEVER supplies pack IDs; resolution is server-only.
 
-import { evaluate } from "../../../shared/career-evaluator/v1/evaluate.ts";
-import { careerDecisionPackV1 } from "../../../shared/career-evaluator/v1/schema.ts";
+import { evaluate } from "../_shared/career-evaluator/v1/evaluate.ts";
+import { careerDecisionPackV1 } from "../_shared/career-evaluator/v1/schema.ts";
 import type {
   AnswerMap,
   CareerDecisionPackV1,
   RealityCheckResultV1,
-} from "../../../shared/career-evaluator/v1/types.ts";
+} from "../_shared/career-evaluator/v1/types.ts";
 
 export const evaluateGenericPack = (
   packJson: unknown,

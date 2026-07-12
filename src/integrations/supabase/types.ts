@@ -122,6 +122,212 @@ export type Database = {
         }
         Relationships: []
       }
+      career_pack_config: {
+        Row: {
+          environment: Database["public"]["Enums"]["career_pack_environment"]
+          id: boolean
+          review_due_grace_days: number
+          updated_at: string
+        }
+        Insert: {
+          environment?: Database["public"]["Enums"]["career_pack_environment"]
+          id?: boolean
+          review_due_grace_days?: number
+          updated_at?: string
+        }
+        Update: {
+          environment?: Database["public"]["Enums"]["career_pack_environment"]
+          id?: boolean
+          review_due_grace_days?: number
+          updated_at?: string
+        }
+        Relationships: []
+      }
+      career_pack_identities: {
+        Row: {
+          created_at: string
+          display_name: string
+          id: string
+          is_test_identity: boolean
+        }
+        Insert: {
+          created_at?: string
+          display_name: string
+          id?: string
+          is_test_identity?: boolean
+        }
+        Update: {
+          created_at?: string
+          display_name?: string
+          id?: string
+          is_test_identity?: boolean
+        }
+        Relationships: []
+      }
+      career_pack_publication_events: {
+        Row: {
+          actor: string
+          at: string
+          event_type: Database["public"]["Enums"]["career_pack_event_type"]
+          from_status: Database["public"]["Enums"]["career_pack_status"] | null
+          id: string
+          metadata: Json
+          pack_id: string
+          to_status: Database["public"]["Enums"]["career_pack_status"] | null
+        }
+        Insert: {
+          actor: string
+          at?: string
+          event_type: Database["public"]["Enums"]["career_pack_event_type"]
+          from_status?: Database["public"]["Enums"]["career_pack_status"] | null
+          id?: string
+          metadata?: Json
+          pack_id: string
+          to_status?: Database["public"]["Enums"]["career_pack_status"] | null
+        }
+        Update: {
+          actor?: string
+          at?: string
+          event_type?: Database["public"]["Enums"]["career_pack_event_type"]
+          from_status?: Database["public"]["Enums"]["career_pack_status"] | null
+          id?: string
+          metadata?: Json
+          pack_id?: string
+          to_status?: Database["public"]["Enums"]["career_pack_status"] | null
+        }
+        Relationships: [
+          {
+            foreignKeyName: "career_pack_publication_events_pack_id_fkey"
+            columns: ["pack_id"]
+            isOneToOne: false
+            referencedRelation: "career_packs"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      career_pack_publications: {
+        Row: {
+          archived_at: string | null
+          created_at: string
+          id: string
+          notes: string | null
+          pack_id: string
+          published_at: string | null
+          review_due_at: string | null
+          status: Database["public"]["Enums"]["career_pack_status"]
+          superseded_at: string | null
+          suspended_at: string | null
+          updated_at: string
+        }
+        Insert: {
+          archived_at?: string | null
+          created_at?: string
+          id?: string
+          notes?: string | null
+          pack_id: string
+          published_at?: string | null
+          review_due_at?: string | null
+          status?: Database["public"]["Enums"]["career_pack_status"]
+          superseded_at?: string | null
+          suspended_at?: string | null
+          updated_at?: string
+        }
+        Update: {
+          archived_at?: string | null
+          created_at?: string
+          id?: string
+          notes?: string | null
+          pack_id?: string
+          published_at?: string | null
+          review_due_at?: string | null
+          status?: Database["public"]["Enums"]["career_pack_status"]
+          superseded_at?: string | null
+          suspended_at?: string | null
+          updated_at?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "career_pack_publications_pack_id_fkey"
+            columns: ["pack_id"]
+            isOneToOne: true
+            referencedRelation: "career_packs"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      career_packs: {
+        Row: {
+          archetype_id: string
+          content: Json
+          content_hash: string
+          environment: Database["public"]["Enums"]["career_pack_environment"]
+          id: string
+          imported_at: string
+          imported_by: string
+          is_test: boolean
+          owner_identity_id: string
+          pack_version: string
+          reviewer_identity_id: string
+          role_id: string
+          schema_version: string
+          slug: string
+        }
+        Insert: {
+          archetype_id: string
+          content: Json
+          content_hash: string
+          environment: Database["public"]["Enums"]["career_pack_environment"]
+          id?: string
+          imported_at?: string
+          imported_by: string
+          is_test?: boolean
+          owner_identity_id: string
+          pack_version: string
+          reviewer_identity_id: string
+          role_id: string
+          schema_version: string
+          slug: string
+        }
+        Update: {
+          archetype_id?: string
+          content?: Json
+          content_hash?: string
+          environment?: Database["public"]["Enums"]["career_pack_environment"]
+          id?: string
+          imported_at?: string
+          imported_by?: string
+          is_test?: boolean
+          owner_identity_id?: string
+          pack_version?: string
+          reviewer_identity_id?: string
+          role_id?: string
+          schema_version?: string
+          slug?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "career_packs_owner_identity_id_fkey"
+            columns: ["owner_identity_id"]
+            isOneToOne: false
+            referencedRelation: "career_pack_identities"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "career_packs_reviewer_identity_id_fkey"
+            columns: ["reviewer_identity_id"]
+            isOneToOne: false
+            referencedRelation: "career_pack_identities"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "career_packs_role_id_fkey"
+            columns: ["role_id"]
+            isOneToOne: false
+            referencedRelation: "roles"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
       decision_profiles: {
         Row: {
           area: string | null
@@ -617,6 +823,42 @@ export type Database = {
         }
         Relationships: []
       }
+      role_pack_bindings: {
+        Row: {
+          bound_at: string
+          bound_by: string
+          pack_id: string
+          role_id: string
+        }
+        Insert: {
+          bound_at?: string
+          bound_by: string
+          pack_id: string
+          role_id: string
+        }
+        Update: {
+          bound_at?: string
+          bound_by?: string
+          pack_id?: string
+          role_id?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "role_pack_bindings_pack_id_fkey"
+            columns: ["pack_id"]
+            isOneToOne: false
+            referencedRelation: "career_packs"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "role_pack_bindings_role_id_fkey"
+            columns: ["role_id"]
+            isOneToOne: true
+            referencedRelation: "roles"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
       role_review_requests: {
         Row: {
           created_at: string
@@ -878,13 +1120,18 @@ export type Database = {
           backup_route_title: string | null
           best_route_title: string | null
           created_at: string
+          evaluator_schema_version: string | null
           first_move: string | null
           id: string
           input_snapshot: Json | null
           local_realism_rating: string | null
           overall_verdict: string | null
+          pack_content_hash: string | null
+          pack_id: string | null
+          pack_version: string | null
           questionnaire_version: string | null
           result_snapshot: Json | null
+          result_v1: Json | null
           role_id: string | null
           role_name: string
           role_slug: string
@@ -899,13 +1146,18 @@ export type Database = {
           backup_route_title?: string | null
           best_route_title?: string | null
           created_at?: string
+          evaluator_schema_version?: string | null
           first_move?: string | null
           id?: string
           input_snapshot?: Json | null
           local_realism_rating?: string | null
           overall_verdict?: string | null
+          pack_content_hash?: string | null
+          pack_id?: string | null
+          pack_version?: string | null
           questionnaire_version?: string | null
           result_snapshot?: Json | null
+          result_v1?: Json | null
           role_id?: string | null
           role_name: string
           role_slug: string
@@ -920,13 +1172,18 @@ export type Database = {
           backup_route_title?: string | null
           best_route_title?: string | null
           created_at?: string
+          evaluator_schema_version?: string | null
           first_move?: string | null
           id?: string
           input_snapshot?: Json | null
           local_realism_rating?: string | null
           overall_verdict?: string | null
+          pack_content_hash?: string | null
+          pack_id?: string | null
+          pack_version?: string | null
           questionnaire_version?: string | null
           result_snapshot?: Json | null
+          result_v1?: Json | null
           role_id?: string | null
           role_name?: string
           role_slug?: string
@@ -936,6 +1193,13 @@ export type Database = {
           user_id?: string
         }
         Relationships: [
+          {
+            foreignKeyName: "saved_decisions_pack_id_fkey"
+            columns: ["pack_id"]
+            isOneToOne: false
+            referencedRelation: "career_packs"
+            referencedColumns: ["id"]
+          },
           {
             foreignKeyName: "saved_decisions_role_id_fkey"
             columns: ["role_id"]
@@ -1140,15 +1404,50 @@ export type Database = {
         }
         Returns: undefined
       }
+      career_pack_is_servable: { Args: { _pack_id: string }; Returns: boolean }
       get_contamination_fn_def: { Args: never; Returns: string }
+      publish_and_bind_career_pack: {
+        Args: { _actor: string; _pack_id: string }
+        Returns: undefined
+      }
       reality_check_rate_increment: {
         Args: { p_key_hash: string; p_scope: string; p_window_start: string }
         Returns: number
+      }
+      resolve_active_career_pack: {
+        Args: { _role_id: string; _slug: string }
+        Returns: {
+          content: Json
+          content_hash: string
+          pack_id: string
+          pack_version: string
+          role_id: string
+          slug: string
+          status: Database["public"]["Enums"]["career_pack_status"]
+        }[]
       }
       show_limit: { Args: never; Returns: number }
       show_trgm: { Args: { "": string }; Returns: string[] }
     }
     Enums: {
+      career_pack_environment: "development" | "staging" | "production"
+      career_pack_event_type:
+        | "imported"
+        | "published"
+        | "marked_review_due"
+        | "suspended"
+        | "unsuspended"
+        | "superseded"
+        | "archived"
+        | "bound"
+        | "unbound"
+      career_pack_status:
+        | "draft"
+        | "published"
+        | "review_due"
+        | "suspended"
+        | "superseded"
+        | "archived"
       role_service_level: "info_only" | "reality_check" | "full_support"
     }
     CompositeTypes: {
@@ -1277,6 +1576,26 @@ export type CompositeTypes<
 export const Constants = {
   public: {
     Enums: {
+      career_pack_environment: ["development", "staging", "production"],
+      career_pack_event_type: [
+        "imported",
+        "published",
+        "marked_review_due",
+        "suspended",
+        "unsuspended",
+        "superseded",
+        "archived",
+        "bound",
+        "unbound",
+      ],
+      career_pack_status: [
+        "draft",
+        "published",
+        "review_due",
+        "suspended",
+        "superseded",
+        "archived",
+      ],
       role_service_level: ["info_only", "reality_check", "full_support"],
     },
   },
