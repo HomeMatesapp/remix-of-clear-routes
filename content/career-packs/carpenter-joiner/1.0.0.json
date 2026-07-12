@@ -1,0 +1,171 @@
+{
+  "schemaVersion": "career-decision-pack/v1",
+  "packVersion": "1.0.0",
+  "roleId": "9d35494b-b7d8-47e0-9de5-357e393cc7b6",
+  "slug": "carpenter-joiner",
+  "archetypeId": "apprenticeship_workplace_competence",
+  "careerIdentity": {
+    "canonicalTitle": "Carpenter / Joiner",
+    "participantTitle": "Carpenter / Joiner",
+    "aliases": ["site carpenter", "bench joiner", "wood machinist (adjacent)"],
+    "sector": "Construction",
+    "occupationalFamily": "skilled_trades",
+    "regulatory": {
+      "status": "not_formally_regulated",
+      "appliesTo": "all_routes",
+      "note": "There is no protected title or statutory register for carpenters or joiners in England. Site work commonly requires a CSCS card as an industry scheme, not as a legal licence."
+    },
+    "geographicScope": ["England"]
+  },
+  "routes": [
+    {
+      "id": "apprenticeship_l2_l3",
+      "title": "Carpentry and Joinery apprenticeship (Level 2, with Level 3 progression)",
+      "summary": "Employed apprenticeship following the Institute for Apprenticeships Carpentry and Joinery standard, typically two years for Level 2 with progression routes to Level 3 Advanced.",
+      "typicalDurationLabel": "About two years for Level 2; a further one to two years for Level 3",
+      "typicalCostLabel": "No tuition fee for the apprentice; you are paid at least the Apprentice National Minimum Wage while training",
+      "requirementIds": ["right_to_work", "employer_place", "physically_able_site_work", "travel_between_sites"],
+      "evidenceRefs": ["ifate_carpentry_joinery", "find_apprenticeship", "gov_apprentice_pay", "nca_carpenter_joiner"]
+    },
+    {
+      "id": "college_plus_experience",
+      "title": "College course (Level 1 / 2 / 3 Diploma) followed by workplace competence",
+      "summary": "Study a Diploma in Site Carpentry or Bench Joinery at a further education college, then build workplace experience with an employer to reach recognised competence.",
+      "typicalDurationLabel": "One to three years at college plus workplace experience",
+      "typicalCostLabel": "Adult tuition fees may apply; under-19 study is usually free. Cost of basic hand tools varies.",
+      "requirementIds": ["right_to_work", "willing_workplace_evidence", "physically_able_site_work"],
+      "evidenceRefs": ["nca_carpenter_joiner", "citb_cscs"]
+    },
+    {
+      "id": "experience_onsite_assessment",
+      "title": "Experienced worker route (NVQ via On-Site Assessment and Training)",
+      "summary": "For people already doing carpentry or joinery work: gain a recognised NVQ Level 2 through On-Site Assessment and Training (OSAT), using evidence of real work rather than college attendance.",
+      "typicalDurationLabel": "Typically 6 to 18 months of assessed work, depending on evidence",
+      "typicalCostLabel": "Assessment centre fee (varies by centre); no full-time study cost",
+      "requirementIds": ["right_to_work", "documented_work_evidence", "physically_able_site_work", "travel_between_sites"],
+      "evidenceRefs": ["nocn_osat", "citb_cscs"]
+    }
+  ],
+  "requirements": [
+    { "id": "right_to_work", "label": "Right to work in the UK", "description": "You must have the right to work in the UK for any employed or apprenticeship route.", "verifiedBy": "Your employer or apprenticeship provider at offer stage", "evidenceRefs": ["nca_carpenter_joiner"] },
+    { "id": "employer_place", "label": "An employer offering an apprenticeship place", "description": "Apprenticeships are employed positions. You need an employer willing to take you on before you can start.", "verifiedBy": "GOV.UK find-an-apprenticeship service and direct employer contact", "evidenceRefs": ["find_apprenticeship"] },
+    { "id": "willing_workplace_evidence", "label": "Willingness to build workplace evidence", "description": "College study alone does not produce a fully qualified carpenter or joiner. You will need to build supervised workplace experience.", "verifiedBy": "Your college course leader and any placement employer", "evidenceRefs": ["nca_carpenter_joiner"] },
+    { "id": "documented_work_evidence", "label": "Documented evidence of prior carpentry or joinery work", "description": "The experienced-worker (OSAT) route requires evidence of real work: photos, employer statements, job records, drawings.", "verifiedBy": "The OSAT assessment centre you register with", "evidenceRefs": ["nocn_osat"] },
+    { "id": "physically_able_site_work", "label": "Ability to do sustained physical, site-based work", "description": "Carpentry and joinery involve manual handling, working at height, kneeling, lifting and using power tools. Employers and providers will expect you to be able to do the physical parts of the job.", "verifiedBy": "The employer's or provider's occupational health check where required", "evidenceRefs": ["nca_carpenter_joiner"] },
+    { "id": "travel_between_sites", "label": "Ability to travel to changing sites", "description": "Site carpentry commonly involves travelling to different sites, often with early starts. Some bench joinery is workshop-based and less travel-heavy.", "verifiedBy": "Discussion with the specific employer", "evidenceRefs": ["nca_carpenter_joiner"] }
+  ],
+  "questionRefs": [
+    { "id": "starting_point", "label": "Where are you starting from?", "allowedValues": ["school_leaver", "career_changer", "some_experience_no_evidence", "tradesperson_other"] },
+    { "id": "english_maths_status", "label": "Do you already hold Level 2 English and maths (GCSE grade 4/C or equivalent)?", "allowedValues": ["yes_level2", "working_towards", "no", "not_sure"] },
+    { "id": "has_employer_offer", "label": "Do you have (or are you actively looking for) an employer willing to take you on as an apprentice?", "allowedValues": ["yes_have_offer", "actively_looking", "no_and_unsure"] },
+    { "id": "documented_work_evidence", "label": "Do you have documented evidence of real carpentry or joinery work you have already done?", "allowedValues": ["yes_substantial", "some_photos", "none", "prefer_not_say"] },
+    { "id": "physical_capacity", "label": "Can you do sustained physical, site-based work?", "allowedValues": ["yes_confident", "some_limits", "unable"] },
+    { "id": "travel_capability", "label": "Can you travel to different work sites?", "allowedValues": ["yes_reliable_transport", "limited_to_local", "cannot_travel"] },
+    { "id": "tool_budget", "label": "Do you have access to basic tools, or a budget to acquire them?", "allowedValues": ["employer_provides", "can_invest", "minimal_budget"] },
+    { "id": "income_need", "label": "How much income do you need while training?", "allowedValues": ["need_full_wage", "can_apprentice_wage", "some_savings"] },
+    { "id": "local_apprenticeship_known", "label": "Have you found any local apprenticeship vacancies?", "allowedValues": ["yes_found", "not_sure", "none_found"] },
+    { "id": "willing_workplace_evidence", "label": "Are you willing to build supervised workplace experience alongside or after college?", "allowedValues": ["yes", "unsure", "no"] }
+  ],
+  "rules": [
+    { "id": "block_all_physical_unable", "when": { "all": [{ "questionId": "physical_capacity", "op": "eq", "value": "unable" }] }, "then": [
+      { "kind": "block_route", "routeId": "apprenticeship_l2_l3", "reason": "Carpentry and joinery involve sustained physical work; employers and providers expect this on any route.", "evidenceRefs": ["nca_carpenter_joiner"] },
+      { "kind": "block_route", "routeId": "college_plus_experience", "reason": "Practical assessments and workplace evidence require physical site or workshop work.", "evidenceRefs": ["nca_carpenter_joiner"] },
+      { "kind": "block_route", "routeId": "experience_onsite_assessment", "reason": "OSAT assessments observe real work being done on site.", "evidenceRefs": ["nocn_osat"] }
+    ] },
+    { "id": "flag_physical_some_limits", "when": { "all": [{ "questionId": "physical_capacity", "op": "eq", "value": "some_limits" }] }, "then": [
+      { "kind": "flag_concern", "routeId": "apprenticeship_l2_l3", "concern": "Consider whether specific tasks (working at height, sustained lifting) can be adjusted with your employer.", "evidenceRefs": ["nca_carpenter_joiner"] },
+      { "kind": "flag_concern", "routeId": "college_plus_experience", "concern": "Discuss adjustments with the college and any placement employer before enrolling.", "evidenceRefs": ["nca_carpenter_joiner"] },
+      { "kind": "flag_concern", "routeId": "experience_onsite_assessment", "concern": "OSAT relies on real work; check adjustments are possible with the assessor and employer.", "evidenceRefs": ["nocn_osat"] }
+    ] },
+    { "id": "block_apprenticeship_when_no_employer_and_no_search", "when": { "all": [{ "questionId": "has_employer_offer", "op": "eq", "value": "no_and_unsure" }] }, "then": [
+      { "kind": "block_route", "routeId": "apprenticeship_l2_l3", "reason": "An apprenticeship is an employed job; without an employer willing to take you on it cannot begin.", "evidenceRefs": ["find_apprenticeship"] },
+      { "kind": "add_action", "actionTemplateId": "action_find_employer" }
+    ] },
+    { "id": "verify_apprenticeship_actively_looking", "when": { "all": [{ "questionId": "has_employer_offer", "op": "eq", "value": "actively_looking" }] }, "then": [
+      { "kind": "require_verification", "routeId": "apprenticeship_l2_l3", "check": "Confirm current vacancies on the GOV.UK find-an-apprenticeship service and speak to two local employers directly.", "evidenceRefs": ["find_apprenticeship"] }
+    ] },
+    { "id": "verify_english_maths_no", "when": { "all": [{ "questionId": "english_maths_status", "op": "eq", "value": "no" }] }, "then": [
+      { "kind": "require_verification", "routeId": "apprenticeship_l2_l3", "check": "Most providers will require you to complete Functional Skills Level 2 in English and maths during the apprenticeship. Confirm the specific provider's expectations.", "evidenceRefs": ["ifate_carpentry_joinery"] },
+      { "kind": "add_action", "actionTemplateId": "action_explore_functional_skills" }
+    ] },
+    { "id": "flag_english_maths_working", "when": { "all": [{ "questionId": "english_maths_status", "op": "eq", "value": "working_towards" }] }, "then": [
+      { "kind": "flag_concern", "routeId": "apprenticeship_l2_l3", "concern": "You can typically start with Functional Skills in progress, but you must reach Level 2 English and maths before end-point assessment.", "evidenceRefs": ["ifate_carpentry_joinery"] }
+    ] },
+    { "id": "block_osat_no_evidence", "when": { "all": [{ "questionId": "documented_work_evidence", "op": "eq", "value": "none" }] }, "then": [
+      { "kind": "block_route", "routeId": "experience_onsite_assessment", "reason": "The OSAT route requires evidence of real carpentry or joinery work already done.", "evidenceRefs": ["nocn_osat"] },
+      { "kind": "add_action", "actionTemplateId": "action_document_work" }
+    ] },
+    { "id": "verify_osat_some_photos", "when": { "all": [{ "questionId": "documented_work_evidence", "op": "eq", "value": "some_photos" }] }, "then": [
+      { "kind": "require_verification", "routeId": "experience_onsite_assessment", "check": "Speak to an OSAT assessment centre about whether your existing photos, drawings and employer statements are sufficient, and what further evidence is needed.", "evidenceRefs": ["nocn_osat"] }
+    ] },
+    { "id": "flag_travel_cannot", "when": { "all": [{ "questionId": "travel_capability", "op": "eq", "value": "cannot_travel" }] }, "then": [
+      { "kind": "flag_concern", "routeId": "apprenticeship_l2_l3", "concern": "Site carpentry commonly requires travel between sites. A workshop-based bench joinery employer may be a better fit.", "evidenceRefs": ["nca_carpenter_joiner"] },
+      { "kind": "flag_concern", "routeId": "college_plus_experience", "concern": "Placements often involve travel; a workshop-based placement may be needed.", "evidenceRefs": ["nca_carpenter_joiner"] },
+      { "kind": "flag_concern", "routeId": "experience_onsite_assessment", "concern": "OSAT assessment requires access to real work sites.", "evidenceRefs": ["nocn_osat"] },
+      { "kind": "add_action", "actionTemplateId": "action_explore_workshop_roles" }
+    ] },
+    { "id": "flag_travel_limited", "when": { "all": [{ "questionId": "travel_capability", "op": "eq", "value": "limited_to_local" }] }, "then": [
+      { "kind": "flag_concern", "routeId": "apprenticeship_l2_l3", "concern": "Focus on employers within your travel range; site carpentry work is often outside a local commute.", "evidenceRefs": ["nca_carpenter_joiner"] }
+    ] },
+    { "id": "flag_income_need_full_wage", "when": { "all": [{ "questionId": "income_need", "op": "eq", "value": "need_full_wage" }] }, "then": [
+      { "kind": "flag_concern", "routeId": "apprenticeship_l2_l3", "concern": "Apprentices are paid at least the Apprentice National Minimum Wage in year 1 and if under 19; this is usually well below a full trades wage. Check current rates before deciding.", "evidenceRefs": ["gov_apprentice_pay"] },
+      { "kind": "add_action", "actionTemplateId": "action_check_earnings" }
+    ] },
+    { "id": "flag_tool_minimal", "when": { "all": [{ "questionId": "tool_budget", "op": "eq", "value": "minimal_budget" }] }, "then": [
+      { "kind": "flag_concern", "routeId": "college_plus_experience", "concern": "Colleges typically expect a personal basic hand-tool kit. Ask the specific college what is included and what you must buy.", "evidenceRefs": ["nca_carpenter_joiner"] },
+      { "kind": "flag_concern", "routeId": "experience_onsite_assessment", "concern": "You will need your own basic tools for site work; check with the employer or assessor.", "evidenceRefs": ["nocn_osat"] },
+      { "kind": "add_action", "actionTemplateId": "action_tool_options" }
+    ] },
+    { "id": "block_college_when_unwilling_workplace", "when": { "all": [{ "questionId": "willing_workplace_evidence", "op": "eq", "value": "no" }] }, "then": [
+      { "kind": "block_route", "routeId": "college_plus_experience", "reason": "College study alone does not produce a fully qualified carpenter or joiner; workplace evidence is expected.", "evidenceRefs": ["nca_carpenter_joiner"] }
+    ] },
+    { "id": "verify_local_apprenticeship_unknown", "when": { "all": [{ "questionId": "local_apprenticeship_known", "op": "eq", "value": "not_sure" }] }, "then": [
+      { "kind": "require_verification", "routeId": "apprenticeship_l2_l3", "check": "Search the GOV.UK find-an-apprenticeship service by postcode to see what is currently available near you.", "evidenceRefs": ["find_apprenticeship"] }
+    ] },
+    { "id": "flag_local_none_found", "when": { "all": [{ "questionId": "local_apprenticeship_known", "op": "eq", "value": "none_found" }] }, "then": [
+      { "kind": "flag_concern", "routeId": "apprenticeship_l2_l3", "concern": "If no local vacancies are open, widen the search radius, sign up to alerts, or approach employers directly. Availability changes through the year.", "evidenceRefs": ["find_apprenticeship"] },
+      { "kind": "add_action", "actionTemplateId": "action_broaden_search" }
+    ] },
+    { "id": "consideration_cscs_not_a_licence", "when": { "all": [{ "questionId": "starting_point", "op": "present" }] }, "then": [
+      { "kind": "add_consideration", "text": "Most sites require a CSCS card for site access. This is an industry scheme, not a statutory licence, and is not needed for workshop-only bench joinery work.", "evidenceRefs": ["citb_cscs"] }
+    ] }
+  ],
+  "evidenceRecords": [
+    { "id": "ifate_carpentry_joinery", "title": "Carpentry and Joinery apprenticeship standard (Level 2)", "publisher": "Institute for Apprenticeships and Technical Education", "url": "https://www.instituteforapprenticeships.org/apprenticeship-standards/carpentry-and-joinery-v1-2", "publishedOrRetrievedOn": "2024-05-01", "verifiedOn": "2026-07-10", "publiclyAccessible": true },
+    { "id": "nca_carpenter_joiner", "title": "Carpenter — job profile", "publisher": "National Careers Service", "url": "https://nationalcareers.service.gov.uk/job-profiles/carpenter", "publishedOrRetrievedOn": "2026-02-01", "verifiedOn": "2026-07-10", "publiclyAccessible": true },
+    { "id": "find_apprenticeship", "title": "Find an apprenticeship", "publisher": "GOV.UK", "url": "https://www.gov.uk/apply-apprenticeship", "publishedOrRetrievedOn": "2026-06-01", "verifiedOn": "2026-07-10", "publiclyAccessible": true },
+    { "id": "gov_apprentice_pay", "title": "Apprentice National Minimum Wage rates", "publisher": "GOV.UK", "url": "https://www.gov.uk/national-minimum-wage-rates", "publishedOrRetrievedOn": "2026-04-01", "verifiedOn": "2026-07-10", "publiclyAccessible": true },
+    { "id": "citb_cscs", "title": "CSCS card scheme for construction site access", "publisher": "Construction Industry Training Board (CITB) / CSCS", "url": "https://www.cscs.uk.com/", "publishedOrRetrievedOn": "2026-03-01", "verifiedOn": "2026-07-10", "publiclyAccessible": true },
+    { "id": "nocn_osat", "title": "On-Site Assessment and Training (OSAT) — Experienced Worker Assessment", "publisher": "NOCN Job Cards / awarding organisations", "url": "https://www.nocnjobcards.org/experienced-worker-osat/", "publishedOrRetrievedOn": "2025-11-01", "verifiedOn": "2026-07-10", "publiclyAccessible": true }
+  ],
+  "actionTemplates": [
+    { "id": "action_find_employer", "title": "Search for an apprenticeship employer", "description": "Search GOV.UK find-an-apprenticeship by postcode and approach three local carpentry or joinery firms directly.", "effortLabel": "About two hours", "evidenceRefs": ["find_apprenticeship"] },
+    { "id": "action_explore_functional_skills", "title": "Explore Functional Skills Level 2", "description": "Look at Functional Skills Level 2 English and maths options at local FE colleges and adult learning services.", "effortLabel": "About one hour", "evidenceRefs": ["ifate_carpentry_joinery"] },
+    { "id": "action_document_work", "title": "Start documenting your current work", "description": "Begin recording photos, job dates, drawings and short employer statements for every job you complete; this is the basis of an OSAT portfolio.", "effortLabel": "Ongoing", "evidenceRefs": ["nocn_osat"] },
+    { "id": "action_explore_workshop_roles", "title": "Explore workshop-based bench joinery", "description": "Contact two local workshop joineries about apprentice or trainee roles that do not require daily travel to changing sites.", "effortLabel": "About one hour", "evidenceRefs": ["nca_carpenter_joiner"] },
+    { "id": "action_check_earnings", "title": "Check current apprentice pay rates", "description": "Read the current Apprentice National Minimum Wage on GOV.UK and compare to your monthly outgoings.", "effortLabel": "About 20 minutes", "evidenceRefs": ["gov_apprentice_pay"] },
+    { "id": "action_tool_options", "title": "Cost basic tools", "description": "Ask two employers or colleges which basic hand tools you will need on day one, and price a starter kit against your budget.", "effortLabel": "About one hour", "evidenceRefs": ["nca_carpenter_joiner"] },
+    { "id": "action_broaden_search", "title": "Broaden your apprenticeship search", "description": "Sign up to GOV.UK find-an-apprenticeship email alerts, widen the search radius, and approach employers directly rather than only applying to advertised vacancies.", "effortLabel": "About 30 minutes", "evidenceRefs": ["find_apprenticeship"] }
+  ],
+  "testProfiles": [
+    { "id": "school_leaver_apprenticeship_ready", "label": "School leaver with English/maths, has apprenticeship offer, no barriers", "answers": { "starting_point": "school_leaver", "english_maths_status": "yes_level2", "has_employer_offer": "yes_have_offer", "documented_work_evidence": "none", "physical_capacity": "yes_confident", "travel_capability": "yes_reliable_transport", "tool_budget": "employer_provides", "income_need": "can_apprentice_wage", "local_apprenticeship_known": "yes_found", "willing_workplace_evidence": "yes" }, "expect": { "mustNotMention": ["best route", "guaranteed"] } },
+    { "id": "adult_career_changer_needs_wage_has_evidence", "label": "Adult career changer with prior evidenced work, needs full wage", "answers": { "starting_point": "some_experience_no_evidence", "english_maths_status": "yes_level2", "has_employer_offer": "actively_looking", "documented_work_evidence": "yes_substantial", "physical_capacity": "yes_confident", "travel_capability": "yes_reliable_transport", "tool_budget": "can_invest", "income_need": "need_full_wage", "local_apprenticeship_known": "yes_found", "willing_workplace_evidence": "yes" }, "expect": { "mustMention": ["Apprentice National Minimum Wage"], "requiredActionIds": ["action_check_earnings"] } },
+    { "id": "no_qualifications_no_evidence", "label": "Adult with no formal English/maths and no work evidence", "answers": { "starting_point": "no_background", "english_maths_status": "no", "has_employer_offer": "actively_looking", "documented_work_evidence": "none", "physical_capacity": "yes_confident", "travel_capability": "yes_reliable_transport", "tool_budget": "can_invest", "income_need": "can_apprentice_wage", "local_apprenticeship_known": "yes_found", "willing_workplace_evidence": "yes" }, "expect": { "requiredActionIds": ["action_explore_functional_skills"] } },
+    { "id": "missing_provider_english_maths_working", "label": "Working towards English/maths, otherwise ready", "answers": { "starting_point": "school_leaver", "english_maths_status": "working_towards", "has_employer_offer": "yes_have_offer", "documented_work_evidence": "none", "physical_capacity": "yes_confident", "travel_capability": "yes_reliable_transport", "tool_budget": "employer_provides", "income_need": "can_apprentice_wage", "local_apprenticeship_known": "yes_found", "willing_workplace_evidence": "yes" }, "expect": { "mustMention": ["Functional Skills"] } },
+    { "id": "existing_experience_some_photos", "label": "Some site experience with limited photo evidence", "answers": { "starting_point": "some_experience_no_evidence", "english_maths_status": "yes_level2", "has_employer_offer": "no_and_unsure", "documented_work_evidence": "some_photos", "physical_capacity": "yes_confident", "travel_capability": "yes_reliable_transport", "tool_budget": "can_invest", "income_need": "some_savings", "local_apprenticeship_known": "not_sure", "willing_workplace_evidence": "yes" }, "expect": { "mustMention": ["OSAT"] } },
+    { "id": "cannot_travel", "label": "Cannot travel between sites — needs workshop-based option", "answers": { "starting_point": "career_changer", "english_maths_status": "yes_level2", "has_employer_offer": "actively_looking", "documented_work_evidence": "none", "physical_capacity": "yes_confident", "travel_capability": "cannot_travel", "tool_budget": "can_invest", "income_need": "can_apprentice_wage", "local_apprenticeship_known": "yes_found", "willing_workplace_evidence": "yes" }, "expect": { "requiredActionIds": ["action_explore_workshop_roles"] } },
+    { "id": "cannot_do_physical", "label": "Not currently able to do sustained physical work", "answers": { "starting_point": "career_changer", "english_maths_status": "yes_level2", "has_employer_offer": "actively_looking", "documented_work_evidence": "some_photos", "physical_capacity": "unable", "travel_capability": "yes_reliable_transport", "tool_budget": "can_invest", "income_need": "can_apprentice_wage", "local_apprenticeship_known": "yes_found", "willing_workplace_evidence": "yes" }, "expect": { "blockedRouteIds": ["apprenticeship_l2_l3", "college_plus_experience", "experience_onsite_assessment"] } },
+    { "id": "minimal_tool_budget", "label": "Wants apprenticeship because tool budget is minimal", "answers": { "starting_point": "school_leaver", "english_maths_status": "yes_level2", "has_employer_offer": "yes_have_offer", "documented_work_evidence": "none", "physical_capacity": "yes_confident", "travel_capability": "yes_reliable_transport", "tool_budget": "minimal_budget", "income_need": "can_apprentice_wage", "local_apprenticeship_known": "yes_found", "willing_workplace_evidence": "yes" }, "expect": { "requiredActionIds": ["action_tool_options"] } },
+    { "id": "no_local_apprenticeship_known", "label": "Local apprenticeship availability unknown", "answers": { "starting_point": "school_leaver", "english_maths_status": "yes_level2", "has_employer_offer": "actively_looking", "documented_work_evidence": "none", "physical_capacity": "yes_confident", "travel_capability": "yes_reliable_transport", "tool_budget": "can_invest", "income_need": "can_apprentice_wage", "local_apprenticeship_known": "not_sure", "willing_workplace_evidence": "yes" }, "expect": { "mustMention": ["find-an-apprenticeship"] } },
+    { "id": "multi_route_viable", "label": "Suitable for more than one route", "answers": { "starting_point": "career_changer", "english_maths_status": "yes_level2", "has_employer_offer": "yes_have_offer", "documented_work_evidence": "yes_substantial", "physical_capacity": "yes_confident", "travel_capability": "yes_reliable_transport", "tool_budget": "can_invest", "income_need": "some_savings", "local_apprenticeship_known": "yes_found", "willing_workplace_evidence": "yes" }, "expect": { "mustNotMention": ["guaranteed"] } },
+    { "id": "many_unknowns", "label": "Participant with several unanswered questions", "answers": { "starting_point": "career_changer", "english_maths_status": "not_sure", "has_employer_offer": "actively_looking", "physical_capacity": "yes_confident", "travel_capability": "yes_reliable_transport", "willing_workplace_evidence": "unsure" }, "expect": { "mustMention": ["Some answers were left blank"] } },
+    { "id": "formally_possible_practical_tradeoffs", "label": "Formally able but faces major practical trade-offs", "answers": { "starting_point": "career_changer", "english_maths_status": "yes_level2", "has_employer_offer": "yes_have_offer", "documented_work_evidence": "none", "physical_capacity": "yes_confident", "travel_capability": "limited_to_local", "tool_budget": "minimal_budget", "income_need": "need_full_wage", "local_apprenticeship_known": "none_found", "willing_workplace_evidence": "yes" }, "expect": { "requiredActionIds": ["action_check_earnings", "action_broaden_search"] } }
+  ],
+  "contentReview": {
+    "ownerDisplayName": "Clear Routes trades content team",
+    "reviewerDisplayName": "Independent trades reviewer (staging identity, PR 3b)",
+    "lastReviewedAt": "2026-07-12",
+    "nextReviewDueAt": "2027-01-12",
+    "sourcesAsOf": "2026-07-10"
+  }
+}
