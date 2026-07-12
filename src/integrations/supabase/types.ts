@@ -1408,7 +1408,7 @@ export type Database = {
       get_contamination_fn_def: { Args: never; Returns: string }
       publish_and_bind_career_pack: {
         Args: { _actor: string; _pack_id: string }
-        Returns: undefined
+        Returns: Json
       }
       reality_check_rate_increment: {
         Args: { p_key_hash: string; p_scope: string; p_window_start: string }
@@ -1422,6 +1422,7 @@ export type Database = {
           pack_id: string
           pack_version: string
           role_id: string
+          role_slug: string
           slug: string
           status: Database["public"]["Enums"]["career_pack_status"]
         }[]

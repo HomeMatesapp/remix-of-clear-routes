@@ -15,8 +15,10 @@
 //   2. Validates schema + cross-refs locally (fast fail before any network).
 //   3. Runs every testProfile through the evaluator.
 //   4. Computes the canonical content hash.
-//   5. Posts to the `publish-career-pack` edge function using the service-role
-//      key from the local environment (SUPABASE_SERVICE_ROLE_KEY).
+//   5. Posts to the `publish-career-pack` edge function using the dedicated
+//      `CAREER_PACK_PUBLISH_SECRET` from the local environment.
+//      The service-role key is NEVER sent from the CLI; the edge function
+//      holds its own service-role credential internally.
 //
 // The server independently re-validates everything before touching the DB.
 // The CLI's local checks are for developer ergonomics, not trust.
@@ -96,15 +98,15 @@ export const runCli = async (args: CliArgs, opts: { fetchImpl?: typeof fetch } =
   }
 
   const supabaseUrl = process.env.VITE_SUPABASE_URL ?? process.env.SUPABASE_URL;
-  const serviceKey = process.env.SUPABASE_SERVICE_ROLE_KEY;
+  const publishSecret = process.env.CAREER_PACK_PUBLISH_SECRET;
   if (!supabaseUrl) throw new Error("VITE_SUPABASE_URL or SUPABASE_URL must be set in the environment");
-  if (!serviceKey) throw new Error("SUPABASE_SERVICE_ROLE_KEY must be set in the environment");
+  if (!publishSecret) throw new Error("CAREER_PACK_PUBLISH_SECRET must be set in the environment");
 
   const fetchImpl = opts.fetchImpl ?? fetch;
   const res = await fetchImpl(`${supabaseUrl}/functions/v1/publish-career-pack`, {
     method: "POST",
     headers: {
-      "Authorization": `Bearer ${serviceKey}`,
+      "Authorization": `Bearer ${publishSecret}`,
       "Content-Type": "application/json",
     },
     body: JSON.stringify({

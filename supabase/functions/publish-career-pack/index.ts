@@ -1,10 +1,12 @@
 // Admin-only edge function to import + publish a career pack.
 //
 // Auth model:
-//   The client sends `Authorization: Bearer <SUPABASE_SERVICE_ROLE_KEY>`.
-//   We compare it in constant time against the env-provided service-role key.
-//   This deliberately restricts callers to those who already hold the
-//   service-role secret (the publish CLI and internal ops).
+//   The client sends `Authorization: Bearer <CAREER_PACK_PUBLISH_SECRET>`.
+//   We compare it in constant time against the dedicated publishing secret,
+//   NOT the Supabase service-role key. This limits the blast radius of a
+//   compromised publishing credential to this one controlled endpoint —
+//   the function itself still uses the service-role key server-side to
+//   perform DB writes.
 //
 // Client input NEVER selects a pack row id. The pack row is created here from
 // the submitted pack JSON, and the role_pack_bindings update is done inside
@@ -39,11 +41,12 @@ serve(async (req) => {
   const corsHeaders = getCorsHeaders(req);
   if (req.method === "OPTIONS") return new Response("ok", { headers: corsHeaders });
 
+  const publishSecret = Deno.env.get("CAREER_PACK_PUBLISH_SECRET") ?? "";
   const serviceKey = Deno.env.get("SUPABASE_SERVICE_ROLE_KEY") ?? "";
   const projectRef = Deno.env.get("SUPABASE_PROJECT_ID") ?? Deno.env.get("SUPABASE_URL")?.match(/https:\/\/([^.]+)\./)?.[1] ?? "";
   const auth = req.headers.get("authorization") ?? "";
   const provided = auth.startsWith("Bearer ") ? auth.slice(7) : "";
-  if (!serviceKey || !constantTimeEquals(provided, serviceKey)) {
+  if (!publishSecret || !constantTimeEquals(provided, publishSecret)) {
     return new Response(JSON.stringify({ error: "unauthorized" }), {
       status: 401,
       headers: { ...corsHeaders, "Content-Type": "application/json" },

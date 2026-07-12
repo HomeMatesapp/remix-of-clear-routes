@@ -47,6 +47,7 @@ const resolveActivePack = async (roleId: string | null, roleSlug: string | null)
   return data[0] as {
     pack_id: string; role_id: string; slug: string;
     pack_version: string; content_hash: string; content: unknown; status: string;
+    role_slug: string;
   };
 };
 
@@ -64,12 +65,38 @@ serve(async (req) => {
       });
     }
 
-    // 1. Server-side generic pack path. Client cannot select the pack.
-    //    We only trust role.id (canonical) or role.role_slug (canonical fallback).
+    // SECURITY: only canonical role identifiers are honoured. Any client-supplied
+    // packRowId / pack_id / pack_content / pack_hash / etc. is silently ignored.
     const roleId: string | null = typeof role.id === "string" ? role.id : null;
     const roleSlug: string | null = typeof role.role_slug === "string" ? role.role_slug : null;
+
+    // If both id and slug are supplied, require them to identify the same
+    // canonical role. This blocks pair-spoofing regardless of whether the
+    // supplied role is bound to a generic pack or served by a legacy engine.
+    if (roleId && roleSlug) {
+      const url = Deno.env.get("SUPABASE_URL"); const key = Deno.env.get("SUPABASE_SERVICE_ROLE_KEY");
+      if (url && key) {
+        const sb = createClient(url, key, { auth: { persistSession: false } });
+        const { data: canonical } = await sb.from("roles").select("id,role_slug").eq("id", roleId).maybeSingle();
+        if (canonical && canonical.role_slug !== roleSlug) {
+          return new Response(JSON.stringify({ error: "role_slug_mismatch" }), {
+            status: 400, headers: { ...corsHeaders, "Content-Type": "application/json" },
+          });
+        }
+      }
+    }
+
     const resolved = await resolveActivePack(roleId, roleSlug);
     if (resolved) {
+      // If the client supplied a slug, it must match the resolved canonical slug.
+      // (The DB resolver already rejects mismatched role_id+slug pairs; this is
+      // a belt-and-braces check that also catches slug-only spoofing where the
+      // slug points to a different role than the one intended.)
+      if (roleSlug && resolved.role_slug !== roleSlug) {
+        return new Response(JSON.stringify({ error: "role_slug_mismatch" }), {
+          status: 400, headers: { ...corsHeaders, "Content-Type": "application/json" },
+        });
+      }
       // Fail closed on hash mismatch: prevents serving tampered content.
       const recomputed = await canonicalHash(resolved.content);
       if (recomputed !== resolved.content_hash) {
