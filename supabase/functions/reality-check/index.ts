@@ -69,6 +69,23 @@ serve(async (req) => {
     // packRowId / pack_id / pack_content / pack_hash / etc. is silently ignored.
     const roleId: string | null = typeof role.id === "string" ? role.id : null;
     const roleSlug: string | null = typeof role.role_slug === "string" ? role.role_slug : null;
+
+    // If both id and slug are supplied, require them to identify the same
+    // canonical role. This blocks pair-spoofing regardless of whether the
+    // supplied role is bound to a generic pack or served by a legacy engine.
+    if (roleId && roleSlug) {
+      const url = Deno.env.get("SUPABASE_URL"); const key = Deno.env.get("SUPABASE_SERVICE_ROLE_KEY");
+      if (url && key) {
+        const sb = createClient(url, key, { auth: { persistSession: false } });
+        const { data: canonical } = await sb.from("roles").select("id,role_slug").eq("id", roleId).maybeSingle();
+        if (canonical && canonical.role_slug !== roleSlug) {
+          return new Response(JSON.stringify({ error: "role_slug_mismatch" }), {
+            status: 400, headers: { ...corsHeaders, "Content-Type": "application/json" },
+          });
+        }
+      }
+    }
+
     const resolved = await resolveActivePack(roleId, roleSlug);
     if (resolved) {
       // If the client supplied a slug, it must match the resolved canonical slug.
