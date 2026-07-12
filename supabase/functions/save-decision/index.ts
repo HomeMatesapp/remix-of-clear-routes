@@ -107,7 +107,8 @@ export const handleSaveDecision = async (
       status: 500, headers: { ...corsHeaders, "Content-Type": "application/json" },
     });
   }
-  const row = Array.isArray(rpc) ? rpc[0] : rpc;
+  const rows = Array.isArray(rpc) ? rpc : [rpc];
+  const row = rows[0] as { status?: string; saved_decision_id?: string } | null;
   const status: string = row?.status ?? "unknown_error";
   const savedId: string | null = row?.saved_decision_id ?? null;
 
