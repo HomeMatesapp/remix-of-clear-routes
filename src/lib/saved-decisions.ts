@@ -153,6 +153,13 @@ export const saveDecision = async (
   // working. The versioned answer_snapshot is populated when the caller
   // supplies one — new results always will; historical rows read from the DB
   // simply have it as NULL.
+  // PR 2 final-gate decision: saved decisions carry an explicit
+  // `evaluation_source` discriminator. Legacy engines (electrician, plumber,
+  // etc.) continue to write with source = 'legacy_engine' and all pack_*
+  // columns NULL — their V1 adapter output is rendering-only until the role
+  // is migrated to a generic pack. Only generic-pack results ever populate
+  // pack_id/pack_version/pack_content_hash/evaluator_schema_version/result_v1
+  // in one atomic write, enforced by saved_decisions_source_shape_chk.
   const row: Record<string, unknown> = {
     user_id: userId,
     role_id: role.id ?? null,
@@ -166,6 +173,7 @@ export const saveDecision = async (
     first_move: safeResult.immediateAction ?? safeResult.firstMoves?.[0] ?? null,
     input_snapshot: safeAnswers as unknown as Record<string, unknown>,
     result_snapshot: safeResult as unknown as Record<string, unknown>,
+    evaluation_source: "legacy_engine",
   };
   if (answerSnapshot) {
     row.answer_schema_version = ANSWER_SCHEMA_VERSION;
