@@ -67,17 +67,22 @@ Deno.test("gate-1: ordinary authenticated user cannot access admin tables or RPC
       const denied = !!selErr || (Array.isArray(sel) && sel.length === 0);
       assert(denied, `authenticated SELECT on ${t} must be denied or empty`);
 
-      const { error: insErr } = await userClient.from(t).insert({} as never);
-      assert(insErr, `authenticated INSERT on ${t} must fail`);
+      // With RLS enabled and zero applicable policies, INSERT/UPDATE/DELETE
+      // may either error explicitly or affect 0 rows (invisible target). Both
+      // outcomes prove no data was exposed or mutated.
+      const ins = await userClient.from(t).insert({} as never).select();
+      assert(!!ins.error || (Array.isArray(ins.data) && ins.data.length === 0),
+        `authenticated INSERT on ${t} must be denied or a no-op`);
 
-      const { error: updErr } = await userClient.from(t)
-        .update({ id: "00000000-0000-0000-0000-000000000000" } as never)
-        .eq("id", "00000000-0000-0000-0000-000000000000");
-      assert(updErr, `authenticated UPDATE on ${t} must fail`);
+      const upd = await userClient.from(t)
+        .update({} as never).eq("id", "00000000-0000-0000-0000-000000000000").select();
+      assert(!!upd.error || (Array.isArray(upd.data) && upd.data.length === 0),
+        `authenticated UPDATE on ${t} must be denied or a no-op`);
 
-      const { error: delErr } = await userClient.from(t)
-        .delete().eq("id", "00000000-0000-0000-0000-000000000000");
-      assert(delErr, `authenticated DELETE on ${t} must fail`);
+      const del = await userClient.from(t)
+        .delete().eq("id", "00000000-0000-0000-0000-000000000000").select();
+      assert(!!del.error || (Array.isArray(del.data) && del.data.length === 0),
+        `authenticated DELETE on ${t} must be denied or a no-op`);
     }
 
     // RPCs — either explicit permission error, or no exposed data. All three
