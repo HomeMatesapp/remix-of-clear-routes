@@ -1,5 +1,6 @@
 import { assertEquals, assert } from "https://deno.land/std@0.224.0/assert/mod.ts";
-import { evaluateGenericPack } from "../../reality-check/_generic_pack.ts";
+import { evaluateGenericPack } from "./_generic_pack.ts";
+import type { RealityCheckResultV1 } from "../_shared/career-evaluator/v1/types.ts";
 
 const PACK_PATH = new URL("../../../../content/career-packs/photographer/1.0.0.json", import.meta.url);
 const pack = JSON.parse(await Deno.readTextFile(PACK_PATH));
