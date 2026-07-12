@@ -327,7 +327,7 @@
         "occupational_health_concerns": "none"
       },
       "expect": {
-        "blockedRouteIds": ["bsc_midwifery", "msc_pre_reg_midwifery"],
+        "blockedRouteIds": ["bsc_midwifery", "msc_pre_reg_midwifery", "nurse_to_midwife"],
         "requiredActionIds": ["action_check_gcse_options", "action_explore_access_courses", "action_check_lsf_eligibility"]
       }
     },
