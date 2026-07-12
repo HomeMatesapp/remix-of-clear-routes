@@ -1120,6 +1120,7 @@ export type Database = {
           backup_route_title: string | null
           best_route_title: string | null
           created_at: string
+          evaluation_source: string
           evaluator_schema_version: string | null
           first_move: string | null
           id: string
@@ -1146,6 +1147,7 @@ export type Database = {
           backup_route_title?: string | null
           best_route_title?: string | null
           created_at?: string
+          evaluation_source?: string
           evaluator_schema_version?: string | null
           first_move?: string | null
           id?: string
@@ -1172,6 +1174,7 @@ export type Database = {
           backup_route_title?: string | null
           best_route_title?: string | null
           created_at?: string
+          evaluation_source?: string
           evaluator_schema_version?: string | null
           first_move?: string | null
           id?: string
@@ -1421,6 +1424,22 @@ export type Database = {
           content_hash: string
           pack_id: string
           pack_version: string
+          role_id: string
+          role_slug: string
+          slug: string
+          status: Database["public"]["Enums"]["career_pack_status"]
+        }[]
+      }
+      resolve_role_pack_binding: {
+        Args: { _role_id: string; _slug: string }
+        Returns: {
+          content: Json
+          content_hash: string
+          geographic_scope: Json
+          is_servable: boolean
+          pack_id: string
+          pack_version: string
+          review_due_at: string
           role_id: string
           role_slug: string
           slug: string
