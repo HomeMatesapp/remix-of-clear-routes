@@ -60,9 +60,8 @@ const setupFixture = async (): Promise<Fx> => {
   }).select("id").single();
   assert(!rErr, `role insert: ${rErr?.message}`);
   const roleId = role.id;
-  // Use a semver pre-release that's guaranteed to match the semver check
-  // constraint on career_packs.pack_version (alphanumeric + hyphen only).
-  const packVersion = `1.0.0-pr3a${Date.now()}${Math.floor(Math.random() * 1e6)}`;
+  // Strict semver required by the career_packs_semver check.
+  const packVersion = `9.${Math.floor(Math.random() * 999)}.${Math.floor(Math.random() * 999)}`;
   const packSlug = `pr3a-pack-${uniq()}`;
   const patched = { ...midwifePack, roleId, slug: packSlug, packVersion };
   const packContentHash = await canonicalHash(patched);
