@@ -2,7 +2,7 @@ import { assertEquals, assert } from "https://deno.land/std@0.224.0/assert/mod.t
 import { evaluateGenericPack } from "./_generic_pack.ts";
 import type { RealityCheckResultV1, RouteEvaluation } from "../_shared/career-evaluator/v1/types.ts";
 
-const PACK_PATH = new URL("../../../../content/career-packs/photographer/1.0.0.json", import.meta.url);
+const PACK_PATH = new URL("../../../content/career-packs/photographer/1.0.0.json", import.meta.url);
 const pack: unknown = JSON.parse(await Deno.readTextFile(PACK_PATH));
 
 Deno.test("photographer — strong-portfolio freelance evaluates under Deno", () => {
