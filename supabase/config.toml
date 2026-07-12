@@ -5,3 +5,7 @@ verify_jwt = false
 
 [functions.publish-career-pack]
 verify_jwt = false
+
+[functions.save-decision]
+verify_jwt = true
+
