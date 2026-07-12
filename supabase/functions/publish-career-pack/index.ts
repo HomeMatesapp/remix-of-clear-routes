@@ -13,10 +13,10 @@
 import { serve } from "https://deno.land/std@0.168.0/http/server.ts";
 import { createClient } from "https://esm.sh/@supabase/supabase-js@2";
 import { getCorsHeaders } from "../_shared/cors.ts";
-import { careerDecisionPackV1, validatePackCrossRefs } from "../../_shared/career-evaluator/v1/schema.ts";
-import { evaluate } from "../../_shared/career-evaluator/v1/evaluate.ts";
-import { canonicalHash } from "../../_shared/career-evaluator/v1/hash.ts";
-import type { CareerDecisionPackV1 } from "../../_shared/career-evaluator/v1/types.ts";
+import { careerDecisionPackV1, validatePackCrossRefs } from "../_shared/career-evaluator/v1/schema.ts";
+import { evaluate } from "../_shared/career-evaluator/v1/evaluate.ts";
+import { canonicalHash } from "../_shared/career-evaluator/v1/hash.ts";
+import type { CareerDecisionPackV1 } from "../_shared/career-evaluator/v1/types.ts";
 
 const constantTimeEquals = (a: string, b: string): boolean => {
   if (a.length !== b.length) return false;
