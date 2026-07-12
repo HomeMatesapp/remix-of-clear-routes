@@ -1,12 +1,12 @@
 import { assertEquals, assert } from "https://deno.land/std@0.224.0/assert/mod.ts";
 import { evaluateGenericPack } from "./_generic_pack.ts";
-import type { RealityCheckResultV1 } from "../_shared/career-evaluator/v1/types.ts";
+import type { RealityCheckResultV1, RouteEvaluation } from "../_shared/career-evaluator/v1/types.ts";
 
-const PACK_PATH = new URL("../../../../content/career-packs/carpenter-joiner/1.0.0.json", import.meta.url);
-const pack = JSON.parse(await Deno.readTextFile(PACK_PATH));
+const PACK_PATH = new URL("../../../content/career-packs/carpenter-joiner/1.0.0.json", import.meta.url);
+const pack: unknown = JSON.parse(await Deno.readTextFile(PACK_PATH));
 
 Deno.test("carpenter-joiner — apprenticeship-ready school leaver evaluates under Deno", () => {
-  const r = evaluateGenericPack(pack, {
+  const r: RealityCheckResultV1 = evaluateGenericPack(pack, {
     starting_point: "school_leaver",
     english_maths_status: "yes_level2",
     has_employer_offer: "yes_have_offer",
@@ -26,7 +26,7 @@ Deno.test("carpenter-joiner — apprenticeship-ready school leaver evaluates und
 });
 
 Deno.test("carpenter-joiner — unable to do physical work blocks all routes", () => {
-  const r = evaluateGenericPack(pack, {
+  const r: RealityCheckResultV1 = evaluateGenericPack(pack, {
     starting_point: "career_changer",
     english_maths_status: "yes_level2",
     has_employer_offer: "actively_looking",
@@ -38,6 +38,9 @@ Deno.test("carpenter-joiner — unable to do physical work blocks all routes", (
     local_apprenticeship_known: "yes_found",
     willing_workplace_evidence: "yes",
   });
-  const blocked = r.routes.filter((x) => x.classification === "not_currently_available_to_you").map((x) => x.routeId).sort();
+  const blocked = r.routes
+    .filter((x: RouteEvaluation) => x.classification === "not_currently_available_to_you")
+    .map((x: RouteEvaluation) => x.routeId)
+    .sort();
   assertEquals(blocked, ["apprenticeship_l2_l3", "college_plus_experience", "experience_onsite_assessment"]);
 });
