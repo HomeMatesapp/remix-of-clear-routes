@@ -3,11 +3,11 @@ import { readFileSync } from "node:fs";
 import { fileURLToPath } from "node:url";
 import { dirname, resolve } from "node:path";
 const __dirname_local = dirname(fileURLToPath(import.meta.url));
-const midwife = JSON.parse(readFileSync(resolve(__dirname_local, "../../../../../../content/career-packs/midwife/1.0.0.json"), "utf-8"));
-import { careerDecisionPackV1, validatePackCrossRefs } from "../schema";
-import { evaluate } from "../evaluate";
-import { FORBIDDEN_LANGUAGE } from "../phrases";
-import type { CareerDecisionPackV1 } from "../types";
+const midwife = JSON.parse(readFileSync(resolve(__dirname_local, "../../../content/career-packs/midwife/1.0.0.json"), "utf-8"));
+import { careerDecisionPackV1, validatePackCrossRefs } from "@shared/career-evaluator/v1/schema";
+import { evaluate } from "@shared/career-evaluator/v1/evaluate";
+import { FORBIDDEN_LANGUAGE } from "@shared/career-evaluator/v1/phrases";
+import type { CareerDecisionPackV1 } from "@shared/career-evaluator/v1/types";
 
 const NOW = "2026-07-12T00:00:00.000Z";
 

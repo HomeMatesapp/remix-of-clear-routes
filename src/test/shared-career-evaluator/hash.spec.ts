@@ -1,5 +1,5 @@
 import { describe, expect, it } from "vitest";
-import { canonicalStringify, canonicalHash, sha256Hex } from "../hash";
+import { canonicalStringify, canonicalHash, sha256Hex } from "@shared/career-evaluator/v1/hash";
 
 describe("canonicalStringify", () => {
   it("sorts object keys deterministically at every depth", () => {

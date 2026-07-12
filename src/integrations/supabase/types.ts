@@ -122,22 +122,110 @@ export type Database = {
         }
         Relationships: []
       }
+      assessment_receipts: {
+        Row: {
+          claimed_at: string | null
+          claimed_user_id: string | null
+          evaluation_source: string
+          evaluator_schema_version: string
+          expires_at: string
+          id: string
+          issued_at: string
+          issued_user_id: string | null
+          pack_content_hash: string
+          pack_id: string
+          pack_version: string
+          receipt_hash: string
+          result_canonical_hash: string
+          result_v1: Json
+          revoked_at: string | null
+          role_id: string
+          role_slug: string
+          saved_decision_id: string | null
+        }
+        Insert: {
+          claimed_at?: string | null
+          claimed_user_id?: string | null
+          evaluation_source?: string
+          evaluator_schema_version: string
+          expires_at: string
+          id?: string
+          issued_at?: string
+          issued_user_id?: string | null
+          pack_content_hash: string
+          pack_id: string
+          pack_version: string
+          receipt_hash: string
+          result_canonical_hash: string
+          result_v1: Json
+          revoked_at?: string | null
+          role_id: string
+          role_slug: string
+          saved_decision_id?: string | null
+        }
+        Update: {
+          claimed_at?: string | null
+          claimed_user_id?: string | null
+          evaluation_source?: string
+          evaluator_schema_version?: string
+          expires_at?: string
+          id?: string
+          issued_at?: string
+          issued_user_id?: string | null
+          pack_content_hash?: string
+          pack_id?: string
+          pack_version?: string
+          receipt_hash?: string
+          result_canonical_hash?: string
+          result_v1?: Json
+          revoked_at?: string | null
+          role_id?: string
+          role_slug?: string
+          saved_decision_id?: string | null
+        }
+        Relationships: [
+          {
+            foreignKeyName: "assessment_receipts_pack_id_fkey"
+            columns: ["pack_id"]
+            isOneToOne: false
+            referencedRelation: "career_packs"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "assessment_receipts_role_id_fkey"
+            columns: ["role_id"]
+            isOneToOne: false
+            referencedRelation: "roles"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "assessment_receipts_saved_decision_id_fkey"
+            columns: ["saved_decision_id"]
+            isOneToOne: false
+            referencedRelation: "saved_decisions"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
       career_pack_config: {
         Row: {
           environment: Database["public"]["Enums"]["career_pack_environment"]
           id: boolean
+          receipt_ttl_minutes: number
           review_due_grace_days: number
           updated_at: string
         }
         Insert: {
           environment?: Database["public"]["Enums"]["career_pack_environment"]
           id?: boolean
+          receipt_ttl_minutes?: number
           review_due_grace_days?: number
           updated_at?: string
         }
         Update: {
           environment?: Database["public"]["Enums"]["career_pack_environment"]
           id?: boolean
+          receipt_ttl_minutes?: number
           review_due_grace_days?: number
           updated_at?: string
         }
@@ -1125,6 +1213,7 @@ export type Database = {
           first_move: string | null
           id: string
           input_snapshot: Json | null
+          label: string | null
           local_realism_rating: string | null
           overall_verdict: string | null
           pack_content_hash: string | null
@@ -1152,6 +1241,7 @@ export type Database = {
           first_move?: string | null
           id?: string
           input_snapshot?: Json | null
+          label?: string | null
           local_realism_rating?: string | null
           overall_verdict?: string | null
           pack_content_hash?: string | null
@@ -1179,6 +1269,7 @@ export type Database = {
           first_move?: string | null
           id?: string
           input_snapshot?: Json | null
+          label?: string | null
           local_realism_rating?: string | null
           overall_verdict?: string | null
           pack_content_hash?: string | null
@@ -1408,6 +1499,17 @@ export type Database = {
         Returns: undefined
       }
       career_pack_is_servable: { Args: { _pack_id: string }; Returns: boolean }
+      claim_receipt_and_save_decision: {
+        Args: { _label?: string; _receipt_hash: string; _user_id: string }
+        Returns: {
+          saved_decision_id: string
+          status: string
+        }[]
+      }
+      cleanup_expired_assessment_receipts: {
+        Args: { _retain_claimed_days?: number }
+        Returns: number
+      }
       get_contamination_fn_def: { Args: never; Returns: string }
       publish_and_bind_career_pack: {
         Args: { _actor: string; _pack_id: string }
