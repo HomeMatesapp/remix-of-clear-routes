@@ -163,6 +163,7 @@
       "then": [
         { "kind": "block_route", "routeId": "nurse_to_midwife", "reason": "The shortened nurse-to-midwife route is only open to nurses already on the NMC adult-nursing part of the register.", "evidenceRefs": ["nmc_standards"] }
       ]
+    },
     {
       "id": "flag_longer_routes_when_already_nurse",
       "when": { "all": [{ "questionId": "current_registration", "op": "eq", "value": "yes" }] },
