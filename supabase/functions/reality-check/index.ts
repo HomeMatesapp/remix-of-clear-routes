@@ -145,6 +145,10 @@ const validateRolePair = async (roleId: string, roleSlug: string): Promise<boole
 export interface HandlerDeps {
   resolveBinding?: BindingResolver;
   validatePair?: (roleId: string, roleSlug: string) => Promise<boolean>;
+  issueReceipt?: ReceiptIssuer;
+  now?: () => Date;
+  ttlMinutes?: number;
+  resolveUserId?: (req: Request) => Promise<string | null>;
 }
 
 export const handleRealityCheck = async (req: Request, deps: HandlerDeps = {}): Promise<Response> => {
