@@ -1,0 +1,1512 @@
+{
+  "manifestVersion": "1.0.0",
+  "generatedAt": "2026-07-12",
+  "totals": {
+    "reviewedRealityChecks": 11,
+    "genericPacks": 3,
+    "legacyEngines": 8,
+    "planned": 89
+  },
+  "entries": [
+    {
+      "roleId": "f2e9c333-c373-4cca-add2-3b7bd1cd50d7",
+      "roleSlug": "midwife",
+      "canonicalRoleTitle": "Midwife",
+      "participantTitle": "Midwife",
+      "occupationalFamily": "healthcare_clinical",
+      "archetypeId": "regulated_degree",
+      "regulatoryStatus": "statutory_registration",
+      "legacyEngine": false,
+      "deliveryIncrement": "increment_1",
+      "geographicPilotScope": [
+        "England"
+      ],
+      "deliveryState": "pack_live"
+    },
+    {
+      "roleId": "9d35494b-b7d8-47e0-9de5-357e393cc7b6",
+      "roleSlug": "carpenter-joiner",
+      "canonicalRoleTitle": "Carpenter / Joiner",
+      "participantTitle": "Carpenter / Joiner",
+      "occupationalFamily": "skilled_trades",
+      "archetypeId": "apprenticeship_workplace_competence",
+      "regulatoryStatus": "not_formally_regulated",
+      "legacyEngine": false,
+      "deliveryIncrement": "increment_1",
+      "geographicPilotScope": [
+        "England"
+      ],
+      "deliveryState": "pack_live"
+    },
+    {
+      "roleId": "d8c7bece-2779-45e5-a8ea-ca2283be26c7",
+      "roleSlug": "photographer",
+      "canonicalRoleTitle": "Photographer",
+      "participantTitle": "Photographer",
+      "occupationalFamily": "creative_media_content",
+      "archetypeId": "portfolio_led_creative",
+      "regulatoryStatus": "not_formally_regulated",
+      "legacyEngine": false,
+      "deliveryIncrement": "increment_1",
+      "geographicPilotScope": [
+        "England"
+      ],
+      "deliveryState": "pack_live"
+    },
+    {
+      "roleId": "295014e0-f3be-4a45-9b23-6344e2b9791e",
+      "roleSlug": "actor",
+      "canonicalRoleTitle": "Actor",
+      "participantTitle": "Actor",
+      "occupationalFamily": "creative_media_content",
+      "archetypeId": "legacy_engine",
+      "regulatoryStatus": "not_formally_regulated",
+      "legacyEngine": true,
+      "deliveryIncrement": "increment_1",
+      "geographicPilotScope": [
+        "England"
+      ],
+      "deliveryState": "legacy_live"
+    },
+    {
+      "roleId": "9c66b096-acc3-488d-858b-c46f5b205212",
+      "roleSlug": "electrician",
+      "canonicalRoleTitle": "Electrician",
+      "participantTitle": "Electrician",
+      "occupationalFamily": "skilled_trades",
+      "archetypeId": "legacy_engine",
+      "regulatoryStatus": "regulated_activity",
+      "legacyEngine": true,
+      "deliveryIncrement": "increment_1",
+      "geographicPilotScope": [
+        "England"
+      ],
+      "deliveryState": "legacy_live"
+    },
+    {
+      "roleId": "5caf8771-dace-435f-ad73-c36bafeee93a",
+      "roleSlug": "hvac-engineer",
+      "canonicalRoleTitle": "Heating & ventilation engineer",
+      "participantTitle": "Heating & ventilation engineer",
+      "occupationalFamily": "skilled_trades",
+      "archetypeId": "legacy_engine",
+      "regulatoryStatus": "regulated_activity",
+      "legacyEngine": true,
+      "deliveryIncrement": "increment_1",
+      "geographicPilotScope": [
+        "England"
+      ],
+      "deliveryState": "legacy_live"
+    },
+    {
+      "roleId": "d77e9946-1664-423b-8b8e-24689b6fb0c0",
+      "roleSlug": "plumber",
+      "canonicalRoleTitle": "Plumber",
+      "participantTitle": "Plumber",
+      "occupationalFamily": "skilled_trades",
+      "archetypeId": "legacy_engine",
+      "regulatoryStatus": "not_formally_regulated",
+      "legacyEngine": true,
+      "deliveryIncrement": "increment_1",
+      "geographicPilotScope": [
+        "England"
+      ],
+      "deliveryState": "legacy_live"
+    },
+    {
+      "roleId": "e3cc404e-89ae-44b6-bcf7-23ed76b89e00",
+      "roleSlug": "police-officer",
+      "canonicalRoleTitle": "Police Officer",
+      "participantTitle": "Police Officer",
+      "occupationalFamily": "public_service_security",
+      "archetypeId": "legacy_engine",
+      "regulatoryStatus": "mandatory_licence_or_scheme",
+      "legacyEngine": true,
+      "deliveryIncrement": "increment_1",
+      "geographicPilotScope": [
+        "England"
+      ],
+      "deliveryState": "legacy_live"
+    },
+    {
+      "roleId": "816fa801-e833-4c45-ad19-ce299ac7f823",
+      "roleSlug": "registered-nurse",
+      "canonicalRoleTitle": "Registered Nurse",
+      "participantTitle": "Registered Nurse",
+      "occupationalFamily": "healthcare_clinical",
+      "archetypeId": "legacy_engine",
+      "regulatoryStatus": "statutory_registration",
+      "legacyEngine": true,
+      "deliveryIncrement": "increment_1",
+      "geographicPilotScope": [
+        "England"
+      ],
+      "deliveryState": "legacy_live"
+    },
+    {
+      "roleId": "cb16cc0d-1cbd-4451-a3c4-d46f2b084c7a",
+      "roleSlug": "software-engineer",
+      "canonicalRoleTitle": "Software Engineer",
+      "participantTitle": "Software Engineer",
+      "occupationalFamily": "digital_portfolio",
+      "archetypeId": "legacy_engine",
+      "regulatoryStatus": "not_formally_regulated",
+      "legacyEngine": true,
+      "deliveryIncrement": "increment_1",
+      "geographicPilotScope": [
+        "England"
+      ],
+      "deliveryState": "legacy_live"
+    },
+    {
+      "roleId": "e3a09188-b98c-4d3c-be50-5672225ed7ed",
+      "roleSlug": "solicitor",
+      "canonicalRoleTitle": "Solicitor",
+      "participantTitle": "Solicitor",
+      "occupationalFamily": "legal_finance_professional",
+      "archetypeId": "legacy_engine",
+      "regulatoryStatus": "statutory_registration",
+      "legacyEngine": true,
+      "deliveryIncrement": "increment_1",
+      "geographicPilotScope": [
+        "England"
+      ],
+      "deliveryState": "legacy_live"
+    },
+    {
+      "roleId": "118c06c8-38ee-475a-9d6a-27908e290b53",
+      "roleSlug": "999-call-handler",
+      "canonicalRoleTitle": "999 Call Handler",
+      "participantTitle": "999 Call Handler",
+      "occupationalFamily": "unassigned",
+      "archetypeId": "planned",
+      "regulatoryStatus": "unassigned",
+      "legacyEngine": false,
+      "deliveryIncrement": "increment_2",
+      "geographicPilotScope": [
+        "England"
+      ],
+      "deliveryState": "planned"
+    },
+    {
+      "roleId": "0f9fbf85-289f-437e-a5be-9d39fe5f08d5",
+      "roleSlug": "account-executive",
+      "canonicalRoleTitle": "Account Executive",
+      "participantTitle": "Account Executive",
+      "occupationalFamily": "unassigned",
+      "archetypeId": "planned",
+      "regulatoryStatus": "unassigned",
+      "legacyEngine": false,
+      "deliveryIncrement": "increment_2",
+      "geographicPilotScope": [
+        "England"
+      ],
+      "deliveryState": "planned"
+    },
+    {
+      "roleId": "8f6ef7ee-1b2a-4518-813f-c741822644ba",
+      "roleSlug": "account-manager",
+      "canonicalRoleTitle": "Account Manager",
+      "participantTitle": "Account Manager",
+      "occupationalFamily": "unassigned",
+      "archetypeId": "planned",
+      "regulatoryStatus": "unassigned",
+      "legacyEngine": false,
+      "deliveryIncrement": "increment_2",
+      "geographicPilotScope": [
+        "England"
+      ],
+      "deliveryState": "planned"
+    },
+    {
+      "roleId": "221d57a4-4c8d-4f12-a798-899fffddc1e1",
+      "roleSlug": "accountant",
+      "canonicalRoleTitle": "Accountant (ACA/ACCA)",
+      "participantTitle": "Accountant (ACA/ACCA)",
+      "occupationalFamily": "unassigned",
+      "archetypeId": "planned",
+      "regulatoryStatus": "unassigned",
+      "legacyEngine": false,
+      "deliveryIncrement": "increment_2",
+      "geographicPilotScope": [
+        "England"
+      ],
+      "deliveryState": "planned"
+    },
+    {
+      "roleId": "a73e46d6-2626-4b21-9097-e2d0cdd666f2",
+      "roleSlug": "accounts-assistant",
+      "canonicalRoleTitle": "Accounts Assistant",
+      "participantTitle": "Accounts Assistant",
+      "occupationalFamily": "unassigned",
+      "archetypeId": "planned",
+      "regulatoryStatus": "unassigned",
+      "legacyEngine": false,
+      "deliveryIncrement": "increment_2",
+      "geographicPilotScope": [
+        "England"
+      ],
+      "deliveryState": "planned"
+    },
+    {
+      "roleId": "3f7d0478-7d0d-44b2-8b1d-1ccc7a4c74d4",
+      "roleSlug": "acoustic-engineer",
+      "canonicalRoleTitle": "Acoustic Engineer",
+      "participantTitle": "Acoustic Engineer",
+      "occupationalFamily": "unassigned",
+      "archetypeId": "planned",
+      "regulatoryStatus": "unassigned",
+      "legacyEngine": false,
+      "deliveryIncrement": "increment_2",
+      "geographicPilotScope": [
+        "England"
+      ],
+      "deliveryState": "planned"
+    },
+    {
+      "roleId": "25cdae03-14dd-42b4-ba9e-256212890376",
+      "roleSlug": "acquisitions-editor",
+      "canonicalRoleTitle": "Acquisitions Editor",
+      "participantTitle": "Acquisitions Editor",
+      "occupationalFamily": "unassigned",
+      "archetypeId": "planned",
+      "regulatoryStatus": "unassigned",
+      "legacyEngine": false,
+      "deliveryIncrement": "increment_2",
+      "geographicPilotScope": [
+        "England"
+      ],
+      "deliveryState": "planned"
+    },
+    {
+      "roleId": "9037de28-03cc-4a93-8d28-6f7470d6e6df",
+      "roleSlug": "activist-campaign-director",
+      "canonicalRoleTitle": "Activist / Campaign Director",
+      "participantTitle": "Activist / Campaign Director",
+      "occupationalFamily": "unassigned",
+      "archetypeId": "planned",
+      "regulatoryStatus": "unassigned",
+      "legacyEngine": false,
+      "deliveryIncrement": "increment_2",
+      "geographicPilotScope": [
+        "England"
+      ],
+      "deliveryState": "planned"
+    },
+    {
+      "roleId": "6214d0ca-6fa5-4cd7-a980-2ee64de9fe3b",
+      "roleSlug": "activities-coordinator",
+      "canonicalRoleTitle": "Activities Coordinator (Care)",
+      "participantTitle": "Activities Coordinator (Care)",
+      "occupationalFamily": "unassigned",
+      "archetypeId": "planned",
+      "regulatoryStatus": "unassigned",
+      "legacyEngine": false,
+      "deliveryIncrement": "increment_2",
+      "geographicPilotScope": [
+        "England"
+      ],
+      "deliveryState": "planned"
+    },
+    {
+      "roleId": "b7ee1530-d3eb-401b-a314-06d50cc80731",
+      "roleSlug": "actuary",
+      "canonicalRoleTitle": "Actuary",
+      "participantTitle": "Actuary",
+      "occupationalFamily": "unassigned",
+      "archetypeId": "planned",
+      "regulatoryStatus": "unassigned",
+      "legacyEngine": false,
+      "deliveryIncrement": "increment_2",
+      "geographicPilotScope": [
+        "England"
+      ],
+      "deliveryState": "planned"
+    },
+    {
+      "roleId": "8f68979f-9fad-4896-8f33-b812756c4d56",
+      "roleSlug": "acupuncturist",
+      "canonicalRoleTitle": "Acupuncturist",
+      "participantTitle": "Acupuncturist",
+      "occupationalFamily": "unassigned",
+      "archetypeId": "planned",
+      "regulatoryStatus": "unassigned",
+      "legacyEngine": false,
+      "deliveryIncrement": "increment_2",
+      "geographicPilotScope": [
+        "England"
+      ],
+      "deliveryState": "planned"
+    },
+    {
+      "roleId": "41dfc8cc-9d27-41b5-af0a-005d05b9ab34",
+      "roleSlug": "administrative-assistant",
+      "canonicalRoleTitle": "Administrative Assistant",
+      "participantTitle": "Administrative Assistant",
+      "occupationalFamily": "unassigned",
+      "archetypeId": "planned",
+      "regulatoryStatus": "unassigned",
+      "legacyEngine": false,
+      "deliveryIncrement": "increment_2",
+      "geographicPilotScope": [
+        "England"
+      ],
+      "deliveryState": "planned"
+    },
+    {
+      "roleId": "ddaa88ed-603c-4dae-a606-17e78b1131a5",
+      "roleSlug": "adoption-social-worker",
+      "canonicalRoleTitle": "Adoption Social Worker",
+      "participantTitle": "Adoption Social Worker",
+      "occupationalFamily": "unassigned",
+      "archetypeId": "planned",
+      "regulatoryStatus": "unassigned",
+      "legacyEngine": false,
+      "deliveryIncrement": "increment_2",
+      "geographicPilotScope": [
+        "England"
+      ],
+      "deliveryState": "planned"
+    },
+    {
+      "roleId": "8c845e1c-01ab-41f1-8c82-5611dbedbd9b",
+      "roleSlug": "adult-education-tutor",
+      "canonicalRoleTitle": "Adult Education Tutor",
+      "participantTitle": "Adult Education Tutor",
+      "occupationalFamily": "unassigned",
+      "archetypeId": "planned",
+      "regulatoryStatus": "unassigned",
+      "legacyEngine": false,
+      "deliveryIncrement": "increment_2",
+      "geographicPilotScope": [
+        "England"
+      ],
+      "deliveryState": "planned"
+    },
+    {
+      "roleId": "7d41f83c-b4aa-43df-af64-e7f7380c1702",
+      "roleSlug": "adult-social-worker",
+      "canonicalRoleTitle": "Adult Social Worker",
+      "participantTitle": "Adult Social Worker",
+      "occupationalFamily": "unassigned",
+      "archetypeId": "planned",
+      "regulatoryStatus": "unassigned",
+      "legacyEngine": false,
+      "deliveryIncrement": "increment_2",
+      "geographicPilotScope": [
+        "England"
+      ],
+      "deliveryState": "planned"
+    },
+    {
+      "roleId": "540d1eec-854a-4e94-8a24-38257d085a77",
+      "roleSlug": "advanced-manufacturing-technician",
+      "canonicalRoleTitle": "Advanced Manufacturing Technician",
+      "participantTitle": "Advanced Manufacturing Technician",
+      "occupationalFamily": "unassigned",
+      "archetypeId": "planned",
+      "regulatoryStatus": "unassigned",
+      "legacyEngine": false,
+      "deliveryIncrement": "increment_2",
+      "geographicPilotScope": [
+        "England"
+      ],
+      "deliveryState": "planned"
+    },
+    {
+      "roleId": "e6473ecf-9a58-453a-a80c-b7cd991705ac",
+      "roleSlug": "advocate",
+      "canonicalRoleTitle": "Advocate (Social Care)",
+      "participantTitle": "Advocate (Social Care)",
+      "occupationalFamily": "unassigned",
+      "archetypeId": "planned",
+      "regulatoryStatus": "unassigned",
+      "legacyEngine": false,
+      "deliveryIncrement": "increment_2",
+      "geographicPilotScope": [
+        "England"
+      ],
+      "deliveryState": "planned"
+    },
+    {
+      "roleId": "8ace5191-dfcc-442a-96b8-53591efa7462",
+      "roleSlug": "aeronautical-aerospace-design-engineer",
+      "canonicalRoleTitle": "Aeronautical / Aerospace Design Engineer",
+      "participantTitle": "Aeronautical / Aerospace Design Engineer",
+      "occupationalFamily": "unassigned",
+      "archetypeId": "planned",
+      "regulatoryStatus": "unassigned",
+      "legacyEngine": false,
+      "deliveryIncrement": "increment_2",
+      "geographicPilotScope": [
+        "England"
+      ],
+      "deliveryState": "planned"
+    },
+    {
+      "roleId": "e94b3e52-fed8-4275-8b02-19ae7ec075b4",
+      "roleSlug": "aerospace-engineer",
+      "canonicalRoleTitle": "Aerospace Engineer",
+      "participantTitle": "Aerospace Engineer",
+      "occupationalFamily": "unassigned",
+      "archetypeId": "planned",
+      "regulatoryStatus": "unassigned",
+      "legacyEngine": false,
+      "deliveryIncrement": "increment_2",
+      "geographicPilotScope": [
+        "England"
+      ],
+      "deliveryState": "planned"
+    },
+    {
+      "roleId": "bba4d1c9-bacd-4ca5-acb7-60b11c5d900d",
+      "roleSlug": "aesthetic-nurse",
+      "canonicalRoleTitle": "Aesthetic Nurse",
+      "participantTitle": "Aesthetic Nurse",
+      "occupationalFamily": "unassigned",
+      "archetypeId": "planned",
+      "regulatoryStatus": "unassigned",
+      "legacyEngine": false,
+      "deliveryIncrement": "increment_2",
+      "geographicPilotScope": [
+        "England"
+      ],
+      "deliveryState": "planned"
+    },
+    {
+      "roleId": "3da6610e-e871-4a65-a6dd-fcb20a4fc172",
+      "roleSlug": "aesthetic-practitioner",
+      "canonicalRoleTitle": "Aesthetic Practitioner",
+      "participantTitle": "Aesthetic Practitioner",
+      "occupationalFamily": "unassigned",
+      "archetypeId": "planned",
+      "regulatoryStatus": "unassigned",
+      "legacyEngine": false,
+      "deliveryIncrement": "increment_2",
+      "geographicPilotScope": [
+        "England"
+      ],
+      "deliveryState": "planned"
+    },
+    {
+      "roleId": "2fa881b0-22c3-41bc-884c-c083a0128173",
+      "roleSlug": "after-school-holiday-club-leader",
+      "canonicalRoleTitle": "After School / Holiday Club Leader",
+      "participantTitle": "After School / Holiday Club Leader",
+      "occupationalFamily": "unassigned",
+      "archetypeId": "planned",
+      "regulatoryStatus": "unassigned",
+      "legacyEngine": false,
+      "deliveryIncrement": "increment_2",
+      "geographicPilotScope": [
+        "England"
+      ],
+      "deliveryState": "planned"
+    },
+    {
+      "roleId": "582f080c-8013-4af6-8042-0cda7e410410",
+      "roleSlug": "agricultural-farm-machinery-mechanic",
+      "canonicalRoleTitle": "Agricultural / Farm Machinery Mechanic",
+      "participantTitle": "Agricultural / Farm Machinery Mechanic",
+      "occupationalFamily": "unassigned",
+      "archetypeId": "planned",
+      "regulatoryStatus": "unassigned",
+      "legacyEngine": false,
+      "deliveryIncrement": "increment_2",
+      "geographicPilotScope": [
+        "England"
+      ],
+      "deliveryState": "planned"
+    },
+    {
+      "roleId": "6b83097d-d321-4039-935b-06bad50d6a29",
+      "roleSlug": "agricultural-contractor",
+      "canonicalRoleTitle": "Agricultural Contractor",
+      "participantTitle": "Agricultural Contractor",
+      "occupationalFamily": "unassigned",
+      "archetypeId": "planned",
+      "regulatoryStatus": "unassigned",
+      "legacyEngine": false,
+      "deliveryIncrement": "increment_2",
+      "geographicPilotScope": [
+        "England"
+      ],
+      "deliveryState": "planned"
+    },
+    {
+      "roleId": "9631caba-46e0-4e8e-8737-28a2762f3592",
+      "roleSlug": "agricultural-engineer",
+      "canonicalRoleTitle": "Agricultural Engineer",
+      "participantTitle": "Agricultural Engineer",
+      "occupationalFamily": "unassigned",
+      "archetypeId": "planned",
+      "regulatoryStatus": "unassigned",
+      "legacyEngine": false,
+      "deliveryIncrement": "increment_2",
+      "geographicPilotScope": [
+        "England"
+      ],
+      "deliveryState": "planned"
+    },
+    {
+      "roleId": "0f1d91e0-76eb-4a55-9587-77ebfc6f6fc7",
+      "roleSlug": "agricultural-inspector",
+      "canonicalRoleTitle": "Agricultural Inspector (APHA)",
+      "participantTitle": "Agricultural Inspector (APHA)",
+      "occupationalFamily": "unassigned",
+      "archetypeId": "planned",
+      "regulatoryStatus": "unassigned",
+      "legacyEngine": false,
+      "deliveryIncrement": "increment_2",
+      "geographicPilotScope": [
+        "England"
+      ],
+      "deliveryState": "planned"
+    },
+    {
+      "roleId": "a9679456-5d10-407b-9534-0ac0896559cc",
+      "roleSlug": "agricultural-pilot-aerial-applicator",
+      "canonicalRoleTitle": "Agricultural Pilot / Aerial Applicator",
+      "participantTitle": "Agricultural Pilot / Aerial Applicator",
+      "occupationalFamily": "unassigned",
+      "archetypeId": "planned",
+      "regulatoryStatus": "unassigned",
+      "legacyEngine": false,
+      "deliveryIncrement": "increment_2",
+      "geographicPilotScope": [
+        "England"
+      ],
+      "deliveryState": "planned"
+    },
+    {
+      "roleId": "6dd57fc8-838a-4826-a5d8-a32ecb789779",
+      "roleSlug": "agronomist",
+      "canonicalRoleTitle": "Agronomist",
+      "participantTitle": "Agronomist",
+      "occupationalFamily": "unassigned",
+      "archetypeId": "planned",
+      "regulatoryStatus": "unassigned",
+      "legacyEngine": false,
+      "deliveryIncrement": "increment_2",
+      "geographicPilotScope": [
+        "England"
+      ],
+      "deliveryState": "planned"
+    },
+    {
+      "roleId": "adabd477-44f5-4743-83db-01d3865cf574",
+      "roleSlug": "ai-auditor-algorithm-auditor",
+      "canonicalRoleTitle": "AI Auditor / Algorithm Auditor",
+      "participantTitle": "AI Auditor / Algorithm Auditor",
+      "occupationalFamily": "unassigned",
+      "archetypeId": "planned",
+      "regulatoryStatus": "unassigned",
+      "legacyEngine": false,
+      "deliveryIncrement": "increment_2",
+      "geographicPilotScope": [
+        "England"
+      ],
+      "deliveryState": "planned"
+    },
+    {
+      "roleId": "e919a7f9-04f9-4e43-a960-ec90c60b2773",
+      "roleSlug": "ai-compliance-officer",
+      "canonicalRoleTitle": "AI Compliance Officer",
+      "participantTitle": "AI Compliance Officer",
+      "occupationalFamily": "unassigned",
+      "archetypeId": "planned",
+      "regulatoryStatus": "unassigned",
+      "legacyEngine": false,
+      "deliveryIncrement": "increment_2",
+      "geographicPilotScope": [
+        "England"
+      ],
+      "deliveryState": "planned"
+    },
+    {
+      "roleId": "6478d663-2d09-4a72-9c4b-5728ed0db721",
+      "roleSlug": "ai-content-specialist",
+      "canonicalRoleTitle": "AI Content Specialist",
+      "participantTitle": "AI Content Specialist",
+      "occupationalFamily": "unassigned",
+      "archetypeId": "planned",
+      "regulatoryStatus": "unassigned",
+      "legacyEngine": false,
+      "deliveryIncrement": "increment_2",
+      "geographicPilotScope": [
+        "England"
+      ],
+      "deliveryState": "planned"
+    },
+    {
+      "roleId": "459f3b52-ddf7-4b45-b195-b98ab9cbae64",
+      "roleSlug": "ai-engineer",
+      "canonicalRoleTitle": "AI Engineer",
+      "participantTitle": "AI Engineer",
+      "occupationalFamily": "unassigned",
+      "archetypeId": "planned",
+      "regulatoryStatus": "unassigned",
+      "legacyEngine": false,
+      "deliveryIncrement": "increment_2",
+      "geographicPilotScope": [
+        "England"
+      ],
+      "deliveryState": "planned"
+    },
+    {
+      "roleId": "67609954-5d10-4e8b-bce8-9583d5bd5f03",
+      "roleSlug": "ai-ethics-specialist",
+      "canonicalRoleTitle": "AI Ethics Specialist",
+      "participantTitle": "AI Ethics Specialist",
+      "occupationalFamily": "unassigned",
+      "archetypeId": "planned",
+      "regulatoryStatus": "unassigned",
+      "legacyEngine": false,
+      "deliveryIncrement": "increment_2",
+      "geographicPilotScope": [
+        "England"
+      ],
+      "deliveryState": "planned"
+    },
+    {
+      "roleId": "45425a47-3280-4dff-be17-2d5c03828a1a",
+      "roleSlug": "ai-literacy-instructor",
+      "canonicalRoleTitle": "AI Literacy Instructor",
+      "participantTitle": "AI Literacy Instructor",
+      "occupationalFamily": "unassigned",
+      "archetypeId": "planned",
+      "regulatoryStatus": "unassigned",
+      "legacyEngine": false,
+      "deliveryIncrement": "increment_2",
+      "geographicPilotScope": [
+        "England"
+      ],
+      "deliveryState": "planned"
+    },
+    {
+      "roleId": "66d0bc09-e920-46fc-be46-0a7bafce881c",
+      "roleSlug": "ai-product-manager",
+      "canonicalRoleTitle": "AI Product Manager",
+      "participantTitle": "AI Product Manager",
+      "occupationalFamily": "unassigned",
+      "archetypeId": "planned",
+      "regulatoryStatus": "unassigned",
+      "legacyEngine": false,
+      "deliveryIncrement": "increment_2",
+      "geographicPilotScope": [
+        "England"
+      ],
+      "deliveryState": "planned"
+    },
+    {
+      "roleId": "a16faf82-089f-49f1-a2e6-d94e3a8d58d5",
+      "roleSlug": "ai-research-scientist",
+      "canonicalRoleTitle": "AI Research Scientist",
+      "participantTitle": "AI Research Scientist",
+      "occupationalFamily": "unassigned",
+      "archetypeId": "planned",
+      "regulatoryStatus": "unassigned",
+      "legacyEngine": false,
+      "deliveryIncrement": "increment_2",
+      "geographicPilotScope": [
+        "England"
+      ],
+      "deliveryState": "planned"
+    },
+    {
+      "roleId": "f98fda1a-8592-41cd-a8d6-492483046c94",
+      "roleSlug": "ai-safety-engineer",
+      "canonicalRoleTitle": "AI Safety Engineer",
+      "participantTitle": "AI Safety Engineer",
+      "occupationalFamily": "unassigned",
+      "archetypeId": "planned",
+      "regulatoryStatus": "unassigned",
+      "legacyEngine": false,
+      "deliveryIncrement": "increment_2",
+      "geographicPilotScope": [
+        "England"
+      ],
+      "deliveryState": "planned"
+    },
+    {
+      "roleId": "b13a6758-f729-4321-b828-16786809cfd0",
+      "roleSlug": "ai-trainer-ai-data-annotator",
+      "canonicalRoleTitle": "AI Trainer / AI Data Annotator",
+      "participantTitle": "AI Trainer / AI Data Annotator",
+      "occupationalFamily": "unassigned",
+      "archetypeId": "planned",
+      "regulatoryStatus": "unassigned",
+      "legacyEngine": false,
+      "deliveryIncrement": "increment_2",
+      "geographicPilotScope": [
+        "England"
+      ],
+      "deliveryState": "planned"
+    },
+    {
+      "roleId": "b3177235-1c5d-4de4-bfdc-56cae0859026",
+      "roleSlug": "air-ambulance-pilot",
+      "canonicalRoleTitle": "Air Ambulance Pilot",
+      "participantTitle": "Air Ambulance Pilot",
+      "occupationalFamily": "unassigned",
+      "archetypeId": "planned",
+      "regulatoryStatus": "unassigned",
+      "legacyEngine": false,
+      "deliveryIncrement": "increment_2",
+      "geographicPilotScope": [
+        "England"
+      ],
+      "deliveryState": "planned"
+    },
+    {
+      "roleId": "756b4bb3-5d8f-468e-a366-dab8f1d0e40f",
+      "roleSlug": "air-quality-scientist",
+      "canonicalRoleTitle": "Air Quality Scientist",
+      "participantTitle": "Air Quality Scientist",
+      "occupationalFamily": "unassigned",
+      "archetypeId": "planned",
+      "regulatoryStatus": "unassigned",
+      "legacyEngine": false,
+      "deliveryIncrement": "increment_2",
+      "geographicPilotScope": [
+        "England"
+      ],
+      "deliveryState": "planned"
+    },
+    {
+      "roleId": "def60296-0095-4958-aff7-9c6d135590ca",
+      "roleSlug": "air-traffic-controller",
+      "canonicalRoleTitle": "Air Traffic Controller",
+      "participantTitle": "Air Traffic Controller",
+      "occupationalFamily": "unassigned",
+      "archetypeId": "planned",
+      "regulatoryStatus": "unassigned",
+      "legacyEngine": false,
+      "deliveryIncrement": "increment_2",
+      "geographicPilotScope": [
+        "England"
+      ],
+      "deliveryState": "planned"
+    },
+    {
+      "roleId": "392cb9d5-36f0-4417-a968-7666c3df95cc",
+      "roleSlug": "aircraft-maintenance-engineer",
+      "canonicalRoleTitle": "Aircraft Maintenance Engineer (AME)",
+      "participantTitle": "Aircraft Maintenance Engineer (AME)",
+      "occupationalFamily": "unassigned",
+      "archetypeId": "planned",
+      "regulatoryStatus": "unassigned",
+      "legacyEngine": false,
+      "deliveryIncrement": "increment_2",
+      "geographicPilotScope": [
+        "England"
+      ],
+      "deliveryState": "planned"
+    },
+    {
+      "roleId": "db8f08dc-7133-44a8-b327-95499debed1a",
+      "roleSlug": "aircraft-structural-engineer",
+      "canonicalRoleTitle": "Aircraft Structural Engineer",
+      "participantTitle": "Aircraft Structural Engineer",
+      "occupationalFamily": "unassigned",
+      "archetypeId": "planned",
+      "regulatoryStatus": "unassigned",
+      "legacyEngine": false,
+      "deliveryIncrement": "increment_2",
+      "geographicPilotScope": [
+        "England"
+      ],
+      "deliveryState": "planned"
+    },
+    {
+      "roleId": "cbf3199e-f16a-499b-8b11-c242a71fd685",
+      "roleSlug": "airline-captain",
+      "canonicalRoleTitle": "Airline Captain",
+      "participantTitle": "Airline Captain",
+      "occupationalFamily": "unassigned",
+      "archetypeId": "planned",
+      "regulatoryStatus": "unassigned",
+      "legacyEngine": false,
+      "deliveryIncrement": "increment_2",
+      "geographicPilotScope": [
+        "England"
+      ],
+      "deliveryState": "planned"
+    },
+    {
+      "roleId": "0ebddbfb-8907-4126-8da6-119ae7a73c51",
+      "roleSlug": "airport-operations-manager",
+      "canonicalRoleTitle": "Airport Operations Manager",
+      "participantTitle": "Airport Operations Manager",
+      "occupationalFamily": "unassigned",
+      "archetypeId": "planned",
+      "regulatoryStatus": "unassigned",
+      "legacyEngine": false,
+      "deliveryIncrement": "increment_2",
+      "geographicPilotScope": [
+        "England"
+      ],
+      "deliveryState": "planned"
+    },
+    {
+      "roleId": "00f42951-355d-42aa-80a7-83a522f7eb8f",
+      "roleSlug": "ambulance-technician",
+      "canonicalRoleTitle": "Ambulance Technician",
+      "participantTitle": "Ambulance Technician",
+      "occupationalFamily": "unassigned",
+      "archetypeId": "planned",
+      "regulatoryStatus": "unassigned",
+      "legacyEngine": false,
+      "deliveryIncrement": "increment_2",
+      "geographicPilotScope": [
+        "England"
+      ],
+      "deliveryState": "planned"
+    },
+    {
+      "roleId": "9a5444e9-e6aa-4e58-8f94-47273fce85e0",
+      "roleSlug": "anaesthetist",
+      "canonicalRoleTitle": "Anaesthetist",
+      "participantTitle": "Anaesthetist",
+      "occupationalFamily": "unassigned",
+      "archetypeId": "planned",
+      "regulatoryStatus": "unassigned",
+      "legacyEngine": false,
+      "deliveryIncrement": "increment_2",
+      "geographicPilotScope": [
+        "England"
+      ],
+      "deliveryState": "planned"
+    },
+    {
+      "roleId": "4bd2ea2b-0140-4768-aafe-b27e2638c416",
+      "roleSlug": "analytical-chemist",
+      "canonicalRoleTitle": "Analytical Chemist",
+      "participantTitle": "Analytical Chemist",
+      "occupationalFamily": "unassigned",
+      "archetypeId": "planned",
+      "regulatoryStatus": "unassigned",
+      "legacyEngine": false,
+      "deliveryIncrement": "increment_2",
+      "geographicPilotScope": [
+        "England"
+      ],
+      "deliveryState": "planned"
+    },
+    {
+      "roleId": "25401acf-a9a2-4155-a786-47ba7043b567",
+      "roleSlug": "animal-behaviourist",
+      "canonicalRoleTitle": "Animal Behaviourist",
+      "participantTitle": "Animal Behaviourist",
+      "occupationalFamily": "unassigned",
+      "archetypeId": "planned",
+      "regulatoryStatus": "unassigned",
+      "legacyEngine": false,
+      "deliveryIncrement": "increment_2",
+      "geographicPilotScope": [
+        "England"
+      ],
+      "deliveryState": "planned"
+    },
+    {
+      "roleId": "221cbcbe-541c-453e-a23f-d00fca10866f",
+      "roleSlug": "animal-care-worker",
+      "canonicalRoleTitle": "Animal Care Worker",
+      "participantTitle": "Animal Care Worker",
+      "occupationalFamily": "unassigned",
+      "archetypeId": "planned",
+      "regulatoryStatus": "unassigned",
+      "legacyEngine": false,
+      "deliveryIncrement": "increment_2",
+      "geographicPilotScope": [
+        "England"
+      ],
+      "deliveryState": "planned"
+    },
+    {
+      "roleId": "657fba9d-cba8-409c-9850-57629c66c42a",
+      "roleSlug": "animator",
+      "canonicalRoleTitle": "Animator",
+      "participantTitle": "Animator",
+      "occupationalFamily": "unassigned",
+      "archetypeId": "planned",
+      "regulatoryStatus": "unassigned",
+      "legacyEngine": false,
+      "deliveryIncrement": "increment_2",
+      "geographicPilotScope": [
+        "England"
+      ],
+      "deliveryState": "planned"
+    },
+    {
+      "roleId": "28acc0ab-ffca-458d-9515-4b2150ebdf93",
+      "roleSlug": "antarctic-polar-scientist",
+      "canonicalRoleTitle": "Antarctic / Polar Scientist",
+      "participantTitle": "Antarctic / Polar Scientist",
+      "occupationalFamily": "unassigned",
+      "archetypeId": "planned",
+      "regulatoryStatus": "unassigned",
+      "legacyEngine": false,
+      "deliveryIncrement": "increment_2",
+      "geographicPilotScope": [
+        "England"
+      ],
+      "deliveryState": "planned"
+    },
+    {
+      "roleId": "16ceb99e-ca0b-416e-bcb8-9eb94d953678",
+      "roleSlug": "antique-dealer",
+      "canonicalRoleTitle": "Antique Dealer",
+      "participantTitle": "Antique Dealer",
+      "occupationalFamily": "unassigned",
+      "archetypeId": "planned",
+      "regulatoryStatus": "unassigned",
+      "legacyEngine": false,
+      "deliveryIncrement": "increment_2",
+      "geographicPilotScope": [
+        "England"
+      ],
+      "deliveryState": "planned"
+    },
+    {
+      "roleId": "e6c540d7-7858-438b-8708-923ace5cb35c",
+      "roleSlug": "antique-restorer",
+      "canonicalRoleTitle": "Antique Restorer",
+      "participantTitle": "Antique Restorer",
+      "occupationalFamily": "unassigned",
+      "archetypeId": "planned",
+      "regulatoryStatus": "unassigned",
+      "legacyEngine": false,
+      "deliveryIncrement": "increment_2",
+      "geographicPilotScope": [
+        "England"
+      ],
+      "deliveryState": "planned"
+    },
+    {
+      "roleId": "ab44ba61-6392-4072-bfdf-d5b69b8f1e8f",
+      "roleSlug": "approved-mental-health-professional",
+      "canonicalRoleTitle": "Approved Mental Health Professional (AMHP)",
+      "participantTitle": "Approved Mental Health Professional (AMHP)",
+      "occupationalFamily": "unassigned",
+      "archetypeId": "planned",
+      "regulatoryStatus": "unassigned",
+      "legacyEngine": false,
+      "deliveryIncrement": "increment_2",
+      "geographicPilotScope": [
+        "England"
+      ],
+      "deliveryState": "planned"
+    },
+    {
+      "roleId": "b3b366e2-65aa-4c6e-a488-6c3e7efc9f46",
+      "roleSlug": "aquaculture-fish-farmer",
+      "canonicalRoleTitle": "Aquaculture / Fish Farmer",
+      "participantTitle": "Aquaculture / Fish Farmer",
+      "occupationalFamily": "unassigned",
+      "archetypeId": "planned",
+      "regulatoryStatus": "unassigned",
+      "legacyEngine": false,
+      "deliveryIncrement": "increment_2",
+      "geographicPilotScope": [
+        "England"
+      ],
+      "deliveryState": "planned"
+    },
+    {
+      "roleId": "1a28b91f-c000-469c-9b69-996416ff02e5",
+      "roleSlug": "arable-farmer-crop-farmer",
+      "canonicalRoleTitle": "Arable Farmer / Crop Farmer",
+      "participantTitle": "Arable Farmer / Crop Farmer",
+      "occupationalFamily": "unassigned",
+      "archetypeId": "planned",
+      "regulatoryStatus": "unassigned",
+      "legacyEngine": false,
+      "deliveryIncrement": "increment_2",
+      "geographicPilotScope": [
+        "England"
+      ],
+      "deliveryState": "planned"
+    },
+    {
+      "roleId": "8aeb0dac-4695-45e8-a261-1f3339bb9e78",
+      "roleSlug": "arborist-tree-surgeon",
+      "canonicalRoleTitle": "Arborist / Tree Surgeon",
+      "participantTitle": "Arborist / Tree Surgeon",
+      "occupationalFamily": "unassigned",
+      "archetypeId": "planned",
+      "regulatoryStatus": "unassigned",
+      "legacyEngine": false,
+      "deliveryIncrement": "increment_2",
+      "geographicPilotScope": [
+        "England"
+      ],
+      "deliveryState": "planned"
+    },
+    {
+      "roleId": "ab0f83bd-3080-4215-96a2-30e39fe5aed1",
+      "roleSlug": "archaeological-site-manager",
+      "canonicalRoleTitle": "Archaeological Site Manager",
+      "participantTitle": "Archaeological Site Manager",
+      "occupationalFamily": "unassigned",
+      "archetypeId": "planned",
+      "regulatoryStatus": "unassigned",
+      "legacyEngine": false,
+      "deliveryIncrement": "increment_2",
+      "geographicPilotScope": [
+        "England"
+      ],
+      "deliveryState": "planned"
+    },
+    {
+      "roleId": "fc225a62-effa-4a2d-be82-9fbf4d9a3024",
+      "roleSlug": "archaeologist",
+      "canonicalRoleTitle": "Archaeologist",
+      "participantTitle": "Archaeologist",
+      "occupationalFamily": "unassigned",
+      "archetypeId": "planned",
+      "regulatoryStatus": "unassigned",
+      "legacyEngine": false,
+      "deliveryIncrement": "increment_2",
+      "geographicPilotScope": [
+        "England"
+      ],
+      "deliveryState": "planned"
+    },
+    {
+      "roleId": "7c53ccdb-d369-4c64-98e7-841043e9e822",
+      "roleSlug": "architect",
+      "canonicalRoleTitle": "Architect",
+      "participantTitle": "Architect",
+      "occupationalFamily": "unassigned",
+      "archetypeId": "planned",
+      "regulatoryStatus": "unassigned",
+      "legacyEngine": false,
+      "deliveryIncrement": "increment_2",
+      "geographicPilotScope": [
+        "England"
+      ],
+      "deliveryState": "planned"
+    },
+    {
+      "roleId": "b6482854-2f88-4985-a4e3-1403d6648ede",
+      "roleSlug": "architectural-technologist",
+      "canonicalRoleTitle": "Architectural Technologist",
+      "participantTitle": "Architectural Technologist",
+      "occupationalFamily": "unassigned",
+      "archetypeId": "planned",
+      "regulatoryStatus": "unassigned",
+      "legacyEngine": false,
+      "deliveryIncrement": "increment_2",
+      "geographicPilotScope": [
+        "England"
+      ],
+      "deliveryState": "planned"
+    },
+    {
+      "roleId": "aa8b7818-9616-4483-8d76-e23432275081",
+      "roleSlug": "archivist",
+      "canonicalRoleTitle": "Archivist",
+      "participantTitle": "Archivist",
+      "occupationalFamily": "unassigned",
+      "archetypeId": "planned",
+      "regulatoryStatus": "unassigned",
+      "legacyEngine": false,
+      "deliveryIncrement": "increment_2",
+      "geographicPilotScope": [
+        "England"
+      ],
+      "deliveryState": "planned"
+    },
+    {
+      "roleId": "519ab9ff-80fd-4bd6-9bf0-fc3e2d0e9d54",
+      "roleSlug": "armed-forces-officer",
+      "canonicalRoleTitle": "Armed Forces Officer",
+      "participantTitle": "Armed Forces Officer",
+      "occupationalFamily": "unassigned",
+      "archetypeId": "planned",
+      "regulatoryStatus": "unassigned",
+      "legacyEngine": false,
+      "deliveryIncrement": "increment_2",
+      "geographicPilotScope": [
+        "England"
+      ],
+      "deliveryState": "planned"
+    },
+    {
+      "roleId": "afabf7c1-45c9-4f31-a5cf-54a870890a90",
+      "roleSlug": "army-intelligence-corps-officer",
+      "canonicalRoleTitle": "Army Intelligence Corps Officer",
+      "participantTitle": "Army Intelligence Corps Officer",
+      "occupationalFamily": "unassigned",
+      "archetypeId": "planned",
+      "regulatoryStatus": "unassigned",
+      "legacyEngine": false,
+      "deliveryIncrement": "increment_2",
+      "geographicPilotScope": [
+        "England"
+      ],
+      "deliveryState": "planned"
+    },
+    {
+      "roleId": "fcae0371-f383-4bbb-9a4c-d8df0b57db47",
+      "roleSlug": "army-physical-training-instructor",
+      "canonicalRoleTitle": "Army Physical Training Instructor (PTI)",
+      "participantTitle": "Army Physical Training Instructor (PTI)",
+      "occupationalFamily": "unassigned",
+      "archetypeId": "planned",
+      "regulatoryStatus": "unassigned",
+      "legacyEngine": false,
+      "deliveryIncrement": "increment_2",
+      "geographicPilotScope": [
+        "England"
+      ],
+      "deliveryState": "planned"
+    },
+    {
+      "roleId": "a807b6e7-3502-4074-90d8-01250b56a4c9",
+      "roleSlug": "army-signals-officer-communications-specialist",
+      "canonicalRoleTitle": "Army Signals Officer / Communications Specialist",
+      "participantTitle": "Army Signals Officer / Communications Specialist",
+      "occupationalFamily": "unassigned",
+      "archetypeId": "planned",
+      "regulatoryStatus": "unassigned",
+      "legacyEngine": false,
+      "deliveryIncrement": "increment_2",
+      "geographicPilotScope": [
+        "England"
+      ],
+      "deliveryState": "planned"
+    },
+    {
+      "roleId": "385a6a63-da27-4949-a114-0bbf1bf1ab54",
+      "roleSlug": "army-special-forces",
+      "canonicalRoleTitle": "Army Special Forces (SAS/SRR/SBS)",
+      "participantTitle": "Army Special Forces (SAS/SRR/SBS)",
+      "occupationalFamily": "unassigned",
+      "archetypeId": "planned",
+      "regulatoryStatus": "unassigned",
+      "legacyEngine": false,
+      "deliveryIncrement": "increment_2",
+      "geographicPilotScope": [
+        "England"
+      ],
+      "deliveryState": "planned"
+    },
+    {
+      "roleId": "8df9ff24-1aac-4a05-9485-a3b6c830938e",
+      "roleSlug": "aromatherapist",
+      "canonicalRoleTitle": "Aromatherapist",
+      "participantTitle": "Aromatherapist",
+      "occupationalFamily": "unassigned",
+      "archetypeId": "planned",
+      "regulatoryStatus": "unassigned",
+      "legacyEngine": false,
+      "deliveryIncrement": "increment_2",
+      "geographicPilotScope": [
+        "England"
+      ],
+      "deliveryState": "planned"
+    },
+    {
+      "roleId": "8070456f-0d86-478e-aec6-a57f24c7db6f",
+      "roleSlug": "art-director",
+      "canonicalRoleTitle": "Art Director",
+      "participantTitle": "Art Director",
+      "occupationalFamily": "unassigned",
+      "archetypeId": "planned",
+      "regulatoryStatus": "unassigned",
+      "legacyEngine": false,
+      "deliveryIncrement": "increment_2",
+      "geographicPilotScope": [
+        "England"
+      ],
+      "deliveryState": "planned"
+    },
+    {
+      "roleId": "4650b95e-4f95-4f96-8855-88d8962cf4e8",
+      "roleSlug": "art-teacher",
+      "canonicalRoleTitle": "Art Teacher (School)",
+      "participantTitle": "Art Teacher (School)",
+      "occupationalFamily": "unassigned",
+      "archetypeId": "planned",
+      "regulatoryStatus": "unassigned",
+      "legacyEngine": false,
+      "deliveryIncrement": "increment_2",
+      "geographicPilotScope": [
+        "England"
+      ],
+      "deliveryState": "planned"
+    },
+    {
+      "roleId": "c6628053-5eb9-4816-b632-3a2ff41d2e37",
+      "roleSlug": "art-teacher-art-workshop-instructor",
+      "canonicalRoleTitle": "Art Teacher / Art Workshop Instructor",
+      "participantTitle": "Art Teacher / Art Workshop Instructor",
+      "occupationalFamily": "unassigned",
+      "archetypeId": "planned",
+      "regulatoryStatus": "unassigned",
+      "legacyEngine": false,
+      "deliveryIncrement": "increment_2",
+      "geographicPilotScope": [
+        "England"
+      ],
+      "deliveryState": "planned"
+    },
+    {
+      "roleId": "edbdae68-1e35-46ee-917b-9712bd1831d6",
+      "roleSlug": "art-therapist",
+      "canonicalRoleTitle": "Art Therapist",
+      "participantTitle": "Art Therapist",
+      "occupationalFamily": "unassigned",
+      "archetypeId": "planned",
+      "regulatoryStatus": "unassigned",
+      "legacyEngine": false,
+      "deliveryIncrement": "increment_2",
+      "geographicPilotScope": [
+        "England"
+      ],
+      "deliveryState": "planned"
+    },
+    {
+      "roleId": "96bb5c95-bae5-4639-8e68-349dcb29f048",
+      "roleSlug": "arts-administrator",
+      "canonicalRoleTitle": "Arts Administrator",
+      "participantTitle": "Arts Administrator",
+      "occupationalFamily": "unassigned",
+      "archetypeId": "planned",
+      "regulatoryStatus": "unassigned",
+      "legacyEngine": false,
+      "deliveryIncrement": "increment_2",
+      "geographicPilotScope": [
+        "England"
+      ],
+      "deliveryState": "planned"
+    },
+    {
+      "roleId": "ced30423-fc43-4652-bc42-b53d40b67ece",
+      "roleSlug": "assembly-worker",
+      "canonicalRoleTitle": "Assembly Worker",
+      "participantTitle": "Assembly Worker",
+      "occupationalFamily": "unassigned",
+      "archetypeId": "planned",
+      "regulatoryStatus": "unassigned",
+      "legacyEngine": false,
+      "deliveryIncrement": "increment_2",
+      "geographicPilotScope": [
+        "England"
+      ],
+      "deliveryState": "planned"
+    },
+    {
+      "roleId": "2178eeff-7d04-40fa-86dd-19fe63e11f0c",
+      "roleSlug": "assistant-director",
+      "canonicalRoleTitle": "Assistant Director",
+      "participantTitle": "Assistant Director",
+      "occupationalFamily": "unassigned",
+      "archetypeId": "planned",
+      "regulatoryStatus": "unassigned",
+      "legacyEngine": false,
+      "deliveryIncrement": "increment_2",
+      "geographicPilotScope": [
+        "England"
+      ],
+      "deliveryState": "planned"
+    },
+    {
+      "roleId": "dde5a9a5-d13f-42ab-a84d-0bf2d3684f9d",
+      "roleSlug": "assistant-head-teacher",
+      "canonicalRoleTitle": "Assistant Head Teacher",
+      "participantTitle": "Assistant Head Teacher",
+      "occupationalFamily": "unassigned",
+      "archetypeId": "planned",
+      "regulatoryStatus": "unassigned",
+      "legacyEngine": false,
+      "deliveryIncrement": "increment_2",
+      "geographicPilotScope": [
+        "England"
+      ],
+      "deliveryState": "planned"
+    },
+    {
+      "roleId": "69f2ca95-3292-49b4-933c-706d4f1ac2c4",
+      "roleSlug": "astronomer",
+      "canonicalRoleTitle": "Astronomer",
+      "participantTitle": "Astronomer",
+      "occupationalFamily": "unassigned",
+      "archetypeId": "planned",
+      "regulatoryStatus": "unassigned",
+      "legacyEngine": false,
+      "deliveryIncrement": "increment_2",
+      "geographicPilotScope": [
+        "England"
+      ],
+      "deliveryState": "planned"
+    },
+    {
+      "roleId": "c4a27ca3-e05a-4102-8d67-57bbbd1e09fe",
+      "roleSlug": "asylum-caseworker-refugee-status-determination-officer",
+      "canonicalRoleTitle": "Asylum Caseworker / Refugee Status Determination Officer",
+      "participantTitle": "Asylum Caseworker / Refugee Status Determination Officer",
+      "occupationalFamily": "unassigned",
+      "archetypeId": "planned",
+      "regulatoryStatus": "unassigned",
+      "legacyEngine": false,
+      "deliveryIncrement": "increment_2",
+      "geographicPilotScope": [
+        "England"
+      ],
+      "deliveryState": "planned"
+    },
+    {
+      "roleId": "be321e5c-9aa2-498d-9431-d1f68cdb44ab",
+      "roleSlug": "auctioneer",
+      "canonicalRoleTitle": "Auctioneer",
+      "participantTitle": "Auctioneer",
+      "occupationalFamily": "unassigned",
+      "archetypeId": "planned",
+      "regulatoryStatus": "unassigned",
+      "legacyEngine": false,
+      "deliveryIncrement": "increment_2",
+      "geographicPilotScope": [
+        "England"
+      ],
+      "deliveryState": "planned"
+    },
+    {
+      "roleId": "319cce6e-b98a-4faf-9afe-53d7b00232e3",
+      "roleSlug": "audience-engagement-specialist",
+      "canonicalRoleTitle": "Audience Engagement Specialist",
+      "participantTitle": "Audience Engagement Specialist",
+      "occupationalFamily": "unassigned",
+      "archetypeId": "planned",
+      "regulatoryStatus": "unassigned",
+      "legacyEngine": false,
+      "deliveryIncrement": "increment_2",
+      "geographicPilotScope": [
+        "England"
+      ],
+      "deliveryState": "planned"
+    },
+    {
+      "roleId": "9d703f66-7a58-46d4-8ea8-5fb14a5f8fb0",
+      "roleSlug": "audio-editor",
+      "canonicalRoleTitle": "Audio Editor",
+      "participantTitle": "Audio Editor",
+      "occupationalFamily": "unassigned",
+      "archetypeId": "planned",
+      "regulatoryStatus": "unassigned",
+      "legacyEngine": false,
+      "deliveryIncrement": "increment_2",
+      "geographicPilotScope": [
+        "England"
+      ],
+      "deliveryState": "planned"
+    },
+    {
+      "roleId": "6f39b461-f108-46bc-abfe-887f5d0bb750",
+      "roleSlug": "audio-engineer",
+      "canonicalRoleTitle": "Audio Engineer",
+      "participantTitle": "Audio Engineer",
+      "occupationalFamily": "unassigned",
+      "archetypeId": "planned",
+      "regulatoryStatus": "unassigned",
+      "legacyEngine": false,
+      "deliveryIncrement": "increment_2",
+      "geographicPilotScope": [
+        "England"
+      ],
+      "deliveryState": "planned"
+    },
+    {
+      "roleId": "89cca0d4-c764-4227-9d36-5d68d002a4ca",
+      "roleSlug": "auditor",
+      "canonicalRoleTitle": "Auditor",
+      "participantTitle": "Auditor",
+      "occupationalFamily": "unassigned",
+      "archetypeId": "planned",
+      "regulatoryStatus": "unassigned",
+      "legacyEngine": false,
+      "deliveryIncrement": "increment_2",
+      "geographicPilotScope": [
+        "England"
+      ],
+      "deliveryState": "planned"
+    },
+    {
+      "roleId": "d7e846ab-233b-4f48-b1f2-7e994c37bf9e",
+      "roleSlug": "augmented-reality-content-designer",
+      "canonicalRoleTitle": "Augmented Reality Content Designer",
+      "participantTitle": "Augmented Reality Content Designer",
+      "occupationalFamily": "unassigned",
+      "archetypeId": "planned",
+      "regulatoryStatus": "unassigned",
+      "legacyEngine": false,
+      "deliveryIncrement": "increment_2",
+      "geographicPilotScope": [
+        "England"
+      ],
+      "deliveryState": "planned"
+    },
+    {
+      "roleId": "9e955a74-8d57-4c75-98ba-c23e4ab99e81",
+      "roleSlug": "author",
+      "canonicalRoleTitle": "Author",
+      "participantTitle": "Author",
+      "occupationalFamily": "unassigned",
+      "archetypeId": "planned",
+      "regulatoryStatus": "unassigned",
+      "legacyEngine": false,
+      "deliveryIncrement": "increment_2",
+      "geographicPilotScope": [
+        "England"
+      ],
+      "deliveryState": "planned"
+    },
+    {
+      "roleId": "3f007e8f-5e7b-4282-a985-87a39a5c5ca5",
+      "roleSlug": "autism-support-worker",
+      "canonicalRoleTitle": "Autism Support Worker",
+      "participantTitle": "Autism Support Worker",
+      "occupationalFamily": "unassigned",
+      "archetypeId": "planned",
+      "regulatoryStatus": "unassigned",
+      "legacyEngine": false,
+      "deliveryIncrement": "increment_2",
+      "geographicPilotScope": [
+        "England"
+      ],
+      "deliveryState": "planned"
+    },
+    {
+      "roleId": "87cefe95-40b0-4c56-b397-76728bbb10a8",
+      "roleSlug": "automation-engineer",
+      "canonicalRoleTitle": "Automation Engineer",
+      "participantTitle": "Automation Engineer",
+      "occupationalFamily": "unassigned",
+      "archetypeId": "planned",
+      "regulatoryStatus": "unassigned",
+      "legacyEngine": false,
+      "deliveryIncrement": "increment_2",
+      "geographicPilotScope": [
+        "England"
+      ],
+      "deliveryState": "planned"
+    },
+    {
+      "roleId": "ba4c9629-27e6-4139-8bcc-2b01501410ed",
+      "roleSlug": "autonomous-vehicle-safety-driver",
+      "canonicalRoleTitle": "Autonomous Vehicle Safety Driver",
+      "participantTitle": "Autonomous Vehicle Safety Driver",
+      "occupationalFamily": "unassigned",
+      "archetypeId": "planned",
+      "regulatoryStatus": "unassigned",
+      "legacyEngine": false,
+      "deliveryIncrement": "increment_2",
+      "geographicPilotScope": [
+        "England"
+      ],
+      "deliveryState": "planned"
+    }
+  ]
+}
