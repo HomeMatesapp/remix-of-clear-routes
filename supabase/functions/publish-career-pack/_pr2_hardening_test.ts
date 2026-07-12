@@ -58,7 +58,7 @@ const setup = async (): Promise<Ids> => {
     const { data, error } = await sb.from("career_packs").insert({
       role_id: roleId, slug, pack_version: ver,
       schema_version: "career-decision-pack/v1", archetype_id: "proof",
-      content_hash: hex64(hashChar), content: { proof: contentKey },
+      content_hash: randHash(), content: { proof: contentKey },
       owner_identity_id: ownerId, reviewer_identity_id: reviewerId,
       environment: "development", is_test: true, imported_by: "hardening-test",
     }).select("id").single();
@@ -111,7 +111,7 @@ Deno.test("PR 2 hardening — full proof matrix", async (t) => {
 
     await t.step("1c immutability: UPDATE career_packs.pack_version + hash is rejected", async () => {
       const { error } = await sb.from("career_packs")
-        .update({ pack_version: "9.9.9", content_hash: hex64("d") })
+        .update({ pack_version: "9.9.9", content_hash: randHash() })
         .eq("id", ids.packA1);
       assert(error !== null); assert(/immutable/i.test(error!.message));
     });
@@ -310,7 +310,7 @@ Deno.test("PR 2 hardening — full proof matrix", async (t) => {
         role_id: ids.roleA, role_snapshot: { role_name: "x" },
         answers: {}, result: {},
         pack_id: ids.packA2, pack_version: "1.0.1",
-        pack_content_hash: hex64("b"), evaluator_schema_version: "reality-check-result/v1",
+        pack_content_hash: randHash(), evaluator_schema_version: "reality-check-result/v1",
         result_v1: { ok: true },
       });
       assertEquals(fullErr, null, `full V1 should be accepted: ${fullErr?.message}`);
