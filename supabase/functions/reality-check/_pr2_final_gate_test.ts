@@ -193,16 +193,29 @@ Deno.test("gate-3: one actively-serving version per role (published + review_due
   const { data: role } = await svc.from("roles").insert({
     role_name: `Gate3 ${suffix}`, role_slug: `gate3-${suffix}`,
   }).select("id").single();
-  const { data: identity } = await svc.from("career_pack_identities").insert({
-    display_name: `Gate3 identity ${suffix}`, is_test_identity: true,
+  const { data: owner } = await svc.from("career_pack_identities").insert({
+    display_name: `Gate3 owner ${suffix}`, is_test_identity: true,
+  }).select("id").single();
+  const { data: reviewer } = await svc.from("career_pack_identities").insert({
+    display_name: `Gate3 reviewer ${suffix}`, is_test_identity: true,
   }).select("id").single();
 
   const mkPack = async (version: string) => {
     const content = { ...midwifePack, packVersion: version };
     const hash = await canonicalHash(content);
     const { data, error } = await svc.from("career_packs").insert({
-      role_id: role!.id, identity_id: identity!.id, slug: `gate3-${suffix}`,
-      pack_version: version, content_hash: hash, content, is_test: true,
+      role_id: role!.id,
+      owner_identity_id: owner!.id,
+      reviewer_identity_id: reviewer!.id,
+      slug: `gate3-${suffix}`,
+      pack_version: version,
+      schema_version: (midwifePack as { schemaVersion: string }).schemaVersion,
+      archetype_id: (midwifePack as { archetypeId: string }).archetypeId,
+      content_hash: hash,
+      content,
+      environment: "staging",
+      is_test: true,
+      imported_by: "gate3-test",
     }).select("id").single();
     if (error) throw error;
     return data!.id as string;
