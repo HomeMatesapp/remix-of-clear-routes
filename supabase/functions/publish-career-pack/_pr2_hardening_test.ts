@@ -55,7 +55,7 @@ const setup = async (): Promise<Ids> => {
 
   const mkPack = async (roleId: string, slug: string, ver: string, hashChar: string, contentKey: string) => {
     const { data, error } = await sb.from("career_packs").insert({
-      role_id: roleId, slug: `proof-${suffix}`, pack_version: ver,
+      role_id: roleId, slug, pack_version: ver,
       schema_version: "career-decision-pack/v1", archetype_id: "proof",
       content_hash: hex64(hashChar), content: { proof: contentKey },
       owner_identity_id: ownerId, reviewer_identity_id: reviewerId,
@@ -65,9 +65,9 @@ const setup = async (): Promise<Ids> => {
     await sb.from("career_pack_publications").insert({ pack_id: data.id, status: "draft" });
     return data.id as string;
   };
-  const packA1 = await mkPack(rA.id, "1.0.0", "a", "a1");
-  const packA2 = await mkPack(rA.id, "1.0.1", "b", "a2");
-  const packB  = await mkPack(rB.id, "1.0.0", "c", "b1");
+  const packA1 = await mkPack(rA.id, `proof-a-${suffix}`, "1.0.0", "a", "a1");
+  const packA2 = await mkPack(rA.id, `proof-a-${suffix}`, "1.0.1", "b", "a2");
+  const packB  = await mkPack(rB.id, `proof-b-${suffix}`, "1.0.0", "c", "b1");
 
   return { roleA: rA.id, roleB: rB.id, ownerId, reviewerId, packA1, packA2, packB };
 };
