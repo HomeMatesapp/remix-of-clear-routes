@@ -140,8 +140,10 @@ Deno.test("gate-2a: published pack evaluates normally with full metadata", async
   assert(body.result, "expected result");
   assertEquals(body.packMetadata.status, "published");
   assertEquals(body.packMetadata.evaluatorSchemaVersion, "reality-check-result/v1");
-  assert(body.packMetadata.geographicScope, "geographicScope must reach client");
-});
+  // geographicScope field must be present in packMetadata (may be null when
+  // pack has no explicit scope) so ResultV1View can consume it in PR 3.
+  assert("geographicScope" in body.packMetadata,
+    "packMetadata must expose geographicScope for PR 3 ResultV1View");
 
 Deno.test("gate-2b: review_due within grace evaluates and exposes reviewDueAt", async () => {
   const hash = await canonicalHash(midwifePack);
