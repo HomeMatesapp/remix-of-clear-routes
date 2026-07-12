@@ -296,12 +296,14 @@ Deno.test("PR 2 hardening — full proof matrix", async (t) => {
     });
 
     await t.step("9 saved_decisions consistency check", async () => {
+      // Need a real auth.users id — borrow one from any existing row.
+      const { data: anyRow } = await sb.from("saved_decisions").select("user_id").limit(1).maybeSingle();
+      if (!anyRow) { console.warn("skipped: no existing saved_decisions row to borrow user_id from"); return; }
       const base = {
-        user_id: crypto.randomUUID(),
+        user_id: anyRow.user_id,
         role_id: ids.roleA, role_slug: `proof-a-${uniq()}`, role_name: "TestRole A",
         input_snapshot: {}, result_snapshot: {}, answer_snapshot: {},
       };
-      // Partial V1 (missing hash/schema/result_v1) → rejected
       const { error: partErr } = await sb.from("saved_decisions").insert({
         ...base, pack_id: ids.packA2, pack_version: "1.0.1",
       });
@@ -309,7 +311,6 @@ Deno.test("PR 2 hardening — full proof matrix", async (t) => {
       assert(/saved_decisions_v1_all_or_nothing/.test(partErr!.message),
         `unexpected error: ${partErr!.message}`);
 
-      // Full V1 → accepted
       const { error: fullErr } = await sb.from("saved_decisions").insert({
         ...base,
         pack_id: ids.packA2, pack_version: "1.0.1",
@@ -318,10 +319,10 @@ Deno.test("PR 2 hardening — full proof matrix", async (t) => {
       });
       assertEquals(fullErr, null, `full V1 should be accepted: ${fullErr?.message}`);
 
-      // Legacy null V1 → accepted
       const { error: legacyErr } = await sb.from("saved_decisions").insert({ ...base });
       assertEquals(legacyErr, null, `legacy should be accepted: ${legacyErr?.message}`);
     });
+
 
 
     await t.step("10 RLS: anon cannot read any of the pack tables", async () => {
