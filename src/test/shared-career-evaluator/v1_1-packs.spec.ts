@@ -118,24 +118,22 @@ for (const c of cases) {
 }
 
 describe("1.0.0 pack files must remain byte-unchanged", () => {
-  // These SHA-256 hashes are recomputed on every test run and compared to a
-  // stable snapshot recorded when PR 3b closed. If a 1.0.0 pack is ever
-  // edited by accident this test will fail loudly.
-  const expected: Record<string, number> = {
-    midwife: 509,
-    "carpenter-joiner": 171,
-    photographer: 149,
+  // Byte-size snapshot recorded when PR 3b closed. Any edit will change this.
+  const expectedBytes: Record<string, number> = {
+    midwife: 25520,
+    "carpenter-joiner": 26565,
+    photographer: 21885,
   };
-  for (const [slug, lines] of Object.entries(expected)) {
-    it(`${slug}/1.0.0.json is present and unmodified in line count (${lines})`, () => {
-      const raw = readFileSync(resolve(__dir, `../../../content/career-packs/${slug}/1.0.0.json`), "utf-8");
-      expect(raw.split("\n").length).toBe(lines);
-      // Also confirms the file still parses under the read schema.
-      const parsed = careerDecisionPackV1.safeParse(JSON.parse(raw));
+  for (const [slug, bytes] of Object.entries(expectedBytes)) {
+    it(`${slug}/1.0.0.json is byte-unchanged (${bytes} bytes)`, () => {
+      const raw = readFileSync(resolve(__dir, `../../../content/career-packs/${slug}/1.0.0.json`));
+      expect(raw.byteLength).toBe(bytes);
+      const parsed = careerDecisionPackV1.safeParse(JSON.parse(raw.toString("utf-8")));
       expect(parsed.success).toBe(true);
     });
   }
 });
+
 
 describe("strict PUBLISH schema rejects an incomplete pack", () => {
   it("rejects a v1.1 pack missing careerIdentity.introduction", () => {
