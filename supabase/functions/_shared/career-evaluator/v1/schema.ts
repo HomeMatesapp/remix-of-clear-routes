@@ -127,6 +127,10 @@ export const careerIdentity = z.object({
     note: z.string().optional(),
   }),
   geographicScope: z.array(z.string()).min(1),
+  // v1.1 additive
+  introduction: z.string().optional(),
+  whatItCovers: z.array(z.string()).optional(),
+  whatItCannotConfirm: z.array(z.string()).optional(),
 });
 
 export const contentReview = z.object({
@@ -147,11 +151,104 @@ export const careerDecisionPackV1 = z.object({
   routes: z.array(routeRef).min(1),
   requirements: z.array(requirementRef),
   questionRefs: z.array(questionRef).min(1),
+  // v1.1 additive
+  questionModules: z.array(questionModule).optional(),
   rules: z.array(rule),
   evidenceRecords: z.array(evidenceRecord).min(1),
   actionTemplates: z.array(actionTemplate),
   testProfiles: z.array(testProfile).min(12, "packs require at least 12 test profiles"),
   contentReview,
+});
+
+// ── RealityCheckResultV1 schema (for read-side validation) ────────────────
+// All v1.1-additive fields are optional so persisted rows written before v1.1
+// still parse. New evaluator writes always populate them.
+
+const routeClassification = z.enum([
+  "currently_looks_most_workable",
+  "possible_with_trade_offs",
+  "requires_further_verification",
+  "not_currently_available_to_you",
+]);
+
+const routeEvaluation = z.object({
+  routeId: z.string().min(1),
+  routeTitle: z.string().min(1),
+  classification: routeClassification,
+  supportingReasons: z.array(z.string()),
+  concerns: z.array(z.string()),
+  verificationsRequired: z.array(z.string()),
+  evidenceRefs: z.array(z.string()),
+  summary: z.string().optional(),
+  typicalDurationLabel: z.string().optional(),
+  typicalCostLabel: z.string().optional(),
+  requirementIds: z.array(z.string()).optional(),
+});
+
+const evidenceCoverage = z.object({
+  level: z.enum(["comprehensive", "adequate", "limited"]),
+  completedAnswerCount: z.number().int().nonnegative(),
+  totalAnswerCount: z.number().int().nonnegative(),
+  note: z.string().min(1),
+});
+
+const immediateActionR = z.object({
+  actionTemplateId: z.string().min(1),
+  title: z.string().min(1),
+  description: z.string().min(1),
+  evidenceRefs: z.array(z.string()),
+  effortLabel: z.string().optional(),
+});
+
+const resolvedRequirement = z.object({
+  id: z.string().min(1),
+  label: z.string().min(1),
+  description: z.string().min(1),
+  verifiedBy: z.string().min(1),
+  evidenceRefs: z.array(z.string()),
+});
+
+const contentReviewSnapshot = z.object({
+  ownerDisplayName: z.string().min(1),
+  reviewerDisplayName: z.string().min(1),
+  lastReviewedAt: z.string().min(4),
+  nextReviewDueAt: z.string().min(4),
+  sourcesAsOf: z.string().min(4),
+});
+
+const reviewContext = z.object({
+  status: z.enum(["current", "review_due", "historical"]),
+  reviewDueAt: z.string().min(4),
+  graceUntil: z.string().optional(),
+});
+
+export const realityCheckResultV1 = z.object({
+  schemaVersion: z.literal("reality-check-result/v1"),
+  packVersion: z.string().min(1),
+  roleId: z.string().uuid(),
+  slug: z.string().min(1),
+  evaluatedAt: z.string().min(4),
+  geographicScope: z.array(z.string()).min(1),
+  regulatoryStatus: z.enum(REGULATORY_STATUSES),
+  routes: z.array(routeEvaluation),
+  considerations: z.array(z.string()),
+  immediateActions: z.array(immediateActionR),
+  evidenceCoverage,
+  limitations: z.array(z.string()),
+  participantLanguage: z.object({
+    topRoutePhrase: z.string().min(1),
+    confidencePhrase: z.string().min(1),
+  }),
+  // v1.1 additive (optional for read-side BC)
+  careerTitle: z.string().optional(),
+  participantTitle: z.string().optional(),
+  careerIntroduction: z.string().optional(),
+  whatItCovers: z.array(z.string()).optional(),
+  whatItCannotConfirm: z.array(z.string()).optional(),
+  resolvedEvidence: z.array(evidenceRecord).optional(),
+  resolvedRequirements: z.array(resolvedRequirement).optional(),
+  contentReviewSnapshot: contentReviewSnapshot.optional(),
+  reviewContext: reviewContext.optional(),
 });
 
 // Cross-field integrity checks that Zod cannot express structurally.
