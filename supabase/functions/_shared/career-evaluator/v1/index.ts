@@ -14,4 +14,7 @@ export {
   realityCheckResultV1NewWrite,
   validateResultNewWriteCompleteness,
 } from "./schema.ts";
+export * from "./public-projectors.ts";
+export * from "./sanitise-answers.ts";
+export * from "./semver.ts";
 
