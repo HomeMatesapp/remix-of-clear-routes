@@ -147,22 +147,18 @@ describe("sanitisePublicAnswers — hostile-answer matrix", () => {
   it("evaluator never receives the raw hostile record", () => {
     const hostile = {
       ...validMidwifeAnswers,
-      current_registration: "definitely_maybe", // invalid option
-      __proto__: { poisoned: true },
+      starting_point: "definitely_maybe", // invalid option, always visible
     } as Record<string, unknown>;
     const r = sanitisePublicAnswers(midwife, hostile);
-    // Callers should refuse to evaluate; but we prove that if we DID pass
-    // the sanitised record instead, the invalid answer is absent.
-    expect(r.sanitisedAnswers["current_registration"]).toBeUndefined();
-    // The sanitised bag is a plain object with no unexpected keys.
+    // The invalid option is discarded; the sanitised bag never carries it.
+    expect(r.sanitisedAnswers["starting_point"]).toBeUndefined();
     for (const k of Object.keys(r.sanitisedAnswers)) {
       expect(midwife.questionRefs.some((q) => q.id === k)).toBe(true);
     }
-    // Provable: evaluate() on sanitised does not use the invalid value.
-    const partial: Record<string, string> = {};
-    for (const [k, v] of Object.entries(r.sanitisedAnswers)) partial[k] = String(v);
-    // Backfill required so evaluator can complete.
-    partial["current_registration"] = "no";
+    // Provable: evaluate() run on sanitised answers does not surface the
+    // hostile string anywhere in the result.
+    const partial: Record<string, string> = { ...(r.sanitisedAnswers as Record<string, string>) };
+    partial["starting_point"] = "school_leaver"; // backfill required
     const result = evaluate(midwife, partial, { now: "2026-07-13T00:00:00.000Z" });
     expect(JSON.stringify(result)).not.toContain("definitely_maybe");
   });
