@@ -167,7 +167,8 @@
         }
       ],
       "required": true,
-      "moduleId": "starting_point"
+      "moduleId": "starting_point",
+      "inputKind": "single_select"
     },
     {
       "id": "portfolio_strength",
@@ -199,7 +200,8 @@
         }
       ],
       "required": true,
-      "moduleId": "portfolio_and_kit"
+      "moduleId": "portfolio_and_kit",
+      "inputKind": "single_select"
     },
     {
       "id": "equipment_access",
@@ -231,7 +233,8 @@
         }
       ],
       "required": true,
-      "moduleId": "portfolio_and_kit"
+      "moduleId": "portfolio_and_kit",
+      "inputKind": "single_select"
     },
     {
       "id": "startup_budget",
@@ -258,7 +261,8 @@
         }
       ],
       "required": true,
-      "moduleId": "business_and_income"
+      "moduleId": "business_and_income",
+      "inputKind": "single_select"
     },
     {
       "id": "income_stability_need",
@@ -285,7 +289,8 @@
         }
       ],
       "required": true,
-      "moduleId": "business_and_income"
+      "moduleId": "business_and_income",
+      "inputKind": "single_select"
     },
     {
       "id": "business_admin_confidence",
@@ -312,7 +317,8 @@
         }
       ],
       "required": true,
-      "moduleId": "business_and_income"
+      "moduleId": "business_and_income",
+      "inputKind": "single_select"
     },
     {
       "id": "travel_flexibility",
@@ -339,7 +345,8 @@
         }
       ],
       "required": true,
-      "moduleId": "business_and_income"
+      "moduleId": "business_and_income",
+      "inputKind": "single_select"
     },
     {
       "id": "chosen_specialism",
@@ -377,7 +384,8 @@
             "thin"
           ]
         }
-      ]
+      ],
+      "inputKind": "single_select"
     },
     {
       "id": "willing_assistant_work",
@@ -404,7 +412,8 @@
         }
       ],
       "required": true,
-      "moduleId": "study_and_specialism"
+      "moduleId": "study_and_specialism",
+      "inputKind": "single_select"
     },
     {
       "id": "formal_qualification_status",
@@ -431,7 +440,8 @@
         }
       ],
       "required": true,
-      "moduleId": "study_and_specialism"
+      "moduleId": "study_and_specialism",
+      "inputKind": "single_select"
     }
   ],
   "rules": [
