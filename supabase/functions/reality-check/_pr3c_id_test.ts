@@ -31,15 +31,14 @@ const makeReq = (body: unknown, headers: Record<string, string> = {}) =>
 
 const MIDWIFE_ANSWERS = {
   starting_point: "school_leaver",
-  five_gcses_including_maths_english: "yes",
-  two_a_levels_or_equivalent: "yes",
-  can_relocate_for_placement: "yes",
-  passed_nmc_health_check: "yes",
-  passed_dbs: "yes",
-  can_commit_three_years: "yes",
-  living_arrangements_supportive: "yes",
-  english_language_proficient: "yes",
-  funding_route_clear: "student_finance",
+  gcse_maths_english_science_status: "yes",
+  level3_status: "yes_science",
+  relevant_first_degree_status: "no",
+  current_registration: "no",
+  income_need: "can_study_full_time",
+  weekly_placement_hours: "yes",
+  dbs_check_barriers: "none",
+  occupational_health_concerns: "none",
 };
 
 // ============================================================================
