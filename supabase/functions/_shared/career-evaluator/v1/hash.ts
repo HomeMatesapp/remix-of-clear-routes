@@ -19,7 +19,9 @@ export const canonicalStringify = (value: unknown): string => {
   if (Array.isArray(value)) return "[" + value.map(canonicalStringify).join(",") + "]";
   if (typeof value === "object") {
     const obj = value as Record<string, unknown>;
-    const keys = Object.keys(obj).sort();
+    // Skip undefined values (JSON.stringify convention) so optional result
+    // fields left unset don't break canonicalisation.
+    const keys = Object.keys(obj).filter((k) => obj[k] !== undefined).sort();
     return "{" + keys.map((k) => JSON.stringify(k) + ":" + canonicalStringify(obj[k])).join(",") + "}";
   }
   throw new Error(`cannot canonicalise value of type ${typeof value}`);
