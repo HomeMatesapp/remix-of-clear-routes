@@ -18,8 +18,13 @@ import { buildPoliceOfficerResult } from "./_police_officer.ts";
 import { buildActorResult } from "./_actor.ts";
 import { buildSolicitorResult } from "./_solicitor.ts";
 import { getCorsHeaders } from "../_shared/cors.ts";
-import { evaluateGenericPack } from "./_generic_pack.ts";
+import { evaluate } from "../_shared/career-evaluator/v1/evaluate.ts";
+import { careerDecisionPackV1 } from "../_shared/career-evaluator/v1/schema.ts";
+import { validateResultNewWriteCompleteness } from "../_shared/career-evaluator/v1/schema.ts";
 import { canonicalHash, sha256Hex } from "../_shared/career-evaluator/v1/hash.ts";
+import { buildPublicPackMetadata } from "../_shared/career-evaluator/v1/public-projectors.ts";
+import { sanitisePublicAnswers, hasBlockingIssues } from "../_shared/career-evaluator/v1/sanitise-answers.ts";
+import type { CareerDecisionPackV1, ReviewContext } from "../_shared/career-evaluator/v1/types.ts";
 
 const EVALUATOR_SCHEMA_VERSION = "reality-check-result/v1";
 const DEFAULT_RECEIPT_TTL_MINUTES = 30;
@@ -192,16 +197,22 @@ export const handleRealityCheck = async (req: Request, deps: HandlerDeps = {}): 
         });
       }
 
+      const publicMetadata = buildPublicPackMetadata({
+        slug: binding.slug,
+        packVersion: binding.pack_version,
+        status: binding.status,
+        reviewDueAt: binding.review_due_at,
+        geographicScope: Array.isArray(binding.geographic_scope)
+          ? binding.geographic_scope as string[]
+          : ["England"],
+      });
+
       if (!binding.is_servable) {
         // Controlled response — no pack content, no DB details, only the
-        // status token the client needs to render an unavailable state.
+        // participant-safe metadata projector's output.
         return new Response(JSON.stringify({
           error: "pack_unavailable",
-          packMetadata: {
-            slug: binding.slug,
-            status: binding.status,
-            reviewDueAt: binding.review_due_at,
-          },
+          packMetadata: publicMetadata,
         }), { status: 409, headers: { ...corsHeaders, "Content-Type": "application/json" } });
       }
 
@@ -213,7 +224,43 @@ export const handleRealityCheck = async (req: Request, deps: HandlerDeps = {}): 
         }), { status: 500, headers: { ...corsHeaders, "Content-Type": "application/json" } });
       }
 
-      const result = evaluateGenericPack(binding.content, answers ?? {});
+      // Server-side pack parse (never trust JSONB shape).
+      const parsedPack = careerDecisionPackV1.safeParse(binding.content);
+      if (!parsedPack.success) {
+        return new Response(JSON.stringify({ error: "pack_contract_invalid" }), {
+          status: 500, headers: { ...corsHeaders, "Content-Type": "application/json" },
+        });
+      }
+      const pack: CareerDecisionPackV1 = parsedPack.data as CareerDecisionPackV1;
+
+      // AUTHORITATIVE server-side sanitisation. The evaluator only ever sees
+      // `sanitisedAnswers`, never the raw request body.
+      const sanitised = sanitisePublicAnswers(pack, (payload as { answers?: unknown }).answers);
+      if (hasBlockingIssues(sanitised.issues)) {
+        return new Response(JSON.stringify({
+          error: "invalid_answers",
+          issues: sanitised.issues.map((i) => ({
+            code: i.code, questionId: i.questionId, displayLabel: i.displayLabel,
+          })),
+        }), { status: 422, headers: { ...corsHeaders, "Content-Type": "application/json" } });
+      }
+
+      // Build review context so the immutable result preserves the servability
+      // state at evaluation time.
+      const reviewContext: ReviewContext = binding.status === "review_due" && binding.review_due_at
+        ? { status: "review_due", reviewDueAt: binding.review_due_at }
+        : { status: "current", reviewDueAt: binding.review_due_at ?? "" };
+
+      const result = evaluate(pack, sanitised.sanitisedAnswers, { reviewContext });
+
+      // Strict new-write completeness gate — fail closed if the result is not
+      // self-contained. Do not leak details to the participant.
+      const contractErrors = validateResultNewWriteCompleteness(result);
+      if (contractErrors.length > 0) {
+        return new Response(JSON.stringify({ error: "result_contract_invalid" }), {
+          status: 500, headers: { ...corsHeaders, "Content-Type": "application/json" },
+        });
+      }
 
       // Issue an assessment receipt. The opaque token is returned to the
       // browser; only its SHA-256 hash is stored server-side.
@@ -244,15 +291,7 @@ export const handleRealityCheck = async (req: Request, deps: HandlerDeps = {}): 
         result,
         assessmentReceipt: receipt,
         assessmentReceiptExpiresAt: expiresAt,
-        packMetadata: {
-          packVersion: binding.pack_version,
-          contentHash: binding.content_hash,
-          slug: binding.slug,
-          status: binding.status,
-          reviewDueAt: binding.review_due_at,
-          geographicScope: binding.geographic_scope,
-          evaluatorSchemaVersion: EVALUATOR_SCHEMA_VERSION,
-        },
+        packMetadata: publicMetadata,
       }), { headers: { ...corsHeaders, "Content-Type": "application/json" } });
     }
 
