@@ -72,6 +72,23 @@ export const questionRef = z.object({
   label: z.string().min(1),
   helpText: z.string().optional(),
   allowedValues: z.array(z.string()).optional(),
+  // v1.1 additive fields (optional for BC with 1.0.0 packs)
+  displayLabel: z.string().optional(),
+  helpTextLong: z.string().optional(),
+  options: z.array(z.object({
+    value: z.string().min(1),
+    label: z.string().min(1),
+    description: z.string().optional(),
+  })).optional(),
+  required: z.boolean().optional(),
+  visibleWhen: z.array(predicate).optional(),
+  moduleId: z.string().optional(),
+});
+
+export const questionModule = z.object({
+  id: z.string().min(1),
+  title: z.string().min(1),
+  description: z.string().optional(),
 });
 
 export const actionTemplate = z.object({
