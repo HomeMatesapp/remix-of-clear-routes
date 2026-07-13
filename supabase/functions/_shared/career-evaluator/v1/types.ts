@@ -108,12 +108,38 @@ export interface Rule {
 
 // ── Content: questions ─────────────────────────────────────────────────────
 
+export interface QuestionOption {
+  value: string;
+  label: string;
+  description?: string;
+}
+
 export interface QuestionRef {
   id: string;
   label: string;
   helpText?: string;
   /** Answer values the rule DSL is allowed to reference. Enforced at validate. */
   allowedValues?: readonly string[];
+  /** v1.1 additive: participant-facing display label (falls back to `label`). */
+  displayLabel?: string;
+  /** v1.1 additive: longer explanatory help text for the wizard. */
+  helpTextLong?: string;
+  /** v1.1 additive: rich options with descriptions for the wizard. */
+  options?: readonly QuestionOption[];
+  /** v1.1 additive: whether the question is required for a valid submission. */
+  required?: boolean;
+  /** v1.1 additive: conditional visibility — all predicates must match (AND).
+   *  When absent the question is always visible. */
+  visibleWhen?: readonly Predicate[];
+  /** v1.1 additive: id of the containing questionnaire module. */
+  moduleId?: string;
+}
+
+/** v1.1 additive: participant-facing questionnaire grouping. */
+export interface QuestionModule {
+  id: string;
+  title: string;
+  description?: string;
 }
 
 // ── Content: evidence ──────────────────────────────────────────────────────
