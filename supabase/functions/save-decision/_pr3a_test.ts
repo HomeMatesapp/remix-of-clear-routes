@@ -29,7 +29,7 @@ import { canonicalHash, sha256Hex } from "../_shared/career-evaluator/v1/hash.ts
 import { evaluate } from "../_shared/career-evaluator/v1/evaluate.ts";
 import { careerDecisionPackV1 } from "../_shared/career-evaluator/v1/schema.ts";
 import type { CareerDecisionPackV1 } from "../_shared/career-evaluator/v1/types.ts";
-import midwifePack from "../../../content/career-packs/midwife/1.0.0.json" with { type: "json" };
+import midwifePack from "../../../content/career-packs/midwife/1.1.0.json" with { type: "json" };
 
 const URL_ = Deno.env.get("SUPABASE_URL")!;
 const SVC = Deno.env.get("SUPABASE_SERVICE_ROLE_KEY")!;
