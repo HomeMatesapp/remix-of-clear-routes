@@ -1,0 +1,1095 @@
+{
+  "schemaVersion": "career-decision-pack/v1",
+  "packVersion": "1.1.0",
+  "roleId": "d8c7bece-2779-45e5-a8ea-ca2283be26c7",
+  "slug": "photographer",
+  "archetypeId": "portfolio_led_creative",
+  "careerIdentity": {
+    "canonicalTitle": "Photographer",
+    "participantTitle": "Photographer",
+    "aliases": [
+      "commercial photographer",
+      "wedding and event photographer",
+      "editorial photographer"
+    ],
+    "sector": "Creative and media",
+    "occupationalFamily": "creative_media_content",
+    "regulatory": {
+      "status": "not_formally_regulated",
+      "appliesTo": "all_routes",
+      "note": "There is no protected title, mandatory qualification or statutory register to work as a photographer in England. Specific assignments (working with children, handling personal data) carry separate legal duties."
+    },
+    "geographicScope": [
+      "England"
+    ],
+    "introduction": "There is no protected title, mandatory qualification or statutory register for photographers in England. This Reality Check helps you weigh three practical routes (portfolio-led freelance, employed/assistant progression, or formal study combined with portfolio building) against your current portfolio, kit, budget and income needs — not against qualifications you don't legally need.",
+    "whatItCovers": [
+      "Which of the three practical routes into photography are workable for you now.",
+      "Portfolio, equipment and start-up budget as practical fit — not as eligibility barriers.",
+      "Business-administration and insurance obligations that apply to self-employment.",
+      "Concrete next actions to build a portfolio, test specialisms or map local clients."
+    ],
+    "whatItCannotConfirm": [
+      "Your personal likelihood of winning specific clients or being hired by a specific studio.",
+      "Whether any single specialism will be sustainable for you long-term.",
+      "Insurance quotes or exact self-employment tax positions — check with an insurer and HMRC.",
+      "Data-protection or safeguarding obligations for specific assignment types beyond the general guidance."
+    ]
+  },
+  "routes": [
+    {
+      "id": "portfolio_led_freelance",
+      "title": "Portfolio-led freelance or self-employed",
+      "summary": "Build a working portfolio in a chosen specialism, register as self-employed and take on clients directly. Success depends on portfolio, client acquisition and business administration, not on any single qualification.",
+      "typicalDurationLabel": "Ongoing portfolio and client-base development; income typically variable in the first years",
+      "typicalCostLabel": "Costs of equipment, insurance, software subscriptions, marketing and self-employed tax registration",
+      "requirementIds": [
+        "working_portfolio",
+        "basic_kit_or_access",
+        "right_to_work",
+        "business_administration_basics",
+        "insurance"
+      ],
+      "evidenceRefs": [
+        "nca_photographer",
+        "gov_self_employed",
+        "aop_professional_standards",
+        "ico_photographers"
+      ]
+    },
+    {
+      "id": "employed_or_assistant",
+      "title": "Employed photographer or assistant progression",
+      "summary": "Enter as a studio assistant, second shooter, photo desk assistant or in-house photographer role, and progress by building supervised experience alongside an employer.",
+      "typicalDurationLabel": "Assistant roles are typically one to three years before progression",
+      "typicalCostLabel": "Employed pay from day one; kit is often provided by the employer or studio",
+      "requirementIds": [
+        "working_portfolio",
+        "right_to_work"
+      ],
+      "evidenceRefs": [
+        "nca_photographer",
+        "aop_professional_standards"
+      ]
+    },
+    {
+      "id": "formal_study_plus_portfolio",
+      "title": "Formal study (college, HND or degree) combined with portfolio building",
+      "summary": "Study a college, HND or degree course in photography while building an independent portfolio. Formal study is one route in, not a requirement to work.",
+      "typicalDurationLabel": "One to three years of study plus continued portfolio building",
+      "typicalCostLabel": "College and higher-education tuition; equipment costs; opportunity cost of study time",
+      "requirementIds": [
+        "working_portfolio",
+        "basic_kit_or_access",
+        "right_to_work"
+      ],
+      "evidenceRefs": [
+        "nca_photographer",
+        "ucas_photography"
+      ]
+    }
+  ],
+  "requirements": [
+    {
+      "id": "working_portfolio",
+      "label": "A working portfolio of your own photographs",
+      "description": "Every route depends on being able to show evidence of your own work. The depth expected varies: freelance clients expect polished specialism work; assistant roles accept early-stage portfolios; formal study accepts an entry-level portfolio.",
+      "verifiedBy": "Prospective clients, employers, agents or course admissions tutors",
+      "evidenceRefs": [
+        "aop_professional_standards"
+      ]
+    },
+    {
+      "id": "basic_kit_or_access",
+      "label": "Basic camera equipment or reliable access to it",
+      "description": "You need a usable camera, lenses appropriate to your specialism and post-processing software. Freelance and study routes typically require your own kit; some assistant roles use studio kit.",
+      "verifiedBy": "Your specialism and the specific brief",
+      "evidenceRefs": [
+        "nca_photographer"
+      ]
+    },
+    {
+      "id": "right_to_work",
+      "label": "Right to work in the UK",
+      "description": "You must have the right to work in the UK for any employed or self-employed route.",
+      "verifiedBy": "Employers or HMRC self-assessment registration",
+      "evidenceRefs": [
+        "gov_self_employed"
+      ]
+    },
+    {
+      "id": "business_administration_basics",
+      "label": "Basic self-employed business administration",
+      "description": "Freelance photographers must register for Self Assessment, keep records, invoice clients and manage tax. This is a legal obligation, not optional.",
+      "verifiedBy": "HMRC guidance and (optionally) an accountant",
+      "evidenceRefs": [
+        "gov_self_employed"
+      ]
+    },
+    {
+      "id": "insurance",
+      "label": "Public liability and equipment insurance",
+      "description": "Most professional clients and venues expect proof of public liability insurance; equipment insurance is separate and strongly recommended.",
+      "verifiedBy": "An insurance broker or professional-body scheme",
+      "evidenceRefs": [
+        "aop_professional_standards"
+      ]
+    }
+  ],
+  "questionRefs": [
+    {
+      "id": "starting_point",
+      "label": "Where are you starting from?",
+      "allowedValues": [
+        "school_leaver",
+        "career_changer",
+        "adjacent_creative",
+        "no_background"
+      ],
+      "displayLabel": "Where are you starting from?",
+      "helpTextLong": "There's no wrong starting point in photography — this just helps us weigh the practical routes.",
+      "options": [
+        {
+          "value": "school_leaver",
+          "label": "School or college leaver"
+        },
+        {
+          "value": "career_changer",
+          "label": "Changing career from an unrelated job"
+        },
+        {
+          "value": "adjacent_creative",
+          "label": "I already work in an adjacent creative field"
+        },
+        {
+          "value": "no_background",
+          "label": "Just exploring / no background yet"
+        }
+      ],
+      "required": true,
+      "moduleId": "starting_point"
+    },
+    {
+      "id": "portfolio_strength",
+      "label": "How would you describe your current photography portfolio?",
+      "allowedValues": [
+        "strong_diverse",
+        "growing",
+        "thin",
+        "none"
+      ],
+      "displayLabel": "How would you describe your current photography portfolio?",
+      "helpTextLong": "A working portfolio is what clients, employers and course tutors actually judge you on.",
+      "options": [
+        {
+          "value": "strong_diverse",
+          "label": "Strong and diverse — polished work in my specialism"
+        },
+        {
+          "value": "growing",
+          "label": "Growing — some solid pieces, needs more depth"
+        },
+        {
+          "value": "thin",
+          "label": "Thin — a few images but not client-ready"
+        },
+        {
+          "value": "none",
+          "label": "No portfolio yet"
+        }
+      ],
+      "required": true,
+      "moduleId": "portfolio_and_kit"
+    },
+    {
+      "id": "equipment_access",
+      "label": "What equipment can you already use?",
+      "allowedValues": [
+        "own_pro_kit",
+        "own_entry_kit",
+        "borrowed_or_hire",
+        "no_access"
+      ],
+      "displayLabel": "What equipment can you already use?",
+      "helpTextLong": "You need a usable camera and lenses appropriate to your specialism. Some assistant roles use studio kit.",
+      "options": [
+        {
+          "value": "own_pro_kit",
+          "label": "Own professional kit"
+        },
+        {
+          "value": "own_entry_kit",
+          "label": "Own entry-level kit"
+        },
+        {
+          "value": "borrowed_or_hire",
+          "label": "Borrowed or hired access"
+        },
+        {
+          "value": "no_access",
+          "label": "No access to a camera"
+        }
+      ],
+      "required": true,
+      "moduleId": "portfolio_and_kit"
+    },
+    {
+      "id": "startup_budget",
+      "label": "What is your budget for photography start-up costs (kit, insurance, software, marketing)?",
+      "allowedValues": [
+        "substantial",
+        "modest",
+        "minimal"
+      ],
+      "displayLabel": "What is your budget for photography start-up costs (kit, insurance, software, marketing)?",
+      "helpTextLong": "Covers kit, insurance, software subscriptions, marketing and any tuition costs.",
+      "options": [
+        {
+          "value": "substantial",
+          "label": "Substantial — several thousand pounds"
+        },
+        {
+          "value": "modest",
+          "label": "Modest — a few hundred pounds"
+        },
+        {
+          "value": "minimal",
+          "label": "Minimal — very tight budget"
+        }
+      ],
+      "required": true,
+      "moduleId": "business_and_income"
+    },
+    {
+      "id": "income_stability_need",
+      "label": "How much income stability do you need?",
+      "allowedValues": [
+        "need_stable",
+        "tolerate_variable",
+        "either"
+      ],
+      "displayLabel": "How much income stability do you need?",
+      "helpTextLong": "Freelance income is typically irregular for the first years.",
+      "options": [
+        {
+          "value": "need_stable",
+          "label": "I need a stable monthly income"
+        },
+        {
+          "value": "tolerate_variable",
+          "label": "I can tolerate variable income"
+        },
+        {
+          "value": "either",
+          "label": "Either — I have flexibility"
+        }
+      ],
+      "required": true,
+      "moduleId": "business_and_income"
+    },
+    {
+      "id": "business_admin_confidence",
+      "label": "How confident are you with self-employed business administration (invoicing, tax, insurance)?",
+      "allowedValues": [
+        "confident",
+        "willing_to_learn",
+        "unwilling"
+      ],
+      "displayLabel": "How confident are you with self-employed business administration (invoicing, tax, insurance)?",
+      "helpTextLong": "Self-employed photographers must handle invoicing, tax and insurance. This is a legal obligation.",
+      "options": [
+        {
+          "value": "confident",
+          "label": "Confident with self-employed admin"
+        },
+        {
+          "value": "willing_to_learn",
+          "label": "Willing to learn"
+        },
+        {
+          "value": "unwilling",
+          "label": "Unwilling to handle self-employed admin"
+        }
+      ],
+      "required": true,
+      "moduleId": "business_and_income"
+    },
+    {
+      "id": "travel_flexibility",
+      "label": "How flexible is your travel for shoots?",
+      "allowedValues": [
+        "yes_national",
+        "local_only",
+        "limited"
+      ],
+      "displayLabel": "How flexible is your travel for shoots?",
+      "helpTextLong": "Some specialisms require regular travel and unsociable hours.",
+      "options": [
+        {
+          "value": "yes_national",
+          "label": "Yes — national travel is fine"
+        },
+        {
+          "value": "local_only",
+          "label": "Local area only"
+        },
+        {
+          "value": "limited",
+          "label": "Very limited travel"
+        }
+      ],
+      "required": true,
+      "moduleId": "business_and_income"
+    },
+    {
+      "id": "chosen_specialism",
+      "label": "Do you have a clear photography specialism?",
+      "allowedValues": [
+        "yes_clear",
+        "exploring",
+        "unsure"
+      ],
+      "displayLabel": "Do you have a clear photography specialism?",
+      "helpTextLong": "Specialism examples: portrait, editorial, wedding, product, documentary.",
+      "options": [
+        {
+          "value": "yes_clear",
+          "label": "Yes, I have a clear specialism"
+        },
+        {
+          "value": "exploring",
+          "label": "I'm exploring two or three"
+        },
+        {
+          "value": "unsure",
+          "label": "Not sure yet"
+        }
+      ],
+      "required": false,
+      "moduleId": "study_and_specialism",
+      "visibleWhen": [
+        {
+          "questionId": "portfolio_strength",
+          "op": "in",
+          "value": [
+            "strong_diverse",
+            "growing",
+            "thin"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "willing_assistant_work",
+      "label": "Are you open to assistant, second-shooter or test-shoot work while building experience?",
+      "allowedValues": [
+        "yes",
+        "prefer_paid_client_work",
+        "no"
+      ],
+      "displayLabel": "Are you open to assistant, second-shooter or test-shoot work while building experience?",
+      "helpTextLong": "Progression into employed roles typically starts with assistant or second-shooter work.",
+      "options": [
+        {
+          "value": "yes",
+          "label": "Yes, I'm open to assistant work"
+        },
+        {
+          "value": "prefer_paid_client_work",
+          "label": "I'd prefer paid client work from the start"
+        },
+        {
+          "value": "no",
+          "label": "No"
+        }
+      ],
+      "required": true,
+      "moduleId": "study_and_specialism"
+    },
+    {
+      "id": "formal_qualification_status",
+      "label": "Do you have a relevant photography qualification?",
+      "allowedValues": [
+        "relevant_degree",
+        "in_progress",
+        "none"
+      ],
+      "displayLabel": "Do you have a relevant photography qualification?",
+      "helpTextLong": "A qualification is NOT required to work as a photographer. This is only relevant to the formal-study route.",
+      "options": [
+        {
+          "value": "relevant_degree",
+          "label": "I have a relevant photography qualification"
+        },
+        {
+          "value": "in_progress",
+          "label": "I'm currently studying one"
+        },
+        {
+          "value": "none",
+          "label": "No formal photography qualification"
+        }
+      ],
+      "required": true,
+      "moduleId": "study_and_specialism"
+    }
+  ],
+  "rules": [
+    {
+      "id": "block_freelance_portfolio_none",
+      "when": {
+        "all": [
+          {
+            "questionId": "portfolio_strength",
+            "op": "eq",
+            "value": "none"
+          }
+        ]
+      },
+      "then": [
+        {
+          "kind": "block_route",
+          "routeId": "portfolio_led_freelance",
+          "reason": "Paying clients require evidence of your work. Freelance without any portfolio is not a viable starting point.",
+          "evidenceRefs": [
+            "aop_professional_standards"
+          ]
+        },
+        {
+          "kind": "add_action",
+          "actionTemplateId": "action_build_portfolio"
+        }
+      ]
+    },
+    {
+      "id": "flag_freelance_portfolio_thin",
+      "when": {
+        "all": [
+          {
+            "questionId": "portfolio_strength",
+            "op": "eq",
+            "value": "thin"
+          }
+        ]
+      },
+      "then": [
+        {
+          "kind": "flag_concern",
+          "routeId": "portfolio_led_freelance",
+          "concern": "A thin portfolio typically means low, irregular paid work. Consider structured portfolio-building projects before relying on freelance income.",
+          "evidenceRefs": [
+            "aop_professional_standards"
+          ]
+        },
+        {
+          "kind": "add_action",
+          "actionTemplateId": "action_build_portfolio"
+        }
+      ]
+    },
+    {
+      "id": "block_freelance_no_kit_no_budget",
+      "when": {
+        "all": [
+          {
+            "questionId": "equipment_access",
+            "op": "eq",
+            "value": "no_access"
+          },
+          {
+            "questionId": "startup_budget",
+            "op": "eq",
+            "value": "minimal"
+          }
+        ]
+      },
+      "then": [
+        {
+          "kind": "block_route",
+          "routeId": "portfolio_led_freelance",
+          "reason": "Freelance requires a usable kit; without any access and no budget, freelance work cannot start responsibly.",
+          "evidenceRefs": [
+            "nca_photographer"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "verify_freelance_no_kit_with_budget",
+      "when": {
+        "all": [
+          {
+            "questionId": "equipment_access",
+            "op": "eq",
+            "value": "no_access"
+          }
+        ]
+      },
+      "then": [
+        {
+          "kind": "require_verification",
+          "routeId": "portfolio_led_freelance",
+          "check": "Cost a realistic entry kit for your intended specialism (body, one or two lenses, memory, software). Confirm it fits your start-up budget.",
+          "evidenceRefs": [
+            "nca_photographer"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "block_freelance_admin_unwilling",
+      "when": {
+        "all": [
+          {
+            "questionId": "business_admin_confidence",
+            "op": "eq",
+            "value": "unwilling"
+          }
+        ]
+      },
+      "then": [
+        {
+          "kind": "block_route",
+          "routeId": "portfolio_led_freelance",
+          "reason": "Self-employed photographers must handle invoicing, tax and insurance. This is a legal obligation and cannot be avoided.",
+          "evidenceRefs": [
+            "gov_self_employed"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "flag_freelance_income_need_stable",
+      "when": {
+        "all": [
+          {
+            "questionId": "income_stability_need",
+            "op": "eq",
+            "value": "need_stable"
+          }
+        ]
+      },
+      "then": [
+        {
+          "kind": "flag_concern",
+          "routeId": "portfolio_led_freelance",
+          "concern": "Freelance income is typically irregular, especially in the first years. If you need a stable monthly income, an employed or assistant route is a better fit.",
+          "evidenceRefs": [
+            "aop_professional_standards"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "flag_employed_assistant_unwilling",
+      "when": {
+        "all": [
+          {
+            "questionId": "willing_assistant_work",
+            "op": "eq",
+            "value": "no"
+          }
+        ]
+      },
+      "then": [
+        {
+          "kind": "flag_concern",
+          "routeId": "employed_or_assistant",
+          "concern": "Progression into employed photographer roles typically starts with assistant or second-shooter work. Ruling this out narrows this route significantly.",
+          "evidenceRefs": [
+            "nca_photographer"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "flag_travel_limited",
+      "when": {
+        "all": [
+          {
+            "questionId": "travel_flexibility",
+            "op": "eq",
+            "value": "limited"
+          }
+        ]
+      },
+      "then": [
+        {
+          "kind": "flag_concern",
+          "routeId": "portfolio_led_freelance",
+          "concern": "Limited travel narrows the client and specialism base you can build.",
+          "evidenceRefs": [
+            "nca_photographer"
+          ]
+        },
+        {
+          "kind": "flag_concern",
+          "routeId": "employed_or_assistant",
+          "concern": "Some employed and assistant roles require regular travel or unsociable hours.",
+          "evidenceRefs": [
+            "nca_photographer"
+          ]
+        },
+        {
+          "kind": "add_action",
+          "actionTemplateId": "action_local_focus"
+        }
+      ]
+    },
+    {
+      "id": "verify_specialism_unsure",
+      "when": {
+        "all": [
+          {
+            "questionId": "chosen_specialism",
+            "op": "eq",
+            "value": "unsure"
+          }
+        ]
+      },
+      "then": [
+        {
+          "kind": "require_verification",
+          "routeId": "portfolio_led_freelance",
+          "check": "Test two or three specialisms with structured personal projects before committing time and money.",
+          "evidenceRefs": [
+            "aop_professional_standards"
+          ]
+        },
+        {
+          "kind": "require_verification",
+          "routeId": "employed_or_assistant",
+          "check": "Aim assistant applications at studios in one or two specialisms rather than all of them.",
+          "evidenceRefs": [
+            "nca_photographer"
+          ]
+        },
+        {
+          "kind": "add_action",
+          "actionTemplateId": "action_explore_specialisms"
+        }
+      ]
+    },
+    {
+      "id": "flag_formal_study_budget_minimal",
+      "when": {
+        "all": [
+          {
+            "questionId": "startup_budget",
+            "op": "eq",
+            "value": "minimal"
+          }
+        ]
+      },
+      "then": [
+        {
+          "kind": "flag_concern",
+          "routeId": "formal_study_plus_portfolio",
+          "concern": "Formal study has tuition costs plus its own equipment expectations; confirm total costs against your budget.",
+          "evidenceRefs": [
+            "ucas_photography"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "consideration_no_mandatory_qualification",
+      "when": {
+        "all": [
+          {
+            "questionId": "starting_point",
+            "op": "present"
+          }
+        ]
+      },
+      "then": [
+        {
+          "kind": "add_consideration",
+          "text": "There is no mandatory qualification or licence to work as a photographer in England. A degree does not guarantee paid work, and lack of one does not prevent it.",
+          "evidenceRefs": [
+            "nca_photographer"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "consideration_safeguarding_dbs",
+      "when": {
+        "all": [
+          {
+            "questionId": "starting_point",
+            "op": "present"
+          }
+        ]
+      },
+      "then": [
+        {
+          "kind": "add_consideration",
+          "text": "Specific assignments (school photography, work with children or vulnerable adults, sensitive personal-data work) carry separate legal duties including safeguarding checks and data-protection obligations.",
+          "evidenceRefs": [
+            "ico_photographers"
+          ]
+        }
+      ]
+    }
+  ],
+  "evidenceRecords": [
+    {
+      "id": "nca_photographer",
+      "title": "Photographer — job profile",
+      "publisher": "National Careers Service",
+      "url": "https://nationalcareers.service.gov.uk/job-profiles/photographer",
+      "publishedOrRetrievedOn": "2026-02-01",
+      "verifiedOn": "2026-07-10",
+      "publiclyAccessible": true
+    },
+    {
+      "id": "gov_self_employed",
+      "title": "Set up as self-employed (a sole trader)",
+      "publisher": "GOV.UK",
+      "url": "https://www.gov.uk/set-up-self-employed",
+      "publishedOrRetrievedOn": "2026-04-01",
+      "verifiedOn": "2026-07-10",
+      "publiclyAccessible": true
+    },
+    {
+      "id": "aop_professional_standards",
+      "title": "Association of Photographers — professional practice and standards",
+      "publisher": "Association of Photographers (AOP)",
+      "url": "https://www.the-aop.org/information",
+      "publishedOrRetrievedOn": "2025-11-01",
+      "verifiedOn": "2026-07-10",
+      "publiclyAccessible": true
+    },
+    {
+      "id": "ico_photographers",
+      "title": "Data protection guidance for photographers",
+      "publisher": "Information Commissioner's Office (ICO)",
+      "url": "https://ico.org.uk/for-organisations/uk-gdpr-guidance-and-resources/personal-information-what-is-it/what-is-personal-data/",
+      "publishedOrRetrievedOn": "2026-01-15",
+      "verifiedOn": "2026-07-10",
+      "publiclyAccessible": true
+    },
+    {
+      "id": "ucas_photography",
+      "title": "Photography courses on UCAS",
+      "publisher": "UCAS",
+      "url": "https://www.ucas.com/explore/subjects/photography",
+      "publishedOrRetrievedOn": "2026-01-01",
+      "verifiedOn": "2026-07-10",
+      "publiclyAccessible": true
+    }
+  ],
+  "actionTemplates": [
+    {
+      "id": "action_build_portfolio",
+      "title": "Plan two structured portfolio projects",
+      "description": "Design two self-directed projects in your chosen specialism, with a defined brief, timeframe and delivery format. Use them to test both your work and your process before charging clients.",
+      "effortLabel": "Two to three weeks per project",
+      "evidenceRefs": [
+        "aop_professional_standards"
+      ]
+    },
+    {
+      "id": "action_explore_specialisms",
+      "title": "Test two or three specialisms",
+      "description": "Choose two or three specialisms (for example: portrait, editorial, wedding, product) and complete one small project in each before committing to one.",
+      "effortLabel": "About four weeks",
+      "evidenceRefs": [
+        "aop_professional_standards"
+      ]
+    },
+    {
+      "id": "action_local_focus",
+      "title": "Map a local client and studio landscape",
+      "description": "List every studio, in-house employer, agency and regular client type within your travel range. Use this to focus applications and outreach.",
+      "effortLabel": "About two hours",
+      "evidenceRefs": [
+        "nca_photographer"
+      ]
+    },
+    {
+      "id": "action_check_self_employed_setup",
+      "title": "Read the GOV.UK self-employment set-up guide",
+      "description": "Read GOV.UK on Self Assessment registration, National Insurance and record-keeping so you understand what freelance work legally requires.",
+      "effortLabel": "About one hour",
+      "evidenceRefs": [
+        "gov_self_employed"
+      ]
+    }
+  ],
+  "testProfiles": [
+    {
+      "id": "strong_portfolio_no_qual",
+      "label": "Strong portfolio, no formal qualification",
+      "answers": {
+        "starting_point": "career_changer",
+        "portfolio_strength": "strong_diverse",
+        "equipment_access": "own_pro_kit",
+        "startup_budget": "modest",
+        "income_stability_need": "tolerate_variable",
+        "business_admin_confidence": "willing_to_learn",
+        "travel_flexibility": "yes_national",
+        "chosen_specialism": "yes_clear",
+        "willing_assistant_work": "yes",
+        "formal_qualification_status": "none"
+      },
+      "expect": {
+        "mustNotMention": [
+          "degree required",
+          "guaranteed"
+        ]
+      }
+    },
+    {
+      "id": "relevant_degree_weak_portfolio",
+      "label": "Relevant photography degree, weak portfolio",
+      "answers": {
+        "starting_point": "school_leaver",
+        "portfolio_strength": "thin",
+        "equipment_access": "own_entry_kit",
+        "startup_budget": "modest",
+        "income_stability_need": "either",
+        "business_admin_confidence": "willing_to_learn",
+        "travel_flexibility": "yes_national",
+        "chosen_specialism": "exploring",
+        "willing_assistant_work": "yes",
+        "formal_qualification_status": "relevant_degree"
+      },
+      "expect": {
+        "requiredActionIds": [
+          "action_build_portfolio"
+        ]
+      }
+    },
+    {
+      "id": "beginner_limited_equipment",
+      "label": "Beginner with no camera and minimal budget",
+      "answers": {
+        "starting_point": "no_background",
+        "portfolio_strength": "none",
+        "equipment_access": "no_access",
+        "startup_budget": "minimal",
+        "income_stability_need": "need_stable",
+        "business_admin_confidence": "willing_to_learn",
+        "travel_flexibility": "local_only",
+        "chosen_specialism": "unsure",
+        "willing_assistant_work": "yes",
+        "formal_qualification_status": "none"
+      },
+      "expect": {
+        "blockedRouteIds": [
+          "portfolio_led_freelance"
+        ]
+      }
+    },
+    {
+      "id": "seeking_stable_salary",
+      "label": "Wants stable salaried work",
+      "answers": {
+        "starting_point": "career_changer",
+        "portfolio_strength": "growing",
+        "equipment_access": "own_entry_kit",
+        "startup_budget": "modest",
+        "income_stability_need": "need_stable",
+        "business_admin_confidence": "willing_to_learn",
+        "travel_flexibility": "yes_national",
+        "chosen_specialism": "yes_clear",
+        "willing_assistant_work": "yes",
+        "formal_qualification_status": "none"
+      },
+      "expect": {
+        "mustMention": [
+          "irregular"
+        ]
+      }
+    },
+    {
+      "id": "open_freelance_variable_income",
+      "label": "Open to freelance and variable income",
+      "answers": {
+        "starting_point": "adjacent_creative",
+        "portfolio_strength": "growing",
+        "equipment_access": "own_entry_kit",
+        "startup_budget": "modest",
+        "income_stability_need": "tolerate_variable",
+        "business_admin_confidence": "confident",
+        "travel_flexibility": "yes_national",
+        "chosen_specialism": "yes_clear",
+        "willing_assistant_work": "yes",
+        "formal_qualification_status": "none"
+      },
+      "expect": {
+        "mustNotMention": [
+          "guaranteed"
+        ]
+      }
+    },
+    {
+      "id": "cannot_travel_photographer",
+      "label": "Unable to travel widely for shoots",
+      "answers": {
+        "starting_point": "career_changer",
+        "portfolio_strength": "growing",
+        "equipment_access": "own_entry_kit",
+        "startup_budget": "modest",
+        "income_stability_need": "either",
+        "business_admin_confidence": "willing_to_learn",
+        "travel_flexibility": "limited",
+        "chosen_specialism": "yes_clear",
+        "willing_assistant_work": "yes",
+        "formal_qualification_status": "none"
+      },
+      "expect": {
+        "requiredActionIds": [
+          "action_local_focus"
+        ]
+      }
+    },
+    {
+      "id": "career_changer_retaining_paid_work",
+      "label": "Career changer keeping day job while starting out",
+      "answers": {
+        "starting_point": "career_changer",
+        "portfolio_strength": "growing",
+        "equipment_access": "own_entry_kit",
+        "startup_budget": "modest",
+        "income_stability_need": "need_stable",
+        "business_admin_confidence": "willing_to_learn",
+        "travel_flexibility": "local_only",
+        "chosen_specialism": "exploring",
+        "willing_assistant_work": "yes",
+        "formal_qualification_status": "none"
+      },
+      "expect": {
+        "mustMention": [
+          "No mandatory qualification"
+        ]
+      }
+    },
+    {
+      "id": "adjacent_creative_established",
+      "label": "Established adjacent creative with photo portfolio",
+      "answers": {
+        "starting_point": "adjacent_creative",
+        "portfolio_strength": "strong_diverse",
+        "equipment_access": "own_pro_kit",
+        "startup_budget": "modest",
+        "income_stability_need": "tolerate_variable",
+        "business_admin_confidence": "confident",
+        "travel_flexibility": "yes_national",
+        "chosen_specialism": "yes_clear",
+        "willing_assistant_work": "prefer_paid_client_work",
+        "formal_qualification_status": "none"
+      },
+      "expect": {
+        "mustNotMention": [
+          "degree required"
+        ]
+      }
+    },
+    {
+      "id": "unsure_specialism",
+      "label": "Unsure of specialism",
+      "answers": {
+        "starting_point": "school_leaver",
+        "portfolio_strength": "growing",
+        "equipment_access": "own_entry_kit",
+        "startup_budget": "modest",
+        "income_stability_need": "either",
+        "business_admin_confidence": "willing_to_learn",
+        "travel_flexibility": "yes_national",
+        "chosen_specialism": "unsure",
+        "willing_assistant_work": "yes",
+        "formal_qualification_status": "none"
+      },
+      "expect": {
+        "requiredActionIds": [
+          "action_explore_specialisms"
+        ]
+      }
+    },
+    {
+      "id": "many_unknowns_photo",
+      "label": "Participant with several unanswered questions",
+      "answers": {
+        "starting_point": "career_changer",
+        "portfolio_strength": "growing",
+        "business_admin_confidence": "willing_to_learn",
+        "willing_assistant_work": "yes"
+      },
+      "expect": {
+        "mustMention": [
+          "Some answers were left blank"
+        ]
+      }
+    },
+    {
+      "id": "strong_practical_fit_no_pipeline",
+      "label": "Strong practical fit but no immediate client pipeline",
+      "answers": {
+        "starting_point": "adjacent_creative",
+        "portfolio_strength": "growing",
+        "equipment_access": "own_pro_kit",
+        "startup_budget": "modest",
+        "income_stability_need": "either",
+        "business_admin_confidence": "confident",
+        "travel_flexibility": "yes_national",
+        "chosen_specialism": "yes_clear",
+        "willing_assistant_work": "yes",
+        "formal_qualification_status": "none"
+      },
+      "expect": {
+        "mustNotMention": [
+          "best route"
+        ]
+      }
+    },
+    {
+      "id": "formal_route_finance_constrained",
+      "label": "Formal-study route available but budget is minimal",
+      "answers": {
+        "starting_point": "school_leaver",
+        "portfolio_strength": "growing",
+        "equipment_access": "own_entry_kit",
+        "startup_budget": "minimal",
+        "income_stability_need": "either",
+        "business_admin_confidence": "willing_to_learn",
+        "travel_flexibility": "yes_national",
+        "chosen_specialism": "yes_clear",
+        "willing_assistant_work": "yes",
+        "formal_qualification_status": "in_progress"
+      },
+      "expect": {
+        "mustMention": [
+          "tuition costs"
+        ]
+      }
+    }
+  ],
+  "contentReview": {
+    "ownerDisplayName": "Clear Routes creative-media content team",
+    "reviewerDisplayName": "Independent creative-media reviewer (staging identity, PR 3b)",
+    "lastReviewedAt": "2026-07-13",
+    "nextReviewDueAt": "2027-01-12",
+    "sourcesAsOf": "2026-07-10"
+  },
+  "questionModules": [
+    {
+      "id": "starting_point",
+      "title": "Your starting point"
+    },
+    {
+      "id": "portfolio_and_kit",
+      "title": "Portfolio and equipment"
+    },
+    {
+      "id": "business_and_income",
+      "title": "Business, income and travel"
+    },
+    {
+      "id": "study_and_specialism",
+      "title": "Study and specialism"
+    }
+  ]
+}
