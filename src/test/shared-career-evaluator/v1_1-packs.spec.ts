@@ -117,17 +117,33 @@ for (const c of cases) {
   });
 }
 
-describe("1.0.0 pack files must remain byte-unchanged", () => {
-  // Byte-size snapshot recorded when PR 3b closed. Any edit will change this.
-  const expectedBytes: Record<string, number> = {
-    midwife: 25520,
-    "carpenter-joiner": 26565,
-    photographer: 21885,
+describe("1.0.0 pack files must remain byte-identical (SHA-256 pinned)", () => {
+  // SHA-256 of the exact file bytes, pinned when PR 3b closed.
+  // Any single-byte change — including whitespace — will change the digest.
+  // Byte length is retained only as informational output on failure.
+  const expectedSha256: Record<string, string> = {
+    midwife: "da71c16cc6d86649a1786ab0454e863deec1d2f0a9ea575a73c0937cc6e9d4df",
+    "carpenter-joiner": "50d630a65bd87e4bf80d51578bfb1123ca06475f1d462994bb8b6757341f716d",
+    photographer: "889417400f501bc2c1ca7fe20a07123b5200d5806d71c0a077d3c86b93fb9200",
   };
-  for (const [slug, bytes] of Object.entries(expectedBytes)) {
-    it(`${slug}/1.0.0.json is byte-unchanged (${bytes} bytes)`, () => {
+  const createHash = (): ((data: Uint8Array) => string) => {
+    // eslint-disable-next-line @typescript-eslint/no-require-imports
+    const { createHash } = require("node:crypto") as typeof import("node:crypto");
+    return (data) => createHash("sha256").update(data).digest("hex");
+  };
+  const hash = createHash();
+  for (const [slug, expectedDigest] of Object.entries(expectedSha256)) {
+    it(`${slug}/1.0.0.json is byte-identical (sha256 ${expectedDigest.slice(0, 12)}…)`, () => {
       const raw = readFileSync(resolve(__dir, `../../../content/career-packs/${slug}/1.0.0.json`));
-      expect(raw.byteLength).toBe(bytes);
+      const actual = hash(raw);
+      if (actual !== expectedDigest) {
+        throw new Error(
+          `1.0.0 pack ${slug} has been modified.\n` +
+            `  expected sha256 ${expectedDigest}\n` +
+            `  actual   sha256 ${actual}\n` +
+            `  file size ${raw.byteLength} bytes (informational only)`,
+        );
+      }
       const parsed = careerDecisionPackV1.safeParse(JSON.parse(raw.toString("utf-8")));
       expect(parsed.success).toBe(true);
     });
