@@ -60,12 +60,15 @@ Deno.test("pr3c-i.d/1 — public projectors produce clean metadata + questionnai
       assert(!metaKeys.includes(forbidden), `metadata leaks ${forbidden} for ${pack.slug}`);
     }
 
-    const q = buildPublicQuestionnaire(pack);
-    assert(q.questionModules.length > 0, `${pack.slug} has questionnaire modules`);
+    const q = buildPublicQuestionnaire(pack, {
+      slug: pack.slug, packVersion: pack.packVersion, status: "published",
+      reviewDueAt: null, geographicScope: pack.careerIdentity.geographicScope as string[],
+    });
+    assert(q.modules.length > 0, `${pack.slug} has questionnaire modules`);
     assert(q.questions.length > 0, `${pack.slug} has questions`);
     const qJson = JSON.stringify(q);
-    for (const forbidden of ["ownerUserId", "adminNotes", "rules", "evidenceRecords"]) {
-      assert(!qJson.includes(`"${forbidden}"`), `questionnaire leaks ${forbidden} for ${pack.slug}`);
+    for (const forbidden of ["ownerUserId", "adminNotes", "\"rules\"", "evidenceRecords"]) {
+      assert(!qJson.includes(forbidden), `questionnaire leaks ${forbidden} for ${pack.slug}`);
     }
   }
 });
