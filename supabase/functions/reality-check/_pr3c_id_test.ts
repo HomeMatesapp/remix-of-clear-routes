@@ -84,7 +84,7 @@ Deno.test({
       ownerUserId: "attacker",
       injected_html: "<script>alert(1)</script>",
       arbitrary_unknown_question: "junk",
-      starting_point: ["school_leaver", "school_leaver", "career_changer"], // dup + extra
+      admin_override: "true",
     };
     const receiptCalls: unknown[] = [];
     const res = await handleRealityCheck(makeReq({
