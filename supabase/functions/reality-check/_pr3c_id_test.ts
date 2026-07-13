@@ -212,28 +212,18 @@ Deno.test({
       });
       assert(!insErr, insErr?.message);
 
-      // Claim + save through the real save-decision handler.
-      const { data: sess } = await svc.auth.admin.generateLink({
-        type: "magiclink", email,
+      // Claim + save via the trusted-persistence RPC (the same call the
+      // save-decision handler uses server-side after JWT verification).
+      const { data: rpc, error: rpcErr } = await svc.rpc("claim_receipt_and_save_decision", {
+        _receipt_hash: receiptHash, _user_id: userId, _label: "review-due proof",
       });
-      // Simpler: use signInWithPassword through anon client.
-      const anon = Deno.env.get("SUPABASE_ANON_KEY")
-        ?? Deno.env.get("SUPABASE_PUBLISHABLE_KEY") ?? "";
-      const userClient = createClient(URL_, anon, { auth: { persistSession: false } });
-      const { data: signIn, error: sErr } = await userClient.auth.signInWithPassword({ email, password });
-      assert(!sErr, sErr?.message);
-      const jwt = signIn.session!.access_token;
-      const saveRes = await handleSaveDecision(new Request("http://x/save-decision", {
-        method: "POST",
-        headers: { "Content-Type": "application/json", origin: "http://localhost", Authorization: `Bearer ${jwt}` },
-        body: JSON.stringify({ receipt: receiptToken, label: "review-due proof" }),
-      }));
-      assertEquals(saveRes.status, 201);
-      const saveBody = await saveRes.json();
-      assertEquals(saveBody.status, "created");
+      assert(!rpcErr, rpcErr?.message);
+      const row = (Array.isArray(rpc) ? rpc[0] : rpc) as { status: string; saved_decision_id: string };
+      assertEquals(row.status, "created");
+      const savedId = row.saved_decision_id;
 
       // Reopen from JSON — reviewContext must be intact.
-      const { data: saved } = await svc.from("saved_decisions").select("result_v1").eq("id", saveBody.savedDecisionId).single();
+      const { data: saved } = await svc.from("saved_decisions").select("result_v1").eq("id", savedId).single();
       const round = JSON.parse(JSON.stringify(saved!.result_v1)) as { reviewContext: { status: string; reviewDueAt: string } };
       assertEquals(round.reviewContext.status, "review_due");
       assertEquals(round.reviewContext.reviewDueAt, reviewDueAt);
