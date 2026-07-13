@@ -333,22 +333,30 @@ Deno.test({
   sanitizeOps: false, sanitizeResources: false,
   fn: async () => {
     for (const slug of ["midwife", "carpenter-joiner", "photographer"]) {
-      const { data: bound } = await svc.from("role_pack_bindings")
-        .select("pack_id, career_packs!inner(slug, pack_version)")
-        // deno-lint-ignore no-explicit-any
-        .eq("career_packs.slug" as any, slug).maybeSingle();
-      assert(bound, `${slug} has a binding`);
+      // Query pack rows for this slug, then check their bindings + publications.
       // deno-lint-ignore no-explicit-any
-      assertEquals((bound as any).career_packs.pack_version, "1.1.0");
+      const { data: packs } = await (svc as any).from("career_packs")
+        .select("id, pack_version").eq("slug", slug);
+      // deno-lint-ignore no-explicit-any
+      const packRows = (packs ?? []) as Array<{ id: string; pack_version: string }>;
+      const v110 = packRows.find((p) => p.pack_version === "1.1.0");
+      const v100 = packRows.find((p) => p.pack_version === "1.0.0");
+      assert(v110, `${slug} 1.1.0 exists`);
+      assert(v100, `${slug} 1.0.0 exists`);
 
-      const { data: pubs } = await svc.from("career_pack_publications")
-        .select("status, pack_id, career_packs!inner(slug, pack_version)")
-        // deno-lint-ignore no-explicit-any
-        .eq("career_packs.slug" as any, slug);
       // deno-lint-ignore no-explicit-any
-      const statuses = (pubs ?? []).map((p: any) => [p.career_packs.pack_version, p.status]).sort();
-      assertEquals(statuses.filter((s) => s[0] === "1.1.0")[0]?.[1], "published");
-      assertEquals(statuses.filter((s) => s[0] === "1.0.0")[0]?.[1], "superseded");
+      const { data: binding } = await (svc as any).from("role_pack_bindings")
+        .select("pack_id").eq("pack_id", v110!.id).maybeSingle();
+      assert(binding, `${slug} 1.1.0 is bound`);
+
+      // deno-lint-ignore no-explicit-any
+      const { data: pub110 } = await (svc as any).from("career_pack_publications")
+        .select("status").eq("pack_id", v110!.id).single();
+      // deno-lint-ignore no-explicit-any
+      const { data: pub100 } = await (svc as any).from("career_pack_publications")
+        .select("status").eq("pack_id", v100!.id).single();
+      assertEquals(pub110.status, "published", `${slug} 1.1.0 published`);
+      assertEquals(pub100.status, "superseded", `${slug} 1.0.0 superseded`);
     }
   },
 });
