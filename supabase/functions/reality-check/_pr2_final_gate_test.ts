@@ -19,7 +19,7 @@ import { createClient } from "https://esm.sh/@supabase/supabase-js@2";
 import { assert, assertEquals, assertNotEquals } from "https://deno.land/std@0.224.0/assert/mod.ts";
 import { handleRealityCheck, type ResolvedBinding } from "./index.ts";
 import { canonicalHash } from "../_shared/career-evaluator/v1/hash.ts";
-import midwifePack from "../../../content/career-packs/midwife/1.0.0.json" with { type: "json" };
+import midwifePack from "../../../content/career-packs/midwife/1.1.0.json" with { type: "json" };
 
 const URL_ = Deno.env.get("SUPABASE_URL")!;
 const SVC = Deno.env.get("SUPABASE_SERVICE_ROLE_KEY")!;
@@ -116,7 +116,7 @@ const fixtureBinding = (
   pack_id: "11111111-1111-1111-1111-111111111111",
   role_id: "22222222-2222-2222-2222-222222222222",
   slug: "midwife",
-  pack_version: "1.0.0",
+  pack_version: "1.1.0",
   content_hash: "will-be-set",
   content: midwifePack,
   status: "published",
@@ -127,9 +127,10 @@ const fixtureBinding = (
   ...overrides,
 });
 
+const MIDWIFE_VALID_ANSWERS = (midwifePack as { testProfiles: Array<{ answers: Record<string, unknown> }> }).testProfiles[0].answers;
 const fixtureRequest = (binding: ResolvedBinding) =>
   handleRealityCheck(
-    makeReq({ role: { role_name: "Midwife", role_slug: "midwife" } }),
+    makeReq({ role: { role_name: "Midwife", role_slug: "midwife" }, answers: MIDWIFE_VALID_ANSWERS }),
     {
       resolveBinding: async () => binding,
       validatePair: async () => true,
@@ -236,7 +237,7 @@ Deno.test("gate-3: one actively-serving version per role (published + review_due
   };
 
   const packA = await mkPack("1.0.0");
-  const packB = await mkPack("1.1.0");
+  const packB = await mkPack("1.0.1");
 
   try {
     // A published.
