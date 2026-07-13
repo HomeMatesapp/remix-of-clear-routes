@@ -31,19 +31,21 @@ export interface CareerIdentity {
   occupationalFamily: string;
   regulatory: {
     status: RegulatoryStatus;
-    /** Regulator or professional body name (display). */
     body?: string;
-    /** Statutorily protected title, if any. */
     protectedTitle?: string;
-    /** Required register, licence or industry scheme. */
     requiredRegisterOrLicence?: string;
-    /** Whether the constraint applies to every route or only particular work. */
     appliesTo: RegulatoryAppliesTo;
-    /** Free-text nuance for participant wording. */
     note?: string;
   };
   /** England-only for the pilot. */
   geographicScope: readonly string[];
+  /** v1.1 additive: participant-facing intro shown on the Reality Check start
+   *  screen. Optional so 1.0.0 packs continue to validate. */
+  introduction?: string;
+  /** v1.1 additive: bullet list of what this Reality Check confirms. */
+  whatItCovers?: readonly string[];
+  /** v1.1 additive: bullet list of what this Reality Check does NOT confirm. */
+  whatItCannotConfirm?: readonly string[];
 }
 
 // ── Content: routes and requirements ───────────────────────────────────────
