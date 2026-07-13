@@ -7,6 +7,11 @@ export * from "./phrases.ts";
 export { evaluate } from "./evaluate.ts";
 export {
   careerDecisionPackV1,
+  careerDecisionPackV1Publish,
   validatePackCrossRefs,
+  validatePackPublishCompleteness,
   realityCheckResultV1,
+  realityCheckResultV1NewWrite,
+  validateResultNewWriteCompleteness,
 } from "./schema.ts";
+
