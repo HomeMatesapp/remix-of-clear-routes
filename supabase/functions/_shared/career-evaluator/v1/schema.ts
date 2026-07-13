@@ -430,10 +430,12 @@ export const validateResultNewWriteCompleteness = (result: unknown): string[] =>
     }
   }
   // Owner/reviewer *display names* are legitimate in contentReviewSnapshot;
-  // forbid only internal *IDs* and administrative notes.
-  scanForbiddenKeys(r.resolvedEvidence, "resolvedEvidence", errs);
-  scanForbiddenKeys(r.resolvedRequirements, "resolvedRequirements", errs);
-  scanForbiddenKeys(r.contentReviewSnapshot, "contentReviewSnapshot", errs);
+  // forbid only internal *IDs* and administrative notes. Scan the RAW input
+  // (not the parsed data) because Zod strips unknown keys during parse.
+  const raw = result as Record<string, unknown>;
+  scanForbiddenKeys(raw.resolvedEvidence, "resolvedEvidence", errs);
+  scanForbiddenKeys(raw.resolvedRequirements, "resolvedRequirements", errs);
+  scanForbiddenKeys(raw.contentReviewSnapshot, "contentReviewSnapshot", errs);
   return errs;
 };
 
