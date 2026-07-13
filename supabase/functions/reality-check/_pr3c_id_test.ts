@@ -94,7 +94,6 @@ Deno.test({
       issueReceipt: async (r) => { receiptCalls.push(r); },
       resolveUserId: async () => null,
     });
-    if (res.status !== 200) console.log("DEBUG scenario 2:", res.status, await res.clone().json());
     assertEquals(res.status, 200);
     const body = await res.json();
     assertEquals(body.result.packVersion, "1.1.0");
