@@ -1,0 +1,1194 @@
+{
+  "schemaVersion": "career-decision-pack/v1",
+  "packVersion": "1.1.0",
+  "roleId": "f2e9c333-c373-4cca-add2-3b7bd1cd50d7",
+  "slug": "midwife",
+  "archetypeId": "regulated_degree",
+  "careerIdentity": {
+    "canonicalTitle": "Midwife",
+    "participantTitle": "Midwife",
+    "aliases": [
+      "registered midwife"
+    ],
+    "sector": "Healthcare",
+    "occupationalFamily": "healthcare_clinical",
+    "regulatory": {
+      "status": "statutory_registration",
+      "body": "Nursing and Midwifery Council (NMC)",
+      "protectedTitle": "Midwife",
+      "requiredRegisterOrLicence": "NMC register (midwives part)",
+      "appliesTo": "all_routes",
+      "note": "You must be on the NMC midwives part of the register to practise as a midwife in the UK."
+    },
+    "geographicScope": [
+      "England"
+    ],
+    "introduction": "Midwife is a statutorily regulated profession in England. You must be on the Nursing and Midwifery Council (NMC) register (midwives part) to practise. This Reality Check helps you see which entry route currently looks most workable for you given your starting point, and what would need to be true before you could apply.",
+    "whatItCovers": [
+      "Whether the three main NMC-approved entry routes are currently open to you.",
+      "The statutory registration requirement and how it applies to every route.",
+      "Practical fit factors such as full-time placements, income need and enhanced DBS.",
+      "The immediate, verifiable next steps you can take this month."
+    ],
+    "whatItCannotConfirm": [
+      "Whether any specific university will accept your exact qualifications — always confirm on their course page.",
+      "Whether an occupational-health condition would affect fitness to practise in your case — the provider's occupational-health service decides.",
+      "Your personal likelihood of receiving an offer from any given provider.",
+      "Regulations, funding or approved programmes outside England."
+    ]
+  },
+  "routes": [
+    {
+      "id": "bsc_midwifery",
+      "title": "BSc (Hons) Midwifery",
+      "summary": "Three-year full-time undergraduate degree approved by the NMC, with clinical placements throughout.",
+      "typicalDurationLabel": "About three years full time",
+      "typicalCostLabel": "Tuition-fee loan available; NHS Learning Support Fund non-repayable grant of at least £5,000 per academic year for eligible students in England",
+      "requirementIds": [
+        "gcse_maths_english_science",
+        "level3_qual",
+        "occupational_health_clearance",
+        "enhanced_dbs"
+      ],
+      "evidenceRefs": [
+        "nmc_standards",
+        "ucas_midwifery",
+        "nhs_lsf"
+      ]
+    },
+    {
+      "id": "msc_pre_reg_midwifery",
+      "title": "MSc pre-registration Midwifery (shortened)",
+      "summary": "Postgraduate pre-registration programme for graduates in a relevant health or science subject, typically two years full time.",
+      "typicalDurationLabel": "About two years full time",
+      "typicalCostLabel": "Postgraduate funding routes; NHS Learning Support Fund grant of at least £5,000 per academic year for eligible students in England",
+      "requirementIds": [
+        "relevant_first_degree",
+        "occupational_health_clearance",
+        "enhanced_dbs"
+      ],
+      "evidenceRefs": [
+        "nmc_standards",
+        "nhs_lsf"
+      ]
+    },
+    {
+      "id": "nurse_to_midwife",
+      "title": "Registered adult nurse converting to midwifery",
+      "summary": "Shortened midwifery programme for registered adult nurses on the NMC register.",
+      "typicalDurationLabel": "Around 18 months to two years, depending on provider",
+      "typicalCostLabel": "Funding varies by provider; check NMC-approved conversion programmes",
+      "requirementIds": [
+        "nmc_adult_nurse",
+        "occupational_health_clearance",
+        "enhanced_dbs"
+      ],
+      "evidenceRefs": [
+        "nmc_standards"
+      ]
+    }
+  ],
+  "requirements": [
+    {
+      "id": "gcse_maths_english_science",
+      "label": "GCSEs in maths, English and a science",
+      "description": "Most NMC-approved BSc Midwifery programmes require GCSE grade 4/C or above in maths, English and a science subject. Individual universities set the specific requirement.",
+      "verifiedBy": "The university's admissions team, on the specific course page",
+      "evidenceRefs": [
+        "ucas_midwifery"
+      ]
+    },
+    {
+      "id": "level3_qual",
+      "label": "Level 3 qualification (A-levels, T Level or Access to HE)",
+      "description": "Universities typically require A-levels including a science, an appropriate T Level, or an Access to Higher Education Diploma (Nursing/Midwifery/Health).",
+      "verifiedBy": "The specific university course page on UCAS",
+      "evidenceRefs": [
+        "ucas_midwifery"
+      ]
+    },
+    {
+      "id": "relevant_first_degree",
+      "label": "First degree in a relevant subject",
+      "description": "MSc pre-registration programmes typically require a 2:1 or above in a health or science subject. The exact list varies by provider.",
+      "verifiedBy": "The provider's postgraduate midwifery course page",
+      "evidenceRefs": [
+        "nmc_standards"
+      ]
+    },
+    {
+      "id": "nmc_adult_nurse",
+      "label": "NMC-registered adult nurse",
+      "description": "You must already be on the NMC register as an adult nurse to enter a shortened conversion programme.",
+      "verifiedBy": "Your entry on the NMC register",
+      "evidenceRefs": [
+        "nmc_standards"
+      ]
+    },
+    {
+      "id": "occupational_health_clearance",
+      "label": "Occupational health clearance",
+      "description": "All routes require occupational health clearance covering vaccinations and fitness to practise.",
+      "verifiedBy": "The provider's occupational health service after conditional offer",
+      "evidenceRefs": [
+        "nmc_standards"
+      ]
+    },
+    {
+      "id": "enhanced_dbs",
+      "label": "Enhanced DBS check",
+      "description": "You will need an enhanced Disclosure and Barring Service (DBS) check because the role involves close contact with vulnerable people.",
+      "verifiedBy": "The provider's admissions team",
+      "evidenceRefs": [
+        "nmc_standards"
+      ]
+    }
+  ],
+  "questionRefs": [
+    {
+      "id": "starting_point",
+      "label": "Where are you starting from?",
+      "allowedValues": [
+        "school_leaver",
+        "graduate",
+        "registered_nurse",
+        "career_changer",
+        "no_background"
+      ],
+      "displayLabel": "Where are you starting from?",
+      "helpTextLong": "There is no single right starting point. This lets us weigh the shortened routes correctly.",
+      "options": [
+        {
+          "value": "school_leaver",
+          "label": "School or college leaver"
+        },
+        {
+          "value": "graduate",
+          "label": "Graduate in another subject"
+        },
+        {
+          "value": "registered_nurse",
+          "label": "Registered adult nurse (already on the NMC register)"
+        },
+        {
+          "value": "career_changer",
+          "label": "Changing career from an unrelated job"
+        },
+        {
+          "value": "no_background",
+          "label": "None of the above / just exploring"
+        }
+      ],
+      "required": true,
+      "moduleId": "starting_point"
+    },
+    {
+      "id": "gcse_maths_english_science_status",
+      "label": "Do you have GCSE grade 4/C or above in maths, English and a science?",
+      "allowedValues": [
+        "yes",
+        "partial",
+        "no",
+        "not_sure",
+        "international"
+      ],
+      "displayLabel": "Do you have GCSE grade 4/C or above in maths, English and a science?",
+      "helpTextLong": "Most NMC-approved BSc courses expect GCSE grade 4/C or equivalent in maths, English and a science.",
+      "options": [
+        {
+          "value": "yes",
+          "label": "Yes, all three"
+        },
+        {
+          "value": "partial",
+          "label": "I have some but not all three"
+        },
+        {
+          "value": "no",
+          "label": "No, I don't have these yet"
+        },
+        {
+          "value": "not_sure",
+          "label": "Not sure"
+        },
+        {
+          "value": "international",
+          "label": "I have international qualifications"
+        }
+      ],
+      "required": true,
+      "moduleId": "formal_readiness"
+    },
+    {
+      "id": "level3_status",
+      "label": "Do you have a Level 3 qualification (A-levels, T Level or Access to HE)?",
+      "allowedValues": [
+        "yes_science",
+        "yes_no_science",
+        "in_progress",
+        "no",
+        "international"
+      ],
+      "displayLabel": "Do you have a Level 3 qualification (A-levels, T Level or Access to HE)?",
+      "helpTextLong": "This includes A-levels, T Levels, or an Access to Higher Education Diploma.",
+      "options": [
+        {
+          "value": "yes_science",
+          "label": "Yes, including a science subject"
+        },
+        {
+          "value": "yes_no_science",
+          "label": "Yes, but without a science subject"
+        },
+        {
+          "value": "in_progress",
+          "label": "I'm currently working towards one"
+        },
+        {
+          "value": "no",
+          "label": "No, I don't have a Level 3 qualification"
+        },
+        {
+          "value": "international",
+          "label": "I have international qualifications"
+        }
+      ],
+      "required": true,
+      "moduleId": "formal_readiness"
+    },
+    {
+      "id": "relevant_first_degree_status",
+      "label": "Do you have a first degree in a relevant health or science subject?",
+      "allowedValues": [
+        "yes_relevant",
+        "yes_unrelated",
+        "in_progress",
+        "no"
+      ],
+      "displayLabel": "Do you have a first degree in a relevant health or science subject?",
+      "helpTextLong": "The MSc pre-registration route typically requires a 2:1 or above in a health or science subject.",
+      "options": [
+        {
+          "value": "yes_relevant",
+          "label": "Yes, in a relevant health or science subject"
+        },
+        {
+          "value": "yes_unrelated",
+          "label": "Yes, but in an unrelated subject"
+        },
+        {
+          "value": "in_progress",
+          "label": "I'm currently studying one"
+        },
+        {
+          "value": "no",
+          "label": "No, I don't have a first degree"
+        }
+      ],
+      "required": false,
+      "moduleId": "formal_readiness",
+      "visibleWhen": [
+        {
+          "questionId": "starting_point",
+          "op": "in",
+          "value": [
+            "graduate",
+            "career_changer",
+            "registered_nurse"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "current_registration",
+      "label": "Are you currently on the NMC register as an adult nurse?",
+      "allowedValues": [
+        "yes",
+        "no"
+      ],
+      "displayLabel": "Are you currently on the NMC register as an adult nurse?",
+      "helpTextLong": "The shortened conversion route is only for nurses already on the NMC adult-nursing register.",
+      "options": [
+        {
+          "value": "yes",
+          "label": "Yes, I'm on the adult-nursing part of the NMC register"
+        },
+        {
+          "value": "no",
+          "label": "No"
+        }
+      ],
+      "required": false,
+      "moduleId": "formal_readiness",
+      "visibleWhen": [
+        {
+          "questionId": "starting_point",
+          "op": "in",
+          "value": [
+            "registered_nurse",
+            "career_changer"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "income_need",
+      "label": "Do you need income while studying?",
+      "allowedValues": [
+        "need_income",
+        "can_study_full_time",
+        "part_time_ok"
+      ],
+      "displayLabel": "Do you need income while studying?",
+      "helpTextLong": "The NHS Learning Support Fund provides a non-repayable grant of at least £5,000 per year for eligible students in England.",
+      "options": [
+        {
+          "value": "need_income",
+          "label": "I need income while studying"
+        },
+        {
+          "value": "can_study_full_time",
+          "label": "I can study full time without paid work"
+        },
+        {
+          "value": "part_time_ok",
+          "label": "I could combine study with limited part-time work"
+        }
+      ],
+      "required": true,
+      "moduleId": "income_and_life"
+    },
+    {
+      "id": "weekly_placement_hours",
+      "label": "Can you commit to full-time clinical placements including nights and weekends?",
+      "allowedValues": [
+        "yes",
+        "with_planning",
+        "no"
+      ],
+      "displayLabel": "Can you commit to full-time clinical placements including nights and weekends?",
+      "helpTextLong": "NMC-approved programmes require full-time clinical placements including night and weekend shifts. This is a regulator requirement, not a provider choice.",
+      "options": [
+        {
+          "value": "yes",
+          "label": "Yes, I can commit to full-time placements"
+        },
+        {
+          "value": "with_planning",
+          "label": "Yes, with some planning around other commitments"
+        },
+        {
+          "value": "no",
+          "label": "No, I cannot commit to full-time placements"
+        }
+      ],
+      "required": true,
+      "moduleId": "practical_fit"
+    },
+    {
+      "id": "dbs_check_barriers",
+      "label": "Are there any factors that might affect an enhanced DBS check?",
+      "allowedValues": [
+        "none",
+        "possible",
+        "prefer_not_say"
+      ],
+      "displayLabel": "Are there any factors that might affect an enhanced DBS check?",
+      "helpTextLong": "Answer honestly — this only affects whether we suggest specialist advice, never eligibility on its own.",
+      "options": [
+        {
+          "value": "none",
+          "label": "No factors I'm aware of"
+        },
+        {
+          "value": "possible",
+          "label": "There may be factors I'd want to check"
+        },
+        {
+          "value": "prefer_not_say",
+          "label": "Prefer not to say"
+        }
+      ],
+      "required": true,
+      "moduleId": "practical_fit"
+    },
+    {
+      "id": "occupational_health_concerns",
+      "label": "Any current health conditions that could affect fitness to practise?",
+      "allowedValues": [
+        "none",
+        "possible",
+        "prefer_not_say"
+      ],
+      "displayLabel": "Any current health conditions that could affect fitness to practise?",
+      "helpTextLong": "All routes require occupational-health clearance after a conditional offer.",
+      "options": [
+        {
+          "value": "none",
+          "label": "No conditions I'd need to check"
+        },
+        {
+          "value": "possible",
+          "label": "There may be a condition to check with occupational health"
+        },
+        {
+          "value": "prefer_not_say",
+          "label": "Prefer not to say"
+        }
+      ],
+      "required": true,
+      "moduleId": "practical_fit"
+    }
+  ],
+  "rules": [
+    {
+      "id": "block_bsc_no_gcses",
+      "when": {
+        "all": [
+          {
+            "questionId": "gcse_maths_english_science_status",
+            "op": "eq",
+            "value": "no"
+          }
+        ]
+      },
+      "then": [
+        {
+          "kind": "block_route",
+          "routeId": "bsc_midwifery",
+          "reason": "Most BSc Midwifery courses require GCSE 4/C in maths, English and a science. You will typically need to gain these before applying.",
+          "evidenceRefs": [
+            "ucas_midwifery"
+          ]
+        },
+        {
+          "kind": "add_action",
+          "actionTemplateId": "action_check_gcse_options"
+        }
+      ]
+    },
+    {
+      "id": "verify_partial_gcses",
+      "when": {
+        "all": [
+          {
+            "questionId": "gcse_maths_english_science_status",
+            "op": "eq",
+            "value": "partial"
+          }
+        ]
+      },
+      "then": [
+        {
+          "kind": "require_verification",
+          "routeId": "bsc_midwifery",
+          "check": "Confirm the specific GCSE grades each shortlisted university will accept, and whether Functional Skills Level 2 is accepted in place of any missing GCSE.",
+          "evidenceRefs": [
+            "ucas_midwifery"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "international_gcses",
+      "when": {
+        "all": [
+          {
+            "questionId": "gcse_maths_english_science_status",
+            "op": "eq",
+            "value": "international"
+          }
+        ]
+      },
+      "then": [
+        {
+          "kind": "require_verification",
+          "routeId": "bsc_midwifery",
+          "check": "Ask the university's admissions team which international qualifications they accept in place of GCSEs and whether IELTS or equivalent English-language evidence is required.",
+          "evidenceRefs": [
+            "ucas_midwifery"
+          ]
+        },
+        {
+          "kind": "add_action",
+          "actionTemplateId": "action_check_ielts"
+        }
+      ]
+    },
+    {
+      "id": "block_bsc_no_level3",
+      "when": {
+        "all": [
+          {
+            "questionId": "level3_status",
+            "op": "eq",
+            "value": "no"
+          }
+        ]
+      },
+      "then": [
+        {
+          "kind": "block_route",
+          "routeId": "bsc_midwifery",
+          "reason": "BSc Midwifery requires a Level 3 qualification such as A-levels, a relevant T Level, or an Access to Higher Education Diploma (Nursing/Midwifery/Health).",
+          "evidenceRefs": [
+            "ucas_midwifery"
+          ]
+        },
+        {
+          "kind": "add_action",
+          "actionTemplateId": "action_explore_access_courses"
+        }
+      ]
+    },
+    {
+      "id": "verify_level3_no_science",
+      "when": {
+        "all": [
+          {
+            "questionId": "level3_status",
+            "op": "eq",
+            "value": "yes_no_science"
+          }
+        ]
+      },
+      "then": [
+        {
+          "kind": "require_verification",
+          "routeId": "bsc_midwifery",
+          "check": "Confirm with the university whether your A-level combination is accepted without a science subject; several courses will require Biology or an Access to HE Diploma in place of it.",
+          "evidenceRefs": [
+            "ucas_midwifery"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "block_msc_no_relevant_degree",
+      "when": {
+        "all": [
+          {
+            "questionId": "relevant_first_degree_status",
+            "op": "in",
+            "value": [
+              "no",
+              "in_progress"
+            ]
+          }
+        ]
+      },
+      "then": [
+        {
+          "kind": "block_route",
+          "routeId": "msc_pre_reg_midwifery",
+          "reason": "The MSc pre-registration route requires a completed degree in a relevant health or science subject at 2:1 or above.",
+          "evidenceRefs": [
+            "nmc_standards"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "verify_msc_unrelated_degree",
+      "when": {
+        "all": [
+          {
+            "questionId": "relevant_first_degree_status",
+            "op": "eq",
+            "value": "yes_unrelated"
+          }
+        ]
+      },
+      "then": [
+        {
+          "kind": "require_verification",
+          "routeId": "msc_pre_reg_midwifery",
+          "check": "Check with each MSc provider whether your degree subject is accepted, or whether a top-up module in life sciences is needed first.",
+          "evidenceRefs": [
+            "nmc_standards"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "block_nurse_conversion_not_registered",
+      "when": {
+        "all": [
+          {
+            "questionId": "current_registration",
+            "op": "eq",
+            "value": "no"
+          }
+        ]
+      },
+      "then": [
+        {
+          "kind": "block_route",
+          "routeId": "nurse_to_midwife",
+          "reason": "The shortened nurse-to-midwife route is only open to nurses already on the NMC adult-nursing part of the register.",
+          "evidenceRefs": [
+            "nmc_standards"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "flag_longer_routes_when_already_nurse",
+      "when": {
+        "all": [
+          {
+            "questionId": "current_registration",
+            "op": "eq",
+            "value": "yes"
+          }
+        ]
+      },
+      "then": [
+        {
+          "kind": "flag_concern",
+          "routeId": "bsc_midwifery",
+          "concern": "Since you are already on the NMC adult-nursing register, the three-year BSc route would take longer than a shortened conversion programme.",
+          "evidenceRefs": [
+            "nmc_standards"
+          ]
+        },
+        {
+          "kind": "flag_concern",
+          "routeId": "msc_pre_reg_midwifery",
+          "concern": "The MSc pre-registration route is designed for graduates who are not already registered nurses; the shortened conversion route is typically faster in your case.",
+          "evidenceRefs": [
+            "nmc_standards"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "flag_income_need_placements",
+      "when": {
+        "all": [
+          {
+            "questionId": "income_need",
+            "op": "eq",
+            "value": "need_income"
+          }
+        ]
+      },
+      "then": [
+        {
+          "kind": "flag_concern",
+          "routeId": "bsc_midwifery",
+          "concern": "Full-time placements (including nights and weekends) make paid work alongside the course difficult. The NHS Learning Support Fund provides a non-repayable grant of at least £5,000 per academic year for eligible students in England.",
+          "evidenceRefs": [
+            "nhs_lsf"
+          ]
+        },
+        {
+          "kind": "flag_concern",
+          "routeId": "msc_pre_reg_midwifery",
+          "concern": "Full-time placements make paid work alongside the course difficult. The NHS Learning Support Fund grant is also available on eligible pre-registration MSc programmes in England.",
+          "evidenceRefs": [
+            "nhs_lsf"
+          ]
+        },
+        {
+          "kind": "add_action",
+          "actionTemplateId": "action_check_lsf_eligibility"
+        }
+      ]
+    },
+    {
+      "id": "block_placement_hours_no",
+      "when": {
+        "all": [
+          {
+            "questionId": "weekly_placement_hours",
+            "op": "eq",
+            "value": "no"
+          }
+        ]
+      },
+      "then": [
+        {
+          "kind": "block_route",
+          "routeId": "bsc_midwifery",
+          "reason": "NMC-approved programmes require full-time clinical placements including night and weekend shifts. This is a regulator requirement, not a provider choice.",
+          "evidenceRefs": [
+            "nmc_standards"
+          ]
+        },
+        {
+          "kind": "block_route",
+          "routeId": "msc_pre_reg_midwifery",
+          "reason": "Placement patterns are set by the NMC and cannot be reduced below full time.",
+          "evidenceRefs": [
+            "nmc_standards"
+          ]
+        },
+        {
+          "kind": "block_route",
+          "routeId": "nurse_to_midwife",
+          "reason": "Placement patterns are set by the NMC and cannot be reduced below full time.",
+          "evidenceRefs": [
+            "nmc_standards"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "verify_dbs_concerns",
+      "when": {
+        "all": [
+          {
+            "questionId": "dbs_check_barriers",
+            "op": "eq",
+            "value": "possible"
+          }
+        ]
+      },
+      "then": [
+        {
+          "kind": "require_verification",
+          "routeId": "bsc_midwifery",
+          "check": "Speak with the university's admissions team and, if appropriate, an organisation such as Unlock about how your specific circumstances would be considered under the NMC's fitness-to-practise process.",
+          "evidenceRefs": [
+            "nmc_standards"
+          ]
+        },
+        {
+          "kind": "require_verification",
+          "routeId": "msc_pre_reg_midwifery",
+          "check": "Speak with the provider's admissions team about how your specific circumstances would be considered under the NMC's fitness-to-practise process.",
+          "evidenceRefs": [
+            "nmc_standards"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "verify_health_concerns",
+      "when": {
+        "all": [
+          {
+            "questionId": "occupational_health_concerns",
+            "op": "eq",
+            "value": "possible"
+          }
+        ]
+      },
+      "then": [
+        {
+          "kind": "require_verification",
+          "routeId": "bsc_midwifery",
+          "check": "Occupational health clearance is required for every route. Speak to the provider's occupational health service after a conditional offer about your specific circumstances.",
+          "evidenceRefs": [
+            "nmc_standards"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "consideration_nurse_head_start",
+      "when": {
+        "all": [
+          {
+            "questionId": "current_registration",
+            "op": "eq",
+            "value": "yes"
+          }
+        ]
+      },
+      "then": [
+        {
+          "kind": "add_consideration",
+          "text": "As an NMC-registered adult nurse, the shortened conversion route is likely to be the fastest path onto the midwives part of the register.",
+          "evidenceRefs": [
+            "nmc_standards"
+          ]
+        }
+      ]
+    }
+  ],
+  "evidenceRecords": [
+    {
+      "id": "nmc_standards",
+      "title": "Standards of proficiency for midwives",
+      "publisher": "Nursing and Midwifery Council",
+      "url": "https://www.nmc.org.uk/standards/standards-for-midwives/standards-of-proficiency-for-midwives/",
+      "publishedOrRetrievedOn": "2019-11-06",
+      "verifiedOn": "2026-07-01",
+      "publiclyAccessible": true
+    },
+    {
+      "id": "ucas_midwifery",
+      "title": "Midwifery courses on UCAS",
+      "publisher": "UCAS",
+      "url": "https://www.ucas.com/explore/subjects/midwifery",
+      "publishedOrRetrievedOn": "2026-01-01",
+      "verifiedOn": "2026-07-01",
+      "publiclyAccessible": true
+    },
+    {
+      "id": "nhs_lsf",
+      "title": "NHS Learning Support Fund",
+      "publisher": "NHS Business Services Authority",
+      "url": "https://www.nhsbsa.nhs.uk/nhs-learning-support-fund",
+      "publishedOrRetrievedOn": "2025-08-01",
+      "verifiedOn": "2026-07-01",
+      "publiclyAccessible": true
+    }
+  ],
+  "actionTemplates": [
+    {
+      "id": "action_check_gcse_options",
+      "title": "Look into how to gain the required GCSEs",
+      "description": "Contact a local further education college about GCSE resit options in maths, English and a science, or a Functional Skills Level 2 route. Ask each shortlisted midwifery provider which they accept.",
+      "effortLabel": "One to two hours of research",
+      "evidenceRefs": [
+        "ucas_midwifery"
+      ]
+    },
+    {
+      "id": "action_check_ielts",
+      "title": "Check the English-language evidence requirement",
+      "description": "Ask two universities that offer midwifery whether they accept your international qualifications, and what IELTS score (or equivalent) they require.",
+      "effortLabel": "About one hour",
+      "evidenceRefs": [
+        "nmc_standards"
+      ]
+    },
+    {
+      "id": "action_explore_access_courses",
+      "title": "Explore Access to Higher Education Diplomas in Nursing/Midwifery",
+      "description": "Look up Access to HE Diplomas (Nursing, Midwifery or Health) at local FE colleges. These are widely accepted in place of A-levels for midwifery programmes.",
+      "effortLabel": "About one hour",
+      "evidenceRefs": [
+        "ucas_midwifery"
+      ]
+    },
+    {
+      "id": "action_check_lsf_eligibility",
+      "title": "Check NHS Learning Support Fund eligibility",
+      "description": "Read the NHS Business Services Authority page on the Learning Support Fund and check whether your circumstances would qualify you for the training grant, parental support and specialist subject payment.",
+      "effortLabel": "About 30 minutes",
+      "evidenceRefs": [
+        "nhs_lsf"
+      ]
+    }
+  ],
+  "testProfiles": [
+    {
+      "id": "school_leaver_a_levels_science",
+      "label": "School leaver with science A-levels, no dependants, can commit to placements",
+      "answers": {
+        "starting_point": "school_leaver",
+        "gcse_maths_english_science_status": "yes",
+        "level3_status": "yes_science",
+        "relevant_first_degree_status": "no",
+        "current_registration": "no",
+        "income_need": "can_study_full_time",
+        "weekly_placement_hours": "yes",
+        "dbs_check_barriers": "none",
+        "occupational_health_concerns": "none"
+      },
+      "expect": {
+        "rankedRouteIds": [
+          "bsc_midwifery",
+          "msc_pre_reg_midwifery",
+          "nurse_to_midwife"
+        ],
+        "blockedRouteIds": [
+          "msc_pre_reg_midwifery",
+          "nurse_to_midwife"
+        ],
+        "mustNotMention": [
+          "best route",
+          "guaranteed"
+        ]
+      }
+    },
+    {
+      "id": "school_leaver_missing_science_alevel",
+      "label": "School leaver with A-levels but no science subject",
+      "answers": {
+        "starting_point": "school_leaver",
+        "gcse_maths_english_science_status": "yes",
+        "level3_status": "yes_no_science",
+        "relevant_first_degree_status": "no",
+        "current_registration": "no",
+        "income_need": "can_study_full_time",
+        "weekly_placement_hours": "yes",
+        "dbs_check_barriers": "none",
+        "occupational_health_concerns": "none"
+      },
+      "expect": {
+        "rankedRouteIds": [
+          "bsc_midwifery",
+          "msc_pre_reg_midwifery",
+          "nurse_to_midwife"
+        ],
+        "mustMention": [
+          "without a science subject"
+        ]
+      }
+    },
+    {
+      "id": "no_gcses",
+      "label": "Prospective applicant without GCSEs",
+      "answers": {
+        "starting_point": "career_changer",
+        "gcse_maths_english_science_status": "no",
+        "level3_status": "no",
+        "relevant_first_degree_status": "no",
+        "current_registration": "no",
+        "income_need": "need_income",
+        "weekly_placement_hours": "with_planning",
+        "dbs_check_barriers": "none",
+        "occupational_health_concerns": "none"
+      },
+      "expect": {
+        "blockedRouteIds": [
+          "bsc_midwifery",
+          "msc_pre_reg_midwifery",
+          "nurse_to_midwife"
+        ],
+        "requiredActionIds": [
+          "action_check_gcse_options",
+          "action_explore_access_courses",
+          "action_check_lsf_eligibility"
+        ]
+      }
+    },
+    {
+      "id": "graduate_relevant_degree",
+      "label": "Bioscience graduate wanting fastest route",
+      "answers": {
+        "starting_point": "graduate",
+        "gcse_maths_english_science_status": "yes",
+        "level3_status": "yes_science",
+        "relevant_first_degree_status": "yes_relevant",
+        "current_registration": "no",
+        "income_need": "can_study_full_time",
+        "weekly_placement_hours": "yes",
+        "dbs_check_barriers": "none",
+        "occupational_health_concerns": "none"
+      },
+      "expect": {
+        "rankedRouteIds": [
+          "bsc_midwifery",
+          "msc_pre_reg_midwifery",
+          "nurse_to_midwife"
+        ],
+        "blockedRouteIds": [
+          "nurse_to_midwife"
+        ]
+      }
+    },
+    {
+      "id": "graduate_unrelated_degree",
+      "label": "History graduate exploring midwifery",
+      "answers": {
+        "starting_point": "graduate",
+        "gcse_maths_english_science_status": "yes",
+        "level3_status": "yes_no_science",
+        "relevant_first_degree_status": "yes_unrelated",
+        "current_registration": "no",
+        "income_need": "need_income",
+        "weekly_placement_hours": "yes",
+        "dbs_check_barriers": "none",
+        "occupational_health_concerns": "none"
+      },
+      "expect": {
+        "mustMention": [
+          "top-up module"
+        ]
+      }
+    },
+    {
+      "id": "registered_adult_nurse_head_start",
+      "label": "Adult nurse on the NMC register wanting to convert",
+      "answers": {
+        "starting_point": "career_changer",
+        "gcse_maths_english_science_status": "yes",
+        "level3_status": "yes_science",
+        "relevant_first_degree_status": "yes_relevant",
+        "current_registration": "yes",
+        "income_need": "part_time_ok",
+        "weekly_placement_hours": "yes",
+        "dbs_check_barriers": "none",
+        "occupational_health_concerns": "none"
+      },
+      "expect": {
+        "rankedRouteIds": [
+          "nurse_to_midwife",
+          "bsc_midwifery",
+          "msc_pre_reg_midwifery"
+        ],
+        "mustMention": [
+          "fastest path"
+        ]
+      }
+    },
+    {
+      "id": "cannot_commit_placements",
+      "label": "Cannot commit to full-time placements",
+      "answers": {
+        "starting_point": "career_changer",
+        "gcse_maths_english_science_status": "yes",
+        "level3_status": "yes_science",
+        "relevant_first_degree_status": "yes_relevant",
+        "current_registration": "yes",
+        "income_need": "need_income",
+        "weekly_placement_hours": "no",
+        "dbs_check_barriers": "none",
+        "occupational_health_concerns": "none"
+      },
+      "expect": {
+        "blockedRouteIds": [
+          "bsc_midwifery",
+          "msc_pre_reg_midwifery",
+          "nurse_to_midwife"
+        ]
+      }
+    },
+    {
+      "id": "partial_gcses",
+      "label": "Has maths and English but not science GCSE",
+      "answers": {
+        "starting_point": "school_leaver",
+        "gcse_maths_english_science_status": "partial",
+        "level3_status": "yes_science",
+        "relevant_first_degree_status": "no",
+        "current_registration": "no",
+        "income_need": "can_study_full_time",
+        "weekly_placement_hours": "yes",
+        "dbs_check_barriers": "none",
+        "occupational_health_concerns": "none"
+      },
+      "expect": {
+        "rankedRouteIds": [
+          "bsc_midwifery",
+          "msc_pre_reg_midwifery",
+          "nurse_to_midwife"
+        ],
+        "mustMention": [
+          "Functional Skills Level 2"
+        ]
+      }
+    },
+    {
+      "id": "international_qualifications",
+      "label": "International school qualifications",
+      "answers": {
+        "starting_point": "school_leaver",
+        "gcse_maths_english_science_status": "international",
+        "level3_status": "international",
+        "relevant_first_degree_status": "no",
+        "current_registration": "no",
+        "income_need": "can_study_full_time",
+        "weekly_placement_hours": "yes",
+        "dbs_check_barriers": "none",
+        "occupational_health_concerns": "none"
+      },
+      "expect": {
+        "requiredActionIds": [
+          "action_check_ielts"
+        ],
+        "mustMention": [
+          "IELTS"
+        ]
+      }
+    },
+    {
+      "id": "dbs_concerns",
+      "label": "Applicant with historic factors that may affect DBS",
+      "answers": {
+        "starting_point": "career_changer",
+        "gcse_maths_english_science_status": "yes",
+        "level3_status": "yes_science",
+        "relevant_first_degree_status": "yes_relevant",
+        "current_registration": "no",
+        "income_need": "can_study_full_time",
+        "weekly_placement_hours": "yes",
+        "dbs_check_barriers": "possible",
+        "occupational_health_concerns": "none"
+      },
+      "expect": {
+        "mustMention": [
+          "Unlock"
+        ]
+      }
+    },
+    {
+      "id": "health_concerns",
+      "label": "Applicant with current health condition to check",
+      "answers": {
+        "starting_point": "school_leaver",
+        "gcse_maths_english_science_status": "yes",
+        "level3_status": "yes_science",
+        "relevant_first_degree_status": "no",
+        "current_registration": "no",
+        "income_need": "can_study_full_time",
+        "weekly_placement_hours": "yes",
+        "dbs_check_barriers": "none",
+        "occupational_health_concerns": "possible"
+      },
+      "expect": {
+        "mustMention": [
+          "Occupational health clearance"
+        ]
+      }
+    },
+    {
+      "id": "needs_income_can_do_placements",
+      "label": "Needs some income during study but can do placements",
+      "answers": {
+        "starting_point": "career_changer",
+        "gcse_maths_english_science_status": "yes",
+        "level3_status": "yes_science",
+        "relevant_first_degree_status": "yes_relevant",
+        "current_registration": "no",
+        "income_need": "need_income",
+        "weekly_placement_hours": "with_planning",
+        "dbs_check_barriers": "none",
+        "occupational_health_concerns": "none"
+      },
+      "expect": {
+        "mustMention": [
+          "NHS Learning Support Fund"
+        ],
+        "requiredActionIds": [
+          "action_check_lsf_eligibility"
+        ]
+      }
+    }
+  ],
+  "contentReview": {
+    "ownerDisplayName": "Clear Routes content team (provisional)",
+    "reviewerDisplayName": "Independent reviewer (staging identity, PR 2)",
+    "lastReviewedAt": "2026-07-13",
+    "nextReviewDueAt": "2027-01-12",
+    "sourcesAsOf": "2026-07-01"
+  },
+  "questionModules": [
+    {
+      "id": "starting_point",
+      "title": "Your starting point",
+      "description": "How you're coming into midwifery."
+    },
+    {
+      "id": "formal_readiness",
+      "title": "Formal qualifications and registration",
+      "description": "The regulator-set entry requirements for each route."
+    },
+    {
+      "id": "practical_fit",
+      "title": "Practical fit",
+      "description": "Placements, DBS and occupational-health factors."
+    },
+    {
+      "id": "income_and_life",
+      "title": "Income and study capacity",
+      "description": "Money and time you can commit while training."
+    }
+  ]
+}
