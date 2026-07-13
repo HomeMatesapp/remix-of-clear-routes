@@ -249,7 +249,7 @@ export const handleRealityCheck = async (req: Request, deps: HandlerDeps = {}): 
       // state at evaluation time.
       const reviewContext: ReviewContext = binding.status === "review_due" && binding.review_due_at
         ? { status: "review_due", reviewDueAt: binding.review_due_at }
-        : { status: "current", reviewDueAt: binding.review_due_at ?? "" };
+        : { status: "current", reviewDueAt: binding.review_due_at ?? pack.contentReview.nextReviewDueAt };
 
       const result = evaluate(pack, sanitised.sanitisedAnswers, { reviewContext });
 
