@@ -83,6 +83,7 @@ export const questionRef = z.object({
   required: z.boolean().optional(),
   visibleWhen: z.array(predicate).optional(),
   moduleId: z.string().optional(),
+  inputKind: z.enum(["single_select", "multi_select"]).optional(),
 });
 
 export const questionModule = z.object({
