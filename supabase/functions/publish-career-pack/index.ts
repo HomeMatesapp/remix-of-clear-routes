@@ -120,10 +120,6 @@ serve(async (req) => {
   // Test profiles must all evaluate deterministically without throwing.
   for (const profile of pack.testProfiles) {
     try { evaluate(pack, profile.answers, { now: "2026-07-12T00:00:00.000Z" }); }
-
-  // Test profiles must all evaluate deterministically without throwing.
-  for (const profile of pack.testProfiles) {
-    try { evaluate(pack, profile.answers, { now: "2026-07-12T00:00:00.000Z" }); }
     catch (e) {
       return new Response(JSON.stringify({ error: "test_profile_failed", profile: profile.id, message: String(e) }), {
         status: 400, headers: { ...corsHeaders, "Content-Type": "application/json" },
