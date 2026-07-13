@@ -4,9 +4,8 @@
 // up after itself so the suite is safely re-runnable.
 
 import { createClient } from "https://esm.sh/@supabase/supabase-js@2";
-import { assert, assertEquals, assertNotEquals } from "https://deno.land/std@0.224.0/assert/mod.ts";
+import { assert, assertEquals } from "https://deno.land/std@0.224.0/assert/mod.ts";
 import { handleRealityCheck, type ResolvedBinding } from "./index.ts";
-import { handleSaveDecision } from "../save-decision/index.ts";
 import {
   buildPublicPackMetadata,
   buildPublicQuestionnaire,
