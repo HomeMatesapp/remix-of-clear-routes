@@ -219,12 +219,35 @@ export interface CareerDecisionPackV1 {
   routes: readonly RouteRef[];
   requirements: readonly RequirementRef[];
   questionRefs: readonly QuestionRef[];
+  /** v1.1 additive: participant-facing questionnaire modules. */
+  questionModules?: readonly QuestionModule[];
   rules: readonly Rule[];
   evidenceRecords: readonly EvidenceRecord[];
   actionTemplates: readonly ActionTemplate[];
   testProfiles: readonly TestProfile[];
   contentReview: ContentReview;
 }
+
+/** Canonical evaluator schema version string. Historical rows may also carry
+ *  `null` (legacy engines) or the short-form `"v1"`. See
+ *  {@link normalizeEvaluatorSchemaVersion}. */
+export const CANONICAL_EVALUATOR_SCHEMA_VERSION = "reality-check-result/v1" as const;
+export type CanonicalEvaluatorSchemaVersion = typeof CANONICAL_EVALUATOR_SCHEMA_VERSION;
+
+/** Reads a persisted evaluator_schema_version and returns the canonical form
+ *  when the row represents a generic v1 result, or `null` when the row is a
+ *  legacy engine result (no v1 schema was in force at write time).
+ *  Never emits any non-canonical string. */
+export const normalizeEvaluatorSchemaVersion = (
+  raw: string | null | undefined,
+): CanonicalEvaluatorSchemaVersion | null => {
+  if (raw === null || raw === undefined || raw === "") return null;
+  const s = String(raw).trim().toLowerCase();
+  if (s === "reality-check-result/v1" || s === "v1" || s === "reality-check-result-v1") {
+    return CANONICAL_EVALUATOR_SCHEMA_VERSION;
+  }
+  return null;
+};
 
 // ── Result: RealityCheckResultV1 ───────────────────────────────────────────
 
