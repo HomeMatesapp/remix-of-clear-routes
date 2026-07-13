@@ -127,9 +127,10 @@ const fixtureBinding = (
   ...overrides,
 });
 
+const MIDWIFE_VALID_ANSWERS = (midwifePack as { testProfiles: Array<{ answers: Record<string, unknown> }> }).testProfiles[0].answers;
 const fixtureRequest = (binding: ResolvedBinding) =>
   handleRealityCheck(
-    makeReq({ role: { role_name: "Midwife", role_slug: "midwife" } }),
+    makeReq({ role: { role_name: "Midwife", role_slug: "midwife" }, answers: MIDWIFE_VALID_ANSWERS }),
     {
       resolveBinding: async () => binding,
       validatePair: async () => true,
