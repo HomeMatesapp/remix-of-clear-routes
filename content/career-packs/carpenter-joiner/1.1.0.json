@@ -177,7 +177,8 @@
         }
       ],
       "required": true,
-      "moduleId": "starting_point"
+      "moduleId": "starting_point",
+      "inputKind": "single_select"
     },
     {
       "id": "english_maths_status",
@@ -209,7 +210,8 @@
         }
       ],
       "required": true,
-      "moduleId": "formal_readiness"
+      "moduleId": "formal_readiness",
+      "inputKind": "single_select"
     },
     {
       "id": "has_employer_offer",
@@ -236,7 +238,8 @@
         }
       ],
       "required": true,
-      "moduleId": "formal_readiness"
+      "moduleId": "formal_readiness",
+      "inputKind": "single_select"
     },
     {
       "id": "documented_work_evidence",
@@ -279,7 +282,8 @@
             "career_changer"
           ]
         }
-      ]
+      ],
+      "inputKind": "single_select"
     },
     {
       "id": "physical_capacity",
@@ -306,7 +310,8 @@
         }
       ],
       "required": true,
-      "moduleId": "practical_fit"
+      "moduleId": "practical_fit",
+      "inputKind": "single_select"
     },
     {
       "id": "travel_capability",
@@ -333,7 +338,8 @@
         }
       ],
       "required": true,
-      "moduleId": "practical_fit"
+      "moduleId": "practical_fit",
+      "inputKind": "single_select"
     },
     {
       "id": "tool_budget",
@@ -360,7 +366,8 @@
         }
       ],
       "required": true,
-      "moduleId": "practical_fit"
+      "moduleId": "practical_fit",
+      "inputKind": "single_select"
     },
     {
       "id": "income_need",
@@ -387,7 +394,8 @@
         }
       ],
       "required": true,
-      "moduleId": "income_and_local"
+      "moduleId": "income_and_local",
+      "inputKind": "single_select"
     },
     {
       "id": "local_apprenticeship_known",
@@ -414,7 +422,8 @@
         }
       ],
       "required": true,
-      "moduleId": "income_and_local"
+      "moduleId": "income_and_local",
+      "inputKind": "single_select"
     },
     {
       "id": "willing_workplace_evidence",
@@ -441,7 +450,8 @@
         }
       ],
       "required": true,
-      "moduleId": "formal_readiness"
+      "moduleId": "formal_readiness",
+      "inputKind": "single_select"
     }
   ],
   "rules": [

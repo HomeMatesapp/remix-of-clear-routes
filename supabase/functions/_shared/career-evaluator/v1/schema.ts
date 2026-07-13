@@ -83,6 +83,7 @@ export const questionRef = z.object({
   required: z.boolean().optional(),
   visibleWhen: z.array(predicate).optional(),
   moduleId: z.string().optional(),
+  inputKind: z.enum(["single_select", "multi_select"]).optional(),
 });
 
 export const questionModule = z.object({
@@ -301,17 +302,21 @@ const publishQuestionOption = z.object({
   description: z.string().optional(),
 });
 
+/** Strict publish shape for a question. Every question MUST declare an
+ *  explicit `inputKind`; validation of options/allowedValues is type-aware
+ *  and performed in {@link validatePackPublishCompleteness}. */
 const publishQuestionRef = z.object({
   id: z.string().min(1),
   label: z.string().min(1),
   displayLabel: z.string().min(1),
   helpText: z.string().optional(),
   helpTextLong: z.string().optional(),
-  allowedValues: z.array(z.string()).min(2),
-  options: z.array(publishQuestionOption).min(2),
+  allowedValues: z.array(z.string()).optional(),
+  options: z.array(publishQuestionOption).optional(),
   required: z.boolean(),
   visibleWhen: z.array(predicate).optional(),
   moduleId: z.string().min(1),
+  inputKind: z.enum(["single_select", "multi_select"]),
 });
 
 const publishCareerIdentity = careerIdentity.extend({
@@ -336,15 +341,29 @@ export const validatePackPublishCompleteness = (pack: unknown): string[] => {
   const p = parsed.data;
   const moduleIds = new Set(p.questionModules!.map((m) => m.id));
   const questionIds = new Set(p.questionRefs.map((q) => q.id));
+  const SELECT_KINDS = new Set(["single_select", "multi_select"]);
   for (const q of p.questionRefs) {
     const pq = q as z.infer<typeof publishQuestionRef>;
     if (!moduleIds.has(pq.moduleId)) errs.push(`question ${q.id} references unknown module ${pq.moduleId}`);
-    const allowed = new Set(pq.allowedValues);
-    for (const opt of pq.options) {
-      if (!allowed.has(opt.value)) errs.push(`question ${q.id} option "${opt.value}" not in allowedValues`);
+    if (!SELECT_KINDS.has(pq.inputKind)) {
+      errs.push(`question ${q.id} declares unsupported inputKind "${pq.inputKind}"`);
+      continue;
     }
-    for (const v of allowed) {
-      if (!pq.options.some((o) => o.value === v)) errs.push(`question ${q.id} allowedValue "${v}" has no display option`);
+    // Select-family kinds require an exact options ↔ allowedValues bijection.
+    if (!pq.allowedValues || pq.allowedValues.length < 2) {
+      errs.push(`question ${q.id} (${pq.inputKind}) requires at least 2 allowedValues`);
+    }
+    if (!pq.options || pq.options.length < 2) {
+      errs.push(`question ${q.id} (${pq.inputKind}) requires at least 2 display options`);
+    }
+    if (pq.allowedValues && pq.options) {
+      const allowed = new Set(pq.allowedValues);
+      for (const opt of pq.options) {
+        if (!allowed.has(opt.value)) errs.push(`question ${q.id} option "${opt.value}" not in allowedValues`);
+      }
+      for (const v of allowed) {
+        if (!pq.options.some((o) => o.value === v)) errs.push(`question ${q.id} allowedValue "${v}" has no display option`);
+      }
     }
     for (const pred of pq.visibleWhen ?? []) {
       if (!questionIds.has(pred.questionId)) errs.push(`question ${q.id} visibleWhen references unknown question ${pred.questionId}`);

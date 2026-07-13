@@ -15,7 +15,12 @@
 import { serve } from "https://deno.land/std@0.168.0/http/server.ts";
 import { createClient } from "https://esm.sh/@supabase/supabase-js@2";
 import { getCorsHeaders } from "../_shared/cors.ts";
-import { careerDecisionPackV1, validatePackCrossRefs } from "../_shared/career-evaluator/v1/schema.ts";
+import {
+  careerDecisionPackV1,
+  validatePackCrossRefs,
+  validatePackPublishCompleteness,
+} from "../_shared/career-evaluator/v1/schema.ts";
+import { semverGte } from "../_shared/career-evaluator/v1/semver.ts";
 import { evaluate } from "../_shared/career-evaluator/v1/evaluate.ts";
 import { canonicalHash } from "../_shared/career-evaluator/v1/hash.ts";
 import type { CareerDecisionPackV1 } from "../_shared/career-evaluator/v1/types.ts";
@@ -93,6 +98,23 @@ serve(async (req) => {
     return new Response(JSON.stringify({ error: "cross_ref_validation_failed", issues: crossRefErrors }), {
       status: 400, headers: { ...corsHeaders, "Content-Type": "application/json" },
     });
+  }
+
+  // Strict publish schema is required for every 1.1.x pack (proper semver
+  // comparison — not lexical). 1.0.x rows stay readable via the additive
+  // read schema so idempotent re-imports of pre-existing 1.0.0 packs are not
+  // broken by the stricter contract introduced later.
+  let isModernPack = false;
+  try { isModernPack = semverGte(pack.packVersion, "1.1.0"); }
+  catch { /* invalid semver already caught by Zod above */ }
+  if (isModernPack) {
+    const publishErrors = validatePackPublishCompleteness(pack);
+    if (publishErrors.length > 0) {
+      return new Response(JSON.stringify({
+        error: "publish_contract_invalid",
+        issues: publishErrors,
+      }), { status: 400, headers: { ...corsHeaders, "Content-Type": "application/json" } });
+    }
   }
 
   // Test profiles must all evaluate deterministically without throwing.

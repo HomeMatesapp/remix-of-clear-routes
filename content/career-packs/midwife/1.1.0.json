@@ -180,7 +180,8 @@
         }
       ],
       "required": true,
-      "moduleId": "starting_point"
+      "moduleId": "starting_point",
+      "inputKind": "single_select"
     },
     {
       "id": "gcse_maths_english_science_status",
@@ -217,7 +218,8 @@
         }
       ],
       "required": true,
-      "moduleId": "formal_readiness"
+      "moduleId": "formal_readiness",
+      "inputKind": "single_select"
     },
     {
       "id": "level3_status",
@@ -254,7 +256,8 @@
         }
       ],
       "required": true,
-      "moduleId": "formal_readiness"
+      "moduleId": "formal_readiness",
+      "inputKind": "single_select"
     },
     {
       "id": "relevant_first_degree_status",
@@ -297,7 +300,8 @@
             "registered_nurse"
           ]
         }
-      ]
+      ],
+      "inputKind": "single_select"
     },
     {
       "id": "current_registration",
@@ -329,7 +333,8 @@
             "career_changer"
           ]
         }
-      ]
+      ],
+      "inputKind": "single_select"
     },
     {
       "id": "income_need",
@@ -356,7 +361,8 @@
         }
       ],
       "required": true,
-      "moduleId": "income_and_life"
+      "moduleId": "income_and_life",
+      "inputKind": "single_select"
     },
     {
       "id": "weekly_placement_hours",
@@ -383,7 +389,8 @@
         }
       ],
       "required": true,
-      "moduleId": "practical_fit"
+      "moduleId": "practical_fit",
+      "inputKind": "single_select"
     },
     {
       "id": "dbs_check_barriers",
@@ -410,7 +417,8 @@
         }
       ],
       "required": true,
-      "moduleId": "practical_fit"
+      "moduleId": "practical_fit",
+      "inputKind": "single_select"
     },
     {
       "id": "occupational_health_concerns",
@@ -437,7 +445,8 @@
         }
       ],
       "required": true,
-      "moduleId": "practical_fit"
+      "moduleId": "practical_fit",
+      "inputKind": "single_select"
     }
   ],
   "rules": [

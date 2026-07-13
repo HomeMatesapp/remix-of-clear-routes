@@ -114,6 +114,16 @@ export interface QuestionOption {
   description?: string;
 }
 
+/** Participant-facing input control kind. Extend only when a pack genuinely
+ *  requires it. Every kind added here must be handled explicitly by the
+ *  publish validator, the public projector, the sanitiser and the renderer. */
+export type PublicQuestionInputKind = "single_select" | "multi_select";
+
+export const PUBLIC_QUESTION_INPUT_KINDS: readonly PublicQuestionInputKind[] = [
+  "single_select",
+  "multi_select",
+] as const;
+
 export interface QuestionRef {
   id: string;
   label: string;
@@ -133,6 +143,9 @@ export interface QuestionRef {
   visibleWhen?: readonly Predicate[];
   /** v1.1 additive: id of the containing questionnaire module. */
   moduleId?: string;
+  /** v1.1 additive: explicit participant input kind. Required at publish for
+   *  1.1.0+; optional on read so 1.0.0 packs still parse. */
+  inputKind?: PublicQuestionInputKind;
 }
 
 /** v1.1 additive: participant-facing questionnaire grouping. */
