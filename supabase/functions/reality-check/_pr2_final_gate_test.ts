@@ -235,8 +235,8 @@ Deno.test("gate-3: one actively-serving version per role (published + review_due
     return data!.id as string;
   };
 
-  const packA = await mkPack("1.1.0");
-  const packB = await mkPack("1.1.0");
+  const packA = await mkPack("1.0.0");
+  const packB = await mkPack("1.0.1");
 
   try {
     // A published.
