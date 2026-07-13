@@ -52,22 +52,22 @@ describe("sanitisePublicAnswers — hostile-answer matrix", () => {
   });
 
   it("rejects an invalid single-select option", () => {
-    const r = sanitisePublicAnswers(midwife, { ...validMidwifeAnswers, current_registration: "definitely_maybe" });
-    expect(r.issues.some((i) => i.code === "invalid_option" && i.questionId === "current_registration")).toBe(true);
-    expect(r.sanitisedAnswers["current_registration"]).toBeUndefined();
+    const r = sanitisePublicAnswers(midwife, { ...validMidwifeAnswers, starting_point: "definitely_maybe" });
+    expect(r.issues.some((i) => i.code === "invalid_option" && i.questionId === "starting_point")).toBe(true);
+    expect(r.sanitisedAnswers["starting_point"]).toBeUndefined();
     expect(hasBlockingIssues(r.issues)).toBe(true);
   });
 
   it("rejects a value supplied as the wrong primitive type", () => {
-    const r = sanitisePublicAnswers(midwife, { ...validMidwifeAnswers, current_registration: 42 as unknown as string });
+    const r = sanitisePublicAnswers(midwife, { ...validMidwifeAnswers, starting_point: 42 as unknown as string });
     expect(r.issues.some((i) => i.code === "invalid_type")).toBe(true);
   });
 
   it("flags missing required visible answers", () => {
     const partial = { ...validMidwifeAnswers };
-    delete (partial as Record<string, unknown>).current_registration;
+    delete (partial as Record<string, unknown>).starting_point;
     const r = sanitisePublicAnswers(midwife, partial);
-    expect(r.issues.some((i) => i.code === "missing_required" && i.questionId === "current_registration")).toBe(true);
+    expect(r.issues.some((i) => i.code === "missing_required" && i.questionId === "starting_point")).toBe(true);
     expect(hasBlockingIssues(r.issues)).toBe(true);
   });
 
@@ -88,32 +88,32 @@ describe("sanitisePublicAnswers — hostile-answer matrix", () => {
   });
 
   it("recomputes visibility from the pack, discarding hidden answers", () => {
-    // In carpenter, `local_apprenticeship_known` is hidden unless
-    // `has_employer_offer` is 'actively_looking'. Sending "yes_found" when it
-    // is hidden should be dropped.
+    // In carpenter, `documented_work_evidence` is hidden unless
+    // `starting_point` is one of {some_experience_no_evidence, tradesperson_other,
+    // career_changer}. Sending it when starting_point=school_leaver must drop it.
     const answers: Record<string, string> = {
-      starting_point: "school_leaver",
+      starting_point: "school_leaver",                 // hides documented_work_evidence
       english_maths_status: "yes_level2",
-      has_employer_offer: "yes_have_offer",           // hides local_apprenticeship_known
-      documented_work_evidence: "none",
+      has_employer_offer: "yes_have_offer",
+      documented_work_evidence: "some_photos",         // hostile: hidden branch
       physical_capacity: "yes_confident",
       travel_capability: "yes_reliable_transport",
       tool_budget: "employer_provides",
       income_need: "can_apprentice_wage",
-      local_apprenticeship_known: "yes_found",        // hostile: hidden
+      local_apprenticeship_known: "yes_found",
       willing_workplace_evidence: "yes",
     };
     const r = sanitisePublicAnswers(carpenter, answers);
-    expect(r.droppedHiddenIds).toContain("local_apprenticeship_known");
-    expect(r.sanitisedAnswers.local_apprenticeship_known).toBeUndefined();
+    expect(r.droppedHiddenIds).toContain("documented_work_evidence");
+    expect(r.sanitisedAnswers.documented_work_evidence).toBeUndefined();
   });
 
   it("supports a valid conditional branch", () => {
     const answers: Record<string, string> = {
-      starting_point: "school_leaver",
+      starting_point: "career_changer",                // opens documented_work_evidence
       english_maths_status: "yes_level2",
-      has_employer_offer: "actively_looking",         // opens local_apprenticeship_known
-      documented_work_evidence: "none",
+      has_employer_offer: "actively_looking",
+      documented_work_evidence: "some_photos",
       physical_capacity: "yes_confident",
       travel_capability: "yes_reliable_transport",
       tool_budget: "employer_provides",
@@ -122,16 +122,17 @@ describe("sanitisePublicAnswers — hostile-answer matrix", () => {
       willing_workplace_evidence: "yes",
     };
     const r = sanitisePublicAnswers(carpenter, answers);
-    expect(r.sanitisedAnswers.local_apprenticeship_known).toBe("yes_found");
+    expect(r.sanitisedAnswers.documented_work_evidence).toBe("some_photos");
     expect(r.issues.filter((i) => i.code === "missing_required")).toEqual([]);
   });
 
   it("branch change that hides a previously-supplied answer drops it", () => {
+    // Same hostile answer, but branch flipped to hidden.
     const answers: Record<string, string> = {
-      starting_point: "school_leaver",
+      starting_point: "school_leaver",                 // hidden branch
       english_maths_status: "yes_level2",
-      has_employer_offer: "yes_have_offer",           // hidden branch
-      documented_work_evidence: "none",
+      has_employer_offer: "yes_have_offer",
+      documented_work_evidence: "some_photos",         // previously supplied
       physical_capacity: "yes_confident",
       travel_capability: "yes_reliable_transport",
       tool_budget: "employer_provides",
@@ -140,7 +141,7 @@ describe("sanitisePublicAnswers — hostile-answer matrix", () => {
       willing_workplace_evidence: "yes",
     };
     const r = sanitisePublicAnswers(carpenter, answers);
-    expect(r.droppedHiddenIds).toContain("local_apprenticeship_known");
+    expect(r.droppedHiddenIds).toContain("documented_work_evidence");
   });
 
   it("evaluator never receives the raw hostile record", () => {
