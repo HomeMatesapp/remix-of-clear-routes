@@ -61,6 +61,10 @@ const scoreRoute = (r: {
 export interface EvaluateOptions {
   /** ISO datetime; injectable so tests are deterministic. */
   now?: string;
+  /** Optional review context supplied by the runtime (edge function). The
+   *  evaluator itself cannot know servability state, so callers pass this in
+   *  when they want it preserved in the immutable result. */
+  reviewContext?: import("./types.ts").ReviewContext;
 }
 
 export const evaluate = (
