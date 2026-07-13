@@ -61,6 +61,10 @@ const scoreRoute = (r: {
 export interface EvaluateOptions {
   /** ISO datetime; injectable so tests are deterministic. */
   now?: string;
+  /** Optional review context supplied by the runtime (edge function). The
+   *  evaluator itself cannot know servability state, so callers pass this in
+   *  when they want it preserved in the immutable result. */
+  reviewContext?: import("./types.ts").ReviewContext;
 }
 
 export const evaluate = (
@@ -152,6 +156,11 @@ export const evaluate = (
     concerns: bucket.concerns,
     verificationsRequired: bucket.verifications,
     evidenceRefs: [...bucket.evidenceRefs].sort(),
+    // v1.1 snapshot fields — allow ResultV1View to render without the pack.
+    summary: route.summary,
+    typicalDurationLabel: route.typicalDurationLabel,
+    typicalCostLabel: route.typicalCostLabel,
+    requirementIds: [...route.requirementIds],
   }));
 
   // Evidence coverage: proportion of pack question IDs answered.
@@ -174,7 +183,32 @@ export const evaluate = (
       title: t.title,
       description: t.description,
       evidenceRefs: t.evidenceRefs,
+      effortLabel: t.effortLabel,
     }));
+
+  // Collect every evidence ref referenced anywhere in this evaluation, then
+  // snapshot just those records from the pack. Result becomes self-contained.
+  const usedEvidence = new Set<string>();
+  for (const r of routes) for (const e of r.evidenceRefs) usedEvidence.add(e);
+  for (const a of immediateActions) for (const e of a.evidenceRefs) usedEvidence.add(e);
+  // considerations rules embed evidence refs; walk them from the pack again
+  for (const rule of pack.rules) for (const eff of rule.then)
+    if ("evidenceRefs" in eff) for (const e of eff.evidenceRefs) usedEvidence.add(e);
+  const resolvedEvidence = pack.evidenceRecords
+    .filter((e) => usedEvidence.has(e.id))
+    .map((e) => ({ ...e }))
+    .sort((a, b) => a.id.localeCompare(b.id));
+
+  // Snapshot only requirements referenced by ranked (non-blocked) routes.
+  const usedReq = new Set<string>();
+  for (const r of routes) for (const rid of r.requirementIds ?? []) usedReq.add(rid);
+  const resolvedRequirements = pack.requirements
+    .filter((r) => usedReq.has(r.id))
+    .map((r) => ({
+      id: r.id, label: r.label, description: r.description,
+      verifiedBy: r.verifiedBy, evidenceRefs: [...r.evidenceRefs],
+    }))
+    .sort((a, b) => a.id.localeCompare(b.id));
 
   const topClass = routes[0]?.classification ?? "requires_further_verification";
   const limitations: string[] = [];
@@ -207,5 +241,21 @@ export const evaluate = (
       topRoutePhrase: TOP_ROUTE_PHRASE[topClass],
       confidencePhrase: CONFIDENCE_PHRASE[coverageLevel],
     },
+    // v1.1 additive — always populated on new writes.
+    careerTitle: pack.careerIdentity.canonicalTitle,
+    participantTitle: pack.careerIdentity.participantTitle,
+    careerIntroduction: pack.careerIdentity.introduction,
+    whatItCovers: pack.careerIdentity.whatItCovers ? [...pack.careerIdentity.whatItCovers] : undefined,
+    whatItCannotConfirm: pack.careerIdentity.whatItCannotConfirm ? [...pack.careerIdentity.whatItCannotConfirm] : undefined,
+    resolvedEvidence,
+    resolvedRequirements,
+    contentReviewSnapshot: {
+      ownerDisplayName: pack.contentReview.ownerDisplayName,
+      reviewerDisplayName: pack.contentReview.reviewerDisplayName,
+      lastReviewedAt: pack.contentReview.lastReviewedAt,
+      nextReviewDueAt: pack.contentReview.nextReviewDueAt,
+      sourcesAsOf: pack.contentReview.sourcesAsOf,
+    },
+    reviewContext: opts.reviewContext,
   };
 };

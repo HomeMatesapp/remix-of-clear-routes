@@ -31,19 +31,21 @@ export interface CareerIdentity {
   occupationalFamily: string;
   regulatory: {
     status: RegulatoryStatus;
-    /** Regulator or professional body name (display). */
     body?: string;
-    /** Statutorily protected title, if any. */
     protectedTitle?: string;
-    /** Required register, licence or industry scheme. */
     requiredRegisterOrLicence?: string;
-    /** Whether the constraint applies to every route or only particular work. */
     appliesTo: RegulatoryAppliesTo;
-    /** Free-text nuance for participant wording. */
     note?: string;
   };
   /** England-only for the pilot. */
   geographicScope: readonly string[];
+  /** v1.1 additive: participant-facing intro shown on the Reality Check start
+   *  screen. Optional so 1.0.0 packs continue to validate. */
+  introduction?: string;
+  /** v1.1 additive: bullet list of what this Reality Check confirms. */
+  whatItCovers?: readonly string[];
+  /** v1.1 additive: bullet list of what this Reality Check does NOT confirm. */
+  whatItCannotConfirm?: readonly string[];
 }
 
 // ── Content: routes and requirements ───────────────────────────────────────
@@ -106,12 +108,38 @@ export interface Rule {
 
 // ── Content: questions ─────────────────────────────────────────────────────
 
+export interface QuestionOption {
+  value: string;
+  label: string;
+  description?: string;
+}
+
 export interface QuestionRef {
   id: string;
   label: string;
   helpText?: string;
   /** Answer values the rule DSL is allowed to reference. Enforced at validate. */
   allowedValues?: readonly string[];
+  /** v1.1 additive: participant-facing display label (falls back to `label`). */
+  displayLabel?: string;
+  /** v1.1 additive: longer explanatory help text for the wizard. */
+  helpTextLong?: string;
+  /** v1.1 additive: rich options with descriptions for the wizard. */
+  options?: readonly QuestionOption[];
+  /** v1.1 additive: whether the question is required for a valid submission. */
+  required?: boolean;
+  /** v1.1 additive: conditional visibility — all predicates must match (AND).
+   *  When absent the question is always visible. */
+  visibleWhen?: readonly Predicate[];
+  /** v1.1 additive: id of the containing questionnaire module. */
+  moduleId?: string;
+}
+
+/** v1.1 additive: participant-facing questionnaire grouping. */
+export interface QuestionModule {
+  id: string;
+  title: string;
+  description?: string;
 }
 
 // ── Content: evidence ──────────────────────────────────────────────────────
@@ -191,12 +219,35 @@ export interface CareerDecisionPackV1 {
   routes: readonly RouteRef[];
   requirements: readonly RequirementRef[];
   questionRefs: readonly QuestionRef[];
+  /** v1.1 additive: participant-facing questionnaire modules. */
+  questionModules?: readonly QuestionModule[];
   rules: readonly Rule[];
   evidenceRecords: readonly EvidenceRecord[];
   actionTemplates: readonly ActionTemplate[];
   testProfiles: readonly TestProfile[];
   contentReview: ContentReview;
 }
+
+/** Canonical evaluator schema version string. Historical rows may also carry
+ *  `null` (legacy engines) or the short-form `"v1"`. See
+ *  {@link normalizeEvaluatorSchemaVersion}. */
+export const CANONICAL_EVALUATOR_SCHEMA_VERSION = "reality-check-result/v1" as const;
+export type CanonicalEvaluatorSchemaVersion = typeof CANONICAL_EVALUATOR_SCHEMA_VERSION;
+
+/** Reads a persisted evaluator_schema_version and returns the canonical form
+ *  when the row represents a generic v1 result, or `null` when the row is a
+ *  legacy engine result (no v1 schema was in force at write time).
+ *  Never emits any non-canonical string. */
+export const normalizeEvaluatorSchemaVersion = (
+  raw: string | null | undefined,
+): CanonicalEvaluatorSchemaVersion | null => {
+  if (raw === null || raw === undefined || raw === "") return null;
+  const s = String(raw).trim().toLowerCase();
+  if (s === "reality-check-result/v1" || s === "v1" || s === "reality-check-result-v1") {
+    return CANONICAL_EVALUATOR_SCHEMA_VERSION;
+  }
+  return null;
+};
 
 // ── Result: RealityCheckResultV1 ───────────────────────────────────────────
 
@@ -218,6 +269,12 @@ export interface RouteEvaluation {
   concerns: readonly string[];
   verificationsRequired: readonly string[];
   evidenceRefs: readonly string[];
+  /** v1.1 additive: route summary snapshot so ResultV1View can render without
+   *  loading the pack. Optional so pre-v1.1 persisted results still parse. */
+  summary?: string;
+  typicalDurationLabel?: string;
+  typicalCostLabel?: string;
+  requirementIds?: readonly string[];
 }
 
 /**
@@ -235,6 +292,42 @@ export interface ImmediateAction {
   title: string;
   description: string;
   evidenceRefs: readonly string[];
+  /** v1.1 additive: descriptor label copied from the pack action template. */
+  effortLabel?: string;
+}
+
+/** v1.1 additive: snapshot of a resolved requirement so ResultV1View does not
+ *  need to reopen the pack to render requirement descriptions. */
+export interface ResolvedRequirement {
+  id: string;
+  label: string;
+  description: string;
+  verifiedBy: string;
+  evidenceRefs: readonly string[];
+}
+
+/** v1.1 additive: snapshot of the pack's content-review metadata, embedded in
+ *  the result so historical replay preserves who authored/reviewed the pack
+ *  and when the next review is due. */
+export interface ContentReviewSnapshot {
+  ownerDisplayName: string;
+  reviewerDisplayName: string;
+  lastReviewedAt: string;
+  nextReviewDueAt: string;
+  sourcesAsOf: string;
+}
+
+/** v1.1 additive: mutable review context supplied by the edge function at
+ *  evaluation time (the evaluator itself cannot know servability state).
+ *  Embedded in the result so a saved decision preserves "was this current or
+ *  review_due when the participant answered?" without a live pack lookup. */
+export interface ReviewContext {
+  /** "current" = pack was actively published; "review_due" = past nextReviewDueAt
+   *  but within grace; "historical" = evaluated against a superseded pack. */
+  status: "current" | "review_due" | "historical";
+  reviewDueAt: string;
+  /** ISO datetime the grace window ends, when status = review_due. */
+  graceUntil?: string;
 }
 
 export interface RealityCheckResultV1 {
@@ -259,4 +352,20 @@ export interface RealityCheckResultV1 {
     topRoutePhrase: string;
     confidencePhrase: string;
   };
+  /** v1.1 additive fields — always populated by the evaluator on new writes,
+   *  optional on read so pre-v1.1 persisted rows still parse. */
+  careerTitle?: string;
+  participantTitle?: string;
+  careerIntroduction?: string;
+  whatItCovers?: readonly string[];
+  whatItCannotConfirm?: readonly string[];
+  /** Snapshot copies of only the evidence records referenced anywhere in this
+   *  result. Sorted by id for determinism. */
+  resolvedEvidence?: readonly EvidenceRecord[];
+  /** Snapshot copies of only the requirements referenced by ranked routes. */
+  resolvedRequirements?: readonly ResolvedRequirement[];
+  contentReviewSnapshot?: ContentReviewSnapshot;
+  /** Filled in by the edge function; evaluator leaves it undefined when it
+   *  isn't supplied via options. */
+  reviewContext?: ReviewContext;
 }
